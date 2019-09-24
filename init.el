@@ -1858,12 +1858,12 @@
   :config
 
   (setq yas-snippet-dirs (append yas-snippet-dirs
-                                 '("~/gitdir/dotfiles/snippets/"))))
+                                 '("~/gitdir/emacs-init/snippets/"))))
   ;; (setq yas-snippet-revival t)
 
 
 
-  ;; (setq yas-snippet-dirs '("~/gitdir/dotfiles/snippets/")))
+  ;; (setq yas-snippet-dirs '("~/gitdir/emacs-init/snippets/")))
 
 
 ;;; GNUPG SETUP
