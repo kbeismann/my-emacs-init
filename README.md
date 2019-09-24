@@ -1,3 +1,3 @@
-# My Emacs initiation file
+# Emacs initiation file
 
-Initiation file for Emacs.
+This repository manages my initiation file for Emacs.
