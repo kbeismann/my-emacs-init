@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: main_none
+# key: m>n
+# --
+def main() -> None:
+    pass
+    $0

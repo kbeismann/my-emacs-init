@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: section
+# key: <se
+# contributor: Karsten Beismann
+# --
+
+;; --- ${1:$(upcase yas-text)} --- ;;
+
+$0

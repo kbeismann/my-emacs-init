@@ -1,0 +1,44 @@
+# -*- mode: snippet -*-
+# name: header_pct
+# key: <he_pct
+# contributor: Karsten Beismann
+# --
+# -*- coding: utf-8 -*-
+"""${1:TITLE}
+
+:created: `(format-time-string "%Y-%m-%dT%T")`
+
+Commentary
+----------
+
+$1.
+
+Example
+-------
+
+---
+
+Environment
+-----------
+
+---
+
+Module contents
+---------------
+"""
+
+# PACKAGES
+
+
+import os
+import sys
+import typing
+import datetime
+import pandas as pd
+from pathlib import Path
+
+
+# CODE
+
+
+$0

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ref-bookdown
+# key: <ref
+# contributor: Karsten Beismann
+# --
+\\@ref(${1:Label}) $0

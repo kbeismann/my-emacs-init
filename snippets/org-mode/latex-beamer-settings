@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: latex-beamer-settings
+# key: <lase
+# contributor: Karsten Beismann
+# --
+
+#+BEAMER_THEME: default default serif [height=20pt]

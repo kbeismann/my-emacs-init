@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: function_any
+# key: f>a
+# group: definitions
+# --
+def ${1:fun}(${2:args}) -> typing.Any:
+    pass
+    $0

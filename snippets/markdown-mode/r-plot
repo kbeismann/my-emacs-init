@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: r-plot
+# key: <rpl
+# contributor: Karsten Beismann
+# --
+\`\`\`\{r ${1:R plot name}, fig.cap = \"${2:Figure capure}\", fig.height=5, echo=F, eval=T, cache=F\}
+
+$0
+
+\`\`\`

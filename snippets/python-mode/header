@@ -1,0 +1,49 @@
+# -*- mode: snippet -*-
+# name: header
+# key: <he
+# contributor: Karsten Beismann
+# --
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""${1:TITLE}
+
+:project: ${2:PROJECT}
+:author: `(insert user-full-name)`
+:contributors: `(insert user-full-name)`
+:filename: `(buffer-name)`
+:created: `(format-time-string "%Y-%m-%dT%T")`
+
+Commentary
+----------
+
+$1.
+
+Example
+-------
+
+---
+
+Environment
+-----------
+
+---
+
+Module contents
+---------------
+"""
+
+# PACKAGES
+
+
+import os
+import sys
+import typing
+import datetime
+import pandas as pd
+from pathlib import Path
+
+
+# CODE
+
+
+$0

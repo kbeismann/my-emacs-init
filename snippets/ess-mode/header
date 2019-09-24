@@ -1,0 +1,51 @@
+# -*- mode: snippet -*-
+# name: header
+# key: <he
+# contributor: Karsten Beismann
+# --
+### ${1:TITLE}
+
+# Author: `(insert user-full-name)`
+# Filename: `(buffer-name)`
+# Created: `(format-time-string "%Y-%m-%dT%T")`
+
+
+## Comment:
+
+# ${2:COMMENT}
+
+
+## To-do:
+
+# * ---
+
+
+## Code:
+
+
+## Clear workspace & load/install packages
+
+# Clear workspace.
+closeAllConnections() ; rm(list=ls())
+
+# Install & load packages.
+pkgs <- c("foreign", "readxl", "readstata13")
+new.pkgs <- pkgs[!(pkgs %in% installed.packages()[, "Package"])]
+if(length(new.pkgs)) {
+   install.packages(new.pkgs,
+                    repos = "http://cloud.r-project.org/",
+                    dependencies = T) }
+                    lapply(pkgs, require, character.only = T)
+
+
+## Read data:
+
+dir()                                            # Check working directory.
+# dat <- load("./")                              # Read .Rdata.
+# dat <- read.table("./", header = T)            # Read .txt or .csv.
+# dat <- read_excel("./", sheetName = "")        # Read .xlsx.
+# dat <- read.dta("/")                           # Read .dta.
+# dat <- read.dta13("./")                        # Read .dta from Stata 13.
+# head(dat)                                      # Check data structure.
+
+$0

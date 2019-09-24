@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: init_none
+# key: i>n
+# group : definitions
+# --
+def __init__(self$1) -> None:
+    pass
+    $0

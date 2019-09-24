@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: latex-equation
+# key: <eq
+# contributor: Karsten Beismann
+# --
+
+#+BEGIN_LaTeX
+\begin{equation*}
+$0
+\end{equation*}
+#+END_LaTeX

@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: header
+# key: <he
+# contributor: Karsten Beismann
+# --
+### ${1:TITLE}
+
+# Project: ${2:PROJECT}
+# Author: `(insert user-full-name)`
+# Contributors: `(insert user-full-name)`
+# Filename: `(buffer-name)`
+# Created: `(format-time-string "%Y-%m-%dT%T")`
+
+
+## Commentary
+
+# $1.
+
+
+## To-Do
+
+# *  ---

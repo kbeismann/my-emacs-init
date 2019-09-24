@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: header
+# key: <he
+# contributor: Karsten Beismann
+# --
+# -*- mode: org; coding: utf-8; -*-
+
+#+TITLE: ${1:TITLE}
+#+AUTHOR: `(insert user-full-name)`
+#+EMAIL: `(insert user-mail-address)`
+#+STARTUP: latexpreview indented content
+#+EXPORT_FILE_NAME: `(buffer-name)`
+#+CREATED: `(format-time-string "%Y-%m-%dT%T")`
+#+KEYWORDS: org $2
+#+FILETAGS: $3
+
+
+$0

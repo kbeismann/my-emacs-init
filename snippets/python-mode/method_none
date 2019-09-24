@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: method_none
+# key: m>n
+# group: object oriented
+# --
+def ${1:name}(self$2) -> None:
+    pass
+    $0

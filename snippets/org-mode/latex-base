@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: latex-base
+# key: <la
+# contributor: Karsten Beismann
+# --
+
+#+BEGIN_EXPORT LaTeX
+$0
+#+END_EXPORT

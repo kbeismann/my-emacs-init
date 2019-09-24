@@ -1,0 +1,29 @@
+# -*- mode: snippet -*-
+# name: options
+# key: <opt
+# contributor: Karsten Beismann
+# --
+`(insert "\n")`---
+title: ${1:TITLE}
+author: `(insert user-full-name)`
+date: `(format-time-string "%Y-%m-%dT%T")`
+output:
+    bookdown::${2:$$(yas-choose-value '("pdf" "html"))}_document2:
+        number_sections: ${3:$$(yas-choose-value '("true" "false"))}
+        keep_tex: false
+        toc: ${4:$$(yas-choose-value '("true" "false"))}
+        fig_caption: false
+        citation_package: natbib
+fontsize: 11pt
+bibliography: bibliography
+biblio-style: apalike
+header-includes:
+    - \usepackage{tikz}
+    - \usepackage[english]{babel}
+    - \usepackage[font={normal}]{caption}
+    - \usepackage[labelfont=bf]{caption}
+    - \usepackage{setspace}\singlespacing
+    - \usepackage[inline]{enumitem}
+---
+
+$0

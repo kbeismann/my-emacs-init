@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: latex-align
+# key: <al
+# contributor: Karsten Beismann
+# --
+#+BEGIN_LaTeX
+\begin{align*}
+$0
+\end{align*}
+#+END_LaTeX

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: latex-beamer-wrapper
+# key: <lawr
+# contributor: Karsten Beismann
+# --
+
+#+LaTeX: \resizebox{\textwidth}{\texthight}{!}{
+#+LaTeX: }

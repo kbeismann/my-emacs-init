@@ -1,0 +1,36 @@
+# -*- mode: snippet -*-
+# name: header
+# key: <he
+# contributor: Karsten Beismann
+# --
+%% Title: ${1:TITLE}
+
+%% Author: `(insert user-full-name)`
+%% Contributors: `(insert user-full-name)`
+%% Filename: `(buffer-name)`
+%% Created: `(format-time-string "%Y-%m-%dT%T")`
+
+%% Class, font size, paper size.
+\\documentclass[11pt, "paper"]{article}
+
+%% Font.
+\\usepackage{lmodern}
+\\usepackage[T1]{fontenc}
+\\usepackage{amsmath, amsthm, amssymb}
+
+%% Languages.
+\\usepackage[ngerman, english]{babel}
+
+%% Layout.
+\\usepackage{array, csquotes, microtype}
+\\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\\usepackage[hidelinks]{hyperref}
+\\setlength\\parindent{0pt}
+
+\\title{"title"}
+\\date{"date"}
+\author{Karsten Beismann}
+\\begin{document}
+\\maketitle
+\\section{}
+\\end{document}

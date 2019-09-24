@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: function_none
+# key: f>n
+# group: definitions
+# --
+def ${1:fun}(${2:args}) -> None:
+    pass
+    $0

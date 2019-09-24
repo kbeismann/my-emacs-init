@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: method_any
+# key: m>a
+# group: object oriented
+# --
+def ${1:name}(self$2) -> typing.Any:
+    pass
+    $0

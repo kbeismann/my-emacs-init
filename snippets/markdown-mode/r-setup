@@ -1,0 +1,39 @@
+# -*- mode: snippet -*-
+# name: r-setup
+# key: <rse
+# contributor: Karsten Beismann
+# --
+\`\`\`\{r packages, include=FALSE\}
+
+## Install & load packages.
+pkgs <- c("knitr", "bookdown", "foreign", "readxl")
+new.pkgs <- pkgs[!(pkgs %in% installed.packages()[, "Package"])]
+if(length(new.pkgs)) \{
+   install.packages(new.pkgs, repos = "http://cloud.r-project.org/",
+                    dependencies = T) \}
+lapply(pkgs, require, character.only = T)
+
+\`\`\`
+
+\`\`\`\{r options, include=FALSE\}
+
+## Render plots with tikz.
+knit_hooks$set(plot = function(x, options) \{
+               if (\"ikz\"%in% options$dev && !options$external) \{
+               hook_plot_tex(x, options)
+               \} else hook_plot_md(x, options)\})
+knitr::opts_chunk$set(echo=TRUE, dev="tikz", fig.align="center")
+
+\`\`\`
+
+\`\`\`\{r data, include=FALSE\}
+
+## Read data.
+## dat <- load("./")                        # Read .Rdata.
+## dat <- read.table("/" header = T)        # Read .txt or .csv.
+## dat <- read_excel("./", sheetName)       # Read .xlsx.
+## dat <- read.dta("./"                     # Read .dta.
+
+\`\`\`
+
+$0

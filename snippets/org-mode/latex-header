@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: latex-header
+# key: <lh
+# contributor: Karsten Beismann
+# --
+
+#+LATEX_HEADER: $0
