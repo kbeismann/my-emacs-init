@@ -488,6 +488,7 @@
         bibtex-autokey-titlewords-stretch 1
         bibtex-autokey-titleword-length 5))
 
+
 ;;; ASYNC
 
 
@@ -648,6 +649,7 @@
   :bind (:map company-active-map
               (("TAB" . my:code::helm-company-complete)
                ("<tab>" . my:code::helm-company-complete))))
+
 
 ;;; SET COLOR THEME
 
@@ -1678,6 +1680,7 @@
 
 ;;; PYTHON-DOCSTRING
 
+
 (use-package python-docstring
 
   :after python
@@ -1867,6 +1870,7 @@
 
 
 ;;; GNUPG SETUP
+
 
 (use-package pinentry
 
