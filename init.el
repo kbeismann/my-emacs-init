@@ -119,7 +119,7 @@
 ;; Load proxy settings for work.
 (let ((proxies "~/gitdir/emacs-work/proxies.el"))
   (when (file-exists-p proxies)
-    (load-file proxies)))
+    (load proxies)))
 
 
 ;;; SET REPOSITORIES
@@ -128,15 +128,15 @@
 ;; Set repositories and priorities.
 (setq-default  load-prefer-newer t      ; Prefer the newest version of a
                                         ; file.package--init-file-ensured t
-               package-enable-at-startup nil ; Packages will not
-                                        ; automatically be loaded for us
-                                        ; since use-package will be
-                                        ; handling that.
+               package-enable-at-startup nil ; Packages will not automatically
+                                             ; be loaded for us since
+                                             ; use-package will be handling
+                                             ; that.
                package-archives
                '(("melpa"        . "https://melpa.org/packages/")
                  ("melpa-stable" . "https://stable.melpa.org/packages/")
-                 ("org"          . "https://orgmode.org/elpa/")
-                 ("gnu"          . "https://elpa.gnu.org/packages/"))
+                 ("gnu"          . "https://elpa.gnu.org/packages/")
+                 ("org"          . "https://orgmode.org/elpa/"))
                package-archive-priorities
                '(("melpa"        . 3)
                  ("gnu"          . 2)
@@ -1888,7 +1888,7 @@
 ;; Only load mu4e when path to repository exists.
 (let ((mu4e-setup "~/gitdir/mu4e-setup/mu4e-setup.el"))
   (when (file-exists-p mu4e-setup)
-    (load-file mu4e-setup)))
+    (load mu4e-setup)))
 
 
 ;;; OPENWITH
