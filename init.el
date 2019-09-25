@@ -494,13 +494,13 @@
 
   :config
 
-  (let ((library-path "~/gitdir/library/"))
-    (when (file-exists-p library-path)
-      (setq bibtex-completion-library-path library-path)))
+  (let ((path-to-library "~/gitdir/library/"))
+    (when (file-exists-p path-to-library)
+      (setq bibtex-completion-library-path path-to-library)))
 
-  (let ((bib-path "~/gitdir/library/bibliography.bib"))
-    (when (file-exists-p library-path)
-      (setq bibtex-completion-library-path bib-path)))
+  (let ((path-to-bib "~/gitdir/library/bibliography.bib"))
+    (when (file-exists-p path-to-bib)
+      (setq bibtex-completion-bibliography path-to-bib)))
 
 
   ;; Autokey format.
