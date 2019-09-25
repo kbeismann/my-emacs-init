@@ -663,30 +663,6 @@
   (helm-mode 1))
 
 
-  ;; Use helm for company completion.
-(use-package helm-company
-
-  :disabled
-
-  :after (helm company)
-
-  :init
-
-  (progn
-    (defun my:code::helm-company-complete ()
-      (interactive)
-      (when (company-complete) (helm-company)))
-    (add-to-list 'completion-at-point-functions
-                 #'comint-dynamic-complete-filename))
-
-  :bind (:map company-mode-map
-              (("TAB" . my:code::helm-company-complete)
-               ("<tab>" . my:code::helm-company-complete)))
-  :bind (:map company-active-map
-              (("TAB" . my:code::helm-company-complete)
-               ("<tab>" . my:code::helm-company-complete))))
-
-
 ;;; SET COLOR THEME
 
 
