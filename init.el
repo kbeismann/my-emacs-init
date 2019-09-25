@@ -742,9 +742,14 @@
 ;; following your currently entered incomplete command (a prefix) in a
 ;; popup.
 
-(use-package which-key
+(leaf which-key
 
-  :init
+  :package t
+
+  :config
+
+  (setq which-key-idle-delay 0
+        which-key-idle-secondary-delay 0)
 
   (which-key-mode 1))
 
@@ -752,64 +757,71 @@
 ;;; HIGHLIGHTING PARENTHESES and SMARTPARENS
 
 
-(use-package smartparens
+(leaf smartparens
+
+  :package t
 
   :hook ((prog-mode text-mode ess-mode) . smartparens-mode)
 
-  :bind ("C-c d p" . sp-unwrap-sexp)          ; Delete parens.
+  :bind ("C-c d p" . sp-unwrap-sexp)
 
   :config
 
-  (show-paren-mode 1))                 ; Highlight matching parentheses.
+  (show-paren-mode 1))
 
 
 ;;; COMPANY
 
 
-(use-package company
+(leaf company
 
-  :ensure company-bibtex
-  :ensure company-math
+  :package t
 
-  :init
-
-  (global-company-mode 1)
+  :package company-math
 
   :config
 
-  ;; Disable/Enable company front ends.  Set to nil when opting for helm-based
-  ;; auto-completion.
-  ;; (setq company-frontends t)
+  (global-company-mode 1)
 
-  (progn
-    ;; The first variable is used to skip the downcase that company does to the
-    ;; variables, the second one removes the delay.
-    (setq company-dabbrev-downcase nil
-          company-idle-delay 0
-          company-tooltip-align-annotations t
-          company-show-numbers nil
-          company-minimum-prefix-length 1)
+  ;; The first variable is used to skip the downcase that company does
+  ;; to the variables, the second one removes the delay.
+  (setq company-dabbrev-downcase nil
+        company-idle-delay 0
+        company-tooltip-align-annotations t
+        company-show-numbers nil
+        company-minimum-prefix-length 1)
 
-    ;; Global activation of the Unicode symbol completion.
-    ;; (add-to-list 'company-backends 'company-math-symbols-unicode))
+  ;; Global activation of the Unicode symbol completion.
+  (add-to-list 'company-backends 'company-math-symbols-unicode))
 
-    ;; Add backend for company-bibtex.
-    (add-to-list 'company-backends 'company-bibtex)
 
-    ;; Source.
-    (setq company-bibtex-bibliography
-          '("~/gitdir/library/bibliography.bib"))
+;;; COMPANY FOR BIBTEX
 
-    ;; The regular expression matching key names alphanumeric characters, dashes
-    ;; (-), and underscores (_). This is customizable via:
-    (setq company-bibtex-key-regex "[[:alnum:]+_]*")))
+
+(leaf company-bibtex
+
+  :package t
+
+  :after (company bibtex)
+
+  :config
+
+  ;; Add backend for company-bibtex.
+  (add-to-list 'company-backends 'company-bibtex)
+
+  ;; The regular expression matching key names alphanumeric characters,
+  ;; dashes (-), and underscores (_). This is customizable via:
+  (setq company-bibtex-key-regex "[[:alnum:]+_]*"))
 
 
 ;;; AGGRESSIVE-INDENT
 
 
 ;; Turn aggressive-indent on for everything.
-(use-package aggressive-indent
+
+(leaf aggressive-indent
+
+  :package t
 
   :config
 
@@ -822,7 +834,9 @@
 ;; Make sure that there is a single additional line at the end of the
 ;; file while saving, also removes all white space at the end of lines.
 
-(use-package whitespace
+(leaf whitespace
+
+  :package t
 
   :after base16-theme
 
@@ -855,23 +869,25 @@
 
 
 ;; Basic bindings for multiple-cursors.
-(use-package multiple-cursors
+(leaf multiple-cursors
 
-  :bind (("C-S-c C-S-c" . 'mc/edit-lines)
-         ("C->" . 'mc/mark-next-like-this)
-         ("C-<" . 'mc/mark-previous-like-this)
-         ("C-c C-<" . 'mc/mark-all-like-this)
-         ("C-c C->" . 'mc/mark-all-like-this)))
+  :package t
+
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)
+         ("C-c C->" . mc/mark-all-like-this)))
 
 
 ;;; DICTIONARY, FLYCHECK, AND FLYSPELL
 
 
-(use-package flyspell
+(leaf flyspell
 
-  :init
+  :package t
 
-  (flyspell-mode 1)
+  :init (flyspell-mode 1)
 
   :hook ((org-mode . flyspell-mode)
          (text-mode . flyspell-mode)
