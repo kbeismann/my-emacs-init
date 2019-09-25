@@ -668,7 +668,9 @@
 
 (leaf base16-theme
 
-  :init
+  :package t
+
+  :config
 
   ;; Change the terminal colors.  Not sure if it works.
   (setq base16-theme-256-color-source "colors")
@@ -694,10 +696,6 @@
     (defvar base0D-prop (nth 27 base16-zenburn-colors))
     (defvar base0E-prop (nth 29 base16-zenburn-colors))
     (defvar base0F-prop (nth 31 base16-zenburn-colors)))
-
-  :config
-
-  ;; Load theme and adjust certain colors.
 
   ;; Remove the vertical line between windows:
   (set-face-background 'vertical-border base00-prop)
