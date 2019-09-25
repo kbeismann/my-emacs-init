@@ -28,10 +28,9 @@
 ;; This Emacs initialization file creates my personalized version of GNU
 ;; Emacs: a non-invasive editor with a minimalist design.  It highlights
 ;; relevant information only while hiding non-essential elements whenever
-;; possible.  It currently uses use-package to create a modular system.
-;; Dependent on the system, the bitmap fonts have to be installed and
-;; configurated upfront.  Note that Pango removed support for bitmap
-;; fonts in version 1.33.
+;; possible.  It currently uses "leaf" to create a modular system.  Dependent
+;; on the system, the bitmap fonts have to be installed and configurated
+;; upfront.  Note that Pango removed support for bitmap fonts in version 1.33.
 
 ;; The some settings, e.g. the mu4e setup, are not part of this file.
 
@@ -60,7 +59,7 @@
 ;;; Sources (incomplete):
 
 ;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/#python
-
+;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
 
 ;;; To-do:
 
@@ -143,8 +142,33 @@
                  ("org"          . 1)
                  ("melpa-stable" . 0)))
 
+
 ;; Activate package auto loads.
 (package-initialize)
+
+
+;;; LEAF SETUP
+
+
+(prog1 "leaf"
+  (prog1 "Install leaf"
+    (package-initialize)
+    (unless (package-installed-p 'leaf)
+      (package-refresh-contents)
+      (package-install 'leaf)))
+
+  (leaf leaf-keywords
+
+        :ensure t
+
+        :config
+
+        ;; Initialize leaf-keywords.el.
+        (leaf-keywords-init)))
+
+
+;;; USE-PACKAGE SETUP
+
 
 ;; Install use-package in case it is not installed already.
 (unless (package-installed-p 'use-package)
@@ -193,7 +217,8 @@
 
 ;; Minor customization.
 (setq ring-bell-function 'ignore             ; No annoying bell.
-      debug-on-error nil                     ; Always debug.
+      debug-on-error t                       ; Always debug.
+      init-file-debug t                      ; Debug init file as well.
       inhibit-startup-screen t               ; No starting screen.
       large-file-warning-threshold 100000000 ; Large file warning.
       next-line-add-newlines t)              ; New line when C-n.
@@ -418,36 +443,40 @@
 ;; This defines the elements of the mode line, using the functions
 ;; created above.
 
-;; (setq-default mode-line-format
-;;               '("%e"
-;;                 mode-line-front-space
-;;                 ;; mode-line-mule-info ; I'm always on utf-8.
-;;                 mode-line-client
-;;                 mode-line-modified
-;;                 mode-line-remote ; No need to indicate this specially
-;;                                         ; but might be useful for working with
-;;                                         ; servers?
-;;                 mode-line-frame-identification ; This is for text-mode
-;;                 ;; emacs only.
-;;                 " "
-;;                 ;; mode-line-directory ; Defined above. NOT WORKING PROPERLY
-;;                 ;; RIGHT NOW.
-;;                 mode-line-buffer-identification ; Name of current buffer.
-;;                 " "
-;;                 mode-line-position ; Line and Column number
-;;                 ;; (vc-mode vc-mode) ; Use magit if needed, not vc-mode.
-;;                 (flycheck-mode flycheck-mode-line)
-;;                 " "
-;;                 ;; mode-line-modes ; Try without but might be useful.
-;;                 git-status-in-modeline
-;;                 mode-line-misc-info
-;;                 mode-line-end-spaces))
+(setq-default mode-line-format
+              '("%e"
+                mode-line-front-space
+                ;; mode-line-mule-info ; I'm always on utf-8.
+                mode-line-client
+                mode-line-modified
+                mode-line-remote ; No need to indicate this specially
+                                        ; but might be useful for working with
+                                        ; servers?
+                mode-line-frame-identification ; This is for text-mode
+                ;; emacs only.
+                " "
+                ;; mode-line-directory ; Defined above. NOT WORKING PROPERLY
+                ;; RIGHT NOW.
+                mode-line-buffer-identification ; Name of current buffer.
+                " "
+                mode-line-position ; Line and Column number
+                ;; (vc-mode vc-mode) ; Use magit if needed, not vc-mode.
+                (flycheck-mode flycheck-mode-line)
+                " "
+                ;; mode-line-modes ; Try without but might be useful.
+                git-status-in-modeline
+                mode-line-misc-info
+                mode-line-end-spaces))
 
 
 ;;; AUTO-PACKAGE-UPDATE
 
 
-(use-package auto-package-update
+;; Updates packages regularly.
+
+(leaf auto-package-update
+
+  :ensure t
 
   :config
 
@@ -461,17 +490,18 @@
 ;;; BIBTEX
 
 
-(use-package bibtex
-
-  :defer t
+(leaf bibtex
 
   :config
 
-  ;; If Linux, add bibliography.
-  (if (eq system-type 'gnu/linux)
-      (setq bibtex-completion-bibliography '("~/gitdir/library/bibliography.bib")
-            bibtex-completion-library-path "~/gitdir/library/")
-    nil)
+  (let ((library-path "~/gitdir/library/"))
+    (when (file-exists-p library-path)
+      (setq bibtex-completion-library-path library-path)))
+
+  (let ((bib-path "~/gitdir/library/bibliography.bib"))
+    (when (file-exists-p library-path)
+      (setq bibtex-completion-library-path bib-path)))
+
 
   ;; Autokey format.
   (setq bibtex-autokey-additional-names "_etal"
