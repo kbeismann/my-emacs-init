@@ -268,9 +268,9 @@
 ;; Backup options.
 (setq make-backup-files nil
       backup-by-copying t               ; Don't clobber symlinks.
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
+      delete-old-versions t             ; Remove old versions.
+      kept-new-versions 2               ; Number of newest versions to keep.
+      kept-old-versions 2               ; Number of oldest versions to keep.
       version-control t                 ; Use versioned backups.
       backup-directory-alist
       '(("." . "~/emacsauto/backups"))) ; Don't litter my fs tree.
