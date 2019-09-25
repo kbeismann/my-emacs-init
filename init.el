@@ -484,7 +484,7 @@
 
 (leaf auto-package-update
 
-  :ensure t
+  :package t
 
   :config
 
@@ -493,6 +493,23 @@
         auto-package-update-hide-results nil        ; Don't hide results.
         auto-package-update-prompt-before-update t) ; Ask before updating.
   (auto-package-update-maybe))          ; Update packages after X days.
+
+
+;;; AUTO-COMPILE
+
+
+(leaf auto-compile
+
+  :package t
+
+  :init
+
+  (setq load-prefer-newer t)
+
+  :config
+
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 
 ;;; BIBTEX
@@ -529,9 +546,9 @@
 ;;; ASYNC
 
 
-(use-package async
+(leaf async
 
-  :demand t
+  :package t
 
   :config
 
@@ -542,28 +559,15 @@
 ;;; AUTH-SOURCE
 
 
-(use-package auth-source
+(leaf auth-source
 
   :disabled
 
-  :demand t
+  :package t
 
   :config
 
   (setq auth-sources '("~/.authinfo.gpg")))
-
-
-;;; AUTO-COMPILE
-
-
-(use-package auto-compile
-
-  :disabled
-
-  :config
-
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
 
 
 ;;; DIRED
@@ -571,9 +575,7 @@
 
 ;; I could add diredplus.
 
-(use-package dired
-
-  :ensure nil
+(leaf dired
 
   :commands dired
 
@@ -595,7 +597,7 @@
 ;; Check out
 ;; https://github.com/jcf/emacs.d/blob/master/init-packages.org
 
-(use-package eshell
+(leaf eshell
 
   :commands eshell
 
@@ -615,14 +617,14 @@
 ;;; HELM
 
 
-(use-package helm
+(leaf helm
 
-  :demand t
+  :package t
 
-  :ensure helm-flyspell
-  :ensure helm-mu
-  :ensure helm-R
-  :ensure helm-bibtex
+  :package helm-R
+  :package helm-mu
+  :package helm-bibtex
+  :package helm-flyspell
 
   :bind (("C-c h" . helm-command-prefix)
          ("M-x" . helm-M-x)
@@ -632,22 +634,19 @@
          ("M-y" . helm-show-kill-ring)
          ("C-c f c" . helm-flyspell-correct)
 
-         (:map helm-command-map
-               ("l" . helm-locate)
-               ("s" . helm-surfraw)
-               ("r" . helm-regexp)
-               ("b" . helm-bibtex)
-               ("m" . helm-multi-files)
-               ("a" . helm-apropos)))
+         (helm-command-map
+          ("l" . helm-locate)
+          ("s" . helm-surfraw)
+          ("r" . helm-regexp)
+          ("b" . helm-bibtex)
+          ("m" . helm-multi-files)
+          ("a" . helm-apropos)))
 
 
-  :init
+  :preface
 
-  ;; Use more helm features.
-  (require 'helm-config)
-
-  ;; Unset bad shortcut key.
-  (global-unset-key (kbd "C-x c"))
+  (require 'helm-config)            ; Use more helm features.
+  (global-unset-key (kbd "C-x c")) ; Unset bad shortcut key.
 
   :config
 
