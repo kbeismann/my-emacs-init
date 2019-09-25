@@ -56,10 +56,12 @@
 ;; * "-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*"
 ;; * "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*": Ubuntu.
 
+
 ;;; Sources (incomplete):
 
 ;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/#python
 ;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
+
 
 ;;; To-do:
 
@@ -144,7 +146,7 @@
 
 
 ;; Activate package auto loads.
-(package-initialize)
+;; (package-initialize)
 
 
 ;;; LEAF SETUP
@@ -152,14 +154,20 @@
 
 (prog1 "leaf"
   (prog1 "Install leaf"
-    (package-initialize)
+
+    (package-initialize)                ; Activate package auto loads.
+
     (unless (package-installed-p 'leaf)
       (package-refresh-contents)
       (package-install 'leaf)))
 
+  (leaf leaf
+
+    :commands leaf)
+
   (leaf leaf-keywords
 
-        :ensure t
+        :package t
 
         :config
 
