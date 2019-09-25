@@ -666,7 +666,7 @@
 ;;; SET COLOR THEME
 
 
-(use-package base16-theme
+(leaf base16-theme
 
   :init
 
@@ -718,12 +718,10 @@
 
 
   (custom-set-faces '(font-lock-keyword-face ((t (:weight bold))))
-                    '(font-lock-builtin-face ((t (:weight bold))))
+                    '(font-lock-builtin-face ((t (:weight bold))))))
                     ;; '(font-lock-function-name-face ((t (:weight bold))))
                     ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
                     ;; '(font-lock-comment-face ((t (:slant italic))))
-                    )
-  )
 
 
 ;;; WHOLE-LINE-OR-REGION
