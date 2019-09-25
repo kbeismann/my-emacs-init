@@ -2107,7 +2107,7 @@
   (setq realgud:pdb-command-name "python3 -m pdb"))
 
 
-;;; FOOTER
+;;; Footer:
 
 
 (provide 'init)
