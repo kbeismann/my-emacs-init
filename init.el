@@ -36,18 +36,6 @@
 ;; The some settings, e.g. the mu4e setup, are not part of this file.
 
 
-;;; Sources (incomplete):
-
-;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/#python
-
-
-;;; To-do:
-
-;; * Init file in org-mode?
-;; * Better YASnippet implementation.
-;; * Use function/package to toggle proxies.
-
-
 ;;; Some working font options:
 
 ;; "Hack-9":
@@ -68,6 +56,17 @@
 ;; * "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
 ;; * "-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*"
 ;; * "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*": Ubuntu.
+
+;;; Sources (incomplete):
+
+;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/#python
+
+
+;;; To-do:
+
+;; * Init file in org-mode?
+;; * Better YASnippet implementation.
+;; * Use function/package to toggle proxies.
 
 
 ;;; Code:
