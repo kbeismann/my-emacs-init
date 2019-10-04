@@ -265,7 +265,12 @@
          (substring (shell-command-to-string "lsb_release -sd") 0 3)
          (substring "Ubun" 0 3))
     (progn (add-to-list 'default-frame-alist '(height . 50))
-           (add-to-list 'default-frame-alist '(width . 200)))))
+           (add-to-list 'default-frame-alist '(width . 200))))
+  (when (string-equal
+         (substring (shell-command-to-string "lsb_release -sd") 0 3)
+         (substring "Manj" 0 3))
+    (progn (add-to-list 'default-frame-alist '(height . 200))
+           (add-to-list 'default-frame-alist '(width . 300)))))
 
 
 ;; FONTS
