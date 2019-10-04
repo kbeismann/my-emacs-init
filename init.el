@@ -129,10 +129,10 @@
 ;; Set repositories and priorities.
 (setq-default  load-prefer-newer t      ; Prefer the newest version of a
                                         ; file.package--init-file-ensured t
-               package-enable-at-startup nil ; Packages will not automatically
-                                             ; be loaded for us since
-                                             ; use-package will be handling
-                                             ; that.
+               ;; package-enable-at-startup nil ; Packages will not automatically
+               ;;                               ; be loaded for us since
+               ;;                               ; use-package will be handling
+               ;;                               ; that.  Might be unnecessary for leaf.
                package-archives
                '(("melpa"        . "https://melpa.org/packages/")
                  ("melpa-stable" . "https://stable.melpa.org/packages/")
@@ -167,37 +167,15 @@
 
   (leaf leaf-keywords
 
-        :package t
+    :package t
 
-        :config
+    :config
 
-        ;; Initialize leaf-keywords.el.
-        (leaf-keywords-init)))
+    ;; Initialize leaf-keywords.el.
+    (leaf-keywords-init)))
 
-
-;;; USE-PACKAGE SETUP
-
-
-;; Install use-package in case it is not installed already.
-(unless (package-installed-p 'use-package)
-  (progn (package-refresh-contents)
-         (package-install 'use-package)))
-
-;; Always require use-package and bind-key at startup.
-(eval-when-compile (require 'use-package))
-
-;; If you use any :bind functionality in use-package.
-(require 'bind-key)
-
-;; Always use ":ensure t" as a default.
-(setq use-package-check-before-init t ; Check if a package is installed
-                                      ; already.
-      use-package-always-ensure t     ; This can break mu4e if ensure is t.
-                                      ; Right now, mu4e uses ":ensure nil" to
-                                      ; counteract this.
-      use-package-always-defer t      ; To speed up the startup process before
-                                      ; executing its ':init' block.
-      use-package-verbose t)
+;; ;; If you use any :bind functionality in use-package.
+;; (require 'bind-key)
 
 
 ;;; BASIC SETTINGS
