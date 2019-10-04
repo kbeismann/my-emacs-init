@@ -1869,9 +1869,11 @@
 ;;; OPENWITH
 
 
-(use-package openwith
+(leaf openwith
+  
+  :disabled
 
-  ;; :disabled
+  :ensure t
 
   ;; Change default programs for specific files.
   :hook ((dired-mode . (lambda () (openwith-mode 1)))
@@ -1914,7 +1916,7 @@
 ;; "Google Scholar" as default source and write to bibliography.bib
 ;; directly.
 
-(use-package gscholar-bibtex
+(leaf gscholar-bibtex
 
   :disabled
 
@@ -1929,11 +1931,9 @@
 ;;; GCAL
 
 
-(use-package org-gcal
+(leaf org-gcal
 
   :disabled
-
-  :defer t
 
   :init
 
@@ -1955,11 +1955,9 @@
 
 ;; Seems buggy...
 
-(use-package ein
+(leaf ein
 
   :disabled
-
-  :defer t
 
   :config
 
@@ -1975,27 +1973,24 @@
 ;; until time is up (by default it's one minute). Typit is quite similar to
 ;; the "10 fast fingers" tests.
 
-(use-package typit
-
-  :defer t)
+(leaf typit)
 
 
 ;;; YAML-MODE
 
 
-(use-package yaml-mode
+(leaf yaml-mode
 
   :config
 
-  :bind (:map yaml-mode-map ("\C-m" . newline-and-indent)))
+  :bind (yaml-mode-map
+         ("\C-m" . newline-and-indent)))
 
 
 ;;; CSV-MODE
 
 
-(use-package csv-mode
-
-  :defer t
+(leaf csv-mode
 
   :config
 
@@ -2009,7 +2004,7 @@
 ;;; EDIFF
 
 
-(use-package ediff
+(leaf ediff
 
   :config
 
@@ -2025,11 +2020,11 @@
 ;;; PROJECTILE
 
 
-(use-package projectile
+(leaf projectile
 
   :after helm
 
-  :ensure helm-projectile
+  :package helm-projectile
 
   :bind ("C-c p" . projectile-command-map)
 
@@ -2047,13 +2042,13 @@
 ;;; TRAMP FOR REMOTE FILE SYSTEMS
 
 
-(use-package tramp
+(leaf tramp
 
   :disabled
 
   :after helm
 
-  :ensure helm-tramp
+  :package helm-tramp
 
   :defer t
 
@@ -2069,7 +2064,7 @@
 ;;; REALGUD DEBUGGER
 
 
-(use-package realgud
+(leaf realgud
 
   :disabled
 
