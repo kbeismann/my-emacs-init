@@ -642,7 +642,6 @@
           ("m" . helm-multi-files)
           ("a" . helm-apropos)))
 
-
   :preface
 
   (require 'helm-config)            ; Use more helm features.
@@ -722,13 +721,64 @@
                     ;; '(font-lock-comment-face ((t (:slant italic))))
 
 
+;;; AVY
+
+
+;; Move with the power of your mind and jump to things in Emacs tree-style.
+
+(leaf avy
+
+  :package t
+
+  :after base16-theme
+
+  :bind (( "M-SPC"   . avy-goto-char)
+         ( "M-S-SPC" . avy-goto-char-2))
+
+  :config
+
+  (setq avy-background t
+        avy-all-windows t
+        avy-highlight-first t)        ; When non-nil highlight the first
+                                      ; decision char with
+                                      ; avy-lead-face-0.  Do this even
+                                      ; when the char is terminating.
+                                      ; Normally avy-lead-face-0 is only
+                                      ; used for the first
+                                      ; non-terminating decision chars.
+
+  ;; Define colors for avy.
+
+  ;; Face used for first non-terminating leading chars.
+  (set-face-attribute 'avy-lead-face-0 nil
+                      :foreground base0E-prop :background base00-prop
+                      :weight 'bold)
+
+  ;; Face used for matched leading chars.  Not sure what this does.
+  (set-face-attribute 'avy-lead-face-1 nil :foreground base09-prop
+                      :background base00-prop :weight 'bold)
+
+  ;; Face used for leading chars.
+  (set-face-attribute 'avy-lead-face-2 nil :foreground base0C-prop
+                      :background base00-prop :weight 'bold)
+
+  ;; Face used for the leading chars.
+  (set-face-attribute 'avy-lead-face nil :foreground base0A-prop
+                      :background base00-prop :weight 'bold)
+
+  ;; Face for foreground/font during selection: base03.
+  (set-face-foreground 'avy-background-face base03-prop))
+
+
 ;;; WHOLE-LINE-OR-REGION
 
 
 ;; Convenience: Instead of marking the line, M-x and C-x remove the
 ;; whole line automatically if there is no region.
 
-(use-package whole-line-or-region
+(leaf whole-line-or-region
+
+  :package t
 
   :config
 
@@ -831,8 +881,8 @@
 ;;; WHITESPACE
 
 
-;; Make sure that there is a single additional line at the end of the
-;; file while saving, also removes all white space at the end of lines.
+;; Make sure that there is a single additional line at the end of the file
+;; while saving, also removes all white space at the end of lines.
 
 (leaf whitespace
 
@@ -847,9 +897,6 @@
          (org-mode . (lambda () (whitespace-mode 0)))
          (ess-mode . (lambda () (whitespace-mode 1)))
          (message-mode . (lambda () (whitespace-mode 0))))
-         ;; (sh-mode 	  . (lambda () (whitespace-mode 1)))
-         ;; (LaTeX-mode	  . (lambda () (whitespace-mode 1)))
-         ;; (markdown-mode . (lambda () (whitespace-mode 1)))
 
   :config
 
@@ -903,14 +950,11 @@
 
   ;; If Hunspell is present, setup Hunspell dictionaries.
   (when (executable-find "hunspell")
-    (setq ispell-program-name (executable-find "hunspell")) ; Use
-                                        ; Hunspell.
-    (setq ispell-local-dictionary "en_US") ; Use US for local
-                                        ; dictionary.
-    (setq ispell-dictionary "en_US")       ; Use US dictionary.
-    (setq ispell-really-hunspell nil)      ; Temporary fix for Hunspell
-                                        ; 1.7.
-    (setq ispell-hunspell-dictionary-alist nil)
+    (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
+          ispell-local-dictionary "en_US"
+          ispell-dictionary "en_US"
+          ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
+          ispell-hunspell-dictionary-alist nil)
 
     ;; Settings for English, US.
     (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
@@ -936,46 +980,57 @@
 ;;; FLYCHECK
 
 
-(use-package flycheck
+(leaf flycheck
+
+  :package t
 
   :commands global-flycheck-mode
 
   :hook ((prog-mode . flycheck-mode)
-         (ess-mode . flycheck-mode))
+         (ess-mode . flycheck-mode)))
+
+
+(leaf flycheck-pycheckers
+
+  :package t
+
+  :after flycheck python
+
+  :init
+
+  (with-eval-after-load 'flycheck
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
 
   :config
 
-  (use-package flycheck-pycheckers
+  (setq flycheck-pycheckers-multi-thread "true"
+        flycheck-pycheckers-max-line-length 88) ; Accommodate Black settings.
 
-    :init
+  ;; Add linters here.
+  (setq flycheck-pycheckers-checkers
+        '(pylint flake8 mypy3 bandit))
 
-    (with-eval-after-load 'flycheck
-      (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
-
-    :config
-
-    (setq flycheck-pycheckers-multi-thread "true"
-          flycheck-pycheckers-max-line-length 88) ; This is based on the Black
-                                                  ; guidelines.
-
-    ;; Add linters here.
-    (setq flycheck-pycheckers-checkers
-          '(pylint flake8 mypy3 bandit))
-
-    ;; Add ignorable codes here.
-    (setq flycheck-pycheckers-ignore-codes
-          (append flycheck-pycheckers-ignore-codes '("C0330" "W503" "E701" "B311")))))
+  ;; Add ignorable codes here.
+  (setq flycheck-pycheckers-ignore-codes
+        (append flycheck-pycheckers-ignore-codes
+                '("C0330" "W503" "E701" "B311"))))
 
 
 ;;; PDF-TOOLS
 
 
-(use-package pdf-tools
+;; For better viewing and handling of PDFs in Emacs.
+
+(leaf pdf-tools
+
+  :package t
 
   :init
 
-  ;; Initialize.
   (pdf-loader-install)
+
+  :bind (pdf-view-mode-map
+         ("C-s" . isearch-forward))
 
   :config
 
@@ -987,81 +1042,20 @@
 
   ;; Automatically annotate highlights.
   ;; (setq pdf-annot-activate-created-annotations t)
-
-  ;; Use normal isearch.
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
-
-
-;;; AVY
-
-
-;; Move with the power of your mind and jump to things in Emacs tree-style.
-
-(use-package avy
-
-  :after base16-theme
-
-  :bind (( "M-SPC"   . avy-goto-char)
-         ( "M-S-SPC" . avy-goto-char-2))
-
-  :config
-
-  (setq avy-background t
-        avy-all-windows t
-        avy-highlight-first t)        ; When non-nil highlight the first
-                                      ; decision char with
-                                      ; avy-lead-face-0.  Do this even
-                                      ; when the char is terminating.
-                                      ; Normally avy-lead-face-0 is only
-                                      ; used for the first
-                                      ; non-terminating decision chars.
-
-  ;; Define colors for avy.
-
-  ;; Face used for first non-terminating leading chars.
-  (set-face-attribute 'avy-lead-face-0 nil
-                      :foreground base0E-prop :background base00-prop
-                      :weight 'bold)
-
-  ;; Face used for matched leading chars.  Not sure what this does.
-  (set-face-attribute 'avy-lead-face-1 nil :foreground base09-prop
-                      :background base00-prop :weight 'bold)
-
-  ;; Face used for leading chars.
-  (set-face-attribute 'avy-lead-face-2 nil :foreground base0C-prop
-                      :background base00-prop :weight 'bold)
-
-  ;; Face used for the leading chars.
-  (set-face-attribute 'avy-lead-face nil :foreground base0A-prop
-                      :background base00-prop :weight 'bold)
-
-  ;; Face for foreground/font during selection: base03.
-  (set-face-foreground 'avy-background-face base03-prop))
-
-
-;;; ELISP-MODE
-
-
-(use-package elisp-mode
-
-  :ensure nil
-
-  :defer t)
+  )
 
 
 ;;; ORG-MODE
 
 
-(use-package org
+(leaf org
+
+  :package t
 
   :bind (("C-c c" . org-capture)               ; Org-capture notes.
          ("C-c a" . org-agenda)                ; Call org-agenda.
          ("C-c b" . crossref-add-bibtex-entry) ; Search/ add .bib entries.
          ("C-c l" . org-store-link))           ; Store link.
-
-
-  ;; (:map org-mode-map
-  ;; ("M-n f" . org-insert-ref-src)) ; Example
 
   :init
 
@@ -1174,11 +1168,7 @@
 
 
   (setq org-capture-templates
-        '(
-
-          ;; --- TEMPLATES FOR NOTES ---
-
-          ;; Key, name, type, target, template, options.
+        '(;; Key, name, type, target, template, options.
           ("n" "Save Note" entry
            (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
@@ -1196,27 +1186,26 @@
 
           ("m" "My list")
 
-           ;; Key, name, type, target, template, options.
-           ("mt" "TODO" entry
-            (file "~/gitdir/orgdir/todo.org")
-            "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-            :empty-lines 1
-            :prepend 1)
+          ;; Key, name, type, target, template, options.
+          ("mt" "TODO" entry
+           (file "~/gitdir/orgdir/todo.org")
+           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+           :empty-lines 1
+           :prepend 1)
 
-           ;; Key, name, type, target, template, options.
-           ("ms" "Edit/fix script" entry
-            (file "~/gitdir/orgdir/todo.org")
-            "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
-            :empty-lines 1
-            :prepend 1)
+          ;; Key, name, type, target, template, options.
+          ("ms" "Edit/fix script" entry
+           (file "~/gitdir/orgdir/todo.org")
+           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
+           :empty-lines 1
+           :prepend 1)
 
-           ;; Key, name, type, target, template, options.
-           ("mc" "Save URL and check later" entry
-            (file "~/gitdir/orgdir/todo.org")
-            "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-            :empty-lines 1
-            :prepend 1)
-           ))
+          ;; Key, name, type, target, template, options.
+          ("mc" "Save URL and check later" entry
+           (file "~/gitdir/orgdir/todo.org")
+           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+           :empty-lines 1
+           :prepend 1)))
 
 
   ;;; ORG-BABEL
@@ -1253,41 +1242,20 @@
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
   ;; Use Python 3
-  (setq org-babel-python-command "python3")
-
-  ;; (use-package org-babel-eval-in-repl
-  ;;   :config
-  ;;   ;; C- will run the code under the cursor if in a source or example block.
-  ;;   ;; C- will work the same as usual if outside a source or example block.
-  ;;   ;; M- will run the block under the cursor if in a source or example block.
-  ;;   ;; M- will work the same as usual if outside a source or example block.
-  ;;   (defun org-ctrl-return-around (org-fun &rest args)
-  ;;     "Run `ober-eval-in-repl' if in source code block and `org-insert-heading-respect-content' otherwise."
-  ;;     (if (org-in-block-p '("src" "example"))
-  ;;         (ober-eval-in-repl)
-  ;;       (apply org-fun args)))
-  ;;   (advice-add 'org-insert-heading-respect-content :around #'org-ctrl-return-around)
-
-  ;;   (defun org-meta-return-around (org-fun &rest args)
-  ;;     "Run `ober-eval-block-in-repl' if in source code block or example block and `org-meta-return' otherwise."
-  ;;     (if (org-in-block-p '("src" "example"))
-  ;;         (ober-eval-block-in-repl)
-  ;;       (apply org-fun args)))
-  ;;   (advice-add 'org-meta-return :around #'org-meta-return-around)
-  ;;   )
-    )
+  (setq org-babel-python-command "python3"))
 
 
   ;;; ORG-REF
 
 
-(use-package org-ref
+(leaf org-ref
+
+  :package t
 
   :after (org helm)
 
-  ;; :defer nil
-
-  :bind (:map bibtex-mode-map ("C-c C-c" . org-ref-clean-bibtex-entry))
+  :bind (bibtex-mode-map
+         ("C-c C-c" . org-ref-clean-bibtex-entry))
 
   :init
 
@@ -1311,9 +1279,7 @@
     ;;       (lambda (fpath)
     ;;         (start-process "open" "*open*" "open" fpath)))
     ;; (setq helm-bibtex-notes-path "~/Documents/Bibliographie/Recherche/notizen.org")))
-
-    )
-  )
+    ))
 
 
 ;; ORG-NOTER
@@ -1328,11 +1294,11 @@
 
 ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
 
-(use-package org-noter
+(leaf org-noter
+
+  :package t
 
   :after org
-
-  :ensure t
 
   :config
 
@@ -1342,67 +1308,35 @@
 ;; ORG-JOURNAL
 
 
-(use-package org-journal
+(leaf org-journal
 
   :disabled
 
-  :defer t
-
-  :custom
-  (org-journal-directory "~/gitdir/journal/")
-  (org-journal-date-format "%Y-%m-%d, %A"))
-
-
-;;; SH-MODE
-
-
-(use-package sh-script
-
-  :defer t)
-
-
-;;; CONF-MODE
-
-
-(use-package conf-mode
-
-  :defer t)
-
-
-;;; GITCONFIG-MODE
-
-
-(use-package gitconfig-mode
-
-  :defer t
+  :package t
 
   :config
 
-  (add-hook 'gitconfig-mode-hook
-            (lambda ()
-              (setf indent-tabs-mode nil
-                    tab-width 4))))
+  (setq org-journal-directory "~/gitdir/journal/")
+  (setq org-journal-date-format "%Y-%m-%d, %A"))
 
 
 ;;; MAGIT
 
 
-(use-package magit
+(leaf magit
 
-  :defer t
+  :package t
 
-  :ensure magit-todos
-
-  :bind (("C-x g"   . magit-status)
+  :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch)))
 
 
 ;;; MAGIT-TODO
 
 
-(use-package magit-todos
+(leaf magit-todos
 
-  :defer t
+  :package t
 
   :after magit)
 
@@ -1410,25 +1344,23 @@
 ;;; LSP
 
 
-(use-package lsp-mode
+(leaf lsp-mode
 
-  :defer t
+  :package t
 
-  :ensure projectile
-  :ensure company
-  :ensure yasnippet
+  :after projectile company yasnippet
 
   :hook (python-mode . lsp)
 
-  :bind (:map lsp-mode-map (("C-c d p" . lsp-describe-thing-at-point)
-                            ("C-c i m" . helm-imenu)
-                            ("C-c f d" . lsp-find-definition)
-                            ("C-c w d" . xref-find-definitions-other-window)
-                            ("C-c f r" . lsp-find-references)
-                            ("C-c r p" . lsp-rename)))
+  :bind (lsp-mode-map
+         (("C-c d p" . lsp-describe-thing-at-point)
+          ("C-c i m" . helm-imenu)
+          ("C-c f d" . lsp-find-definition)
+          ("C-c w d" . xref-find-definitions-other-window)
+          ("C-c f r" . lsp-find-references)
+          ("C-c r p" . lsp-rename)))
 
   :config
-
 
   (setq lsp-enable-symbol-highlighting t ; Highlight symbols at point.
         lsp-prefer-flymake nil           ; Don't use flymake by default.
@@ -1437,25 +1369,21 @@
         ;; lsp-eldoc-enable-hover nil)
         ;; lsp-eldoc-enable-signature-help nil
 
-  ;; (setq lsp-enable-semantic-highlighting t)
-
   ;; Define faces for highlighting in LSP.
-  (set-face-attribute 'lsp-face-highlight-write
-                      nil :italic nil :underline nil :inherit 'unspecified :background base02-prop :inverse-video t)
-  (set-face-attribute 'lsp-face-highlight-read
-                      nil :italic nil :underline nil :inherit 'unspecified :background base02-prop))
+  (set-face-attribute 'lsp-face-highlight-write nil :italic nil :underline nil :inherit
+                      'unspecified :background base02-prop :inverse-video t)
+  (set-face-attribute 'lsp-face-highlight-read nil :italic nil :underline nil :inherit
+                      'unspecified :background base02-prop))
 
 
 ;;; COMPANY-LSP
 
 
-(use-package company-lsp
+(leaf company-lsp
+
+  :package t
 
   :after (lsp company)
-
-  :requires company
-
-  ;; :disabled
 
   :commands company-lsp
 
@@ -1470,12 +1398,14 @@
         company-lsp-enable-snippet t))
 
 
-  ;;; LSP-UI
+;;; LSP-UI
 
 
-(use-package lsp-ui
+(leaf lsp-ui
 
   :disabled
+
+  :package t
 
   :commands lsp-ui-mode
 
@@ -1487,9 +1417,15 @@
         lsp-ui-doc-use-childframe nil
         lsp-ui-sideline-mode nil))
 
-(use-package helm-lsp
+
+;;; HELM-LSP
+
+
+(leaf helm-lsp
 
   :disabled
+
+  :package t
 
   :commands helm-lsp-workspace-symbol)
 
@@ -1497,16 +1433,13 @@
 ;;; PYTHON-MODE
 
 
-(use-package python
+(leaf python
 
-  :defer t
+  :package t
 
   :after (base16-theme yasnippet)       ; To avoid color issues.
 
-  :ensure conda
-  :ensure sphinx-doc
-  :ensure python-docstring
-  :ensure lsp-mode
+  :package conda sphinx-doc python-docstring lsp-mode
 
   :commands python-mode
 
@@ -1517,7 +1450,9 @@
   ;;; PIPENV
 
 
-(use-package pipenv
+(leaf pipenv
+
+  :package t
 
   :after python
 
@@ -1525,7 +1460,8 @@
 
   :init
 
-  (setq pipenv-projectile-after-switch-function #'pipenv-projectile-after-switch-extended))
+  (setq pipenv-projectile-after-switch-function
+        #'pipenv-projectile-after-switch-extended))
 
 
   ;;; PYTHON-PYTEST
@@ -1533,18 +1469,20 @@
 
 ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
 
-(use-package python-pytest
+(leaf python-pytest
+
+  :package t
 
   :after python
 
-  :bind (:map python-mode-map
-              ("C-c t p t" . python-pytest)
-              ("C-c t p p" . python-pytest-popup)
-              ("C-c t p f" . python-pytest-file)
-              ("C-c t p F" . python-pytest-file-dwim)
-              ("C-c t p d" . python-pytest-function)
-              ("C-c t p D" . python-pytest-function-dwim)
-              ("C-c t p l" . python-pytest-last-failed))
+  :bind (python-mode-map
+         ("C-c t p t" . python-pytest)
+         ("C-c t p p" . python-pytest-popup)
+         ("C-c t p f" . python-pytest-file)
+         ("C-c t p F" . python-pytest-file-dwim)
+         ("C-c t p d" . python-pytest-function)
+         ("C-c t p D" . python-pytest-function-dwim)
+         ("C-c t p l" . python-pytest-last-failed))
 
   :custom
 
@@ -1563,14 +1501,15 @@
   ;;; PYTHON COVERAGE
 
 
-(use-package pycoverage
-
-  :after python
+(leaf pycoverage
 
   :disabled
 
-  :config
+  :package t
 
+  :after python
+
+  :config
 
   (defun my-coverage ()
     (interactive)
@@ -1582,7 +1521,9 @@
   ;;; SPHINX-DOC
 
 
-(use-package sphinx-doc
+(leaf sphinx-doc
+
+  :package t
 
   :after python
 
@@ -1597,70 +1538,12 @@
   (setq sphinx-doc-exclude-rtype t))
 
 
-;; RPC backend for elpy.
-(setq elpy-rpc-python-command "python3")
-
-(setq python-shell-interpreter "python3"
-      python-shell-interpreter-args "-i")
-;; python-shell-interpreter-args "console --simple-prompt")
-;; python-shell-prompt-detect-failure-warning nil)
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters
-;;              "jupyter")
-(setq gud-pdb-command-name "python3 -m pdb") ; Using pdb.
-
-(setq python-shell-completion-native-enable nil)
-(setq python-indent-offset 4)         ; Indent with 4 spaces.
-(setq scroll-down-aggressively 1)     ; Not sure what this does.
-
-;; Add Company-jedi to python-mode.
-(add-hook 'elpy-mode-hook
-          (lambda () (add-to-list 'company-backends 'company-jedi)))
-
-;; Jedi settings.
-;; (defun my/python-mode-hook ()
-;;   (add-to-list 'company-backends 'company-jedi))
-;; (add-hook 'python-mode-hook 'my/python-mode-hook)
-
-;; (setq elpy-rpc-backend "jedi")        ; Use Jedi as backend.
-;; (setq jedi:complete-on-dot t)
-;; (setq jedi:use-shortcuts t)
-
-;; ;; Solve company, yasnippet conflicts.
-;; (defun company-yasnippet-or-completion ()
-;;   "Solve company yasnippet conflicts."
-;;   (interactive)
-;;   (let ((yas-fallback-behavior
-;;          (apply 'company-complete-common nil)))
-;;     (yas-expand)))
-
-;; (add-hook 'company-mode-hook
-;;           (lambda ()
-;;             (substitute-key-definition
-;;              'company-complete-common
-;;              'company-yasnippet-or-completion
-;;              company-active-map)))
-
-
-;; Fix the yasnippet issue with the following function.
-;; (defun company-yasnippet-or-completion ()
-;;   "Solve company yasnippet conflicts."
-;;   (interactive)
-;;   (let ((yas-fallback-behavior
-;;          (apply 'company-complete-common nil)))
-;;     (yas-expand)))
-;; (add-hook 'company-mode-hook
-;;           (lambda ()
-;;             (substitute-key-definition
-;;              'company-complete-common
-;;              'company-yasnippet-or-completion
-;;              company-active-map)))
-
-
-
 ;;; CONDA
 
 
-(use-package conda
+(leaf conda
+
+  :package t
 
   :after projectile
 
@@ -1683,9 +1566,11 @@
   ;;; BLACK FORMATTER
 
 
-(use-package blacken
+(leaf blacken
 
   :disabled
+
+  :package t
 
   :after python
 
@@ -1695,9 +1580,11 @@
 ;;; PY-ISORT
 
 
-(use-package py-isort
+(leaf py-isort
 
   :disabled
+
+  :package t
 
   :hook (before-save . py-isort-before-save))
 
@@ -1705,7 +1592,9 @@
 ;;; PYTHON-DOCSTRING
 
 
-(use-package python-docstring
+(leaf python-docstring
+
+  :package t
 
   :after python
 
@@ -1715,7 +1604,7 @@
 ;;; ELPY
 
 
-(use-package elpy
+(leaf elpy
 
   :disabled
 
@@ -1727,24 +1616,84 @@
   (when (require 'elpy nil t)
     (elpy-enable))
 
-  :bind (:map elpy-mode-map
-              ("C-c C-g C-d" . elpy-goto-definition-other-window))
+  :bind (elpy-mode-map
+         ("C-c C-g C-d" . elpy-goto-definition-other-window))
 
   :hook (python-mode . elpy-mode)
 
   :config
 
-  (setq elpy-test-pytest-runner-command '("py.test" "-c" "--pdb" "-x")))
+  (setq elpy-test-pytest-runner-command '("py.test" "-c" "--pdb" "-x"))
+
+  ;; RPC backend for elpy.
+  (setq elpy-rpc-python-command "python3")
+
+  (setq python-shell-interpreter "python3"
+        python-shell-interpreter-args "-i")
+  ;; python-shell-interpreter-args "console --simple-prompt")
+  ;; python-shell-prompt-detect-failure-warning nil)
+  ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+  ;;              "jupyter")
+  (setq gud-pdb-command-name "python3 -m pdb") ; Using pdb.
+
+  (setq python-shell-completion-native-enable nil)
+  (setq python-indent-offset 4)         ; Indent with 4 spaces.
+  (setq scroll-down-aggressively 1)     ; Not sure what this does.
+
+  ;; Add Company-jedi to python-mode.
+  (add-hook 'elpy-mode-hook
+            (lambda () (add-to-list 'company-backends 'company-jedi)))
+
+  ;; Jedi settings.
+  ;; (defun my/python-mode-hook ()
+  ;;   (add-to-list 'company-backends 'company-jedi))
+  ;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+
+  ;; (setq elpy-rpc-backend "jedi")        ; Use Jedi as backend.
+  ;; (setq jedi:complete-on-dot t)
+  ;; (setq jedi:use-shortcuts t)
+
+  ;; ;; Solve company, yasnippet conflicts.
+  ;; (defun company-yasnippet-or-completion ()
+  ;;   "Solve company yasnippet conflicts."
+  ;;   (interactive)
+  ;;   (let ((yas-fallback-behavior
+  ;;          (apply 'company-complete-common nil)))
+  ;;     (yas-expand)))
+
+  ;; (add-hook 'company-mode-hook
+  ;;           (lambda ()
+  ;;             (substitute-key-definition
+  ;;              'company-complete-common
+  ;;              'company-yasnippet-or-completion
+  ;;              company-active-map)))
+
+
+  ;; Fix the yasnippet issue with the following function.
+  ;; (defun company-yasnippet-or-completion ()
+  ;;   "Solve company yasnippet conflicts."
+  ;;   (interactive)
+  ;;   (let ((yas-fallback-behavior
+  ;;          (apply 'company-complete-common nil)))
+  ;;     (yas-expand)))
+  ;; (add-hook 'company-mode-hook
+  ;;           (lambda ()
+  ;;             (substitute-key-definition
+  ;;              'company-complete-common
+  ;;              'company-yasnippet-or-completion
+  ;;              company-active-map)))
+
+  )
 
 
 ;;; LATEX/AUCTEX
 
 
-(use-package auctex
+(leaf auctex
 
   :disabled
 
-  :defer t
+  :package t
 
   :hook ((LaTeX-mode . turn-on-reftex)
          (LaTeX-mode . LaTeX-math-mode))
@@ -1777,16 +1726,13 @@
 ;;; EMACS SPEAKS STATISTICS (ESS)
 
 
-(use-package ess
+(leaf ess
 
-  ;; :disabled
-
-  :defer t
+  :package t
 
   :commands R
 
   :config
-
 
   ;; Always split window vertically.
   ;; (add-hook 'ess-mode-hook
@@ -1846,37 +1792,37 @@
 ;;; POLY-MODE
 
 
-(use-package poly-markdown
+;; (leaf poly-markdown
 
-  :defer t
+;;   :disabled
 
-  :ensure t
+;;   ;; :package poly-R
 
-  :ensure poly-R
+;;   :mode (("\\.md$" . poly-markdown-mode)
+;;          ("README\\.md\\'" . gfm-mode)
+;;          ("\\.Snw$" . poly-noweb+R-mode)
+;;          ("\\.Rnw$" . poly-noweb+R-mode)
+;;          ("\\.Rmd$" . poly-markdown+R-mode)
+;;          ("\\.rapport$" . poly-rapport-mode)
+;;          ("\\.Rhtml$" . poly-html+R-mode)
+;;          ("\\.Rbrew$" . poly-brew+R-mode)
+;;          ("\\.Rcpp$" . poly-R+C++-mode)
+;;          ("\\.cppR$" . poly-C++R-mode))
 
-  :mode (("\\.md$" . poly-markdown-mode)
-         ("README\\.md\\'" . gfm-mode)
-         ("\\.Snw$" . poly-noweb+R-mode)
-         ("\\.Rnw$" . poly-noweb+R-mode)
-         ("\\.Rmd$" . poly-markdown+R-mode)
-         ("\\.rapport$" . poly-rapport-mode)
-         ("\\.Rhtml$" . poly-html+R-mode)
-         ("\\.Rbrew$" . poly-brew+R-mode)
-         ("\\.Rcpp$" . poly-R+C++-mode)
-         ("\\.cppR$" . poly-C++R-mode))
-
-  :hook (poly-markdown-mode . display-line-numbers-mode))
+;;   :hook (poly-markdown-mode . display-line-numbers-mode))
 
 
 ;;; YASNIPPET
 
 
-(use-package yasnippet
+(leaf yasnippet
+
+  :package t
+
+  :package yasnippet-snippets
 
   :bind (("C-c y" . yas-insert-snippet)
          ("C-c v" . yas-visit-snippet-file))
-
-  :ensure yasnippet-snippets
 
   :init
 
@@ -1884,8 +1830,8 @@
 
   :config
 
-  (setq yas-snippet-revival t)
-  (setq yas-snippet-dirs (append yas-snippet-dirs
+  (setq yas-snippet-revival t
+        yas-snippet-dirs (append yas-snippet-dirs
                                  '("~/gitdir/emacs-init/snippets/"))))
 
 
@@ -1893,7 +1839,9 @@
 ;;; GNUPG SETUP
 
 
-(use-package pinentry
+(leaf pinentry
+
+  :package t
 
   :config
 
