@@ -2026,8 +2026,6 @@
 
   :package helm-tramp
 
-  :defer t
-
   :bind ("C-c t h" . helm-tramp)
 
   :config
