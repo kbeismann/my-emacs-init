@@ -167,7 +167,7 @@
 
   (leaf leaf-keywords
 
-    :package t
+    :ensure t
 
     :config
 
@@ -467,7 +467,7 @@
 
 (leaf auto-package-update
 
-  :package t
+  :ensure t
 
   :config
 
@@ -483,7 +483,7 @@
 
 (leaf auto-compile
 
-  :package t
+  :ensure t
 
   :init
 
@@ -531,7 +531,7 @@
 
 (leaf async
 
-  :package t
+  :ensure t
 
   :config
 
@@ -546,7 +546,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :config
 
@@ -602,12 +602,12 @@
 
 (leaf helm
 
-  :package t
+  :ensure t
 
-  :package helm-R
-  :package helm-mu
-  :package helm-bibtex
-  :package helm-flyspell
+  :ensure helm-R
+  :ensure helm-mu
+  :ensure helm-bibtex
+  :ensure helm-flyspell
 
   :bind (("C-c h" . helm-command-prefix)
          ("M-x" . helm-M-x)
@@ -650,7 +650,7 @@
 
 (leaf base16-theme
 
-  :package t
+  :ensure t
 
   :config
 
@@ -711,7 +711,7 @@
 
 (leaf avy
 
-  :package t
+  :ensure t
 
   :after base16-theme
 
@@ -761,7 +761,7 @@
 
 (leaf whole-line-or-region
 
-  :package t
+  :ensure t
 
   :config
 
@@ -777,7 +777,7 @@
 
 (leaf which-key
 
-  :package t
+  :ensure t
 
   :config
 
@@ -792,9 +792,9 @@
 
 (leaf smartparens
 
-  :package t
+  :disabled
 
-  :hook ((prog-mode text-mode ess-mode) . smartparens-mode)
+  ;; :ensure nil
 
   :bind ("C-c d p" . sp-unwrap-sexp)
 
@@ -808,9 +808,9 @@
 
 (leaf company
 
-  :package t
+  :ensure t
 
-  :package company-math
+  :ensure company-math
 
   :config
 
@@ -833,7 +833,7 @@
 
 (leaf company-bibtex
 
-  :package t
+  :ensure t
 
   :after (company bibtex)
 
@@ -854,7 +854,7 @@
 
 (leaf aggressive-indent
 
-  :package t
+  :ensure t
 
   :config
 
@@ -869,7 +869,7 @@
 
 (leaf whitespace
 
-  :package t
+  :ensure t
 
   :after base16-theme
 
@@ -901,7 +901,7 @@
 ;; Basic bindings for multiple-cursors.
 (leaf multiple-cursors
 
-  :package t
+  :ensure t
 
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C->" . mc/mark-next-like-this)
@@ -915,7 +915,7 @@
 
 (leaf flyspell
 
-  :package t
+  :ensure t
 
   :init (flyspell-mode 1)
 
@@ -965,7 +965,7 @@
 
 (leaf flycheck
 
-  :package t
+  :ensure t
 
   :commands global-flycheck-mode
 
@@ -975,7 +975,7 @@
 
 (leaf flycheck-pycheckers
 
-  :package t
+  :ensure t
 
   :after flycheck python
 
@@ -1006,7 +1006,7 @@
 
 (leaf pdf-tools
 
-  :package t
+  :ensure t
 
   :init
 
@@ -1033,7 +1033,7 @@
 
 (leaf org
 
-  :package t
+  :ensure t
 
   :bind (("C-c c" . org-capture)               ; Org-capture notes.
          ("C-c a" . org-agenda)                ; Call org-agenda.
@@ -1233,7 +1233,7 @@
 
 (leaf org-ref
 
-  :package t
+  :ensure t
 
   :after (org helm)
 
@@ -1279,7 +1279,7 @@
 
 (leaf org-noter
 
-  :package t
+  :ensure t
 
   :after org
 
@@ -1295,7 +1295,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :config
 
@@ -1308,7 +1308,7 @@
 
 (leaf magit
 
-  :package t
+  :ensure t
 
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch)))
@@ -1319,7 +1319,7 @@
 
 (leaf magit-todos
 
-  :package t
+  :ensure t
 
   :after magit)
 
@@ -1329,7 +1329,7 @@
 
 (leaf lsp-mode
 
-  :package t
+  :ensure t
 
   :after projectile company yasnippet
 
@@ -1364,7 +1364,7 @@
 
 (leaf company-lsp
 
-  :package t
+  :ensure t
 
   :after (lsp company)
 
@@ -1388,7 +1388,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :commands lsp-ui-mode
 
@@ -1408,7 +1408,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :commands helm-lsp-workspace-symbol)
 
@@ -1418,11 +1418,11 @@
 
 (leaf python
 
-  :package t
+  :ensure t
 
   :after (base16-theme yasnippet)       ; To avoid color issues.
 
-  :package conda sphinx-doc python-docstring lsp-mode
+  :ensure conda sphinx-doc python-docstring lsp-mode
 
   :commands python-mode
 
@@ -1435,7 +1435,7 @@
 
 (leaf pipenv
 
-  :package t
+  :ensure t
 
   :after python
 
@@ -1454,7 +1454,7 @@
 
 (leaf python-pytest
 
-  :package t
+  :ensure t
 
   :after python
 
@@ -1488,7 +1488,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :after python
 
@@ -1506,7 +1506,7 @@
 
 (leaf sphinx-doc
 
-  :package t
+  :ensure t
 
   :after python
 
@@ -1526,7 +1526,7 @@
 
 (leaf conda
 
-  :package t
+  :ensure t
 
   :after projectile
 
@@ -1553,7 +1553,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :after python
 
@@ -1567,7 +1567,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :hook (before-save . py-isort-before-save))
 
@@ -1577,7 +1577,7 @@
 
 (leaf python-docstring
 
-  :package t
+  :ensure t
 
   :after python
 
@@ -1590,6 +1590,8 @@
 (leaf elpy
 
   :disabled
+
+  ;; :ensure nil
 
   :after python
 
@@ -1676,7 +1678,7 @@
 
   :disabled
 
-  :package t
+  ;; :ensure nil
 
   :hook ((LaTeX-mode . turn-on-reftex)
          (LaTeX-mode . LaTeX-math-mode))
@@ -1711,7 +1713,7 @@
 
 (leaf ess
 
-  :package t
+  :ensure t
 
   :commands R
 
@@ -1779,7 +1781,7 @@
 
 ;;   :disabled
 
-;;   ;; :package poly-R
+;;   ;; :ensure poly-R
 
 ;;   :mode (("\\.md$" . poly-markdown-mode)
 ;;          ("README\\.md\\'" . gfm-mode)
@@ -1800,9 +1802,9 @@
 
 (leaf yasnippet
 
-  :package t
+  :ensure t
 
-  :package yasnippet-snippets
+  :ensure yasnippet-snippets
 
   :bind (("C-c y" . yas-insert-snippet)
          ("C-c v" . yas-visit-snippet-file))
@@ -1824,7 +1826,7 @@
 
 (leaf pinentry
 
-  :package t
+  :ensure t
 
   :config
 
@@ -1851,7 +1853,7 @@
   
   :disabled
 
-  :ensure t
+  ;; :ensure nil
 
   ;; Change default programs for specific files.
   :hook ((dired-mode . (lambda () (openwith-mode 1)))
@@ -1898,12 +1900,14 @@
 
   :disabled
 
+  ;; :ensure nil
+
   :config
 
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
   (setq gscholar-bibtex-default-source "Google Scholar"))
-        ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
+;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
 
 ;;; GCAL
@@ -1912,6 +1916,8 @@
 (leaf org-gcal
 
   :disabled
+
+  ;; :ensure nil
 
   :init
 
@@ -1936,6 +1942,8 @@
 (leaf ein
 
   :disabled
+
+  ;; :ensure nil
 
   :config
 
@@ -2000,7 +2008,7 @@
 
   :after helm
 
-  :package helm-projectile
+  :ensure helm-projectile
 
   :bind ("C-c p" . projectile-command-map)
 
@@ -2022,9 +2030,11 @@
 
   :disabled
 
-  :after helm
+  ;; :ensure nil
+  
+  :ensure helm-tramp
 
-  :package helm-tramp
+  :after helm
 
   :bind ("C-c t h" . helm-tramp)
 
@@ -2041,6 +2051,8 @@
 (leaf realgud
 
   :disabled
+
+  ;; :ensure nil
 
   :commands realgud:ipdb
 
