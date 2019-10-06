@@ -790,6 +790,13 @@
 ;;; HIGHLIGHTING PARENTHESES and SMARTPARENS
 
 
+;; Sources:
+;; * https://github.com/rejeep/emacs/blob/master/init.el
+
+(leaf parens
+  
+  :init (show-paren-mode))
+
 (leaf smartparens
 
   :disabled
@@ -798,9 +805,16 @@
 
   :bind ("C-c d p" . sp-unwrap-sexp)
 
-  :config
+  :init
 
-  (show-paren-mode 1))
+  (progn (leaf smartparens-config)
+         (smartparens-mode 1)
+         (show-smartparens-global-mode 1))
+  
+  ;; :config
+  
+  ;; (progn (setq smartparens-strict-mode t))
+  )
 
 
 ;;; COMPANY
