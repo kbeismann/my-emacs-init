@@ -194,7 +194,7 @@
 (desktop-save-mode 0)               ; Don't save last Emacs session.
 (save-place-mode 1)                 ; Save the place in files.
 (global-auto-revert-mode t)         ; Revert buffers automatically when
-                                    ; underlying files are changed externally.
+                                        ; underlying files are changed externally.
 
 ;; Important key-bindings and shortcuts.
 (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
@@ -327,8 +327,8 @@
 ;; Using the shell to insert the date.
 (defun insert-current-date ()
   "Insert the current date and time in a standard Emacs format."
-   (interactive)
-   (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
+  (interactive)
+  (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
 (global-set-key (kbd "C-c i d") 'insert-current-date)
 
 
@@ -699,9 +699,9 @@
 
   (custom-set-faces '(font-lock-keyword-face ((t (:weight bold))))
                     '(font-lock-builtin-face ((t (:weight bold))))))
-                    ;; '(font-lock-function-name-face ((t (:weight bold))))
-                    ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
-                    ;; '(font-lock-comment-face ((t (:slant italic))))
+;; '(font-lock-function-name-face ((t (:weight bold))))
+;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
+;; '(font-lock-comment-face ((t (:slant italic))))
 
 
 ;;; AVY
@@ -723,12 +723,12 @@
   (setq avy-background t
         avy-all-windows t
         avy-highlight-first t)        ; When non-nil highlight the first
-                                      ; decision char with
-                                      ; avy-lead-face-0.  Do this even
-                                      ; when the char is terminating.
-                                      ; Normally avy-lead-face-0 is only
-                                      ; used for the first
-                                      ; non-terminating decision chars.
+                                        ; decision char with
+                                        ; avy-lead-face-0.  Do this even
+                                        ; when the char is terminating.
+                                        ; Normally avy-lead-face-0 is only
+                                        ; used for the first
+                                        ; non-terminating decision chars.
 
   ;; Define colors for avy.
 
@@ -1082,9 +1082,9 @@
 
   ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
   (defun org-summary-todo (n-done n-not-done)
-  "Switch entry to DONE when all subentries are done, to TODO otherwise."
-  (let (org-log-done-with-time org-log-states)   ; turn off logging
-    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done-with-time org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
@@ -1155,7 +1155,7 @@
 
   ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
   (setq org-refile-targets '((nil :maxlevel . 9)
-                                (org-agenda-files :maxlevel . 9))
+                             (org-agenda-files :maxlevel . 9))
         org-refile-use-outline-path 'file
         org-outline-path-complete-in-steps nil
         org-refile-allow-creating-parent-nodes 'confirm)
@@ -1257,13 +1257,13 @@
   :init
 
   (progn
-  (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
-  (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
-        org-ref-bibliography-notes "~/gitdir/library/notes.org"
-        org-ref-pdf-directory "~/gitdir/library/archive/")
+    (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
+    (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
+          org-ref-bibliography-notes "~/gitdir/library/notes.org"
+          org-ref-pdf-directory "~/gitdir/library/archive/")
 
-  ;; Add "bibtex %b" to enable bibtex export.
-  (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
+    ;; Add "bibtex %b" to enable bibtex export.
+    (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
 
   :config
 
@@ -1287,7 +1287,7 @@
 ;; themselves live in an Org-mode file.
 
 ;; Sources:
-;; - https://github.com/weirdNox/org-noter
+;; * https://github.com/weirdNox/org-noter
 
 ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
 
@@ -1363,8 +1363,8 @@
         lsp-prefer-flymake nil           ; Don't use flymake by default.
         lsp-auto-guess-root t            ; Guess the root directory if possible.
         lsp-enable-snippet t)            ; Use Yasnippets.
-        ;; lsp-eldoc-enable-hover nil)
-        ;; lsp-eldoc-enable-signature-help nil
+  ;; lsp-eldoc-enable-hover nil)
+  ;; lsp-eldoc-enable-signature-help nil
 
   ;; Define faces for highlighting in LSP.
   (set-face-attribute 'lsp-face-highlight-write nil :italic nil :underline nil :inherit
