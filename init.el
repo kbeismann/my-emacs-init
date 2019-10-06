@@ -483,8 +483,8 @@
 (leaf auto-compile
 
   :ensure t
-
-  :init
+  
+  :preface
 
   (setq load-prefer-newer t)
 
@@ -494,6 +494,77 @@
   (auto-compile-on-save-mode))
 
 
+;;; AUTH-SOURCE
+
+
+(leaf auth-source
+
+  :ensure t
+
+  :config
+
+  (setq auth-sources '("~/.authinfo.gpg")))
+
+
+;;; DIRED
+
+
+;; I could add diredplus.
+
+(leaf dired
+
+  :commands dired
+
+  :ensure async
+
+  :hook (dired-mode-hook . (lambda() (hl-line-mode 1)))
+
+  :config
+
+  (setq dired-dwim-target t             ; Better default target directory.
+        dired-recursive-copies 'always  ; Always copy recursively.
+        dired-hide-details-hide-symlink-targets nil ; Don't hide symlinks.
+        dired-listing-switches                      ; Better columns.
+        "-lahgF --group-directories-first")) 
+
+
+;;; ASYNC
+
+
+(leaf async
+
+  :ensure t
+
+  :after dired
+
+  :config
+
+  (dired-async-mode 1)
+  (async-bytecomp-package-mode 1))
+
+
+;;; ESHELL
+
+
+;; Check out https://github.com/jcf/emacs.d/blob/master/init-packages.org.
+
+(leaf eshell
+
+  :commands eshell
+
+  :bind ("C-z" . eshell)
+
+  :hook (eshell-mode . my-eshell-remove-pcomplete)
+
+  :config
+
+  ;; Fixes weird issues in eshell.
+  (defun my-eshell-remove-pcomplete ()
+    (remove-hook 'completion-at-point-functions
+                 #'pcomplete-completions-at-point t)))
+
+
+
 ;;; BIBTEX
 
 
@@ -501,6 +572,7 @@
 
   :config
 
+  ;; Path to library only set when directory exists.
   (let ((path-to-library "~/gitdir/library/"))
     (when (file-exists-p path-to-library)
       (setq bibtex-completion-library-path path-to-library)))
@@ -525,75 +597,60 @@
         bibtex-autokey-titleword-length 5))
 
 
-;;; ASYNC
+
+;;; DICTIONARY, FLYCHECK, AND FLYSPELL
 
 
-(leaf async
+(leaf flyspell
 
   :ensure t
+  
+  :require t
 
+  :leaf-defer nil
+
+  :hook ((prog-mode . (lambda() (flyspell-prog-mode)))
+         (text-mode . (lambda() (flyspell-mode)))
+         
+         ;; Deactivate for logs and log editing.
+         (log-edit-mode . (lambda() (flyspell-mode -1)))
+         (change-log-mode . (lambda() (flyspell-mode -1))))
+
+  :init 
+
+  (flyspell-mode)
+  
   :config
 
-  (dired-async-mode 1)
-  (async-bytecomp-package-mode 1))
+  ;; HUNSPELL IS NOT USED ON MANJARO RIGHT NOW! REQUIRES ASPELL!
 
+  ;; If Hunspell is present, setup Hunspell dictionaries.
+  (when (executable-find "hunspell")
+    (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
+          ispell-local-dictionary "en_US"
+          ispell-dictionary "en_US"
+          ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
+          ispell-hunspell-dictionary-alist nil)
 
-;;; AUTH-SOURCE
+    ;; Settings for English, US.
+    (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
+                                                  "[[:alpha:]]"
+                                                  "[^[:alpha:]]"
+                                                  "[']"
+                                                  t
+                                                  ("-d" "en_US")
+                                                  nil
+                                                  iso-8859-1))
 
-
-(leaf auth-source
-
-  :disabled
-
-  ;; :ensure nil
-
-  :config
-
-  (setq auth-sources '("~/.authinfo.gpg")))
-
-
-;;; DIRED
-
-
-;; I could add diredplus.
-
-(leaf dired
-
-  :commands dired
-
-  :config
-
-  ;; Highlight current line in dired.
-  (add-hook 'dired-mode-hook (lambda () (hl-line-mode 1)))
-
-  (setq dired-dwim-target t             ; Better default target directory.
-        dired-recursive-copies 'always  ; Always copy recursively.
-        dired-hide-details-hide-symlink-targets nil ; Don't hide symlinks.
-        dired-listing-switches
-        "-lahgF --group-directories-first")) ; Better columns in dired.
-
-
-;;; ESHELL
-
-
-;; Check out
-;; https://github.com/jcf/emacs.d/blob/master/init-packages.org
-
-(leaf eshell
-
-  :commands eshell
-
-  :init
-
-  (global-set-key (kbd "C-z") 'eshell)
-
-  :hook (eshell-mode . my-eshell-remove-pcomplete)
-
-  :config
-
-  (defun my-eshell-remove-pcomplete ()
-    (remove-hook 'completion-at-point-functions
-                 #'pcomplete-completions-at-point t)))
+    ;; Settings for German, Germany.
+    (add-to-list 'ispell-local-dictionary-alist '("deutsch-hunspell"
+                                                  "[[:alpha:]]"
+                                                  "[^[:alpha:]]"
+                                                  "[']"
+                                                  t
+                                                  ("-d" "de_DE")
+                                                  nil
+                                                  iso-8859-1))))
 
 
 ;;; HELM
@@ -719,10 +776,11 @@
 
 
   (custom-set-faces '(font-lock-keyword-face ((t (:weight bold))))
-                    '(font-lock-builtin-face ((t (:weight bold))))))
-;; '(font-lock-function-name-face ((t (:weight bold))))
-;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
-;; '(font-lock-comment-face ((t (:slant italic))))
+                    '(font-lock-builtin-face ((t (:weight bold)))))
+  ;; '(font-lock-function-name-face ((t (:weight bold))))
+  ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
+  ;; '(font-lock-comment-face ((t (:slant italic))))
+  )
 
 
 ;;; AVY
@@ -731,7 +789,7 @@
 ;; Move with the power of your mind and jump to things in Emacs tree-style.
 
 (leaf avy
-
+  
   :ensure t
 
   :after base16-theme
@@ -743,15 +801,15 @@
 
   (setq avy-background t
         avy-all-windows t
-        avy-highlight-first t)        ; When non-nil highlight the first
-                                        ; decision char with
-                                        ; avy-lead-face-0.  Do this even
-                                        ; when the char is terminating.
-                                        ; Normally avy-lead-face-0 is only
-                                        ; used for the first
-                                        ; non-terminating decision chars.
+        avy-highlight-first t)          ; When non-nil highlight the first
+                                        ; decision char with avy-lead-face-0.
+                                        ; Do this even when the char is
+                                        ; terminating.  Normally
+                                        ; avy-lead-face-0 is only used for the
+                                        ; first non-terminating decision
+                                        ; chars.
 
-  ;; Define colors for avy.
+  ;; Define colors for avy:
 
   ;; Face used for first non-terminating leading chars.
   (set-face-attribute 'avy-lead-face-0 nil
@@ -792,9 +850,8 @@
 ;;; WHICH-KEY
 
 
-;; which-key is a minor mode for Emacs that displays the key bindings
-;; following your currently entered incomplete command (a prefix) in a
-;; popup.
+;; Provides a minor mode for Emacs that displays the key bindings following
+;; your currently entered incomplete command (a prefix) in a popup.
 
 (leaf which-key
 
@@ -815,7 +872,7 @@
 ;; * https://github.com/rejeep/emacs/blob/master/init.el
 
 (leaf parens
-  
+
   :init (show-paren-mode))
 
 (leaf smartparens
@@ -830,12 +887,7 @@
 
   (progn (leaf smartparens-config)
          (smartparens-mode 1)
-         (show-smartparens-global-mode 1))
-  
-  ;; :config
-  
-  ;; (progn (setq smartparens-strict-mode t))
-  )
+         (show-smartparens-global-mode 1)))
 
 
 ;;; COMPANY
@@ -870,7 +922,7 @@
 
   :ensure t
 
-  :after (company bibtex)
+  :after company bibtex
 
   :config
 
@@ -943,56 +995,6 @@
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this)
          ("C-c C->" . mc/mark-all-like-this)))
-
-
-;;; DICTIONARY, FLYCHECK, AND FLYSPELL
-
-
-(leaf flyspell
-
-  :ensure t
-
-  :init (flyspell-mode 1)
-
-  :hook ((org-mode . flyspell-mode)
-         (text-mode . flyspell-mode)
-         (tex-mode . flyspell-prog-mode)
-         (ess-mode . flyspell-prog-mode)
-         (prog-mode . flyspell-prog-mode))
-
-  :config
-
-  ;; Disable for change-log-mode and log-edit-mode:
-  (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode -1))))
-
-  ;; If Hunspell is present, setup Hunspell dictionaries.
-  (when (executable-find "hunspell")
-    (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
-          ispell-local-dictionary "en_US"
-          ispell-dictionary "en_US"
-          ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
-          ispell-hunspell-dictionary-alist nil)
-
-    ;; Settings for English, US.
-    (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
-                                                  "[[:alpha:]]"
-                                                  "[^[:alpha:]]"
-                                                  "[']"
-                                                  t
-                                                  ("-d" "en_US")
-                                                  nil
-                                                  iso-8859-1))
-
-    ;; Settings for German, Germany.
-    (add-to-list 'ispell-local-dictionary-alist '("deutsch-hunspell"
-                                                  "[[:alpha:]]"
-                                                  "[^[:alpha:]]"
-                                                  "[']"
-                                                  t
-                                                  ("-d" "de_DE")
-                                                  nil
-                                                  iso-8859-1))))
 
 
 ;;; FLYCHECK
@@ -1270,7 +1272,7 @@
 
   :ensure t
 
-  :after (org helm)
+  :require org helm
 
   :bind (bibtex-mode-map
          ("C-c C-c" . org-ref-clean-bibtex-entry))
@@ -1885,7 +1887,7 @@
 
 
 (leaf openwith
-  
+
   :disabled
 
   ;; :ensure nil
@@ -2066,7 +2068,7 @@
   :disabled
 
   ;; :ensure nil
-  
+
   :ensure helm-tramp
 
   :after helm
