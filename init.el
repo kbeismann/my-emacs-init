@@ -77,15 +77,18 @@
 ;;; STARTUP TIME
 
 
-;; This hook returns the loading time after the startup.  A hook is used so the
+;; This hook returns the loading time after startup.  A hook is used so the
 ;; message does not get clobbered with other messages.
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs ready in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
+
+(prog1 "Show startup time"
+  
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs ready in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done))))
 
 
 ;;; LESS GC DURING STARTUP
@@ -96,93 +99,43 @@
 ;; every time you start up a new Emacs, this will reduce package-initialize
 ;; time to about half.
 
-;; (setq gc-cons-threshold 64000000) ; Former value.
+(prog1 "Improve startup time"
 
-;; Before startup, increase threshold.
-(setq gc-cons-threshold most-positive-fixnum)
+  ;; (setq gc-cons-threshold 64000000) ; Former value.
 
-;; Restore consing between collection after initialization.
-(add-hook 'after-init-hook #'(lambda ()
-                               (setq gc-cons-threshold 800000)))
+  ;; Before startup, increase threshold.
+  (setq gc-cons-threshold most-positive-fixnum)
 
-;; Let's increase the max-lisp-eval-depth and max-specpdl-size to
-;; prevent exceeding recursion limits.
-(setq max-lisp-eval-depth 50000
-      max-specpdl-size 10000)
+  ;; Restore consing between collection after initialization.
+  (add-hook 'after-init-hook #'(lambda ()
+                                 (setq gc-cons-threshold 800000)))
 
-;; Disable certain byte compiler warnings to cut down on the noise.
-(setq byte-compile-warnings '(not free-vars unresolved noruntime
-                                  lexical make-local))
+  ;; Let's increase the max-lisp-eval-depth and max-specpdl-size to
+  ;; prevent exceeding recursion limits.
+  (setq max-lisp-eval-depth 50000
+        max-specpdl-size 10000)
+
+  ;; Disable certain byte compiler warnings to cut down on the noise.
+  (setq byte-compile-warnings '(not free-vars unresolved noruntime
+                                    lexical make-local)))
 
 
 ;; WORK-RELATED SETTINGS
 
 
 ;; Load proxy settings for work.
-(let ((proxies "~/gitdir/emacs-work/proxies.el"))
-  (when (file-exists-p proxies)
-    (load proxies)))
 
-
-;;; SET REPOSITORIES
-
-
-;; Set repositories and priorities.
-(setq-default  load-prefer-newer t      ; Prefer the newest version of a
-                                        ; file.package--init-file-ensured t
-               ;; package-enable-at-startup nil ; Packages will not automatically
-               ;;                               ; be loaded for us since
-               ;;                               ; use-package will be handling
-               ;;                               ; that.  Might be unnecessary for leaf.
-               package-archives
-               '(("melpa"        . "https://melpa.org/packages/")
-                 ("melpa-stable" . "https://stable.melpa.org/packages/")
-                 ("gnu"          . "https://elpa.gnu.org/packages/")
-                 ("org"          . "https://orgmode.org/elpa/"))
-               package-archive-priorities
-               '(("melpa"        . 3)
-                 ("gnu"          . 2)
-                 ("org"          . 1)
-                 ("melpa-stable" . 0)))
-
-
-;; Activate package auto loads.
-;; (package-initialize)
-
-
-;;; LEAF SETUP
-
-
-(prog1 "leaf"
-  (prog1 "Install leaf"
-
-    (package-initialize)                ; Activate package auto loads.
-
-    (unless (package-installed-p 'leaf)
-      (package-refresh-contents)
-      (package-install 'leaf)))
-
-  (leaf leaf
-
-    :commands leaf)
-
-  (leaf leaf-keywords
-
-    :ensure t
-
-    :config
-
-    ;; Initialize leaf-keywords.el.
-    (leaf-keywords-init)))
-
-;; ;; If you use any :bind functionality in use-package.
-;; (require 'bind-key)
+(prog1 "Load proxy if file exists"
+  
+  (let ((proxies "~/gitdir/emacs-work/proxies.el"))
+    (when (file-exists-p proxies)
+      (load proxies))))
 
 
 ;;; BASIC SETTINGS
 
 
-(setq user-full-name "Karsten Beismann") ; Set name.
+(setq user-full-name "Karsten Beismann")
 
 ;; Columns settings and M-q behavior.
 (defvar max-columns 78)                 ; Global column setting, which will be
@@ -192,10 +145,10 @@
               line-spacing nil)         ; Spacing between lines.
 
 ;; Change save and buffer updating behavior.
+(blink-cursor-mode 1)               ; Use blinking cursor.
 (desktop-save-mode 0)               ; Don't save last Emacs session.
 (save-place-mode 1)                 ; Save the place in files.
-(global-auto-revert-mode t)         ; Revert buffers automatically when
-                                        ; underlying files are changed externally.
+(global-auto-revert-mode t)         ; Revert buffers automatically.
 
 ;; Important key-bindings and shortcuts.
 (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
@@ -208,15 +161,13 @@
       init-file-debug t                      ; Debug init file as well.
       inhibit-startup-screen t               ; No starting screen.
       large-file-warning-threshold 100000000 ; Large file warning.
-      next-line-add-newlines t)              ; New line when C-n.
-
-(setq-default mouse-yank-at-point t)	; Paste at cursor, not at mouse.
-
+      next-line-add-newlines t               ; New line when C-n.
+      mouse-yank-at-point t                  ; Paste at cursor, not at mouse.
+      indent-tabs-mode nil)                  ; Always indent with spaces.
+                                        ;
 ;; Clipboard behavior.
 ;; (setq x-select-enable-clipboard-manager nil)   ; Seems to work well.
 
-;; Indent behavior.
-(setq-default indent-tabs-mode nil)	; Always indent with spaces.
 ;; (setq tab-always-indent 'complete) ; Use Tab to Indent or Complete.
 
 ;; Better scrolling behavior.
@@ -235,7 +186,6 @@
                             (menu-bar-lines       . nil)  ; No menu bar.
                             (tool-bar-lines       . nil)) ; No tool bar.
       font-lock-maximum-decoration t)   ; Decorate as much as possible.
-(blink-cursor-mode 1)                   ; Use blinking cursor.
 
 
 ;; Frame settings dependent on OS.
@@ -362,7 +312,6 @@
 
 ;;; SIMPLIFY THE CURSOR POSITION
 
-
 ;; Source:
 
 ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
@@ -382,83 +331,132 @@
 
 ;; DIRECTORY SHORTENING
 
+;; (prog1 "Better directory in mode-line"
 
-;; Before the buffer-ID, I want to place the directory. But not the
-;; whole directory, but shortened version. (I didn't write this
-;; function, I have it from some internet web page, unsure from
-;; where. It's used quite often, try too google for "defun
-;; shorten-directory" ...)
+;;   ;; Before the buffer-ID, I want to place the directory. But not the
+;;   ;; whole directory, but shortened version. (I didn't write this
+;;   ;; function, I have it from some internet web page, unsure from
+;;   ;; where. It's used quite often, try too google for "defun
+;;   ;; shorten-directory" ...)
 
-(defun shorten-directory (dir max-length)
-  "Show up to MAX-LENGTH characters of a directory name DIR."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-        (output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 4)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
-
-
-;;; DIRECTORY NAME
+;;   (defun shorten-directory (dir max-length)
+;;     "Show up to MAX-LENGTH characters of a directory name DIR."
+;;     (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+;;           (output ""))
+;;       (when (and path (equal "" (car path)))
+;;         (setq path (cdr path)))
+;;       (while (and path (< (length output) (- max-length 4)))
+;;         (setq output (concat (car path) "/" output))
+;;         (setq path (cdr path)))
+;;       (when path
+;;         (setq output (concat ".../" output)))
+;;       output))
 
 
-;; Some buffers however don't have files (and thus no directories, too),
-;; e.g. the *scratch* buffer. In such cases the result of
-;; (buffer-file-name) is nil. In such a case I omit the shortened
-;; directory.
-
-;; But no matter if we emit a directory name, we always emit a starting
-;; space. This space get's propertized with the rest, and let our
-;; directory / buffer-id stand out nicely.
-
-(defvar mode-line-directory
-  '(:propertize
-    (:eval (if (buffer-file-name)
-               (concat " " (shorten-directory default-directory 20)) " "))
-    face mode-line-directory)
-  "Formats the current directory.")
-(put 'mode-line-directory 'risky-local-variable t)
-
-;; Having an empty space before directory part calls for an space after
-;; the buffer ID.
-(setq-default mode-line-buffer-identification
-              (propertized-buffer-identification "%b "))
+;; ;;; DIRECTORY NAME
 
 
-;;; DEFINE THE MODE LINE
+;;   ;; Some buffers however don't have files (and thus no directories, too),
+;;   ;; e.g. the *scratch* buffer. In such cases the result of
+;;   ;; (buffer-file-name) is nil. In such a case I omit the shortened
+;;   ;; directory.
+
+;;   ;; But no matter if we emit a directory name, we always emit a starting
+;;   ;; space. This space get's propertized with the rest, and let our
+;;   ;; directory / buffer-id stand out nicely.
+
+;;   (defvar mode-line-directory
+;;     '(:propertize
+;;       (:eval (if (buffer-file-name)
+;;                  (concat " " (shorten-directory default-directory 20)) " "))
+;;       face mode-line-directory)
+;;     "Formats the current directory.")
+;;   (put 'mode-line-directory 'risky-local-variable t)
+
+;;   ;; Having an empty space before directory part calls for an space after
+;;   ;; the buffer ID.
+;;   (setq-default mode-line-buffer-identification
+;;                 (propertized-buffer-identification "%b "))
 
 
-;; This defines the elements of the mode line, using the functions
-;; created above.
+;; ;;; DEFINE THE MODE LINE
 
-(setq-default mode-line-format
-              '("%e"
-                mode-line-front-space
-                ;; mode-line-mule-info ; I'm always on utf-8.
-                mode-line-client
-                mode-line-modified
-                mode-line-remote ; No need to indicate this specially
-                                        ; but might be useful for working with
-                                        ; servers?
-                mode-line-frame-identification ; This is for text-mode
-                ;; emacs only.
-                " "
-                ;; mode-line-directory ; Defined above. NOT WORKING PROPERLY
-                ;; RIGHT NOW.
-                mode-line-buffer-identification ; Name of current buffer.
-                " "
-                mode-line-position ; Line and Column number
-                ;; (vc-mode vc-mode) ; Use magit if needed, not vc-mode.
-                (flycheck-mode flycheck-mode-line)
-                " "
-                ;; mode-line-modes ; Try without but might be useful.
-                git-status-in-modeline
-                mode-line-misc-info
-                mode-line-end-spaces))
+
+;;   ;; This defines the elements of the mode line, using the functions
+;;   ;; created above.
+
+;;   (setq-default mode-line-format
+;;                 '("%e"
+;;                   mode-line-front-space
+;;                   ;; mode-line-mule-info ; I'm always on utf-8.
+;;                   mode-line-client
+;;                   mode-line-modified
+;;                   mode-line-remote ; No need to indicate this specially
+;;                                         ; but might be useful for working with
+;;                                         ; servers?
+;;                   mode-line-frame-identification ; This is for text-mode
+;;                   ;; emacs only.
+;;                   " "
+;;                   ;; mode-line-directory ; Defined above. NOT WORKING PROPERLY
+;;                   ;; RIGHT NOW.
+;;                   mode-line-buffer-identification ; Name of current buffer.
+;;                   " "
+;;                   mode-line-position ; Line and Column number
+;;                   ;; (vc-mode vc-mode) ; Use magit if needed, not vc-mode.
+;;                   (flycheck-mode flycheck-mode-line)
+;;                   " "
+;;                   ;; mode-line-modes ; Try without but might be useful.
+;;                   git-status-in-modeline
+;;                   mode-line-misc-info
+;;                   mode-line-end-spaces)))
+
+
+;;; LEAF SETUP
+
+
+(prog1 "Use leaf to simplify package management"
+
+  ;; Add archives and assign priorities.
+  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: remove this.
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("melpa" . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/"))
+        package-archive-priorities '(("gnu" . 2)
+                                     ("org" . 1)
+                                     ("melpa" . 3)
+                                     ("melpa-stable" . 0)))
+
+  ;; Initialize package BEFORE installing/loading leaf.
+  (package-initialize)
+
+  ;; Install leaf if necessary.
+  (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
+    (package-install 'leaf))
+  
+  (require 'leaf)
+  
+  ;; (leaf leaf
+
+  ;;   :doc "Simplify Emacs configuration"
+
+  ;;   :commands leaf
+
+  ;;   :config
+
+  (leaf leaf-keywords
+
+    :ensure t
+
+    :config
+
+    (leaf diminish
+
+      :ensure t)
+
+    ;; Initialize leaf-keywords.el.
+    (leaf-keywords-init)))
 
 
 ;;; AUTO-PACKAGE-UPDATE
