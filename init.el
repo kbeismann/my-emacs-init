@@ -603,38 +603,37 @@
 
   :ensure t
 
-  :ensure helm-R
-  :ensure helm-mu
-  :ensure helm-bibtex
-  :ensure helm-flyspell
+  :leaf-defer nil
 
-  :bind (("C-c h" . helm-command-prefix)
-         ("M-x" . helm-M-x)
-         ("C-x b" . helm-mini)
+  :require helm-config
+
+  ;; :ensure helm-mu
+  ;; :ensure helm-R
+
+  :bind (("M-x" . helm-M-x)
          ("C-s" . helm-occur)
+         ("C-x b" . helm-mini)
          ("C-x C-f" . helm-find-files)
          ("M-y" . helm-show-kill-ring)
-         ("C-c f c" . helm-flyspell-correct)
-
+         ("C-c h" . helm-command-prefix)
          (helm-command-map
           ("l" . helm-locate)
           ("s" . helm-surfraw)
           ("r" . helm-regexp)
-          ("b" . helm-bibtex)
           ("m" . helm-multi-files)
           ("a" . helm-apropos)))
 
-  :preface
+  :init
 
-  (require 'helm-config)            ; Use more helm features.
-  (global-unset-key (kbd "C-x c")) ; Unset bad shortcut key.
+  ;; Remove old bind for helm-command-map.
+  (global-unset-key (kbd "C-x c"))
 
   :config
 
   ;; Splitting behavior.
   (setq helm-split-window-inside-p nil
         helm-move-to-line-cycle-in-source nil ; If t breaks cycling.
-        helm-autoresize-mode nil)
+        helm-autoresize-mode t)
 
   ;; Use fuzzy matching when possible.
   (setq helm-mode-fuzzy-match t
@@ -642,6 +641,29 @@
 
   ;; Turn on helm-mode.
   (helm-mode 1))
+
+
+;; Use helm for Flyspell.
+(leaf helm-flyspell
+
+  :ensure t
+
+  :after helm flyspell
+
+  :bind ("C-c f c" . helm-flyspell-correct))
+
+
+;; Use helm for BibTeX.
+(leaf helm-bibtex
+
+  :disabled
+
+  :ensure t
+
+  :after helm bibtex
+
+  :bind (helm-command-map
+         ("b". helm-bibtex)))
 
 
 ;;; SET COLOR THEME
