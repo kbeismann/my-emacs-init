@@ -466,15 +466,15 @@
 
 (leaf auto-package-update
 
+  ;; :disabled
+
   :ensure t
 
   :config
 
-  (setq auto-package-update-interval 7              ; Update every week.
-        auto-package-update-delete-old-versions t   ; Remove old files.
+  (setq auto-package-update-delete-old-versions t   ; Remove old files.
         auto-package-update-hide-results nil        ; Don't hide results.
-        auto-package-update-prompt-before-update t) ; Ask before updating.
-  (auto-package-update-maybe))          ; Update packages after X days.
+        auto-package-update-prompt-before-update t)) ; Ask before updating.
 
 
 ;;; AUTO-COMPILE
