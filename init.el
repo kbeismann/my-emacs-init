@@ -131,14 +131,35 @@
       (load proxies))))
 
 
+;; BASIC VARIABLES
+
+
+(defvar my-autosave-dir
+  (concat user-emacs-directory "autosave/")
+  "My auto-save-list directory.")
+
+(defvar my-backup-dir
+  (concat user-emacs-directory "backup/")
+  "My backup directory.")
+
+(defvar my-cache-dir
+  (concat user-emacs-directory "cache/")
+  "My storage area(cache) directory.")
+
+(defvar my-font
+  "Hermit Light:pixelsize=17"
+  "My default font.")
+
+(defvar my-max-columns
+  78
+  "Predefined number of columns.")
+
+
 ;;; BASIC SETTINGS
 
 
 (setq user-full-name "Karsten Beismann")
 
-;; Columns settings and M-q behavior.
-(defvar max-columns 78)                 ; Global column setting, which will be
-                                        ; parsed to every template.
 (setq-default fill-column max-columns   ; Set M-q columns.
               truncate-lines t          ; No line-wrapping
               line-spacing nil)         ; Spacing between lines.
