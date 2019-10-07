@@ -978,6 +978,8 @@
 
   :ensure t
 
+  :require t
+
   :after base16-theme
 
   :hook ((before-save-hook . delete-trailing-whitespace)
