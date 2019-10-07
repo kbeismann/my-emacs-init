@@ -572,7 +572,7 @@
 
   :bind ("C-z" . eshell)
 
-  :hook (eshell-mode . my-eshell-remove-pcomplete)
+  :hook (eshell-mode-hook . my-eshell-remove-pcomplete)
 
   :config
 
@@ -634,12 +634,8 @@
 
   :leaf-defer nil
 
-  :hook ((prog-mode . (lambda() (flyspell-prog-mode)))
-         (text-mode . (lambda() (flyspell-mode)))
-         
-         ;; Deactivate for logs and log editing.
-         (log-edit-mode . (lambda() (flyspell-mode -1)))
-         (change-log-mode . (lambda() (flyspell-mode -1))))
+  :hook ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
+         (text-mode-hook . (lambda() (flyspell-mode))))
 
   :init 
 
@@ -997,10 +993,10 @@
   :after base16-theme
 
   :hook ((before-save-hook . delete-trailing-whitespace)
-         (prog-mode . (lambda () (whitespace-mode 1)))
-         (text-mode . (lambda () (whitespace-mode 1)))
-         (org-mode . (lambda () (whitespace-mode 0)))
-         (message-mode . (lambda () (whitespace-mode 0))))
+         (prog-mode-hook . (lambda () (whitespace-mode 1)))
+         (text-mode-hook . (lambda () (whitespace-mode 1)))
+         (org-mode-hook . (lambda () (whitespace-mode 0)))
+         (message-mode-hook . (lambda () (whitespace-mode 0))))
 
   :config
 
@@ -1041,8 +1037,6 @@
 
   :commands global-flycheck-mode
 
-  :hook ((prog-mode . flycheck-mode)
-         (ess-mode . flycheck-mode)))
 
 
 (leaf flycheck-pycheckers
@@ -1395,7 +1389,7 @@
 
   :after projectile company yasnippet
 
-  :hook (python-mode . lsp)
+  :hook (python-mode-hook . lsp)
 
   :bind (lsp-mode-map
          (("C-c d p" . lsp-describe-thing-at-point)
@@ -1499,7 +1493,7 @@
 
   :after python
 
-  :hook (python-mode . pipenv-mode)
+  :hook (python-mode-hook . pipenv-mode)
 
   :init
 
@@ -1570,7 +1564,7 @@
 
   :load-path "~/gitdir/sphinx-doc.el/"
 
-  :hook (python-mode . sphinx-doc-mode)
+  :hook (python-mode-hook . sphinx-doc-mode)
 
   :config
 
@@ -1613,7 +1607,7 @@
 
   :after python
 
-  :hook (python-mode . blacken-mode))
+  :hook (python-mode-hook . blacken-mode))
 
 
 ;;; PY-ISORT
@@ -1635,7 +1629,7 @@
 
   :after python
 
-  :hook (python-mode . python-docstring-mode))
+  :hook (python-mode-hook . python-docstring-mode))
 
 
 ;;; ELPY
@@ -1656,7 +1650,7 @@
   :bind (elpy-mode-map
          ("C-c C-g C-d" . elpy-goto-definition-other-window))
 
-  :hook (python-mode . elpy-mode)
+  :hook (python-mode-hook . elpy-mode)
 
   :config
 
@@ -1732,8 +1726,8 @@
 
   ;; :ensure nil
 
-  :hook ((LaTeX-mode . turn-on-reftex)
-         (LaTeX-mode . LaTeX-math-mode))
+  :hook ((LaTeX-mode-hook . turn-on-reftex)
+         (LaTeX-mode-hook . LaTeX-math-mode))
 
   :config
 
@@ -1846,7 +1840,7 @@
 ;;          ("\\.Rcpp$" . poly-R+C++-mode)
 ;;          ("\\.cppR$" . poly-C++R-mode))
 
-;;   :hook (poly-markdown-mode . display-line-numbers-mode))
+  :hook (poly-markdown-mode . display-line-numbers-mode))
 
 
 ;;; YASNIPPET
@@ -1910,10 +1904,10 @@
   ;; :ensure nil
 
   ;; Change default programs for specific files.
-  :hook ((dired-mode . (lambda () (openwith-mode 1)))
-         (message-mode . (lambda () (openwith-mode 0)))
-         (text-mode . (lambda () (openwith-mode 1)))
-         (markdown-mode . (lambda () (openwith-mode 1))))
+  :hook ((text-mode-hook . (lambda () (openwith-mode 1)))
+	 (dired-mode-hook . (lambda () (openwith-mode 1)))
+	 (message-mode-hook . (lambda () (openwith-mode 0)))
+	 (markdown-mode-hook . (lambda () (openwith-mode 1))))
 
   :config
 
