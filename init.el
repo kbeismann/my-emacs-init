@@ -160,7 +160,7 @@
 
 (setq user-full-name "Karsten Beismann")
 
-(setq-default fill-column max-columns   ; Set M-q columns.
+(setq-default fill-column my-max-columns   ; Set M-q columns.
               truncate-lines t          ; No line-wrapping
               line-spacing nil)         ; Spacing between lines.
 
@@ -990,8 +990,9 @@
 
   :config
 
-  ;; Set the max. column as defined above.
-  (setq whitespace-line-column max-columns)
+  ;; Set the max. column as defined above and delete trailing lines.
+  (setq whitespace-line-column my-max-columns
+	delete-trailing-lines t)
 
   ;; Define whitespace stylization.
   (setq whitespace-style '(face newline lines-tail trailing))
