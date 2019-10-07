@@ -170,9 +170,9 @@
 (save-place-mode 1)                 ; Save the place in files.
 (global-auto-revert-mode t)         ; Revert buffers automatically.
 
-;; Important key-bindings and shortcuts.
+;; Keybindings and shortcuts.
 (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
-(global-set-key (kbd "S-SPC") 'just-one-space) ; Unbind suspend frame.
+(global-set-key (kbd "S-SPC") 'just-one-space) ; Bind just-one-space.
 (fset 'yes-or-no-p 'y-or-n-p)                  ; y/p instead of yes/no.
 
 ;; Minor customization.
@@ -1110,9 +1110,6 @@
   ;; Images shouldn't use their actual width.
   (setq org-image-actual-width nil)
 
-  ;; Always align tags before saving.
-  (add-hook 'before-save-hook 'org-align-all-tags)
-
 
   ;; TODO AND LOGGING
 
@@ -1604,8 +1601,6 @@
 (leaf py-isort
 
   :disabled t t
-
-  ;; :ensure nil
 
   :hook (before-save-hook . py-isort-before-save))
 
