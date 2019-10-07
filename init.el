@@ -878,7 +878,7 @@
 
 (leaf whole-line-or-region
 
-  :ensure t
+  :disabled t
 
   :config
 
@@ -999,8 +999,6 @@
 (leaf whitespace
 
   :ensure t
-
-  :require t
 
   :after base16-theme
 
