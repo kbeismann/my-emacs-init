@@ -80,7 +80,7 @@
 ;; message does not get clobbered with other messages.
 
 (prog1 "Show startup time"
-  
+
   (add-hook 'emacs-startup-hook
             (lambda ()
               (message "Emacs ready in %s with %d garbage collections."
@@ -124,8 +124,8 @@
 
 ;; Load proxy settings for work.
 
-(prog1 "Load proxy if file exists"
-  
+(prog1 "Load proxy settings if file exists"
+
   (let ((proxies "~/gitdir/emacs-work/proxies.el"))
     (when (file-exists-p proxies)
       (load proxies))))
@@ -1877,9 +1877,11 @@
 
 
 ;; Only load mu4e when path to repository exists.
-(let ((mu4e-setup "~/gitdir/mu4e-setup/mu4e-setup.el"))
-  (when (file-exists-p mu4e-setup)
-    (load mu4e-setup)))
+
+(prog1 "Load mu4e setup"
+  (let ((mu4e-setup "~/gitdir/mu4e-setup/mu4e-setup.el"))
+    (when (file-exists-p mu4e-setup)
+      (load mu4e-setup))))
 
 
 ;;; OPENWITH
