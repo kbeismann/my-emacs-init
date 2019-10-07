@@ -250,34 +250,36 @@
 ;;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZE
 
 
-;; Prevent custom-file from littering the init file.
-(setq custom-file "~/.custom.el")
-(load custom-file)
+(prog1 "Backups and more"
 
-;; Abbrev options.
-(setq save-abbrevs nil                  ; Save abbrevs when files are saved.
-      save-abbrevs 'silently            ; Silent abbrevs.
-      abbrev-file-name "~/.emacs.d/abbrev_defs" ) ; Abbrevs.
+  ;; Prevent custom-file from littering the init file.
+  (setq custom-file "~/.custom.el")
+  (load custom-file)
 
-;; Disable lock-files.
-(setq create-lockfiles nil)
+  ;; Abbrev options.
+  (setq save-abbrevs nil                  ; Save abbrevs when files are saved.
+	save-abbrevs 'silently            ; Silent abbrevs.
+	abbrev-file-name "~/.emacs.d/abbrev_defs" ) ; Abbrevs.
 
-;; Backup options.
-(setq make-backup-files nil
-      backup-by-copying t               ; Don't clobber symlinks.
-      delete-old-versions t             ; Remove old versions.
-      kept-new-versions 2               ; Number of newest versions to keep.
-      kept-old-versions 2               ; Number of oldest versions to keep.
-      version-control t                 ; Use versioned backups.
-      backup-directory-alist
-      '(("." . "~/emacsauto/backups"))) ; Don't litter my fs tree.
+  ;; Disable lock-files.
+  (setq create-lockfiles nil)
 
-;; Autosave options.
-(setq auto-save-default t               ; #autosave# files.
-      auto-save-interval 300            ; Autosave every 500 characters.
-      auto-save-list-file-prefix "~/emacsauto/autosaves"
-      auto-save-file-name-transforms
-      '((".*" "~/emacsauto/autosaves" t)))
+  ;; Backup options.
+  (setq make-backup-files nil
+	backup-by-copying t               ; Don't clobber symlinks.
+	delete-old-versions t             ; Remove old versions.
+	kept-new-versions 2               ; Number of newest versions to keep.
+	kept-old-versions 2               ; Number of oldest versions to keep.
+	version-control t                 ; Use versioned backups.
+	backup-directory-alist
+	'(("." . "~/emacsauto/backups"))) ; Don't litter my fs tree.
+
+  ;; Autosave options.
+  (setq auto-save-default t               ; #autosave# files.
+	auto-save-interval 300            ; Autosave every 500 characters.
+	auto-save-list-file-prefix "~/emacsauto/autosaves"
+	auto-save-file-name-transforms
+	'((".*" "~/emacsauto/autosaves" t))))
 
 
 ;;; AUTOMATIC TIME STAMPS
