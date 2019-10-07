@@ -1406,7 +1406,7 @@
 
   :ensure t
 
-  :after projectile company yasnippet
+  :require projectile company yasnippet
 
   :hook (python-mode-hook . lsp)
 
@@ -1418,14 +1418,22 @@
 	  ("C-c d p" . lsp-describe-thing-at-point)
 	  ("C-c i m" . helm-imenu)))
 
-  :config
 
-  (setq lsp-enable-symbol-highlighting t ; Highlight symbols at point.
-        lsp-prefer-flymake nil           ; Don't use flymake by default.
-        lsp-auto-guess-root t            ; Guess the root directory if possible.
-        lsp-enable-snippet t)            ; Use Yasnippets.
-  ;; lsp-eldoc-enable-hover nil)
-  ;; lsp-eldoc-enable-signature-help nil
+  :custom ((lsp-inhibit-message . nil)
+  	   (lsp-message-project-root-warning . t)
+
+	   ;; Debugging.
+  	   (lsp-print-io          . t)
+  	   (lsp-trace             . t)
+  	   (lsp-print-performance . t)
+
+	   ;; Customization.
+  	   (lsp-enable-symbol-highlighting . t)
+  	   (lsp-prefer-flymake . nil)
+  	   (lsp-auto-guess-root . t)
+  	   (lsp-enable-snippet . nil))
+
+  :config
 
   ;; Define faces for highlighting in LSP.
   (set-face-attribute 'lsp-face-highlight-write nil :italic nil :underline nil :inherit
