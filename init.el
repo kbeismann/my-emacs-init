@@ -1400,6 +1400,13 @@
   :ensure t)
 
 
+(leaf git-timemachine
+
+  :ensure t
+
+  :bind (("C-c g t" . git-timemachine-toggle)))
+
+
 ;;; LSP
 
 
