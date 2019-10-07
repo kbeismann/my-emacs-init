@@ -466,16 +466,6 @@
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
-  
-  (require 'leaf)
-  
-  ;; (leaf leaf
-
-  ;;   :doc "Simplify Emacs configuration"
-
-  ;;   :commands leaf
-
-  ;;   :config
 
   (leaf leaf-keywords
 
@@ -501,8 +491,8 @@
 
       :ensure t)
 
-    ;; Initialize leaf-keywords.el.
-    (leaf-keywords-init)))
+    (leaf-keywords-init)
+    (message "Leaf and additional keywords initiated...")))
 
 
 ;;; AUTO-PACKAGE-UPDATE
