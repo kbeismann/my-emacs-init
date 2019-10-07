@@ -1823,22 +1823,22 @@
 ;;; POLY-MODE
 
 
-;; (leaf poly-markdown
+(leaf poly-markdown
 
-;;   :disabled t
+  :disabled t
 
-;;   ;; :ensure poly-R
+  ;; :ensure poly-R
 
-;;   :mode (("\\.md$" . poly-markdown-mode)
-;;          ("README\\.md\\'" . gfm-mode)
-;;          ("\\.Snw$" . poly-noweb+R-mode)
-;;          ("\\.Rnw$" . poly-noweb+R-mode)
-;;          ("\\.Rmd$" . poly-markdown+R-mode)
-;;          ("\\.rapport$" . poly-rapport-mode)
-;;          ("\\.Rhtml$" . poly-html+R-mode)
-;;          ("\\.Rbrew$" . poly-brew+R-mode)
-;;          ("\\.Rcpp$" . poly-R+C++-mode)
-;;          ("\\.cppR$" . poly-C++R-mode))
+  :mode (("\\.md$" . poly-markdown-mode)
+         ("README\\.md\\'" . gfm-mode)
+         ("\\.Snw$" . poly-noweb+R-mode)
+         ("\\.Rnw$" . poly-noweb+R-mode)
+         ("\\.Rmd$" . poly-markdown+R-mode)
+         ("\\.rapport$" . poly-rapport-mode)
+         ("\\.Rhtml$" . poly-html+R-mode)
+         ("\\.Rbrew$" . poly-brew+R-mode)
+         ("\\.Rcpp$" . poly-R+C++-mode)
+         ("\\.cppR$" . poly-C++R-mode))
 
   :hook (poly-markdown-mode . display-line-numbers-mode))
 
