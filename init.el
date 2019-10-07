@@ -1851,7 +1851,7 @@
 
   :config
 
-  (setq yas-snippet-revival t
+  (setq yas-snippet-revival nil
         yas-snippet-dirs (append yas-snippet-dirs
                                  '("~/gitdir/emacs-init/snippets/"))))
 
