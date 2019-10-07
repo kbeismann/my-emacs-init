@@ -493,7 +493,7 @@
       :ensure t)
 
     (leaf-keywords-init)
-    (message "Leaf and additional keywords initiated...")))
+    (message "Leaf initiated with additional keywords...")))
 
 
 ;;; AUTO-PACKAGE-UPDATE
