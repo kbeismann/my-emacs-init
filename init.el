@@ -483,6 +483,20 @@
 
     :config
 
+    (leaf el-get
+
+      :ensure t
+
+      :init
+
+      (unless (executable-find "git")
+	(warn "Git not found: el-get can't download packages."))
+
+      :custom
+
+      ((el-get-git-shallow-clone . t)
+       (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
+
     (leaf diminish
 
       :ensure t)
