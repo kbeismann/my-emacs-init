@@ -629,10 +629,8 @@
 (leaf flyspell
 
   :ensure t
-  
-  :require t
 
-  :leaf-defer nil
+  :diminish flyspell-mode
 
   :hook ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
          (text-mode-hook . (lambda() (flyspell-mode))))
@@ -1035,7 +1033,8 @@
 
   :ensure t
 
-  :commands global-flycheck-mode
+  :diminish global-flycheck-mode
+
 
 
 
@@ -1422,7 +1421,7 @@
 
   :ensure t
 
-  :after (lsp company)
+  :after lsp company
 
   :commands company-lsp
 
@@ -2007,7 +2006,9 @@
 ;; until time is up (by default it's one minute). Typit is quite similar to
 ;; the "10 fast fingers" tests.
 
-(leaf typit)
+(leaf typit
+
+  :ensure t)
 
 
 ;;; YAML-MODE
