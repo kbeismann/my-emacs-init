@@ -497,24 +497,6 @@
     (message "Leaf initiated with additional keywords...")))
 
 
-;;; AUTO-PACKAGE-UPDATE
-
-
-;; Updates packages regularly.
-
-(leaf auto-package-update
-
-  ;; :disabled t
-
-  :ensure t
-
-  :config
-
-  (setq auto-package-update-delete-old-versions t   ; Remove old files.
-        auto-package-update-hide-results nil        ; Don't hide results.
-        auto-package-update-prompt-before-update t)) ; Ask before updating.
-
-
 ;;; AUTO-COMPILE
 
 
