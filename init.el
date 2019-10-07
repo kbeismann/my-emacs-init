@@ -149,9 +149,8 @@
 (defvar my-font "Dina:pixelsize=12"	; TODO: Currently not in use.
   "My default font.")
 
-(defvar my-max-columns
-  78
-  "Predefined number of columns.")
+(defvar my-max-columns 78
+  "My predefined characters per line (CPL) limit.")
 
 
 ;;; BASIC SETTINGS
@@ -226,7 +225,7 @@
 
 ;; Font settings, dependent on the OS.
 
-(prog1 "Check OS and set appropriate font."
+(prog1 "Check OS and set appropriate font"
 
   (message "%s" "Checking OS...")
   (when (eq system-type 'gnu/linux)
