@@ -1377,18 +1377,25 @@
 
   :ensure t
 
-  :bind (("C-x g" . magit-status)
-         ("C-x M-g" . magit-dispatch)))
+  :ensure magit-todos
+
+  :bind (("C-c g s" . magit-status)
+	 ("C-c g c" . magit-clone)
+	 ("C-c g a" . magit-commit-amend)
+         ("C-c g d" . magit-dispatch)))
 
 
-;;; MAGIT-TODO
+;;; GIT FUNCTIONALITIES
 
 
-(leaf magit-todos
+(leaf gitconfig-mode
 
-  :ensure t
+  :ensure t)
 
-  :after magit)
+
+(leaf gitignore-mode
+
+  :ensure t)
 
 
 ;;; LSP
