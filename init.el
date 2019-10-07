@@ -1402,7 +1402,11 @@
 
 (leaf git-timemachine
 
+  :doc "https://gitlab.com/pidu/git-timemachine"
+
   :ensure t
+
+  :diminish git-timemachine-mode
 
   :bind (("C-c g t" . git-timemachine-toggle)))
 
