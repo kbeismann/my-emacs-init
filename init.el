@@ -1394,6 +1394,11 @@
   :ensure t)
 
 
+(leaf gitattributes-mode
+
+  :ensure t)
+
+
 ;;; LSP
 
 
