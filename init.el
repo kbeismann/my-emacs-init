@@ -1404,12 +1404,12 @@
   :hook (python-mode-hook . lsp)
 
   :bind (lsp-mode-map
-         (("C-c d p" . lsp-describe-thing-at-point)
-          ("C-c i m" . helm-imenu)
-          ("C-c f d" . lsp-find-definition)
-          ("C-c w d" . xref-find-definitions-other-window)
-          ("C-c f r" . lsp-find-references)
-          ("C-c r p" . lsp-rename)))
+	 (("C-c r p" . lsp-rename)
+	  ("C-c f r" . lsp-find-references)
+	  ("C-c f d" . lsp-find-definition)
+	  ("C-c w d" . xref-find-definitions-other-window)
+	  ("C-c d p" . lsp-describe-thing-at-point)
+	  ("C-c i m" . helm-imenu)))
 
   :config
 
