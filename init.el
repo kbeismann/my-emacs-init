@@ -1033,7 +1033,7 @@
 
   :ensure t
 
-  :diminish global-flycheck-mode
+  :diminish global-flycheck-mode flycheck-mode
 
 
   :bind (("M-n" . flycheck-next-error)
