@@ -1037,6 +1037,19 @@
 
 
 
+;;; PYTHON-MODE
+
+
+(leaf python
+
+  :ensure conda sphinx-doc python-docstring lsp-mode
+
+  :commands python-mode
+
+  :mode (("\\.py\\'" . python-mode)
+         ("\\.wsgi$" . python-mode)))
+
+
 
 (leaf flycheck-pycheckers
 
@@ -1464,23 +1477,6 @@
   ;; :ensure nil
 
   :commands helm-lsp-workspace-symbol)
-
-
-;;; PYTHON-MODE
-
-
-(leaf python
-
-  :ensure t
-
-  :after (base16-theme yasnippet)       ; To avoid color issues.
-
-  :ensure conda sphinx-doc python-docstring lsp-mode
-
-  :commands python-mode
-
-  :mode (("\\.py\\'" . python-mode)
-         ("\\.wsgi$" . python-mode)))
 
 
   ;;; PIPENV
