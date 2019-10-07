@@ -913,7 +913,9 @@
 
 (leaf parens
 
-  :init (show-paren-mode))
+  :custom ((show-paren-delay . 0.0)
+	   (show-paren-mode . t)))
+
 
 (leaf smartparens
 
