@@ -919,17 +919,21 @@
 
 (leaf smartparens
 
-  :disabled t
+  :doc "Good setup: https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
 
-  ;; :ensure nil
+  :ensure t
+
+  :leaf-defer nil
+
+  :require smartparens-config
 
   :bind ("C-c d p" . sp-unwrap-sexp)
 
-  :init
+  :custom
 
-  (progn (leaf smartparens-config)
-         (smartparens-mode 1)
-         (show-smartparens-global-mode 1)))
+  ((sp-highlight-pair-overlay . nil)
+   (smartparens-global-mode . t)))
+
 
 
 ;;; COMPANY
