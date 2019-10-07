@@ -536,7 +536,7 @@
   :config
 
   (dired-async-mode 1)
-  (async-bytecomp-package-mode 1))
+  (async-bytecomp-package-mode 0))
 
 
 ;;; DIRED
@@ -614,6 +614,13 @@
         bibtex-autokey-titlewords-stretch 1
         bibtex-autokey-titleword-length 5))
 
+
+;;; DEBUGGING INIT FILE
+
+
+(leaf bug-hunter
+
+  :ensure t)
 
 
 ;;; DICTIONARY, FLYCHECK, AND FLYSPELL
