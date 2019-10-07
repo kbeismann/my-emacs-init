@@ -240,6 +240,7 @@
     (if (string-equal "Manjaro"
 		      (substring my-os 0 7))
 	(add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
+      ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
       (when (string-equal
 	     (substring (shell-command-to-string "lsb_release -sd") 0 3)
 	     (substring "Ubun" 0 3)) ; TODO: Adjust if necessary.
