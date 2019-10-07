@@ -980,7 +980,7 @@
 
   :after base16-theme
 
-  :hook ((before-save . delete-trailing-whitespace)
+  :hook ((before-save-hook . delete-trailing-whitespace)
          (prog-mode . (lambda () (whitespace-mode 1)))
          (text-mode . (lambda () (whitespace-mode 1)))
          (conf-mode . (lambda () (whitespace-mode 1)))
@@ -1092,6 +1092,8 @@
 (leaf org
 
   :ensure t
+
+  :hook (before-save-hook . org-align-all-tags)
 
   :bind (("C-c c" . org-capture)               ; Org-capture notes.
          ("C-c a" . org-agenda)                ; Call org-agenda.
@@ -1605,7 +1607,7 @@
 
   ;; :ensure nil
 
-  :hook (before-save . py-isort-before-save))
+  :hook (before-save-hook . py-isort-before-save))
 
 
 ;;; PYTHON-DOCSTRING
