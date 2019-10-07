@@ -486,7 +486,7 @@
 
 (leaf auto-package-update
 
-  ;; :disabled
+  ;; :disabled t
 
   :ensure t
 
@@ -733,7 +733,7 @@
 ;; Use helm for BibTeX.
 (leaf helm-bibtex
 
-  :disabled
+  :disabled t
 
   :ensure t
 
@@ -897,7 +897,7 @@
 
 (leaf smartparens
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1351,7 +1351,7 @@
 
 (leaf org-journal
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1444,9 +1444,7 @@
 
 (leaf lsp-ui
 
-  :disabled
-
-  ;; :ensure nil
+  :disabled t
 
   :commands lsp-ui-mode
 
@@ -1464,7 +1462,7 @@
 
 (leaf helm-lsp
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1544,9 +1542,7 @@
 
 (leaf pycoverage
 
-  :disabled
-
-  ;; :ensure nil
+  :disabled t
 
   :after python
 
@@ -1609,9 +1605,7 @@
 
 (leaf blacken
 
-  :disabled
-
-  ;; :ensure nil
+  :disabled t
 
   :after python
 
@@ -1623,7 +1617,7 @@
 
 (leaf py-isort
 
-  :disabled
+  :disabled t t
 
   ;; :ensure nil
 
@@ -1647,9 +1641,7 @@
 
 (leaf elpy
 
-  :disabled
-
-  ;; :ensure nil
+  :disabled t
 
   :after python
 
@@ -1734,7 +1726,7 @@
 
 (leaf auctex
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1837,7 +1829,7 @@
 
 ;; (leaf poly-markdown
 
-;;   :disabled
+;;   :disabled t
 
 ;;   ;; :ensure poly-R
 
@@ -1909,7 +1901,7 @@
 
 (leaf openwith
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1956,7 +1948,7 @@
 
 (leaf gscholar-bibtex
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1973,7 +1965,7 @@
 
 (leaf org-gcal
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -1999,7 +1991,7 @@
 
 (leaf ein
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -2086,7 +2078,7 @@
 
 (leaf tramp
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
@@ -2108,7 +2100,7 @@
 
 (leaf realgud
 
-  :disabled
+  :disabled t
 
   ;; :ensure nil
 
