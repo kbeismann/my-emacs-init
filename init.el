@@ -1036,6 +1036,11 @@
   :diminish global-flycheck-mode
 
 
+  :bind (("M-n" . flycheck-next-error)
+	 ("M-p" . flycheck-previous-error))
+
+  :custom ((global-flycheck-mode . t)))
+
 
 ;;; PYTHON-MODE
 
