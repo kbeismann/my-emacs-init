@@ -170,6 +170,7 @@
 
 ;; Keybindings and shortcuts.
 (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
+(global-unset-key (kbd "M-o"))		       ; Unbind face menu.
 (global-set-key (kbd "S-SPC") 'just-one-space) ; Bind just-one-space.
 (fset 'yes-or-no-p 'y-or-n-p)                  ; y/p instead of yes/no.
 
