@@ -635,10 +635,10 @@
   :hook ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
          (text-mode-hook . (lambda() (flyspell-mode))))
 
-  :init 
+  ;; Deactivate for logs and log editing.
+  ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
+  ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
 
-  (flyspell-mode)
-  
   :config
 
   ;; HUNSPELL IS NOT USED ON MANJARO RIGHT NOW! REQUIRES ASPELL!
