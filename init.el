@@ -543,6 +543,19 @@
   (setq auth-sources '("~/.authinfo.gpg")))
 
 
+;;; ASYNC
+
+
+(leaf async
+
+  :ensure t
+
+  :config
+
+  (dired-async-mode 1)
+  (async-bytecomp-package-mode 1))
+
+
 ;;; DIRED
 
 
@@ -562,22 +575,7 @@
         dired-recursive-copies 'always  ; Always copy recursively.
         dired-hide-details-hide-symlink-targets nil ; Don't hide symlinks.
         dired-listing-switches                      ; Better columns.
-        "-lahgF --group-directories-first")) 
-
-
-;;; ASYNC
-
-
-(leaf async
-
-  :ensure t
-
-  :after dired
-
-  :config
-
-  (dired-async-mode 1)
-  (async-bytecomp-package-mode 1))
+        "-lahgF --group-directories-first"))
 
 
 ;;; ESHELL
