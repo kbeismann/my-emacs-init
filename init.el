@@ -701,7 +701,8 @@
 
   :require helm-config
 
-  ;; :ensure helm-mu
+  :diminish helm-mode
+
   ;; :ensure helm-R
 
   :bind (("M-x" . helm-M-x)
@@ -894,6 +895,8 @@
 
   :ensure t
 
+  :diminish which-key-mode
+
   :config
 
   (setq which-key-idle-delay 0.5
@@ -935,6 +938,8 @@
   :ensure t
 
   :ensure company-math
+
+  :diminish company-mode
 
   :config
 
