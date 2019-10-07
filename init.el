@@ -985,9 +985,7 @@
   :hook ((before-save-hook . delete-trailing-whitespace)
          (prog-mode . (lambda () (whitespace-mode 1)))
          (text-mode . (lambda () (whitespace-mode 1)))
-         (conf-mode . (lambda () (whitespace-mode 1)))
          (org-mode . (lambda () (whitespace-mode 0)))
-         (ess-mode . (lambda () (whitespace-mode 1)))
          (message-mode . (lambda () (whitespace-mode 0))))
 
   :config
