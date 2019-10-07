@@ -1055,6 +1055,8 @@
          ("\\.wsgi$" . python-mode)))
 
 
+;; FLYCHECK FOR PYTHON
+
 
 (leaf flycheck-pycheckers
 
@@ -1062,7 +1064,7 @@
 
   :after flycheck python
 
-  :init
+  :preface
 
   (with-eval-after-load 'flycheck
     (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
@@ -1070,16 +1072,11 @@
   :config
 
   (setq flycheck-pycheckers-multi-thread "true"
-        flycheck-pycheckers-max-line-length 88) ; Accommodate Black settings.
-
-  ;; Add linters here.
-  (setq flycheck-pycheckers-checkers
-        '(pylint flake8 mypy3 bandit))
-
-  ;; Add ignorable codes here.
-  (setq flycheck-pycheckers-ignore-codes
-        (append flycheck-pycheckers-ignore-codes
-                '("C0330" "W503" "E701" "B311"))))
+	flycheck-pycheckers-max-line-length 88 ; Follow Black guidelines.
+	flycheck-pycheckers-checkers '(pylint flake8 mypy3 bandit)
+	flycheck-pycheckers-ignore-codes (append
+					  flycheck-pycheckers-ignore-codes
+					  '("C0330" "W503" "E701" "B311"))))
 
 
 ;;; PDF-TOOLS
