@@ -1,4 +1,4 @@
-;;; init.el --- Emacs initialization file -*- coding: utf-8 -*-
+;;; init.el --- Emacs initialization file -*- lexical-binding: t -*- coding: utf-8 -*-
 
 
 ;; Copyright (C) 2018-2019 Karsten E. Beismann
