@@ -1377,8 +1377,9 @@
 
   :bind (("C-c g s" . magit-status)
 	 ("C-c g c" . magit-clone)
-	 ("C-c g a" . magit-commit-amend)
-         ("C-c g d" . magit-dispatch)))
+	 ("C-c g b" . magit-blame)
+	 ("C-c g d" . magit-dispatch)
+	 ("C-c g a" . magit-commit-amend)))
 
 
 ;;; GIT FUNCTIONALITIES
