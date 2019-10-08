@@ -212,11 +212,6 @@
        scroll-preserve-screen-position nil
        auto-window-vscroll nil)
 
-;; Better inferior mode settings: scroll down inferior with input/output.
-(setq comint-scroll-to-bottom-on-input t
-      comint-scroll-to-bottom-on-output t
-      comint-move-point-for-output t)
-
 ;; Visual changes.
 (setq default-frame-alist '((vertical-scroll-bars . nil)  ; No scroll bar.
                             (menu-bar-lines       . nil)  ; No menu bar.
@@ -1830,6 +1825,11 @@
   ;; ESS will not print the evaluated commands, also speeds up the
   ;; evaluation.
   (setq ess-eval-visibly nil)
+
+  ;; Better inferior mode settings: scroll down inferior with input/output.
+  (setq comint-scroll-to-bottom-on-input t
+	comint-scroll-to-bottom-on-output t
+	comint-move-point-for-output t)
 
   ;; Major mode font-lock.
   (setq ess-R-font-lock-keywords
