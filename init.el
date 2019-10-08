@@ -512,7 +512,7 @@
 (leaf auto-compile
 
   :ensure t
-  
+
   :preface
 
   (setq load-prefer-newer t)
@@ -818,7 +818,7 @@
 ;; Move with the power of your mind and jump to things in Emacs tree-style.
 
 (leaf avy
-  
+
   :ensure t
 
   :after base16-theme
