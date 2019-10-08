@@ -1382,7 +1382,9 @@
 
   :ensure t
 
-  :ensure magit-todos
+  :require magit-todos
+
+  :hook (magit-status-mode-hook . magit-todos-mode)
 
   :bind (("C-c g s" . magit-status)
 	 ("C-c g c" . magit-clone)
