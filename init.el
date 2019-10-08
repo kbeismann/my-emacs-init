@@ -916,6 +916,8 @@
 
   :leaf-defer nil
 
+  :diminish smartparens-mode smartparens-global-mode
+
   :require smartparens-config
 
   :bind ("C-c d p" . sp-unwrap-sexp)
@@ -998,6 +1000,8 @@
   :ensure t
 
   :after base16-theme
+
+  :diminish whitespace-mode
 
   :hook ((before-save-hook . delete-trailing-whitespace)
          (prog-mode-hook . (lambda () (whitespace-mode 1)))
