@@ -221,24 +221,12 @@
       font-lock-maximum-decoration t)   ; Decorate as much as possible.
 
 
-;; Frame settings dependent on OS.
-(when (eq system-type 'gnu/linux)
-  (when (string-equal
-         (substring (shell-command-to-string "lsb_release -sd") 0 3)
-         (substring "Ubun" 0 3))
-    (progn (add-to-list 'default-frame-alist '(height . 50))
-           (add-to-list 'default-frame-alist '(width . 200))))
-  (when (string-equal
-         (substring (shell-command-to-string "lsb_release -sd") 0 3)
-         (substring "Manj" 0 3))
-    (progn (add-to-list 'default-frame-alist '(height . 200))
-           (add-to-list 'default-frame-alist '(width . 300)))))
+;;; FONT AND FRAME SETTINGS
 
 
-;;; FONTS
+;; Font and frame settings, dependent on the OS.
 
-
-;; Font settings, dependent on the OS.
+;; TODO: Check if font is present before setting it.
 
 (prog1 "Check OS and set appropriate font"
 
@@ -253,13 +241,19 @@
     ;; Font for Manjaro.
     (if (string-equal "Manjaro"
 		      (substring my-os 0 7))
-	(add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
+	(progn (add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
+	       ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+	       (add-to-list 'default-frame-alist '(height . 50))
+	       (add-to-list 'default-frame-alist '(width . 180)))
+
       ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
       (when (string-equal
 	     (substring (shell-command-to-string "lsb_release -sd") 0 3)
 	     (substring "Ubun" 0 3)) ; TODO: Adjust if necessary.
-	(add-to-list 'default-frame-alist
-		     '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))))))
+	(progn (add-to-list 'default-frame-alist
+			    '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
+	       (add-to-list 'default-frame-alist '(height . 50))
+	       (add-to-list 'default-frame-alist '(width . 200)))))))
 
 
 ;;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZE
