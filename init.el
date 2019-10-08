@@ -545,7 +545,7 @@
   :config
 
   (dired-async-mode 1)
-  (async-bytecomp-package-mode 0))
+  (async-bytecomp-package-mode 0)) 	; Not sure if this creates issues.
 
 
 ;;; DIRED
@@ -1664,6 +1664,9 @@
 
 
 ;;; ELPY
+
+
+;; TODO: Remove at some point.
 
 
 (leaf elpy
