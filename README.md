@@ -1,5 +1,9 @@
 # Emacs initiation file
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+
+
 ## Commentary
 
 This Emacs initialization file creates my personalized version of GNU Emacs: a
