@@ -149,23 +149,25 @@
 ;; BASIC VARIABLES
 
 
-(defvar my-autosave-dir
-  (concat user-emacs-directory "autosave/")
-  "My auto-save-list directory.")
+(prog1 "Basic variables"
 
-(defvar my-backup-dir
-  (concat user-emacs-directory "backup/")
-  "My backup directory.")
+  (defvar my-autosave-dir
+    (concat user-emacs-directory "autosave/")
+    "My auto-save-list directory.")
 
-(defvar my-cache-dir
-  (concat user-emacs-directory "cache/")
-  "My storage area(cache) directory.")
+  (defvar my-backup-dir
+    (concat user-emacs-directory "backup/")
+    "My backup directory.")
 
-(defvar my-font "Dina:pixelsize=12"	; TODO: Currently not in use.
-  "My default font.")
+  (defvar my-cache-dir
+    (concat user-emacs-directory "cache/")
+    "My storage area(cache) directory.")
 
-(defvar my-max-columns 78
-  "My predefined characters per line (CPL) limit.")
+  (defvar my-font "Dina:pixelsize=12"	; TODO: Currently not in use.
+    "My default font.")
+
+  (defvar my-max-columns 78
+    "My predefined characters per line (CPL) limit."))
 
 
 ;;; BASIC SETTINGS
