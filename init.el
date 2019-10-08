@@ -538,6 +538,24 @@
   (setq auth-sources '("~/.authinfo.gpg")))
 
 
+;;; DIRED
+
+
+(leaf dired
+
+  :commands dired
+
+  :ensure async
+
+  :hook (dired-mode-hook . (lambda() (hl-line-mode 1)))
+
+  :custom ((dired-dwim-target . t)	; Better default target directory.
+	   (dired-recursive-copies . 'always)  ; Copy recursively.
+	   (dired-recursive-deletes . 'always) ; Delete recursively.
+	   (dired-hide-details-hide-symlink-targets . nil) ; Show symlinks.
+	   (dired-listing-switches . "-lahgF --group-directories-first")))
+
+
 ;;; ASYNC
 
 
@@ -549,28 +567,6 @@
 
   (dired-async-mode 1)
   (async-bytecomp-package-mode 0)) 	; Not sure if this creates issues.
-
-
-;;; DIRED
-
-
-;; I could add diredplus.
-
-(leaf dired
-
-  :commands dired
-
-  :ensure async
-
-  :hook (dired-mode-hook . (lambda() (hl-line-mode 1)))
-
-  :config
-
-  (setq dired-dwim-target t             ; Better default target directory.
-        dired-recursive-copies 'always  ; Always copy recursively.
-        dired-hide-details-hide-symlink-targets nil ; Don't hide symlinks.
-        dired-listing-switches                      ; Better columns.
-        "-lahgF --group-directories-first"))
 
 
 ;;; ESHELL
