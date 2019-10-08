@@ -596,6 +596,20 @@
 
 (leaf bibtex
 
+  :custom ((bibtex-autokey-additional-names . "_etal")
+	   (bibtex-autokey-name-separator . "_")
+	   (bibtex-autokey-names . 1)
+	   (bibtex-autokey-names-stretch . 1)
+	   (bibtex-autokey-name-length . 999)
+	   (bibtex-autokey-name-year-separator . "-")
+	   (bibtex-autokey-year-length . 4)
+	   (bibtex-autokey-year-title-separator . "-")
+	   (bibtex-autokey-titleword-separator . "_")
+	   (bibtex-autokey-titlewords . 3)
+	   (bibtex-autokey-titlewords-stretch . 1)
+	   (bibtex-autokey-titleword-length . 5))
+
+
   :config
 
   ;; Path to library only set when directory exists.
@@ -605,22 +619,9 @@
 
   (let ((path-to-bib "~/gitdir/library/bibliography.bib"))
     (when (file-exists-p path-to-bib)
-      (setq bibtex-completion-bibliography path-to-bib)))
+      (setq bibtex-completion-bibliography path-to-bib))))
 
 
-  ;; Autokey format.
-  (setq bibtex-autokey-additional-names "_etal"
-        bibtex-autokey-name-separator "_"
-        bibtex-autokey-names 1
-        bibtex-autokey-names-stretch 1
-        bibtex-autokey-name-length 999
-        bibtex-autokey-name-year-separator "-"
-        bibtex-autokey-year-length 4
-        bibtex-autokey-year-title-separator "-"
-        bibtex-autokey-titleword-separator "_"
-        bibtex-autokey-titlewords 3
-        bibtex-autokey-titlewords-stretch 1
-        bibtex-autokey-titleword-length 5))
 
 
 ;;; DEBUGGING INIT FILE
