@@ -460,7 +460,7 @@
 (prog1 "Use leaf to simplify package management"
 
   ;; Add archives and assign priorities.
-  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: remove this.
+  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: Try without and remove if possibles.
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("org" . "https://orgmode.org/elpa/")
                            ("melpa" . "https://melpa.org/packages/")
