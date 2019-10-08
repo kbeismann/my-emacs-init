@@ -1994,30 +1994,6 @@
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
 
-;;; GCAL
-
-
-(leaf org-gcal
-
-  :disabled t
-
-  ;; :ensure nil
-
-  :init
-
-  (setq package-check-signature nil)
-
-  :config
-
-  (setq org-gcal-client-id "***REMOVED***"
-	org-gcal-client-secret "***REMOVED***"
-	org-gcal-file-alist '(("***REMOVED***" . "~/gitdir/orgdir/gcal.org")))
-
-  ;; Automatic synchronization when using agenda or when capturing.
-  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
-  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
-
-
 ;;; JUPYTER NOTEBOOK
 
 
