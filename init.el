@@ -47,8 +47,8 @@
 
 ;;; Working font options:
 
-;; * Hack:
-;; ** "Hack-9" : Arch
+;; *Hack:
+;; ** "Hack-9" ; Arch
 ;; ** "Hack:pixelsize=14" ; Arch
 
 ;; * DejaVu Sans Mono:
@@ -58,10 +58,10 @@
 ;; ** "Inconsolata-11"
 ;; ** "Inconsolata:pixelsize=14" ; Arch
 
-;; *Dina:
-;; ** "Dina-9":
+;; * Dina:
+;; ** "Dina-9"
 ;; ** "Dina:pixelsize=12" ; Arch, Manjaro
-;; ** ;; "-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"
+;; ** "-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"
 
 ;; * Terminus:
 ;; ** "Terminus-12":
@@ -73,7 +73,7 @@
 
 ;;; Sources (incomplete):
 
-;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/#python
+;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/
 ;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
 ;; * https://gitlab.com/k-bps/mesk/blob/master/src/init.org
 
