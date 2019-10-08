@@ -1382,48 +1382,49 @@
 ;;; MAGIT
 
 
-(leaf magit
+(leaf *git-tools
 
-  :ensure t
+  :config
 
-  :require magit-todos
+  (leaf magit
 
-  :hook (magit-status-mode-hook . magit-todos-mode)
+    :ensure t
 
-  :bind (("C-c g s" . magit-status)
-	 ("C-c g c" . magit-clone)
-	 ("C-c g b" . magit-blame)
-	 ("C-c g d" . magit-dispatch)
-	 ("C-c g a" . magit-commit-amend)))
+    :require magit-todos
 
+    :hook (magit-status-mode-hook . magit-todos-mode)
 
-;;; GIT FUNCTIONALITIES
-
-
-(leaf gitconfig-mode
-
-  :ensure t)
+    :bind (("C-c g s" . magit-status)
+	   ("C-c g c" . magit-clone)
+	   ("C-c g b" . magit-blame)
+	   ("C-c g d" . magit-dispatch)
+	   ("C-c g a" . magit-commit-amend)))
 
 
-(leaf gitignore-mode
+  (leaf gitconfig-mode
 
-  :ensure t)
-
-
-(leaf gitattributes-mode
-
-  :ensure t)
+    :ensure t)
 
 
-(leaf git-timemachine
+  (leaf gitignore-mode
 
-  :doc "https://gitlab.com/pidu/git-timemachine"
+    :ensure t)
 
-  :ensure t
 
-  :diminish git-timemachine-mode
+  (leaf gitattributes-mode
 
-  :bind (("C-c g t" . git-timemachine-toggle)))
+    :ensure t)
+
+
+  (leaf git-timemachine
+
+    :doc "https://gitlab.com/pidu/git-timemachine"
+
+    :ensure t
+
+    :diminish git-timemachine-mode
+
+    :bind (("C-c g t" . git-timemachine-toggle))))
 
 
 ;;; LSP
