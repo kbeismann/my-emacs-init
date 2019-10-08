@@ -1,9 +1,10 @@
 ;;; init.el --- Emacs initialization file -*- lexical-binding: t -*- coding: utf-8 -*-
 
 
-;; Copyright (C) 2018-2019 Karsten E. Beismann
+;; Copyright (C) 2019 Karsten E. Beismann
 
 ;; Author: Karsten Beismann
+;; Created: Tue Sep 24 21:43:39 2019 +0200
 ;; Keywords: init emacs
 
 
@@ -28,33 +29,45 @@
 ;; This Emacs initialization file creates my personalized version of GNU
 ;; Emacs: a non-invasive editor with a minimalist design.  It highlights
 ;; relevant information only while hiding non-essential elements whenever
-;; possible.  It currently uses "leaf" to create a modular system.  Dependent
-;; on the system, the bitmap fonts have to be installed and configurated
-;; upfront.  Note that Pango removed support for bitmap fonts in version 1.33.
+;; possible.  Currently, it uses "leaf" to create a modular system.  Dependent
+;; on the system, the bitmap fonts have to be installed and configured
+;; upfront.  Note that Pango removed support for bitmap fonts with version
+;; 1.33.
 
-;; The some settings, e.g. the mu4e setup, are not part of this file.
+;; Some optional settings, e.g. my mu4e setup, are not part of this
+;; repository.
 
 
-;;; Some working font options:
+;;; Installation:
 
-;; "Hack-9":
-;; * "Hack:pixelsize=14"
+;; * Install the respective font.
+;; * Create a symbolic link or copy this file to ~/.emacs.
 
-;; "DejaVu Sans Mono-9":
-;; * "DejaVu Sans Mono-10"
 
-;; "Inconsolata-11":
-;; * "Inconsolata:pixelsize=14"
+;;; Working font options:
 
-;; "Dina-9":
-;; * "Dina:pixelsize=12"
-;; * ;; "-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"
+;; * Hack:
+;; ** "Hack-9" : Arch
+;; ** "Hack:pixelsize=14" ; Arch
 
-;; "Terminus-12":
-;; * "xos4 Terminus-10": Arch
-;; * "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
-;; * "-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*"
-;; * "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*": Ubuntu.
+;; * DejaVu Sans Mono:
+;; ** "DejaVu Sans Mono-10"; Arch
+
+;; * Inconsolata:
+;; ** "Inconsolata-11"
+;; ** "Inconsolata:pixelsize=14" ; Arch
+
+;; *Dina:
+;; ** "Dina-9":
+;; ** "Dina:pixelsize=12" ; Arch, Manjaro
+;; ** ;; "-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"
+
+;; * Terminus:
+;; ** "Terminus-12":
+;; ** "xos4 Terminus-10" ; Arch, Manjaro
+;; ** "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
+;; ** "-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*" ; Ubuntu
+;; ** "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*" ; Ubuntu
 
 
 ;;; Sources (incomplete):
@@ -62,6 +75,7 @@
 ;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/#python
 ;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
 ;; * https://gitlab.com/k-bps/mesk/blob/master/src/init.org
+
 
 ;;; To-do:
 
