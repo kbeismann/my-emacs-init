@@ -1,10 +1,11 @@
-;;; init.el --- Emacs initialization file -*- lexical-binding: t -*- coding: utf-8 -*-
+;;; init.el --- Emacs initialization file -*- lexical-binding: t; coding: utf-8 -*-
 
 
 ;; Copyright (C) 2019 Karsten E. Beismann
 
 ;; Author: Karsten Beismann
-;; Created: Tue Sep 24 21:43:39 2019 +0200
+;; Homepage: https://github.com/kbeismann/emacs-init
+;; Package-Requires: ((emacs "26.3"))
 ;; Keywords: init emacs
 
 
@@ -40,7 +41,7 @@
 
 ;;; Installation:
 
-;; * Install the respective font.
+;; * Install fonts if necessary.
 ;; * Create a symbolic link or copy this file to ~/.emacs.
 
 
@@ -79,9 +80,9 @@
 
 ;;; To-do:
 
-;; * Init file in org-mode?
-;; * Better YASnippet implementation.
-;; * Use function/package to toggle proxies.
+;; * TODO: Init file in org?
+;; * TODO: Better YASnippet implementation.
+;; * TODO: Use function/package to toggle proxies.
 
 
 ;;; Code:
