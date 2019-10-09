@@ -73,10 +73,10 @@
 
 ;;; Sources (incomplete):
 
-;; * https://github.com/rememberYou/.emacs.d/blob/master/config.org/
+;; * https://github.com/rememberYou/.emacs.d/
 ;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
 ;; * https://gitlab.com/k-bps/mesk/blob/master/src/init.org
-
+;; * https://github.com/zamansky/using-emacs
 
 ;;; To-do:
 
