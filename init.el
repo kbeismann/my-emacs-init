@@ -199,8 +199,9 @@
       large-file-warning-threshold 100000000 ; Large file warning.
       next-line-add-newlines t               ; New line when C-n.
       mouse-yank-at-point t                  ; Paste at cursor, not at mouse.
-      indent-tabs-mode nil)                  ; Always indent with spaces.
-                                        ;
+      indent-tabs-mode nil		     ; Always indent with spaces.
+      vc-follow-symlinks t)		     ;Always follow symlinks.
+
 ;; Clipboard behavior.
 ;; (setq x-select-enable-clipboard-manager nil)   ; Seems to work well.
 
