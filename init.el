@@ -812,17 +812,19 @@
   (( "M-SPC"   . avy-goto-char)
    ( "M-S-SPC" . avy-goto-char-2))
 
-  :config
+  :custom
 
-  (setq avy-background t
-        avy-all-windows t
-        avy-highlight-first t)          ; When non-nil highlight the first
+  ((avy-background . t)
+   (avy-all-windows t)
+   (avy-highlight-first t))             ; When non-nil highlight the first
                                         ; decision char with avy-lead-face-0.
                                         ; Do this even when the char is
                                         ; terminating.  Normally
                                         ; avy-lead-face-0 is only used for the
                                         ; first non-terminating decision
                                         ; chars.
+
+  :config
 
   ;; Define colors for avy:
 
@@ -929,17 +931,17 @@
 
     :diminish company-mode
 
+    :custom
+
+    ((company-dabbrev-downcase . nil)
+     (company-idle-delay . 0)
+     (company-tooltip-align-annotations . t)
+     (company-show-numbers . nil)
+     (company-minimum-prefix-length . 1))
+
     :config
 
     (global-company-mode 1)
-
-    ;; The first variable is used to skip the downcase that company does
-    ;; to the variables, the second one removes the delay.
-    (setq company-dabbrev-downcase nil
-          company-idle-delay 0
-          company-tooltip-align-annotations t
-          company-show-numbers nil
-          company-minimum-prefix-length 1)
 
     ;; Global activation of the Unicode symbol completion.
     (add-to-list 'company-backends 'company-math-symbols-unicode))
@@ -950,14 +952,16 @@
 
     :after company bibtex
 
-    :config
-
-    ;; Add backend for company-bibtex.
-    (add-to-list 'company-backends 'company-bibtex)
+    :custom
 
     ;; The regular expression matching key names alphanumeric characters,
     ;; dashes (-), and underscores (_). This is customizable via:
-    (setq company-bibtex-key-regex "[[:alnum:]+_]*")))
+    (company-bibtex-key-regex . "[[:alnum:]+_]*")
+
+    :config
+
+    ;; Add backend for company-bibtex.
+    (add-to-list 'company-backends 'company-bibtex)))
 
 
 ;; AGGRESSIVE-INDENT
