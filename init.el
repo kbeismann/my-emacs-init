@@ -169,7 +169,7 @@
       :init
 
       (unless (executable-find "git")
-	(warn "Git not found: el-get can't download packages."))
+        (warn "Git not found: el-get can't download packages."))
 
       :custom
 
@@ -441,16 +441,16 @@
     (interactive)
     (let (point)
       (save-excursion
-	(setq point
-	      (catch 'non-ascii
-		(while (not (eobp))
-		  (or (eq (char-charset (following-char))
-			  'ascii)
-		      (throw 'non-ascii (point)))
-		  (forward-char 1)))))
+        (setq point
+              (catch 'non-ascii
+                (while (not (eobp))
+                  (or (eq (char-charset (following-char))
+                          'ascii)
+                      (throw 'non-ascii (point)))
+                  (forward-char 1)))))
       (if point
-	  (goto-char point)
-	(message "No non-ASCII characters."))))
+          (goto-char point)
+        (message "No non-ASCII characters."))))
   (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
 
 
@@ -474,14 +474,14 @@
   ;; No proportional position (percentage) nor texts like "Bot", "Top" or "All".
 
   (setq mode-line-position
-	'(;; %p print percent of buffer above top of window, o Top, Bot or All.
-	  ;; (-3 "%p")
-	  ;; %I print the size of the buffer, with kmG etc.
-	  ;; (size-indication-mode ("/" (-4 "%I")))
-	  ;; " "
-	  ;; %l print the current line number.
-	  ;; %c print the current column.
-	  (line-number-mode ("%l" (column-number-mode ":%c"))))))
+        '(;; %p print percent of buffer above top of window, o Top, Bot or All.
+          ;; (-3 "%p")
+          ;; %I print the size of the buffer, with kmG etc.
+          ;; (size-indication-mode ("/" (-4 "%I")))
+          ;; " "
+          ;; %l print the current line number.
+          ;; %c print the current column.
+          (line-number-mode ("%l" (column-number-mode ":%c"))))))
 
 
 ;; AUTO-COMPILE
@@ -936,10 +936,10 @@
     ;; The first variable is used to skip the downcase that company does
     ;; to the variables, the second one removes the delay.
     (setq company-dabbrev-downcase nil
-	  company-idle-delay 0
-	  company-tooltip-align-annotations t
-	  company-show-numbers nil
-	  company-minimum-prefix-length 1)
+          company-idle-delay 0
+          company-tooltip-align-annotations t
+          company-show-numbers nil
+          company-minimum-prefix-length 1)
 
     ;; Global activation of the Unicode symbol completion.
     (add-to-list 'company-backends 'company-math-symbols-unicode))
@@ -1073,11 +1073,11 @@
   :config
 
   (setq flycheck-pycheckers-multi-thread "true"
-	flycheck-pycheckers-max-line-length 88 ; Follow Black guidelines.
-	flycheck-pycheckers-checkers '(pylint flake8 mypy3 bandit)
-	flycheck-pycheckers-ignore-codes (append
-					  flycheck-pycheckers-ignore-codes
-					  '("C0330" "W503" "E701" "B311"))))
+        flycheck-pycheckers-max-line-length 88 ; Follow Black guidelines.
+        flycheck-pycheckers-checkers '(pylint flake8 mypy3 bandit)
+        flycheck-pycheckers-ignore-codes (append
+                                          flycheck-pycheckers-ignore-codes
+                                          '("C0330" "W503" "E701" "B311"))))
 
 
 ;; PDF-TOOLS
@@ -1845,8 +1845,8 @@
 
   ;; Better inferior mode settings: scroll down inferior with input/output.
   (setq comint-scroll-to-bottom-on-input t
-	comint-scroll-to-bottom-on-output t
-	comint-move-point-for-output t)
+        comint-scroll-to-bottom-on-output t
+        comint-move-point-for-output t)
 
   ;; Major mode font-lock.
   (setq ess-R-font-lock-keywords
@@ -1962,7 +1962,6 @@
 
   ;; :ensure nil
 
-  ;; Change default programs for specific files.
   :hook
 
   ((text-mode-hook . (lambda () (openwith-mode 1)))
