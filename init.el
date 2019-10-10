@@ -494,21 +494,6 @@
     (message "Leaf initiated with additional keywords...")))
 
 
-
-
-;;; AUTOMATIC TIME STAMPS
-
-
-(leaf time-stamp
-
-  ;; :hook (write-file-hooks . time-stamp)
-
-  :custom
-
-  ((time-stamp-active . t) ; Enable time-stamping.
-   (time-stamp-format . "%04y-%02m-%02dT%02H:%02M:%02S, %u@%s"))) ; ISO time-stamping format.
-
-
 ;;; AUTO-COMPILE
 
 
