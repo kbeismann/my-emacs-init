@@ -283,7 +283,7 @@
 
   (leaf saveplace
 
-    :doc "Point goes to the last place where it was."
+    :doc "Point goes to the last place where it was"
 
     :custom
 
@@ -291,7 +291,7 @@
 
   (leaf desktop
 
-    :doc "The state of Emacs is saved from one session to another."
+    :doc "The state of Emacs is saved from one session to another"
 
     :custom
 
@@ -305,7 +305,7 @@
 
   (leaf cus-edit
 
-    :doc "Prevent customization information from littering init.el."
+    :doc "Prevent customization information from littering init.el"
 
     :custom
 
@@ -335,7 +335,7 @@
 
 (leaf *os-related-settings
 
-  :doc "Check OS and set appropriate font"
+  :doc "Check OS and set appropriate font and frame size"
 
   :config
 
@@ -407,7 +407,7 @@
 
 (leaf *line-numbering
 
-  :doc "The display-line-numbers colors can be changed by editing base16.el."
+  :doc "The display-line-numbers colors can be changed by editing base16.el"
 
   :custom
 
@@ -888,7 +888,7 @@
 
 (leaf smartparens
 
-  :doc "Good setup: https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
+  :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
 
   :ensure t
 
@@ -1401,7 +1401,7 @@
 
   (leaf git-timemachine
 
-    :doc "https://gitlab.com/pidu/git-timemachine"
+    :url "https://gitlab.com/pidu/git-timemachine"
 
     :ensure t
 
