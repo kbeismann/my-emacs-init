@@ -135,16 +135,10 @@
                                     lexical make-local)))
 
 
-;; WORK-RELATED SETTINGS
 
 
-;; Load proxy settings for work.
 
-(prog1 "Load proxy settings if file exists"
 
-  (let ((proxies "~/gitdir/emacs-work/proxies.el"))
-    (when (file-exists-p proxies)
-      (load proxies))))
 
 
 ;; BASIC VARIABLES
@@ -171,11 +165,18 @@
     "My predefined characters per line (CPL) limit."))
 
 
+;; WORK-RELATED SETTINGS
 
 
+(leaf *work-related-settings
 
+  :doc "Load work-related settings if file exists"
 
+  :config
 
+  (let ((proxies "~/gitdir/emacs-work/proxies.el"))
+    (when (file-exists-p proxies)
+      (load proxies))))
 
 
 ;;; BASIC SETTINGS
