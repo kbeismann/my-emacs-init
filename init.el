@@ -348,20 +348,20 @@
 
     ;; Font for Manjaro.
     (if (string-equal "Manjaro"
-		      (substring my-os 0 7))
-	(progn (add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
-	       ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	       (add-to-list 'default-frame-alist '(height . 50))
-	       (add-to-list 'default-frame-alist '(width . 180)))
+                      (substring my-os 0 7))
+        (progn (add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
+               ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+               (add-to-list 'default-frame-alist '(height . 50))
+               (add-to-list 'default-frame-alist '(width . 180)))
 
       ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
       (when (string-equal
-	     (substring (shell-command-to-string "lsb_release -sd") 0 3)
-	     (substring "Ubun" 0 3)) ; TODO: Adjust if necessary.
-	(progn (add-to-list 'default-frame-alist
-			    '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
-	       (add-to-list 'default-frame-alist '(height . 50))
-	       (add-to-list 'default-frame-alist '(width . 200)))))))
+             (substring (shell-command-to-string "lsb_release -sd") 0 3)
+             (substring "Ubun" 0 3)) ; TODO: Adjust if necessary.
+        (progn (add-to-list 'default-frame-alist
+                            '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
+               (add-to-list 'default-frame-alist '(height . 50))
+               (add-to-list 'default-frame-alist '(width . 200)))))))
 
 
 ;;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZE
@@ -1385,10 +1385,10 @@
     :hook (magit-status-mode-hook . magit-todos-mode)
 
     :bind (("C-c g s" . magit-status)
-	   ("C-c g c" . magit-clone)
-	   ("C-c g b" . magit-blame)
-	   ("C-c g d" . magit-dispatch)
-	   ("C-c g a" . magit-commit-amend)))
+           ("C-c g c" . magit-clone)
+           ("C-c g b" . magit-blame)
+           ("C-c g d" . magit-dispatch)
+           ("C-c g a" . magit-commit-amend)))
 
 
   (leaf gitconfig-mode
