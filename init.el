@@ -171,55 +171,66 @@
     "My predefined characters per line (CPL) limit."))
 
 
+
+
+
+
+
+
+
 ;;; BASIC SETTINGS
 
 
-(setq user-full-name "Karsten Beismann")
+(leaf *basic-settings
 
-(setq-default fill-column my-max-columns   ; Set M-q columns.
-              truncate-lines t          ; No line-wrapping
-              line-spacing nil)         ; Spacing between lines.
+  :config
 
-;; Change save and buffer updating behavior.
-(blink-cursor-mode 1)               ; Use blinking cursor.
-(desktop-save-mode 0)               ; Don't save last Emacs session.
-(save-place-mode 1)                 ; Save the place in files.
-(global-auto-revert-mode t)         ; Revert buffers automatically.
+  (setq user-full-name "Karsten Beismann")
 
-;; Keybindings and shortcuts.
-(global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
-(global-unset-key (kbd "M-o"))		       ; Unbind face menu.
-(global-set-key (kbd "S-SPC") 'just-one-space) ; Bind just-one-space.
-(fset 'yes-or-no-p 'y-or-n-p)                  ; y/p instead of yes/no.
+  (setq-default fill-column my-max-columns   ; Set M-q columns.
+		truncate-lines t          ; No line-wrapping
+		line-spacing nil)         ; Spacing between lines.
 
-;; Minor customization.
-(setq ring-bell-function 'ignore             ; No annoying bell.
-      debug-on-error t                       ; Always debug.
-      init-file-debug t                      ; Debug init file as well.
-      inhibit-startup-screen t               ; No starting screen.
-      large-file-warning-threshold 100000000 ; Large file warning.
-      next-line-add-newlines t               ; New line when C-n.
-      mouse-yank-at-point t                  ; Paste at cursor, not at mouse.
-      indent-tabs-mode nil		     ; Always indent with spaces.
-      vc-follow-symlinks t)		     ;Always follow symlinks.
+  ;; Change save and buffer updating behavior.
+  (blink-cursor-mode 1)               ; Use blinking cursor.
+  (desktop-save-mode 0)               ; Don't save last Emacs session.
+  (save-place-mode 1)                 ; Save the place in files.
+  (global-auto-revert-mode t)         ; Revert buffers automatically.
 
-;; Clipboard behavior.
-;; (setq x-select-enable-clipboard-manager nil)   ; Seems to work well.
+  ;; Keybindings and shortcuts.
+  (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
+  (global-unset-key (kbd "M-o"))		       ; Unbind face menu.
+  (global-set-key (kbd "S-SPC") 'just-one-space) ; Bind just-one-space.
+  (fset 'yes-or-no-p 'y-or-n-p)                  ; y/p instead of yes/no.
 
-;; (setq tab-always-indent 'complete) ; Use Tab to Indent or Complete.
+  ;; Minor customization.
+  (setq ring-bell-function 'ignore             ; No annoying bell.
+	debug-on-error t                       ; Always debug.
+	init-file-debug t                      ; Debug init file as well.
+	inhibit-startup-screen t               ; No starting screen.
+	large-file-warning-threshold 100000000 ; Large file warning.
+	next-line-add-newlines t               ; New line when C-n.
+	mouse-yank-at-point t                  ; Paste at cursor, not at mouse.
+	indent-tabs-mode nil		     ; Always indent with spaces.
+	vc-follow-symlinks t)		     ;Always follow symlinks.
 
-;; Better scrolling behavior.
-(setq  scroll-margin 0
-       scroll-conservatively 10000
-       scroll-preserve-screen-position nil
-       auto-window-vscroll nil)
+  ;; Clipboard behavior.
+  ;; (setq x-select-enable-clipboard-manager nil)   ; Seems to work well.
 
-;; Visual changes.
-(setq default-frame-alist '((vertical-scroll-bars . nil)  ; No scroll bar.
-                            (menu-bar-lines       . nil)  ; No menu bar.
-                            (tool-bar-lines       . nil)) ; No tool bar.
-      font-lock-maximum-decoration t)   ; Decorate as much as possible.
+  ;; (setq tab-always-indent 'complete) ; Use Tab to Indent or Complete.
 
+  ;; Better scrolling behavior.
+  (setq  scroll-margin 0
+	 scroll-conservatively 10000
+	 scroll-preserve-screen-position nil
+	 auto-window-vscroll nil)
+
+  ;; Visual changes.
+  (setq default-frame-alist '((vertical-scroll-bars . nil)  ; No scroll bar.
+			      (menu-bar-lines       . nil)  ; No menu bar.
+			      (tool-bar-lines       . nil)) ; No tool bar.
+	font-lock-maximum-decoration t)   ; Decorate as much as possible.
+  )
 
 ;;; FONT AND FRAME SETTINGS
 
