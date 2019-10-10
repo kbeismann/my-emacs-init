@@ -1042,20 +1042,19 @@
 
   (pdf-loader-install)
 
-  :bind (pdf-view-mode-map
-         ("C-s" . isearch-forward))
+  :bind
+
+  (pdf-view-mode-map
+   ("C-s" . isearch-forward))
+
+  :custom
+
+  ((pdf-view-display-size . 'fit-page)
+   (pdf-annot-activate-created-annotations . t))
 
   :config
 
-  ;; Initialize.
-  ;; (pdf-loader-install)
-
-  ;; Open PDFs scaled to fit page.
-  ;; (setq-default pdf-view-display-size 'fit-page)
-
-  ;; Automatically annotate highlights.
-  ;; (setq pdf-annot-activate-created-annotations t)
-  )
+  (pdf-loader-install))
 
 
 ;;; ORG-MODE
