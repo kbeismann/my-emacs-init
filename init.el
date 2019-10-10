@@ -237,7 +237,7 @@
 
   (("M-o". nil)                          ; Unbind face menu.
    ("C-x C-z" . nil)                     ; Unbind suspend frame.
-   ("S-SPC" . 'just-one-space))           ; Bind just-one-space.
+   ("S-SPC" . just-one-space))           ; Bind just-one-space.
 
 
   :custom
@@ -278,6 +278,8 @@
    (init-file-debug . t ))
 
   :config
+
+  (fset 'yes-or-no-p 'y-or-n-p)                  ; y/n instead of yes/no.
 
   (leaf saveplace
 
@@ -321,8 +323,6 @@
 
     ((auto-revert-interval . 5)
      (global-auto-revert-mode . t)))
-
-  (fset 'yes-or-no-p 'y-or-n-p))                  ; y/p instead of yes/no.
 
 
 
