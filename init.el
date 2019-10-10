@@ -1071,7 +1071,9 @@
   (("M-n" . flycheck-next-error)
    ("M-p" . flycheck-previous-error))
 
-  :custom ((global-flycheck-mode . t)))
+  :custom
+
+  ((global-flycheck-mode . t)))
 
 
 ;;; PYTHON-MODE
@@ -1423,11 +1425,13 @@
 
     (magit-status-mode-hook . magit-todos-mode)
 
-    :bind (("C-c g s" . magit-status)
-           ("C-c g c" . magit-clone)
-           ("C-c g b" . magit-blame)
-           ("C-c g d" . magit-dispatch)
-           ("C-c g a" . magit-commit-amend)))
+    :bind
+
+    (("C-c g s" . magit-status)
+     ("C-c g c" . magit-clone)
+     ("C-c g b" . magit-blame)
+     ("C-c g d" . magit-dispatch)
+     ("C-c g a" . magit-commit-amend)))
 
 
   (leaf gitconfig-mode
@@ -1946,7 +1950,9 @@
    ("\\.Rcpp$" . poly-R+C++-mode)
    ("\\.cppR$" . poly-C++R-mode))
 
-  :hook (poly-markdown-mode . display-line-numbers-mode))
+  :hook
+
+  (poly-markdown-mode . display-line-numbers-mode))
 
 
 ;;; YASNIPPET
