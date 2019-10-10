@@ -532,13 +532,17 @@
 
   :ensure async
 
-  :hook (dired-mode-hook . (lambda() (hl-line-mode 1)))
+  :hook
 
-  :custom ((dired-dwim-target . t)	; Better default target directory.
-	   (dired-recursive-copies . 'always)  ; Copy recursively.
-	   (dired-recursive-deletes . 'always) ; Delete recursively.
-	   (dired-hide-details-hide-symlink-targets . nil) ; Show symlinks.
-	   (dired-listing-switches . "-lahgF --group-directories-first")))
+  (dired-mode-hook . (lambda() (hl-line-mode 1)))
+
+  :custom
+
+  ((dired-dwim-target . t)              ; Better default target directory.
+   (dired-recursive-copies . 'always)   ; Copy recursively.
+   (dired-recursive-deletes . 'always)  ; Delete recursively.
+   (dired-hide-details-hide-symlink-targets . nil) ; Show symlinks.
+   (dired-listing-switches . "-lahgF --group-directories-first")))
 
 
 ;;; ASYNC
@@ -563,9 +567,13 @@
 
   :commands eshell
 
-  :bind ("C-z" . eshell)
+  :bind
 
-  :hook (eshell-mode-hook . my-eshell-remove-pcomplete)
+  ("C-z" . eshell)
+
+  :hook
+
+  (eshell-mode-hook . my-eshell-remove-pcomplete)
 
   :config
 
@@ -581,18 +589,20 @@
 
 (leaf bibtex
 
-  :custom ((bibtex-autokey-additional-names . "_etal")
-	   (bibtex-autokey-name-separator . "_")
-	   (bibtex-autokey-names . 1)
-	   (bibtex-autokey-names-stretch . 1)
-	   (bibtex-autokey-name-length . 999)
-	   (bibtex-autokey-name-year-separator . "-")
-	   (bibtex-autokey-year-length . 4)
-	   (bibtex-autokey-year-title-separator . "-")
-	   (bibtex-autokey-titleword-separator . "_")
-	   (bibtex-autokey-titlewords . 3)
-	   (bibtex-autokey-titlewords-stretch . 1)
-	   (bibtex-autokey-titleword-length . 5))
+  :custom
+
+  ((bibtex-autokey-additional-names . "_etal")
+   (bibtex-autokey-name-separator . "_")
+   (bibtex-autokey-names . 1)
+   (bibtex-autokey-names-stretch . 1)
+   (bibtex-autokey-name-length . 999)
+   (bibtex-autokey-name-year-separator . "-")
+   (bibtex-autokey-year-length . 4)
+   (bibtex-autokey-year-title-separator . "-")
+   (bibtex-autokey-titleword-separator . "_")
+   (bibtex-autokey-titlewords . 3)
+   (bibtex-autokey-titlewords-stretch . 1)
+   (bibtex-autokey-titleword-length . 5))
 
 
   :config
@@ -626,8 +636,10 @@
 
   :diminish flyspell-mode
 
-  :hook ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
-         (text-mode-hook . (lambda() (flyspell-mode))))
+  :hook
+
+  ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
+   (text-mode-hook . (lambda() (flyspell-mode))))
 
   ;; Deactivate for logs and log editing.
   ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
@@ -682,20 +694,22 @@
 
     :diminish helm-mode
 
-  :bind (("M-x" . helm-M-x)
-         ("C-s" . helm-occur)
-         ("C-x b" . helm-mini)
-         ("C-x C-f" . helm-find-files)
-         ("M-y" . helm-show-kill-ring)
-         ("C-c h" . helm-command-prefix)
-         (helm-command-map
-          ("l" . helm-locate)
-          ("s" . helm-surfraw)
-          ("r" . helm-regexp)
-          ("m" . helm-multi-files)
-          ("a" . helm-apropos)))
     ;; :ensure helm-R
 
+    :bind
+
+    (("M-x" . helm-M-x)
+     ("C-s" . helm-occur)
+     ("C-x b" . helm-mini)
+     ("C-x C-f" . helm-find-files)
+     ("M-y" . helm-show-kill-ring)
+     ("C-c h" . helm-command-prefix)
+     (helm-command-map
+      ("l" . helm-locate)
+      ("s" . helm-surfraw)
+      ("r" . helm-regexp)
+      ("m" . helm-multi-files)
+      ("a" . helm-apropos)))
 
     :init
 
@@ -738,8 +752,10 @@
 
     :after helm bibtex
 
-    :bind (helm-command-map
-           ("b". helm-bibtex))))
+    :bind
+
+    (helm-command-map
+     ("b". helm-bibtex))))
 
 
 ;;; SET COLOR THEME
@@ -758,7 +774,8 @@
   (load-theme 'base16-zenburn 1)
 
   ;; Replace the name of the theme if necessary.
-  (progn
+  (prog1 "Create a variable for each color"
+
     (defvar base00-prop (nth 01 base16-zenburn-colors))
     (defvar base01-prop (nth 03 base16-zenburn-colors))
     (defvar base02-prop (nth 05 base16-zenburn-colors))
@@ -813,8 +830,10 @@
 
   :after base16-theme
 
-  :bind (( "M-SPC"   . avy-goto-char)
-         ( "M-S-SPC" . avy-goto-char-2))
+  :bind
+
+  (( "M-SPC"   . avy-goto-char)
+   ( "M-S-SPC" . avy-goto-char-2))
 
   :config
 
@@ -894,8 +913,10 @@
 
 (leaf parens
 
-  :custom ((show-paren-delay . 0.0)
-	   (show-paren-mode . t)))
+  :custom
+
+  ((show-paren-delay . 0.0)
+   (show-paren-mode . t)))
 
 
 (leaf smartparens
@@ -910,7 +931,9 @@
 
   :require smartparens-config
 
-  :bind ("C-c d p" . sp-unwrap-sexp)
+  :bind
+
+  ("C-c d p" . sp-unwrap-sexp)
 
   :custom
 
@@ -993,17 +1016,19 @@
 
   :diminish whitespace-mode
 
-  :hook ((before-save-hook . delete-trailing-whitespace)
-         (prog-mode-hook . (lambda () (whitespace-mode 1)))
-         (text-mode-hook . (lambda () (whitespace-mode 1)))
-         (org-mode-hook . (lambda () (whitespace-mode 0)))
-         (message-mode-hook . (lambda () (whitespace-mode 0))))
+  :hook
+
+  ((before-save-hook . delete-trailing-whitespace)
+   (prog-mode-hook . (lambda () (whitespace-mode 1)))
+   (text-mode-hook . (lambda () (whitespace-mode 1)))
+   (org-mode-hook . (lambda () (whitespace-mode 0)))
+   (message-mode-hook . (lambda () (whitespace-mode 0))))
 
   :config
 
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns
-	delete-trailing-lines t)
+        delete-trailing-lines t)
 
   ;; Define whitespace stylization.
   (setq whitespace-style '(face newline lines-tail trailing))
@@ -1022,11 +1047,13 @@
 
   :ensure t
 
-  :bind (("C-S-c C-S-c" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this)
-         ("C-c C->" . mc/mark-all-like-this)))
+  :bind
+
+  (("C-S-c C-S-c" . mc/edit-lines)
+   ("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)
+   ("C-c C->" . mc/mark-all-like-this)))
 
 
 ;;; FLYCHECK
@@ -1039,8 +1066,10 @@
   :diminish global-flycheck-mode flycheck-mode
 
 
-  :bind (("M-n" . flycheck-next-error)
-	 ("M-p" . flycheck-previous-error))
+  :bind
+
+  (("M-n" . flycheck-next-error)
+   ("M-p" . flycheck-previous-error))
 
   :custom ((global-flycheck-mode . t)))
 
@@ -1121,6 +1150,7 @@
     :preface
 
     (prog1 "Key bindings for org"
+
       (global-set-key (kbd "C-c a") 'org-agenda)
       (global-set-key (kbd "C-c c") 'org-capture)
       (global-set-key (kbd "C-c l") 'org-store-link)
@@ -1175,10 +1205,10 @@
 
      ;; To-do settings.
      (org-todo-keywords . '((sequence "TODO(t)"
-				      "IN_PROGRESS(i)"
-				      "GET_FEEDBACK(f)"
-				      "|"
-				      "DONE(d)")))
+                                      "IN_PROGRESS(i)"
+                                      "GET_FEEDBACK(f)"
+                                      "|"
+                                      "DONE(d)")))
      (org-hierarchical-todo-statistics . nil)
 
      ;; Logging.
@@ -1199,7 +1229,7 @@
     (defun org-summary-todo (n-done n-not-done)
       "Switch entry to DONE when all subentries are done, to TODO otherwise."
       (let (org-log-done-with-time org-log-states)   ; turn off logging
-	(org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+        (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
 
     ;; FORMATTING
@@ -1207,7 +1237,7 @@
 
     ;; Always insert blank line before headings.
     (setq org-blank-before-new-entry '((heading . auto)
-				       (plain-list-item . auto)))
+                                       (plain-list-item . auto)))
 
 
 
@@ -1218,53 +1248,53 @@
 
     ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
     (setq org-refile-targets '((nil :maxlevel . 9)
-			       (org-agenda-files :maxlevel . 9))
-	  org-refile-use-outline-path 'file
-	  org-outline-path-complete-in-steps nil
-	  org-refile-allow-creating-parent-nodes 'confirm)
+                               (org-agenda-files :maxlevel . 9))
+          org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps nil
+          org-refile-allow-creating-parent-nodes 'confirm)
 
 
     ;; ORG-CAPTURE-TEMPLATES
 
     (setq org-capture-templates
-	  '(;; Key, name, type, target, template, options.
-	    ("n" "Save Note" entry
-	     (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
-	     "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-	     :empty-lines 1
-	     :prepend 1)
+          '(;; Key, name, type, target, template, options.
+            ("n" "Save Note" entry
+             (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+             "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+             :empty-lines 1
+             :prepend 1)
 
-	    ;; Key, name, type, target, template, options.
-	    ("u" "Store URL" entry
-	     (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
-	     "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-	     :empty-lines 1
-	     :prepend 1)
+            ;; Key, name, type, target, template, options.
+            ("u" "Store URL" entry
+             (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+             "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+             :empty-lines 1
+             :prepend 1)
 
-	    ;; --- TEMPLATES FOR MY TO-DO LIST ---
+            ;; --- TEMPLATES FOR MY TO-DO LIST ---
 
-	    ("m" "My list")
+            ("m" "My list")
 
-	    ;; Key, name, type, target, template, options.
-	    ("mt" "TODO" entry
-	     (file "~/gitdir/orgdir/todo.org")
-	     "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-	     :empty-lines 1
-	     :prepend 1)
+            ;; Key, name, type, target, template, options.
+            ("mt" "TODO" entry
+             (file "~/gitdir/orgdir/todo.org")
+             "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+             :empty-lines 1
+             :prepend 1)
 
-	    ;; Key, name, type, target, template, options.
-	    ("ms" "Edit/fix script" entry
-	     (file "~/gitdir/orgdir/todo.org")
-	     "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
-	     :empty-lines 1
-	     :prepend 1)
+            ;; Key, name, type, target, template, options.
+            ("ms" "Edit/fix script" entry
+             (file "~/gitdir/orgdir/todo.org")
+             "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
+             :empty-lines 1
+             :prepend 1)
 
-	    ;; Key, name, type, target, template, options.
-	    ("mc" "Save URL and check later" entry
-	     (file "~/gitdir/orgdir/todo.org")
-	     "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-	     :empty-lines 1
-	     :prepend 1)))
+            ;; Key, name, type, target, template, options.
+            ("mc" "Save URL and check later" entry
+             (file "~/gitdir/orgdir/todo.org")
+             "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+             :empty-lines 1
+             :prepend 1)))
 
     ;; Don't confirm before evaluating.
     (setq org-confirm-babel-evaluate nil)
@@ -1281,18 +1311,18 @@
 
     ;; Better source block behavior.
     (setq org-src-preserve-indentation t
-	  org-edit-src-content-indentation 0)
+          org-edit-src-content-indentation 0)
 
     ;; Highlight code in code blocks in native language, also use TAB as
     ;; in native language.
     (setq org-src-fontify-natively t
-	  org-src-tab-acts-natively t)
+          org-src-tab-acts-natively t)
 
     ;; Change font size for LaTeX previews.
     (setq org-format-latex-options
-	  (plist-put org-format-latex-options :scale 1.5))
+          (plist-put org-format-latex-options :scale 1.5))
     (setq org-format-latex-options
-	  (plist-put org-format-latex-options :html-scale 1.5))
+          (plist-put org-format-latex-options :html-scale 1.5))
 
     (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
@@ -1306,16 +1336,18 @@
 
     :after org
 
-    :bind (bibtex-mode-map
-	   ("C-c C-c" . org-ref-clean-bibtex-entry))
+    :bind
+
+    (bibtex-mode-map
+     ("C-c C-c" . org-ref-clean-bibtex-entry))
 
     :init
 
     (progn
       (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
       (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
-	    org-ref-bibliography-notes "~/gitdir/library/notes.org"
-	    org-ref-pdf-directory "~/gitdir/library/archive/")
+            org-ref-bibliography-notes "~/gitdir/library/notes.org"
+            org-ref-pdf-directory "~/gitdir/library/archive/")
 
       ;; Add "bibtex %b" to enable bibtex export.
       (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
@@ -1387,7 +1419,9 @@
 
     :require magit-todos
 
-    :hook (magit-status-mode-hook . magit-todos-mode)
+    :hook
+
+    (magit-status-mode-hook . magit-todos-mode)
 
     :bind (("C-c g s" . magit-status)
            ("C-c g c" . magit-clone)
@@ -1419,7 +1453,9 @@
 
     :diminish git-timemachine-mode
 
-    :bind (("C-c g t" . git-timemachine-toggle))))
+    :bind
+
+    (("C-c g t" . git-timemachine-toggle))))
 
 
 ;;; LSP
@@ -1431,30 +1467,36 @@
 
   :require projectile company yasnippet
 
-  :hook (python-mode-hook . lsp)
+  :hook
 
-  :bind (lsp-mode-map
-	 (("C-c r p" . lsp-rename)
-	  ("C-c f r" . lsp-find-references)
-	  ("C-c f d" . lsp-find-definition)
-	  ("C-c w d" . xref-find-definitions-other-window)
-	  ("C-c d p" . lsp-describe-thing-at-point)
-	  ("C-c i m" . helm-imenu)))
+  (python-mode-hook . lsp)
+
+  :bind
+
+  (lsp-mode-map
+   (("C-c r p" . lsp-rename)
+    ("C-c f r" . lsp-find-references)
+    ("C-c f d" . lsp-find-definition)
+    ("C-c w d" . xref-find-definitions-other-window)
+    ("C-c d p" . lsp-describe-thing-at-point)
+    ("C-c i m" . helm-imenu)))
 
 
-  :custom ((lsp-inhibit-message . nil)
-  	   (lsp-message-project-root-warning . t)
+  :custom
 
-	   ;; Debugging.
-  	   (lsp-print-io          . t)
-  	   (lsp-trace             . t)
-  	   (lsp-print-performance . t)
+  ((lsp-inhibit-message . nil)
+   (lsp-message-project-root-warning . t)
 
-	   ;; Customization.
-  	   (lsp-enable-symbol-highlighting . t)
-  	   (lsp-prefer-flymake . nil)
-  	   (lsp-auto-guess-root . t)
-  	   (lsp-enable-snippet . nil))
+   ;; Debugging.
+   (lsp-print-io          . t)
+   (lsp-trace             . t)
+   (lsp-print-performance . t)
+
+   ;; Customization.
+   (lsp-enable-symbol-highlighting . t)
+   (lsp-prefer-flymake . nil)
+   (lsp-auto-guess-root . t)
+   (lsp-enable-snippet . nil))
 
   :config
 
@@ -1496,7 +1538,9 @@
 
   :commands lsp-ui-mode
 
-  :hook (lsp . lsp-ui-mode)
+  :hook
+
+  (lsp . lsp-ui-mode)
 
   :config
 
@@ -1526,7 +1570,9 @@
 
   :after python
 
-  :hook (python-mode-hook . pipenv-mode)
+  :hook
+
+  (python-mode-hook . pipenv-mode)
 
   :init
 
@@ -1545,14 +1591,16 @@
 
   :after python
 
-  :bind (python-mode-map
-         ("C-c t p t" . python-pytest)
-         ("C-c t p p" . python-pytest-popup)
-         ("C-c t p f" . python-pytest-file)
-         ("C-c t p F" . python-pytest-file-dwim)
-         ("C-c t p d" . python-pytest-function)
-         ("C-c t p D" . python-pytest-function-dwim)
-         ("C-c t p l" . python-pytest-last-failed))
+  :bind
+
+  (python-mode-map
+   ("C-c t p t" . python-pytest)
+   ("C-c t p p" . python-pytest-popup)
+   ("C-c t p f" . python-pytest-file)
+   ("C-c t p F" . python-pytest-file-dwim)
+   ("C-c t p d" . python-pytest-function)
+   ("C-c t p D" . python-pytest-function-dwim)
+   ("C-c t p l" . python-pytest-last-failed))
 
   :custom
 
@@ -1597,7 +1645,9 @@
 
   :load-path "~/gitdir/sphinx-doc.el/"
 
-  :hook (python-mode-hook . sphinx-doc-mode)
+  :hook
+
+  (python-mode-hook . sphinx-doc-mode)
 
   :config
 
@@ -1640,7 +1690,9 @@
 
   :after python
 
-  :hook (python-mode-hook . blacken-mode))
+  :hook
+
+  (python-mode-hook . blacken-mode))
 
 
 ;;; PY-ISORT
@@ -1650,7 +1702,9 @@
 
   :disabled t t
 
-  :hook (before-save-hook . py-isort-before-save))
+  :hook
+
+  (before-save-hook . py-isort-before-save))
 
 
 ;;; PYTHON-DOCSTRING
@@ -1662,7 +1716,9 @@
 
   :after python
 
-  :hook (python-mode-hook . python-docstring-mode))
+  :hook
+
+  (python-mode-hook . python-docstring-mode))
 
 
 ;;; ELPY
@@ -1670,23 +1726,26 @@
 
 ;; TODO: Remove at some point.
 
-
 (leaf elpy
 
   :disabled t
 
   :after python
 
-  :init
+  :init                                 ; TODO: Move down.
 
   ;; If elpy-enable is off, enable elpy.
   (when (require 'elpy nil t)
     (elpy-enable))
 
-  :bind (elpy-mode-map
-         ("C-c C-g C-d" . elpy-goto-definition-other-window))
+  :bind
 
-  :hook (python-mode-hook . elpy-mode)
+  (elpy-mode-map
+   ("C-c C-g C-d" . elpy-goto-definition-other-window))
+
+  :hook
+
+  (python-mode-hook . elpy-mode)
 
   :config
 
@@ -1710,6 +1769,8 @@
   ;; Add Company-jedi to python-mode.
   (add-hook 'elpy-mode-hook
             (lambda () (add-to-list 'company-backends 'company-jedi)))
+
+  ;; TODO: Remove clutter.
 
   ;; Jedi settings.
   ;; (defun my/python-mode-hook ()
@@ -1762,8 +1823,10 @@
 
   ;; :ensure nil
 
-  :hook ((LaTeX-mode-hook . turn-on-reftex)
-         (LaTeX-mode-hook . LaTeX-math-mode))
+  :hook
+
+  ((LaTeX-mode-hook . turn-on-reftex)
+   (LaTeX-mode-hook . LaTeX-math-mode))
 
   :config
 
@@ -1870,16 +1933,18 @@
 
   ;; :ensure poly-R
 
-  :mode (("\\.md$" . poly-markdown-mode)
-         ("README\\.md\\'" . gfm-mode)
-         ("\\.Snw$" . poly-noweb+R-mode)
-         ("\\.Rnw$" . poly-noweb+R-mode)
-         ("\\.Rmd$" . poly-markdown+R-mode)
-         ("\\.rapport$" . poly-rapport-mode)
-         ("\\.Rhtml$" . poly-html+R-mode)
-         ("\\.Rbrew$" . poly-brew+R-mode)
-         ("\\.Rcpp$" . poly-R+C++-mode)
-         ("\\.cppR$" . poly-C++R-mode))
+  :mode                                 ; TODO: Sort this.
+
+  (("\\.md$" . poly-markdown-mode)
+   ("README\\.md\\'" . gfm-mode)
+   ("\\.Snw$" . poly-noweb+R-mode)
+   ("\\.Rnw$" . poly-noweb+R-mode)
+   ("\\.Rmd$" . poly-markdown+R-mode)
+   ("\\.rapport$" . poly-rapport-mode)
+   ("\\.Rhtml$" . poly-html+R-mode)
+   ("\\.Rbrew$" . poly-brew+R-mode)
+   ("\\.Rcpp$" . poly-R+C++-mode)
+   ("\\.cppR$" . poly-C++R-mode))
 
   :hook (poly-markdown-mode . display-line-numbers-mode))
 
@@ -1893,8 +1958,10 @@
 
   :ensure yasnippet-snippets
 
-  :bind (("C-c y" . yas-insert-snippet)
-         ("C-c v" . yas-visit-snippet-file))
+  :bind
+
+  (("C-c y" . yas-insert-snippet)
+   ("C-c v" . yas-visit-snippet-file))
 
   :init
 
@@ -1945,10 +2012,12 @@
   ;; :ensure nil
 
   ;; Change default programs for specific files.
-  :hook ((text-mode-hook . (lambda () (openwith-mode 1)))
-	 (dired-mode-hook . (lambda () (openwith-mode 1)))
-	 (message-mode-hook . (lambda () (openwith-mode 0)))
-	 (markdown-mode-hook . (lambda () (openwith-mode 1))))
+  :hook
+
+  ((text-mode-hook . (lambda () (openwith-mode 1)))
+   (dired-mode-hook . (lambda () (openwith-mode 1)))
+   (message-mode-hook . (lambda () (openwith-mode 0)))
+   (markdown-mode-hook . (lambda () (openwith-mode 1))))
 
   :config
 
@@ -2036,8 +2105,10 @@
 
   :config
 
-  :bind (yaml-mode-map
-         ("\C-m" . newline-and-indent)))
+  :bind
+
+  (yaml-mode-map
+   ("\C-m" . newline-and-indent)))
 
 
 ;;; CSV-MODE
@@ -2077,7 +2148,9 @@
 
   :ensure helm-projectile
 
-  :bind ("C-c p" . projectile-command-map)
+  :bind
+
+  ("C-c p" . projectile-command-map)
 
   :init
 
@@ -2103,7 +2176,9 @@
 
   :after helm
 
-  :bind ("C-c t h" . helm-tramp)
+  :bind
+
+  ("C-c t h" . helm-tramp)
 
   :config
 
