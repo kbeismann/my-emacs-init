@@ -314,16 +314,12 @@
 ;;; LINE NUMBERING
 
 
-;; The display-line-numbers colors can be changed by editing base16.el
 
-;; Enable line numbers in prog-mode.
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(leaf *line-numbering
 
-;; Configure the line numbers on the left.
-(setq-default display-line-numbers nil      ; Don't show line numbers.
-              display-line-numbers-width 4  ; Default width.
-              display-line-numbers-widen t) ; Don't disregard narrowing.
+  :doc "The display-line-numbers colors can be changed by editing base16.el."
 
+  :custom
 
 ;;; MISC. FUNCTIONS
 
@@ -355,31 +351,16 @@
 (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char)
 
 
-;;; MODE LINE
+  ((display-line-numbers . nil)		; No line numbers (prog-mode only).
+   (display-line-numbers-width . 4)	; Default width.
+   (display-line-numbers-widen . t))	; Don't disregard narrowing.
+
+  :config
+
+  ;; Only enable line numbers in prog-mode.
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 
 
-;; These options have to be included in mode-line-format as well.
-(column-number-mode 1)                  ; Show column number.
-(line-number-mode 1)                    ; Show line number in mode line.
-
-
-;;; SIMPLIFY THE CURSOR POSITION
-
-;; Source:
-
-;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
-
-;; No proportional position (percentage) nor texts like "Bot", "Top" or "All".
-
-(setq mode-line-position
-      '(;; %p print percent of buffer above top of window, o Top, Bot or All.
-        ;; (-3 "%p")
-        ;; %I print the size of the buffer, with kmG etc.
-        ;; (size-indication-mode ("/" (-4 "%I")))
-        ;; " "
-        ;; %l print the current line number.
-        ;; %c print the current column.
-        (line-number-mode ("%l" (column-number-mode ":%c")))))
 
 
 ;;; LEAF SETUP
@@ -409,29 +390,47 @@
   (leaf leaf-keywords
 
     :ensure t
+;;; MODE LINE
 
     :config
 
     (leaf el-get
+(leaf *mode-line-settings
 
       :ensure t
 
       :init
+  ;; These options have to be included in mode-line-format as well.
+  (column-number-mode 1)                  ; Show column number.
+  (line-number-mode 1)                    ; Show line number in mode line.
 
       (unless (executable-find "git")
 	(warn "Git not found: el-get can't download packages."))
 
       :custom
+;;; SIMPLIFY THE CURSOR POSITION
 
       ((el-get-git-shallow-clone . t)
        (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
+  ;; Source:
 
     (leaf diminish
+  ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
 
       :ensure t)
+  ;; No proportional position (percentage) nor texts like "Bot", "Top" or "All".
 
     (leaf-keywords-init)
     (message "Leaf initiated with additional keywords...")))
+  (setq mode-line-position
+	'(;; %p print percent of buffer above top of window, o Top, Bot or All.
+	  ;; (-3 "%p")
+	  ;; %I print the size of the buffer, with kmG etc.
+	  ;; (size-indication-mode ("/" (-4 "%I")))
+	  ;; " "
+	  ;; %l print the current line number.
+	  ;; %c print the current column.
+	  (line-number-mode ("%l" (column-number-mode ":%c"))))))
 
 
 ;;; AUTO-COMPILE
