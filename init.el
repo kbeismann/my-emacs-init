@@ -321,36 +321,6 @@
 
   :custom
 
-;;; MISC. FUNCTIONS
-
-
-;; Using the shell to insert the date.
-(defun insert-current-date ()
-  "Insert the current date and time in a standard Emacs format."
-  (interactive)
-  (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
-(global-set-key (kbd "C-c i d") 'insert-current-date)
-
-
-;; Find non ASCII characters.
-(defun find-first-non-ascii-char ()
-  "Find the first non-ASCII character from point onward."
-  (interactive)
-  (let (point)
-    (save-excursion
-      (setq point
-            (catch 'non-ascii
-              (while (not (eobp))
-                (or (eq (char-charset (following-char))
-                        'ascii)
-                    (throw 'non-ascii (point)))
-                (forward-char 1)))))
-    (if point
-        (goto-char point)
-      (message "No non-ASCII characters."))))
-(global-set-key (kbd "C-S-s") 'find-first-non-ascii-char)
-
-
   ((display-line-numbers . nil)		; No line numbers (prog-mode only).
    (display-line-numbers-width . 4)	; Default width.
    (display-line-numbers-widen . t))	; Don't disregard narrowing.
@@ -362,11 +332,14 @@
 
 
 
+;;; MISC. FUNCTIONS
 
 ;;; LEAF SETUP
 
+(leaf *misc-functions
 
 (prog1 "Use leaf to simplify package management"
+  :config
 
   ;; Add archives and assign priorities.
   ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: Try without and remove if possibles.
@@ -378,6 +351,12 @@
                                      ("org" . 1)
                                      ("melpa" . 3)
                                      ("melpa-stable" . 0)))
+  ;; Using the shell to insert the date.
+  (defun insert-current-date ()
+    "Insert the current date and time in a standard Emacs format."
+    (interactive)
+    (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
+  (global-set-key (kbd "C-c i d") 'insert-current-date)
 
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize)
@@ -386,6 +365,23 @@
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
+  ;; Find non ASCII characters.
+  (defun find-first-non-ascii-char ()
+    "Find the first non-ASCII character from point onward."
+    (interactive)
+    (let (point)
+      (save-excursion
+	(setq point
+	      (catch 'non-ascii
+		(while (not (eobp))
+		  (or (eq (char-charset (following-char))
+			  'ascii)
+		      (throw 'non-ascii (point)))
+		  (forward-char 1)))))
+      (if point
+	  (goto-char point)
+	(message "No non-ASCII characters."))))
+  (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
 
   (leaf leaf-keywords
 
@@ -398,6 +394,7 @@
 (leaf *mode-line-settings
 
       :ensure t
+  :config
 
       :init
   ;; These options have to be included in mode-line-format as well.
