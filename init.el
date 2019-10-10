@@ -89,8 +89,7 @@
 ;;; Code:
 
 
-;;; STARTUP TIME
-
+;; STARTUP TIME
 
 ;; This hook returns the loading time after startup.  A hook is used so the
 ;; message does not get clobbered with other messages.
@@ -106,8 +105,7 @@
                        gcs-done))))
 
 
-;;; LESS GC DURING STARTUP
-
+;; LESS GC DURING STARTUP
 
 ;; This block effectively disables garbage collection for the initialization
 ;; time and re-enables it after.  If the machine has enough RAM, at most 64MB
@@ -135,8 +133,7 @@
                                     lexical make-local)))
 
 
-;;; LEAF SETUP
-
+;; LEAF SETUP
 
 (prog1 "Use leaf to simplify package management"
 
@@ -189,7 +186,6 @@
 
 ;; WORK-RELATED SETTINGS
 
-
 (leaf *work-related-settings
 
   :doc "Load work-related settings if file exists"
@@ -202,7 +198,6 @@
 
 
 ;; BASIC VARIABLES
-
 
 (leaf *basic-variables
 
@@ -229,7 +224,7 @@
     "My predefined characters per line (CPL) limit."))
 
 
-;;; BASIC SETTINGS
+;; BASIC SETTINGS
 
 (leaf *basic-settings
 
@@ -325,8 +320,7 @@
      (global-auto-revert-mode . t))))
 
 
-;;; FONT AND FRAME SETTINGS
-
+;; FONT AND FRAME SETTINGS
 
 ;; Font and frame settings, dependent on the OS.
 
@@ -364,8 +358,7 @@
                (add-to-list 'default-frame-alist '(width . 200)))))))
 
 
-;;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZE
-
+;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
 
 (leaf *backup-settings
 
@@ -410,8 +403,7 @@
    (auto-save-file-name-transforms . '((".*" "~/.emacs.d/autosaves" t)))))
 
 
-;;; LINE NUMBERING
-
+;; LINE NUMBERING
 
 (leaf *line-numbering
 
@@ -429,8 +421,7 @@
   (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 
 
-;;; MISC. FUNCTIONS
-
+;; MISC. FUNCTIONS
 
 (leaf *misc-functions
 
@@ -463,8 +454,7 @@
   (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
 
 
-;;; MODE LINE
-
+;; MODE LINE
 
 (leaf *mode-line-settings
 
@@ -475,7 +465,7 @@
   (line-number-mode 1)                    ; Show line number in mode line.
 
 
-;;; SIMPLIFY THE CURSOR POSITION
+  ;; SIMPLIFY THE CURSOR POSITION
 
   ;; Source:
 
@@ -494,8 +484,7 @@
 	  (line-number-mode ("%l" (column-number-mode ":%c"))))))
 
 
-;;; AUTO-COMPILE
-
+;; AUTO-COMPILE
 
 (leaf auto-compile
 
@@ -511,8 +500,7 @@
   (auto-compile-on-save-mode))
 
 
-;;; AUTH-SOURCE
-
+;; AUTH-SOURCE
 
 (leaf auth-source
 
@@ -523,8 +511,7 @@
   (auth-sources . '("~/.authinfo.gpg")))
 
 
-;;; DIRED
-
+;; DIRED
 
 (leaf dired
 
@@ -545,8 +532,7 @@
    (dired-listing-switches . "-lahgF --group-directories-first")))
 
 
-;;; ASYNC
-
+;; ASYNC
 
 (leaf async
 
@@ -558,8 +544,7 @@
   (async-bytecomp-package-mode 0)) 	; Not sure if this creates issues.
 
 
-;;; ESHELL
-
+;; ESHELL
 
 ;; Check out https://github.com/jcf/emacs.d/blob/master/init-packages.org.
 
@@ -583,9 +568,7 @@
                  #'pcomplete-completions-at-point t)))
 
 
-
-;;; BIBTEX
-
+;; BIBTEX
 
 (leaf bibtex
 
@@ -617,18 +600,14 @@
       (setq bibtex-completion-bibliography path-to-bib))))
 
 
-
-
-;;; DEBUGGING INIT FILE
-
+;; DEBUGGING INIT FILE
 
 (leaf bug-hunter
 
   :ensure t)
 
 
-;;; DICTIONARY, FLYCHECK, AND FLYSPELL
-
+;; DICTIONARY, FLYCHECK, AND FLYSPELL
 
 (leaf flyspell
 
@@ -678,7 +657,7 @@
                                                   iso-8859-1))))
 
 
-;;; HELM
+;; HELM
 
 (leaf *helm-setup
 
@@ -758,8 +737,7 @@
      ("b". helm-bibtex))))
 
 
-;;; SET COLOR THEME
-
+;; SET COLOR THEME
 
 (leaf base16-theme
 
@@ -819,8 +797,7 @@
   )
 
 
-;;; AVY
-
+;; AVY
 
 ;; Move with the power of your mind and jump to things in Emacs tree-style.
 
@@ -870,11 +847,10 @@
   (set-face-foreground 'avy-background-face base03-prop))
 
 
-;;; WHOLE-LINE-OR-REGION
+;; WHOLE-LINE-OR-REGION
 
-
-;; Convenience: Instead of marking the line, M-x and C-x remove the
-;; whole line automatically if there is no region.
+;; Convenience: Instead of marking the line, M-x and C-x remove the whole line
+;; automatically if there is no region.
 
 (leaf whole-line-or-region
 
@@ -885,8 +861,7 @@
   (whole-line-or-region-global-mode 1))
 
 
-;;; WHICH-KEY
-
+;; WHICH-KEY
 
 ;; Provides a minor mode for Emacs that displays the key bindings following
 ;; your currently entered incomplete command (a prefix) in a popup.
@@ -905,8 +880,7 @@
   (which-key-mode 1))
 
 
-;;; HIGHLIGHTING PARENTHESES and SMARTPARENS
-
+;; HIGHLIGHTING PARENTHESES and SMARTPARENS
 
 ;; Sources:
 ;; * https://github.com/rejeep/emacs/blob/master/init.el
@@ -941,9 +915,7 @@
    (smartparens-global-mode . t)))
 
 
-
-;;; COMPANY
-
+;; COMPANY
 
 (leaf *company-setup
 
@@ -988,8 +960,7 @@
     (setq company-bibtex-key-regex "[[:alnum:]+_]*")))
 
 
-;;; AGGRESSIVE-INDENT
-
+;; AGGRESSIVE-INDENT
 
 ;; Turn aggressive-indent on for everything.
 
@@ -1002,8 +973,7 @@
   (global-aggressive-indent-mode 1))
 
 
-;;; WHITESPACE
-
+;; WHITESPACE
 
 ;; Make sure that there is a single additional line at the end of the file
 ;; while saving, also removes all white space at the end of lines.
@@ -1039,8 +1009,7 @@
                       :underline nil))
 
 
-;;; MULTIPLE CURSORS
-
+;; MULTIPLE CURSORS
 
 ;; Basic bindings for multiple-cursors.
 (leaf multiple-cursors
@@ -1056,10 +1025,9 @@
    ("C-c C->" . mc/mark-all-like-this)))
 
 
-;;; FLYCHECK
+;; FLYCHECK
 
-
-(leaf flycheck
+(leaf flycheck                          ; TODO: Move up to Flyspell and wrap.
 
   :ensure t
 
@@ -1076,8 +1044,7 @@
   ((global-flycheck-mode . t)))
 
 
-;;; PYTHON-MODE
-
+;; PYTHON-MODE
 
 (leaf python
 
@@ -1113,8 +1080,7 @@
 					  '("C0330" "W503" "E701" "B311"))))
 
 
-;;; PDF-TOOLS
-
+;; PDF-TOOLS
 
 ;; For better viewing and handling of PDFs in Emacs.
 
@@ -1141,7 +1107,7 @@
   (pdf-loader-install))
 
 
-;;; ORG-MODE
+;; ORG-MODE
 
 (leaf *org-setup
 
@@ -1408,8 +1374,7 @@
     (setq org-journal-date-format "%Y-%m-%d, %A")))
 
 
-;;; MAGIT
-
+;; MAGIT
 
 (leaf *git-tools
 
@@ -1462,8 +1427,7 @@
     (("C-c g t" . git-timemachine-toggle))))
 
 
-;;; LSP
-
+;; LSP
 
 (leaf lsp-mode
 
@@ -1511,8 +1475,7 @@
                       'unspecified :background base02-prop))
 
 
-;;; COMPANY-LSP
-
+;; COMPANY-LSP
 
 (leaf company-lsp
 
@@ -1533,7 +1496,7 @@
         company-lsp-enable-snippet t))
 
 
-;;; LSP-UI
+;; LSP-UI
 
 
 (leaf lsp-ui
@@ -1553,8 +1516,7 @@
         lsp-ui-sideline-mode nil))
 
 
-;;; HELM-LSP
-
+;; HELM-LSP
 
 (leaf helm-lsp
 
@@ -1565,8 +1527,7 @@
   :commands helm-lsp-workspace-symbol)
 
 
-  ;;; PIPENV
-
+;; PIPENV
 
 (leaf pipenv
 
@@ -1584,8 +1545,7 @@
         #'pipenv-projectile-after-switch-extended))
 
 
-  ;;; PYTHON-PYTEST
-
+;; PYTHON-PYTEST
 
 ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
 
@@ -1620,8 +1580,7 @@
   (python-pytest-pdb-track t))
 
 
-  ;;; PYTHON COVERAGE
-
+;; PYTHON COVERAGE
 
 (leaf pycoverage
 
@@ -1638,8 +1597,7 @@
         (pycoverage-mode)))))
 
 
-  ;;; SPHINX-DOC
-
+;; SPHINX-DOC
 
 (leaf sphinx-doc
 
@@ -1660,8 +1618,7 @@
   (setq sphinx-doc-exclude-rtype t))
 
 
-;;; CONDA
-
+;; CONDA
 
 (leaf conda
 
@@ -1685,8 +1642,7 @@
   (setq conda-env-autoactivate-mode nil))
 
 
-  ;;; BLACK FORMATTER
-
+;; BLACK FORMATTER
 
 (leaf blacken
 
@@ -1699,8 +1655,7 @@
   (python-mode-hook . blacken-mode))
 
 
-;;; PY-ISORT
-
+;; PY-ISORT
 
 (leaf py-isort
 
@@ -1711,8 +1666,7 @@
   (before-save-hook . py-isort-before-save))
 
 
-;;; PYTHON-DOCSTRING
-
+;; PYTHON-DOCSTRING
 
 (leaf python-docstring
 
@@ -1725,8 +1679,7 @@
   (python-mode-hook . python-docstring-mode))
 
 
-;;; ELPY
-
+;; ELPY
 
 ;; TODO: Remove at some point.
 
@@ -1818,8 +1771,7 @@
   )
 
 
-;;; LATEX/AUCTEX
-
+;; LATEX/AUCTEX
 
 (leaf auctex
 
@@ -1857,8 +1809,7 @@
   (setq reftex-plug-into-AUCTeX t))
 
 
-;;; EMACS SPEAKS STATISTICS (ESS)
-
+;; EMACS SPEAKS STATISTICS (ESS)
 
 (leaf ess
 
@@ -1928,8 +1879,7 @@
           (ess-R-fl-keyword:%op% . nil))))
 
 
-;;; POLY-MODE
-
+;; POLY-MODE
 
 (leaf poly-markdown
 
@@ -1955,8 +1905,7 @@
   (poly-markdown-mode . display-line-numbers-mode))
 
 
-;;; YASNIPPET
-
+;; YASNIPPET
 
 (leaf yasnippet
 
@@ -1980,9 +1929,7 @@
                                  '("~/gitdir/emacs-init/snippets/"))))
 
 
-
-;;; GNUPG SETUP
-
+;; GNUPG SETUP
 
 (leaf pinentry
 
@@ -1997,8 +1944,7 @@
         epa-pinentry-mode 'loopback))
 
 
-;;; MU4E/MAILS
-
+;; MU4E/MAILS
 
 ;; Only load mu4e when path to repository exists.
 
@@ -2008,8 +1954,7 @@
       (load mu4e-setup))))
 
 
-;;; OPENWITH
-
+;; OPENWITH
 
 (leaf openwith
 
@@ -2054,8 +1999,7 @@
       )))
 
 
-;;; GSCHOLAR-BIBTEX
-
+;; GSCHOLAR-BIBTEX
 
 ;; "Google Scholar" as default source and write to bibliography.bib
 ;; directly.
@@ -2074,8 +2018,7 @@
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
 
-;;; JUPYTER NOTEBOOK
-
+;; JUPYTER NOTEBOOK
 
 ;; Seems buggy...
 
@@ -2091,8 +2034,7 @@
   (setq request-curl-options '("--noproxy" "127.0.0.1:8888")))
 
 
-;;; TYPIT
-
+;; TYPIT
 
 ;; This is a typing game for Emacs. In this game, you type words that are
 ;; picked randomly from N most frequent words in language you're practicing,
@@ -2104,8 +2046,7 @@
   :ensure t)
 
 
-;;; YAML-MODE
-
+;; YAML-MODE
 
 (leaf yaml-mode
 
@@ -2117,8 +2058,7 @@
    ("\C-m" . newline-and-indent)))
 
 
-;;; CSV-MODE
-
+;; CSV-MODE
 
 (leaf csv-mode
 
@@ -2129,8 +2069,7 @@
     "Major mode for editing comma-separated value files." t))
 
 
-;;; EDIFF
-
+;; EDIFF
 
 (leaf ediff
 
@@ -2145,8 +2084,7 @@
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
 
 
-;;; PROJECTILE
-
+;; PROJECTILE
 
 (leaf projectile
 
@@ -2169,8 +2107,7 @@
   (setq projectile-completion-system 'helm))
 
 
-;;; TRAMP FOR REMOTE FILE SYSTEMS
-
+;; TRAMP FOR REMOTE FILE SYSTEMS
 
 (leaf tramp
 
@@ -2193,8 +2130,7 @@
   (setq tramp-verbose 10))
 
 
-;;; REALGUD DEBUGGER
-
+;; REALGUD DEBUGGER
 
 (leaf realgud
 
