@@ -518,9 +518,9 @@
 
   :ensure t
 
-  :config
+  :custom
 
-  (setq auth-sources '("~/.authinfo.gpg")))
+  (auth-sources . '("~/.authinfo.gpg")))
 
 
 ;;; DIRED
