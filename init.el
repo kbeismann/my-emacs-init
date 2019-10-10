@@ -233,6 +233,13 @@
 
 (leaf *basic-settings
 
+  :bind
+
+  (("M-o". nil)                          ; Unbind face menu.
+   ("C-x C-z" . nil)                     ; Unbind suspend frame.
+   ("S-SPC" . 'just-one-space))           ; Bind just-one-space.
+
+
   :custom
 
   ((user-full-name . "Karsten Beismann")
@@ -315,10 +322,6 @@
     ((auto-revert-interval . 5)
      (global-auto-revert-mode . t)))
 
-  ;; Keybindings and shortcuts.
-  (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
-  (global-unset-key (kbd "M-o"))		       ; Unbind face menu.
-  (global-set-key (kbd "S-SPC") 'just-one-space) ; Bind just-one-space.
   (fset 'yes-or-no-p 'y-or-n-p))                  ; y/p instead of yes/no.
 
 
