@@ -240,7 +240,11 @@
 
 ;; TODO: Check if font is present before setting it.
 
-(prog1 "Check OS and set appropriate font"
+(leaf *os-related-settings
+
+  :doc "Check OS and set appropriate font"
+
+  :config
 
   (message "%s" "Checking OS...")
   (when (eq system-type 'gnu/linux)
@@ -271,7 +275,11 @@
 ;;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZE
 
 
-(prog1 "Backups and more"
+(leaf *backup-settings
+
+  :doc "Backups and more"
+
+  :config
 
   ;; Prevent custom-file from littering the init file.
   (setq custom-file "~/.custom.el")
