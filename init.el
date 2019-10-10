@@ -918,47 +918,47 @@
 ;;; COMPANY
 
 
-(leaf company
-
-  :ensure t
-
-  :ensure company-math
-
-  :diminish company-mode
+(leaf *company-setup
 
   :config
 
-  (global-company-mode 1)
+  (leaf company
 
-  ;; The first variable is used to skip the downcase that company does
-  ;; to the variables, the second one removes the delay.
-  (setq company-dabbrev-downcase nil
-        company-idle-delay 0
-        company-tooltip-align-annotations t
-        company-show-numbers nil
-        company-minimum-prefix-length 1)
+    :ensure t
 
-  ;; Global activation of the Unicode symbol completion.
-  (add-to-list 'company-backends 'company-math-symbols-unicode))
+    :ensure company-math
 
+    :diminish company-mode
 
-;;; COMPANY FOR BIBTEX
+    :config
 
+    (global-company-mode 1)
 
-(leaf company-bibtex
+    ;; The first variable is used to skip the downcase that company does
+    ;; to the variables, the second one removes the delay.
+    (setq company-dabbrev-downcase nil
+	  company-idle-delay 0
+	  company-tooltip-align-annotations t
+	  company-show-numbers nil
+	  company-minimum-prefix-length 1)
 
-  :ensure t
+    ;; Global activation of the Unicode symbol completion.
+    (add-to-list 'company-backends 'company-math-symbols-unicode))
 
-  :after company bibtex
+  (leaf company-bibtex
 
-  :config
+    :ensure t
 
-  ;; Add backend for company-bibtex.
-  (add-to-list 'company-backends 'company-bibtex)
+    :after company bibtex
 
-  ;; The regular expression matching key names alphanumeric characters,
-  ;; dashes (-), and underscores (_). This is customizable via:
-  (setq company-bibtex-key-regex "[[:alnum:]+_]*"))
+    :config
+
+    ;; Add backend for company-bibtex.
+    (add-to-list 'company-backends 'company-bibtex)
+
+    ;; The regular expression matching key names alphanumeric characters,
+    ;; dashes (-), and underscores (_). This is customizable via:
+    (setq company-bibtex-key-regex "[[:alnum:]+_]*")))
 
 
 ;;; AGGRESSIVE-INDENT
