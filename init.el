@@ -135,16 +135,80 @@
                                     lexical make-local)))
 
 
+;;; LEAF SETUP
 
 
+(prog1 "Use leaf to simplify package management"
+
+  ;; Add archives and assign priorities.
+  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: Try without and remove if possibles.
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("melpa" . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/"))
+        package-archive-priorities '(("gnu" . 2)
+                                     ("org" . 1)
+                                     ("melpa" . 3)
+                                     ("melpa-stable" . 0)))
+
+  ;; Initialize package BEFORE installing/loading leaf.
+  (package-initialize)
+
+  ;; Install leaf if necessary.
+  (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
+    (package-install 'leaf))
+
+  (leaf leaf-keywords
+
+    :ensure t
+
+    :config
+
+    (leaf el-get
+
+      :ensure t
+
+      :init
+
+      (unless (executable-find "git")
+	(warn "Git not found: el-get can't download packages."))
+
+      :custom
+
+      ((el-get-git-shallow-clone . t)
+       (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
+
+    (leaf diminish
+
+      :ensure t)
+
+    (leaf-keywords-init)
+    (message "Leaf initiated with additional keywords...")))
 
 
+;; WORK-RELATED SETTINGS
+
+
+(leaf *work-related-settings
+
+  :doc "Load work-related settings if file exists"
+
+  :config
+
+  (let ((proxies "~/gitdir/emacs-work/proxies.el"))
+    (when (file-exists-p proxies)
+      (load proxies))))
 
 
 ;; BASIC VARIABLES
 
 
-(prog1 "Basic variables"
+(leaf *basic-variables
+
+  :doc "Basic variables"
+
+  :config
 
   (defvar my-autosave-dir
     (concat user-emacs-directory "autosave/")
@@ -165,22 +229,7 @@
     "My predefined characters per line (CPL) limit."))
 
 
-;; WORK-RELATED SETTINGS
-
-
-(leaf *work-related-settings
-
-  :doc "Load work-related settings if file exists"
-
-  :config
-
-  (let ((proxies "~/gitdir/emacs-work/proxies.el"))
-    (when (file-exists-p proxies)
-      (load proxies))))
-
-
 ;;; BASIC SETTINGS
-
 
 (leaf *basic-settings
 
@@ -334,23 +383,11 @@
 
 ;;; MISC. FUNCTIONS
 
-;;; LEAF SETUP
 
 (leaf *misc-functions
 
-(prog1 "Use leaf to simplify package management"
   :config
 
-  ;; Add archives and assign priorities.
-  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: Try without and remove if possibles.
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")
-                           ("melpa" . "https://melpa.org/packages/")
-                           ("melpa-stable" . "https://stable.melpa.org/packages/"))
-        package-archive-priorities '(("gnu" . 2)
-                                     ("org" . 1)
-                                     ("melpa" . 3)
-                                     ("melpa-stable" . 0)))
   ;; Using the shell to insert the date.
   (defun insert-current-date ()
     "Insert the current date and time in a standard Emacs format."
@@ -358,13 +395,7 @@
     (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
   (global-set-key (kbd "C-c i d") 'insert-current-date)
 
-  ;; Initialize package BEFORE installing/loading leaf.
-  (package-initialize)
 
-  ;; Install leaf if necessary.
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf))
   ;; Find non ASCII characters.
   (defun find-first-non-ascii-char ()
     "Find the first non-ASCII character from point onward."
@@ -383,42 +414,27 @@
 	(message "No non-ASCII characters."))))
   (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
 
-  (leaf leaf-keywords
 
-    :ensure t
 ;;; MODE LINE
 
-    :config
 
-    (leaf el-get
 (leaf *mode-line-settings
 
-      :ensure t
   :config
 
-      :init
   ;; These options have to be included in mode-line-format as well.
   (column-number-mode 1)                  ; Show column number.
   (line-number-mode 1)                    ; Show line number in mode line.
 
-      (unless (executable-find "git")
-	(warn "Git not found: el-get can't download packages."))
 
-      :custom
 ;;; SIMPLIFY THE CURSOR POSITION
 
-      ((el-get-git-shallow-clone . t)
-       (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
   ;; Source:
 
-    (leaf diminish
   ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
 
-      :ensure t)
   ;; No proportional position (percentage) nor texts like "Bot", "Top" or "All".
 
-    (leaf-keywords-init)
-    (message "Leaf initiated with additional keywords...")))
   (setq mode-line-position
 	'(;; %p print percent of buffer above top of window, o Top, Bot or All.
 	  ;; (-3 "%p")
