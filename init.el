@@ -47,7 +47,7 @@
 
 ;;; Working font options:
 
-;; *Hack:
+;; * Hack:
 ;; ** "Hack-9" ; Arch
 ;; ** "Hack:pixelsize=14" ; Arch
 
@@ -77,6 +77,7 @@
 ;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
 ;; * https://gitlab.com/k-bps/mesk/blob/master/src/init.org
 ;; * https://github.com/zamansky/using-emacs
+
 
 ;;; To-do:
 
