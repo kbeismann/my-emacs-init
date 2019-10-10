@@ -1110,39 +1110,84 @@
 ;;; ORG-MODE
 
 
-(leaf org
+(leaf org				; TODO: REPAIR THIS!
 
-  :ensure t
+  :preface
 
-  :hook (before-save-hook . org-align-all-tags)
+  (prog1 "Key bindings for org"
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c c") 'org-capture)
+    (global-set-key (kbd "C-c l") 'org-store-link)
+    (global-set-key (kbd "C-c b") 'crossref-add-bibtex-entry))
 
-  :bind (("C-c c" . org-capture)               ; Org-capture notes.
-         ("C-c a" . org-agenda)                ; Call org-agenda.
-         ("C-c b" . crossref-add-bibtex-entry) ; Search/ add .bib entries.
-         ("C-c l" . org-store-link))           ; Store link.
+  ;; :bind
 
-  :init
+  ;; (("C-c a" . org-agenda)		  ; Call org-agenda.
+  ;;  ("C-c c" . org-capture)		  ; Org-capture notes.
+  ;;  ("C-c l" . org-store-link)		  ; Store link.
+  ;;  ("C-c b" . crossref-add-bibtex-entry)) ; Search/add .bib entries.
 
-  (setq org-directory "~/gitdir/orgdir"
-        org-default-notes-file (concat org-directory "/notes.org"))
+  :hook
+
+  ;; Align tags when saving.
+  ((before-save-hook . org-align-all-tags)
+
+   ;; Switch to DONE when sub-entries are done.
+   (org-after-todo-statistics-hook . org-summary-todo)
+
+   ;; Highlight current line in agenda.
+   (org-agenda-mode-hook . (lambda () (hl-line-mode 1))))
+
+  :custom
+
+  ;; Directories.
+  ((org-directory . "~/gitdir/orgdir")
+   (org-default-notes-file . "~/gitdir/orgdir/notes.org")
+   (org-agenda-files . "~/gitdir/orgdir")
+
+   ;; Use relative paths.
+   (org-link-file-path-type . 'relative)
+
+   ;; Startup options.
+   (org-startup-indented . t)
+   (org-startup-with-latex-preview . t)
+   (org-startup-align-all-tables . t)
+
+   ;; Indentation.
+   (org-indent-mode-turns-on-hiding-stars . t)
+   (org-adapt-indentation . nil)
+
+   ;; Misc.
+   (org-src-window-setup . 'other-window)
+   (org-tags-column . 70)
+   (org-image-actual-width . nil)
+   (org-highlight-latex-and-related . '(latex script entities))
+   (org-catch-invisible-edits . t)
+
+   ;; All child tasks have to be "DONE" before the parent is "DONE."
+   (org-enforce-todo-dependencies . t)
+
+   ;; To-do settings.
+   (org-todo-keywords . '((sequence "TODO(t)"
+				    "IN_PROGRESS(i)"
+				    "GET_FEEDBACK(f)"
+				    "|"
+				    "DONE(d)")))
+   (org-hierarchical-todo-statistics . nil)
+
+   ;; Logging.
+   (org-log-done . 'time)
+   (org-log-done-with-time . t)
+   (org-log-repeat . 'time)
+
+   ;; Better calendar settings: Include last week only if today is Monday,
+   ;; always show three weeks. and always start the week on Monday.
+   (calendar-week-start-day . 0)
+   (org-agenda-start-on-weekday . t)
+   (org-agenda-start-day . "-3d")
+   (org-agenda-span . 21))
 
   :config
-
-  ;; Images shouldn't use their actual width.
-  (setq org-image-actual-width nil)
-
-
-  ;; TODO AND LOGGING
-
-
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "IN_PROGRESS(i)" "GET_FEEDBACK(f)" "|" "DONE(d)")))
-
-  (setq org-hierarchical-todo-statistics nil)
-
-  (setq org-log-done 'time
-        org-log-done-with-time t
-        org-log-repeat 'time)
 
   ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
   (defun org-summary-todo (n-done n-not-done)
@@ -1150,110 +1195,73 @@
     (let (org-log-done-with-time org-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
-  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-
-  ;; Use relative paths.
-  (setq org-link-file-path-type 'relative)
-
 
   ;; FORMATTING
 
 
-  ;; Org-mode startup options.
-  (setq org-hide-leading-stars nil
-        org-startup-indented t
-        org-adapt-indentation nil
-        org-startup-with-latex-preview t
-        org-startup-align-all-tables t)
-
-  (setq org-tags-column 70)             ; Col. between tag and heading.
-
   ;; Always insert blank line before headings.
-  (setq org-blank-before-new-entry
-        '((heading . auto)
-          (plain-list-item . auto)))
+  (setq org-blank-before-new-entry '((heading . auto)
+				     (plain-list-item . auto)))
 
-  (setq org-catch-invisible-edits t)    ; Invisible edits impossible.
-
-  ;; Forces you to mark all child tasks as “DONE” before you can mark the
-  ;; parent as "DONE."
-  (setq org-enforce-todo-dependencies t)
-
-
-  ;; ORG-AGENDA
-
-
-  ;; Set directory for notes.
-  (setq org-agenda-files (list org-directory))
-
-  ;; Highlight current line in agenda.
-  (add-hook 'org-agenda-mode-hook (lambda () (hl-line-mode 1)))
-
-  ;; Better calendar settings: Include last week only if today is
-  ;; Monday, always show three weeks. and always start the week on
-  ;; Monday.
-  (setq calendar-week-start-day 0
-        org-agenda-start-on-weekday t
-        org-agenda-start-day "-3d"
-        org-agenda-span 21)
 
 
   ;; ORG-REFILE
 
+  (leaf *org-refile)
+
 
   ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
   (setq org-refile-targets '((nil :maxlevel . 9)
-                             (org-agenda-files :maxlevel . 9))
-        org-refile-use-outline-path 'file
-        org-outline-path-complete-in-steps nil
-        org-refile-allow-creating-parent-nodes 'confirm)
+			     (org-agenda-files :maxlevel . 9))
+	org-refile-use-outline-path 'file
+	org-outline-path-complete-in-steps nil
+	org-refile-allow-creating-parent-nodes 'confirm)
 
 
   ;; ORG-CAPTURE-TEMPLATES
 
-
   (setq org-capture-templates
-        '(;; Key, name, type, target, template, options.
-          ("n" "Save Note" entry
-           (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
-           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-           :empty-lines 1
-           :prepend 1)
+	'(;; Key, name, type, target, template, options.
+	  ("n" "Save Note" entry
+	   (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+	   "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+	   :empty-lines 1
+	   :prepend 1)
 
-          ;; Key, name, type, target, template, options.
-          ("u" "Store URL" entry
-           (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
-           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-           :empty-lines 1
-           :prepend 1)
+	  ;; Key, name, type, target, template, options.
+	  ("u" "Store URL" entry
+	   (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+	   "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+	   :empty-lines 1
+	   :prepend 1)
 
-          ;; --- TEMPLATES FOR MY TO-DO LIST ---
+	  ;; --- TEMPLATES FOR MY TO-DO LIST ---
 
-          ("m" "My list")
+	  ("m" "My list")
 
-          ;; Key, name, type, target, template, options.
-          ("mt" "TODO" entry
-           (file "~/gitdir/orgdir/todo.org")
-           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-           :empty-lines 1
-           :prepend 1)
+	  ;; Key, name, type, target, template, options.
+	  ("mt" "TODO" entry
+	   (file "~/gitdir/orgdir/todo.org")
+	   "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+	   :empty-lines 1
+	   :prepend 1)
 
-          ;; Key, name, type, target, template, options.
-          ("ms" "Edit/fix script" entry
-           (file "~/gitdir/orgdir/todo.org")
-           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
-           :empty-lines 1
-           :prepend 1)
+	  ;; Key, name, type, target, template, options.
+	  ("ms" "Edit/fix script" entry
+	   (file "~/gitdir/orgdir/todo.org")
+	   "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
+	   :empty-lines 1
+	   :prepend 1)
 
-          ;; Key, name, type, target, template, options.
-          ("mc" "Save URL and check later" entry
-           (file "~/gitdir/orgdir/todo.org")
-           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-           :empty-lines 1
-           :prepend 1)))
+	  ;; Key, name, type, target, template, options.
+	  ("mc" "Save URL and check later" entry
+	   (file "~/gitdir/orgdir/todo.org")
+	   "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+	   :empty-lines 1
+	   :prepend 1)))
 
 
-  ;;; ORG-BABEL
+;;; ORG-BABEL
 
 
   ;; Don't confirm before evaluating.
@@ -1271,18 +1279,18 @@
 
   ;; Better source block behavior.
   (setq org-src-preserve-indentation t
-        org-edit-src-content-indentation 0)
+	org-edit-src-content-indentation 0)
 
   ;; Highlight code in code blocks in native language, also use TAB as
   ;; in native language.
   (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t)
+	org-src-tab-acts-natively t)
 
   ;; Change font size for LaTeX previews.
   (setq org-format-latex-options
-        (plist-put org-format-latex-options :scale 1.5))
+	(plist-put org-format-latex-options :scale 1.5))
   (setq org-format-latex-options
-        (plist-put org-format-latex-options :html-scale 1.5))
+	(plist-put org-format-latex-options :html-scale 1.5))
 
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
@@ -1290,25 +1298,25 @@
   (setq org-babel-python-command "python3"))
 
 
-  ;;; ORG-REF
+;;; ORG-REF
 
 
 (leaf org-ref
 
   :ensure t
 
-  :require org helm
+  :after org
 
   :bind (bibtex-mode-map
-         ("C-c C-c" . org-ref-clean-bibtex-entry))
+	 ("C-c C-c" . org-ref-clean-bibtex-entry))
 
   :init
 
   (progn
     (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
     (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
-          org-ref-bibliography-notes "~/gitdir/library/notes.org"
-          org-ref-pdf-directory "~/gitdir/library/archive/")
+	  org-ref-bibliography-notes "~/gitdir/library/notes.org"
+	  org-ref-pdf-directory "~/gitdir/library/archive/")
 
     ;; Add "bibtex %b" to enable bibtex export.
     (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
@@ -1356,6 +1364,8 @@
 (leaf org-journal
 
   :disabled t
+
+  :after org
 
   ;; :ensure nil
 
