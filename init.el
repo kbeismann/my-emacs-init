@@ -322,8 +322,7 @@
     :custom
 
     ((auto-revert-interval . 5)
-     (global-auto-revert-mode . t)))
-
+     (global-auto-revert-mode . t))))
 
 
 ;;; FONT AND FRAME SETTINGS
@@ -374,35 +373,44 @@
 
   :config
 
+  (leaf abbrev
 
-  ;; Abbrev options.
-  (setq save-abbrevs nil                  ; Save abbrevs when files are saved.
-	save-abbrevs 'silently            ; Silent abbrevs.
-	abbrev-file-name "~/.emacs.d/abbrev_defs" ) ; Abbrevs.
+    :diminish abbrev-mode
 
-  ;; Disable lock-files.
-  (setq create-lockfiles nil)
+    :custom
 
-  ;; Backup options.
-  (setq make-backup-files nil
-	backup-by-copying t               ; Don't clobber symlinks.
-	delete-old-versions t             ; Remove old versions.
-	kept-new-versions 2               ; Number of newest versions to keep.
-	kept-old-versions 2               ; Number of oldest versions to keep.
-	version-control t                 ; Use versioned backups.
-	backup-directory-alist
-	'(("." . "~/emacsauto/backups"))) ; Don't litter my fs tree.
+    ((save-abbrevs . 'silently)
+     (abbrev-file-name . "~/.emacs.d/abbrev_defs" )))
 
-  ;; Autosave options.
-  (setq auto-save-default t               ; #autosave# files.
-	auto-save-interval 300            ; Autosave every 500 characters.
-	auto-save-list-file-prefix "~/emacsauto/autosaves"
-	auto-save-file-name-transforms
-	'((".*" "~/emacsauto/autosaves" t))))
+  (leaf *lock-files
+
+    :custom
+
+    (create-lockfiles . nil))
+
+  (leaf files
+
+    :custom
+
+    ((make-backup-files . t)
+     (backup-by-copying . t)            ; Don't clobber symlinks.
+     (kept-new-versions . 2)
+     (kept-old-versions . 2)
+     (version-control . t)
+     (delete-old-versions . t)
+     (backup-directory-alist . '(("." . "~/.emacs.d/backups/")))))
+
+  (leaf *auto-save-files)
+
+  :custom
+
+  ((auto-save-default . t)
+   (auto-save-interval . 300)
+   (auto-save-list-file-prefix . "~/.emacs.d/autosaves")
+   (auto-save-file-name-transforms . '((".*" "~/.emacs.d/autosaves" t)))))
 
 
 ;;; LINE NUMBERING
-
 
 
 (leaf *line-numbering
@@ -419,7 +427,6 @@
 
   ;; Only enable line numbers in prog-mode.
   (add-hook 'prog-mode-hook #'display-line-numbers-mode))
-
 
 
 ;;; MISC. FUNCTIONS
