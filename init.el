@@ -233,54 +233,95 @@
 
 (leaf *basic-settings
 
+  :custom
+
+  ((user-full-name . "Karsten Beismann")
+
+   ;; Misc. settings.
+   (ring-bell-function . 'ignore)             ; No annoying bell.
+   (inhibit-startup-screen . t)		      ; No starting screen.
+   (mouse-yank-at-point . t)		      ; Paste at cursor, not at mouse.
+   (vc-follow-symlinks . t)		      ; Always follow symbolic links.
+   (indent-tabs-mode . nil)		      ; Always indent with spaces.
+   (tab-width . 4)			      ; Default tab width.
+   (next-line-add-newlines . t)		      ; New line when C-n.
+   (fill-column . my-max-columns)	      ; Set M-q columns.
+   (large-file-warning-threshold . 100000000) ; Large file warning.
+   (tab-always-indent 'complete)	      ; Tab indents before completion.
+
+   ;; Better scrolling behavior.
+   (scroll-margin . 0)
+   (scroll-conservatively . 10000)
+   (scroll-preserve-screen-position . nil)
+   (auto-window-vscroll . nil)
+
+   ;; Cleaner visuals.
+   (menu-bar-mode    . nil)
+   (tool-bar-mode    . nil)
+   (scroll-bar-mode . nil)
+   (truncate-lines . t)
+   (line-spacing . nil)
+   (font-lock-maximum-decoration . t)
+
+   ;; Clipboard behavior.
+   (x-select-enable-clipboard-manager . t)
+
+   ;; Debugging.
+   (debug-on-error . t)
+   (init-file-debug . t ))
+
   :config
 
-  (setq user-full-name "Karsten Beismann")
+  (leaf saveplace
 
-  (setq-default fill-column my-max-columns   ; Set M-q columns.
-		truncate-lines t          ; No line-wrapping
-		line-spacing nil)         ; Spacing between lines.
+    :doc "Point goes to the last place where it was."
 
-  ;; Change save and buffer updating behavior.
-  (blink-cursor-mode 1)               ; Use blinking cursor.
-  (desktop-save-mode 0)               ; Don't save last Emacs session.
-  (save-place-mode 1)                 ; Save the place in files.
-  (global-auto-revert-mode t)         ; Revert buffers automatically.
+    :custom
+
+    ((save-place-mode . t)))
+
+  (leaf desktop
+
+    :doc "The state of Emacs is saved from one session to another."
+
+    :custom
+
+    ((desktop-save-mode . nil)))
+
+  (leaf frame
+
+    :custom
+
+    ((blink-cursor-mode . t)))
+
+  (leaf cus-edit
+
+    :doc "Prevent customization information from littering init.el."
+
+    :custom
+
+    ((custom-file . "~/.custom.el"))
+
+    :config
+
+    (load custom-file))
+
+  (leaf autorevert
+
+    :custom
+
+    :custom
+
+    ((auto-revert-interval . 5)
+     (global-auto-revert-mode . t)))
 
   ;; Keybindings and shortcuts.
   (global-unset-key (kbd "C-x C-z"))             ; Unbind suspend frame.
   (global-unset-key (kbd "M-o"))		       ; Unbind face menu.
   (global-set-key (kbd "S-SPC") 'just-one-space) ; Bind just-one-space.
-  (fset 'yes-or-no-p 'y-or-n-p)                  ; y/p instead of yes/no.
+  (fset 'yes-or-no-p 'y-or-n-p))                  ; y/p instead of yes/no.
 
-  ;; Minor customization.
-  (setq ring-bell-function 'ignore             ; No annoying bell.
-	debug-on-error t                       ; Always debug.
-	init-file-debug t                      ; Debug init file as well.
-	inhibit-startup-screen t               ; No starting screen.
-	large-file-warning-threshold 100000000 ; Large file warning.
-	next-line-add-newlines t               ; New line when C-n.
-	mouse-yank-at-point t                  ; Paste at cursor, not at mouse.
-	indent-tabs-mode nil		     ; Always indent with spaces.
-	vc-follow-symlinks t)		     ;Always follow symlinks.
 
-  ;; Clipboard behavior.
-  ;; (setq x-select-enable-clipboard-manager nil)   ; Seems to work well.
-
-  ;; (setq tab-always-indent 'complete) ; Use Tab to Indent or Complete.
-
-  ;; Better scrolling behavior.
-  (setq  scroll-margin 0
-	 scroll-conservatively 10000
-	 scroll-preserve-screen-position nil
-	 auto-window-vscroll nil)
-
-  ;; Visual changes.
-  (setq default-frame-alist '((vertical-scroll-bars . nil)  ; No scroll bar.
-			      (menu-bar-lines       . nil)  ; No menu bar.
-			      (tool-bar-lines       . nil)) ; No tool bar.
-	font-lock-maximum-decoration t)   ; Decorate as much as possible.
-  )
 
 ;;; FONT AND FRAME SETTINGS
 
@@ -330,9 +371,6 @@
 
   :config
 
-  ;; Prevent custom-file from littering the init file.
-  (setq custom-file "~/.custom.el")
-  (load custom-file)
 
   ;; Abbrev options.
   (setq save-abbrevs nil                  ; Save abbrevs when files are saved.
