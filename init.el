@@ -743,7 +743,7 @@
 
 (leaf base16-theme
 
-  :ensure t
+  :require t
 
   :config
 
