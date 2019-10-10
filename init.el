@@ -668,18 +668,19 @@
 
 ;;; HELM
 
+(leaf *helm-setup
 
-(leaf helm
+  :config
 
-  :ensure t
+  (leaf helm
 
-  :leaf-defer nil
+    :ensure t
 
-  :require helm-config
+    :leaf-defer nil
 
-  :diminish helm-mode
+    :require helm-config
 
-  ;; :ensure helm-R
+    :diminish helm-mode
 
   :bind (("M-x" . helm-M-x)
          ("C-s" . helm-occur)
@@ -693,48 +694,52 @@
           ("r" . helm-regexp)
           ("m" . helm-multi-files)
           ("a" . helm-apropos)))
-
-  :init
-
-  ;; Remove old bind for helm-command-map.
-  (global-unset-key (kbd "C-x c"))
-
-  :config
-
-  ;; Splitting behavior.
-  (setq helm-split-window-inside-p nil
-        helm-move-to-line-cycle-in-source nil ; If t breaks cycling.
-        helm-autoresize-mode t)
-
-  ;; Use fuzzy matching when possible.
-  (setq helm-mode-fuzzy-match t
-        helm-completion-in-region-fuzzy-match t)
-
-  ;; Turn on helm-mode.
-  (helm-mode 1))
+    ;; :ensure helm-R
 
 
-;; Use helm for Flyspell.
-(leaf helm-flyspell
+    :init
 
-  :ensure t
+    ;; Remove old bind for helm-command-map.
+    (global-unset-key (kbd "C-x c"))
 
-  :after helm flyspell
+    :config
 
-  :bind ("C-c f c" . helm-flyspell-correct))
+    ;; Splitting behavior.
+    (setq helm-split-window-inside-p nil
+          helm-move-to-line-cycle-in-source nil ; If t breaks cycling.
+          helm-autoresize-mode t)
+
+    ;; Use fuzzy matching when possible.
+    (setq helm-mode-fuzzy-match t
+          helm-completion-in-region-fuzzy-match t)
+
+    ;; Turn on helm-mode.
+    (helm-mode 1))
 
 
-;; Use helm for BibTeX.
-(leaf helm-bibtex
+  ;; Use helm for Flyspell.
+  (leaf helm-flyspell
 
-  :disabled t
+    :ensure t
 
-  :ensure t
+    :after helm flyspell
 
-  :after helm bibtex
+    :bind
 
-  :bind (helm-command-map
-         ("b". helm-bibtex)))
+    ("C-c f c" . helm-flyspell-correct))
+
+
+  ;; Use helm for BibTeX.
+  (leaf helm-bibtex
+
+    :disabled t
+
+    :ensure t
+
+    :after helm bibtex
+
+    :bind (helm-command-map
+           ("b". helm-bibtex))))
 
 
 ;;; SET COLOR THEME
