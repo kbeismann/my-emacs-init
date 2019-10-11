@@ -1902,22 +1902,28 @@
 
   :ensure t
 
-  :ensure yasnippet-snippets
+  :diminish yas-minor-mode
 
   :bind
 
-  (("C-c y" . yas-insert-snippet)
-   ("C-c v" . yas-visit-snippet-file))
+  (("C-c y i" . yas-insert-snippet)
+   ("C-c y v" . yas-visit-snippet-file))
 
-  :init
+  :custom
 
-  (yas-global-mode 1)
+  ((yas-indent-line . 'fixed)
+   (yas-global-mode . t))
 
   :config
 
-  (setq yas-snippet-revival nil
-        yas-snippet-dirs (append yas-snippet-dirs
-                                 '("~/gitdir/emacs-init/snippets/"))))
+  (leaf yasnippet-snippets
+
+    :ensure t
+
+    :config
+
+    (setq yas-snippet-dirs (append yas-snippet-dirs
+                                   '("~/gitdir/emacs-init/snippets/")))))
 
 
 ;; GNUPG SETUP
