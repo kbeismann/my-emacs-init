@@ -2063,12 +2063,15 @@
 
 (leaf ediff
 
+  :after helm
+
+  :custom
+
+  ((ediff-window-setup-function . 'ediff-setup-windows-plain) ; Don't start another frame.
+   (ediff-split-window-function . 'split-window-horizontally)) ; Put windows side by side.
+
   :config
 
-  ;; Don't start another frame.
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  ;; Put windows side by side.
-  (setq ediff-split-window-function (quote split-window-horizontally))
   ;; Revert windows on exit - needs winner mode
   (winner-mode)
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
