@@ -289,7 +289,9 @@
 
   :config
 
-  (load custom-file)
+  (when (file-exists-p custom-file)
+    (load custom-file))
+
   (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
 
 
