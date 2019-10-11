@@ -2083,7 +2083,7 @@
 
   :after helm
 
-  :leaf-defer nil
+  :ensure helm-projectile
 
   :bind
 
@@ -2091,19 +2091,12 @@
 
   :custom
 
-  (projectile-mode . t)
+  ((projectile-mode . t)
+   (projectile-completion-system . 'helm))
 
   :config
 
-  (leaf helm-projectile
-
-    :custom
-
-    (projectile-completion-system . 'helm)
-
-    :config
-
-    (helm-projectile-on)))
+  (helm-projectile-on))
 
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
