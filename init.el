@@ -573,61 +573,75 @@
       (setq bibtex-completion-bibliography path-to-bib))))
 
 
-;; DEBUGGING INIT FILE
+;; SOME UTILITY PACKAGES
 
-(leaf bug-hunter
-
-  :ensure t)
-
-
-;; DICTIONARY, FLYCHECK, AND FLYSPELL
-
-(leaf flyspell
-
-  :ensure t
-
-  :diminish flyspell-mode
-
-  :hook
-
-  ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
-   (text-mode-hook . (lambda() (flyspell-mode))))
-
-  ;; Deactivate for logs and log editing.
-  ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
-  ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
+(leaf *utility-packages
 
   :config
 
-  ;; HUNSPELL IS NOT USED ON MANJARO RIGHT NOW! REQUIRES ASPELL!
 
-  ;; If Hunspell is present, setup Hunspell dictionaries.
-  (when (executable-find "hunspell")
-    (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
-          ispell-local-dictionary "en_US"
-          ispell-dictionary "en_US"
-          ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
-          ispell-hunspell-dictionary-alist nil)
+  ;; DEBUGGING INIT FILE
 
-    ;; Settings for English, US.
-    (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
-                                                  "[[:alpha:]]"
-                                                  "[^[:alpha:]]"
-                                                  "[']"
-                                                  t
-                                                  ("-d" "en_US")
-                                                  nil
-                                                  iso-8859-1))
+  (leaf bug-hunter
 
-    ;; Settings for German, Germany.
-    (add-to-list 'ispell-local-dictionary-alist '("deutsch-hunspell"
-                                                  "[[:alpha:]]"
-                                                  "[^[:alpha:]]"
-                                                  "[']"
-                                                  t
-                                                  ("-d" "de_DE")
-                                                  nil
-                                                  iso-8859-1))))
+    :ensure t)
+
+
+  ;; PROFILE INIT FILE
+
+  (leaf esup
+
+    :ensure t))
+
+
+  ;; DICTIONARY, FLYCHECK, AND FLYSPELL
+
+  (leaf flyspell
+
+    :ensure t
+
+    :diminish flyspell-mode
+
+    :hook
+
+    ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
+     (text-mode-hook . (lambda() (flyspell-mode))))
+
+    ;; Deactivate for logs and log editing.
+    ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
+    ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
+
+    :config
+
+    ;; HUNSPELL IS NOT USED ON MANJARO RIGHT NOW! REQUIRES ASPELL!
+
+    ;; If Hunspell is present, setup Hunspell dictionaries.
+    (when (executable-find "hunspell")
+      (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
+            ispell-local-dictionary "en_US"
+            ispell-dictionary "en_US"
+            ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
+            ispell-hunspell-dictionary-alist nil)
+
+      ;; Settings for English, US.
+      (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
+                                                    "[[:alpha:]]"
+                                                    "[^[:alpha:]]"
+                                                    "[']"
+                                                    t
+                                                    ("-d" "en_US")
+                                                    nil
+                                                    iso-8859-1))
+
+      ;; Settings for German, Germany.
+      (add-to-list 'ispell-local-dictionary-alist '("deutsch-hunspell"
+                                                    "[[:alpha:]]"
+                                                    "[^[:alpha:]]"
+                                                    "[']"
+                                                    t
+                                                    ("-d" "de_DE")
+                                                    nil
+                                                    iso-8859-1))))
 
 
 ;; HELM
