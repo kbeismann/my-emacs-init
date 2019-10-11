@@ -1920,8 +1920,8 @@
   :custom
 
   ((yas-indent-line . 'fixed)
-   (yas-global-mode . t)
-   (yas-snippet-dirs . '("~/gitdir/emacs-init/snippets/" "~/.emacs.d/snippets/"))))
+   (yas-snippet-dirs . '("~/gitdir/emacs-init/snippets/" "~/.emacs.d/snippets/"))
+   (yas-global-mode . t)))
 
 
 ;; GNUPG SETUP
