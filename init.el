@@ -1365,7 +1365,7 @@
     (setq org-journal-date-format "%Y-%m-%d, %A")))
 
 
-;; MAGIT
+;; GIT AND VERSION CONTROL
 
 (leaf *git-tools
 
