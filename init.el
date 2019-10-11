@@ -2086,21 +2086,27 @@
 
   :after helm
 
-  :ensure helm-projectile
+  :leaf-defer nil
 
   :bind
 
   ("C-c p" . projectile-command-map)
 
-  :init
+  :custom
 
-  (projectile-mode 1)                   ; Activate Projectile.
-  (helm-projectile-on)                  ; Turn on helm-projectile keys.
+  (projectile-mode . t)
 
   :config
 
-  ;; Use helm as completion system for Projectile.
-  (setq projectile-completion-system 'helm))
+  (leaf helm-projectile
+
+    :custom
+
+    (projectile-completion-system . 'helm)
+
+    :config
+
+    (helm-projectile-on)))
 
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
