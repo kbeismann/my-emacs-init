@@ -1430,7 +1430,7 @@
 
   :ensure t
 
-  :require projectile company yasnippet
+  :after projectile company yasnippet
 
   :hook
 
