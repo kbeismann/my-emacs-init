@@ -241,15 +241,17 @@
 
    ;; Misc. settings.
    (ring-bell-function . 'ignore)             ; No annoying bell.
-   (inhibit-startup-screen . t)		      ; No starting screen.
-   (mouse-yank-at-point . t)		      ; Paste at cursor, not at mouse.
-   (vc-follow-symlinks . t)		      ; Always follow symbolic links.
-   (indent-tabs-mode . nil)		      ; Always indent with spaces.
-   (tab-width . 4)			      ; Default tab width.
-   (next-line-add-newlines . t)		      ; New line when C-n.
-   (fill-column . my-max-columns)	      ; Set M-q columns.
-   (large-file-warning-threshold . 100000000) ; Large file warning.
-   (tab-always-indent 'complete)	      ; Tab indents before completion.
+   (inhibit-startup-screen . t)               ; No starting screen.
+   (mouse-yank-at-point . t)                  ; Paste at cursor, not at mouse.
+   (vc-follow-symlinks . t)                   ; Always follow symbolic links.
+   (large-file-warning-threshold . 100000000) ; Prevent large file warnings.
+
+   ;; Editing and indentation.
+   (tab-width . 4)                            ; Default tab width.
+   (indent-tabs-mode . nil)                   ; Always indent with spaces.
+   (tab-always-indent 'complete)              ; Tab indents before completion.
+   (next-line-add-newlines . t)               ; New line when C-n.
+   (fill-column . my-max-columns)             ; Set M-q columns.
 
    ;; Better scrolling behavior.
    (scroll-margin . 0)
@@ -257,12 +259,12 @@
    (scroll-preserve-screen-position . nil)
    (auto-window-vscroll . nil)
 
-   ;; Cleaner visuals.
-   (menu-bar-mode    . nil)
-   (tool-bar-mode    . nil)
+   ;; Cleaner visuals, max. decoration.
    (scroll-bar-mode . nil)
-   (truncate-lines . t)
+   (menu-bar-mode . nil)
+   (tool-bar-mode . nil)
    (line-spacing . nil)
+   (truncate-lines . t)
    (font-lock-maximum-decoration . t)
 
    ;; Clipboard behavior.
@@ -270,54 +272,25 @@
 
    ;; Debugging.
    (debug-on-error . t)
-   (init-file-debug . t ))
+   (init-file-debug . t )
+
+   ;; Save-related settings.
+   (save-place-mode . t)
+   (desktop-save-mode . nil)
+   (blink-cursor-mode . t)
+
+   ;; Auto-revert.
+   (auto-revert-interval . 5)
+   (global-auto-revert-mode . t)
+
+   ;; External customization file to prevent clutter.
+   (custom-file . "~/.emacs.d/.custom.el"))
 
   :config
 
-  (fset 'yes-or-no-p 'y-or-n-p)                  ; y/n instead of yes/no.
+  (load custom-file)
 
-  (leaf saveplace
-
-    :doc "Point goes to the last place where it was"
-
-    :custom
-
-    ((save-place-mode . t)))
-
-  (leaf desktop
-
-    :doc "The state of Emacs is saved from one session to another"
-
-    :custom
-
-    ((desktop-save-mode . nil)))
-
-  (leaf frame
-
-    :custom
-
-    ((blink-cursor-mode . t)))
-
-  (leaf cus-edit
-
-    :doc "Prevent customization information from littering init.el"
-
-    :custom
-
-    ((custom-file . "~/.custom.el"))
-
-    :config
-
-    (load custom-file))
-
-  (leaf autorevert
-
-    :custom
-
-    :custom
-
-    ((auto-revert-interval . 5)
-     (global-auto-revert-mode . t))))
+  (fset 'yes-or-no-p 'y-or-n-p))        ; y/n instead of yes/no.
 
 
 ;; FONT AND FRAME SETTINGS
