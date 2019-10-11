@@ -84,6 +84,7 @@
 ;; * TODO: Init file in org?
 ;; * TODO: Better YASnippet implementation.
 ;; * TODO: Use function/package to toggle proxies.
+;; * TODO: External repository for snippets.
 
 
 ;;; Code:
