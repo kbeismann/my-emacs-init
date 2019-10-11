@@ -1005,6 +1005,7 @@
 ;; MULTIPLE CURSORS
 
 ;; Basic bindings for multiple-cursors.
+
 (leaf multiple-cursors
 
   :ensure t
@@ -1025,7 +1026,6 @@
   :ensure t
 
   :diminish global-flycheck-mode flycheck-mode
-
 
   :bind
 
