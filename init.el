@@ -1377,19 +1377,23 @@
 
     :ensure t
 
-    :require magit-todos
-
-    :hook
-
-    (magit-status-mode-hook . magit-todos-mode)
-
     :bind
 
     (("C-c g s" . magit-status)
      ("C-c g c" . magit-clone)
      ("C-c g b" . magit-blame)
      ("C-c g d" . magit-dispatch)
-     ("C-c g a" . magit-commit-amend)))
+     ("C-c g a" . magit-commit-amend))
+
+    :config
+
+    (leaf magit-todos
+
+      :ensure t
+
+      :hook
+
+      (magit-status-mode-hook . magit-todos-mode)))
 
 
   (leaf gitconfig-mode
