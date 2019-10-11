@@ -289,8 +289,7 @@
   :config
 
   (load custom-file)
-
-  (fset 'yes-or-no-p 'y-or-n-p))        ; y/n instead of yes/no.
+  (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
 
 
 ;; FONT AND FRAME SETTINGS
@@ -782,14 +781,14 @@
 
   :bind
 
-  (( "M-SPC"   . avy-goto-char)
+  (( "M-SPC" . avy-goto-char)
    ( "M-S-SPC" . avy-goto-char-2))
 
   :custom
 
   ((avy-background . t)
-   (avy-all-windows t)
-   (avy-highlight-first t))             ; When non-nil highlight the first
+   (avy-all-windows . t)
+   (avy-highlight-first . t))           ; When non-nil highlight the first
                                         ; decision char with avy-lead-face-0.
                                         ; Do this even when the char is
                                         ; terminating.  Normally
