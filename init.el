@@ -142,7 +142,7 @@
 (prog1 "Use leaf to simplify package management"
 
   ;; Add archives and assign priorities.
-  (setq package-check-signature t)      ; Do/don't check sig.
+  (setq package-check-signature 'allow-unsigned)      ; Do/don't check sig.
   (setq package-archives '(("gnu"                    . "https://elpa.gnu.org/packages/")
                            ("org"                    . "https://orgmode.org/elpa/")
                            ("melpa"                  . "https://melpa.org/packages/")
