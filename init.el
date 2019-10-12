@@ -1089,21 +1089,27 @@
 
   :ensure t
 
-  :after flycheck python
+  :ensure flycheck
+
+  ;; :after conda
 
   :preface
 
   (with-eval-after-load 'flycheck
     (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
 
-  :config
+  :custom
 
-  (setq flycheck-pycheckers-multi-thread "true"
-        flycheck-pycheckers-max-line-length 88 ; Follow Black guidelines.
-        flycheck-pycheckers-checkers '(pylint flake8 mypy3 bandit)
-        flycheck-pycheckers-ignore-codes (append
-                                          flycheck-pycheckers-ignore-codes
-                                          '("C0330" "W503" "E701" "B311"))))
+  ((flycheck-pycheckers-multi-thread . "true")
+   (flycheck-pycheckers-max-line-length . 88) ; Follow Black guidelines.
+   (flycheck-pycheckers-checkers . '(pylint flake8 mypy3 bandit)))
+
+  :pre-setq
+
+  ;; (add-to-list 'flycheck-pycheckers-ignore-codes
+  ;;              '("C0330" "W503" "E701" "B311")))
+  (flycheck-pycheckers-ignore-codes . (append flycheck-pycheckers-ignore-codes
+                                              '("C0330" "W503" "E701" "B311"))))
 
 
 ;; PDF-TOOLS
