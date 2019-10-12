@@ -1612,16 +1612,14 @@
 
   :custom
 
-  (python-pytest-arguments
-   '("--color"                        ; Colored output in the buffer.
-     "--pdb"                          ; Run pdb on failure.
-     "--verbose"                      ; More verbose output.
-     ;; "--failed-first"                 ; Run the previous failed tests first.
-     ;; "--exitfirst"                    ; Exit after first failure.
-     ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
-     ))
+  (python-pytest-arguments . '("--color"   ; Colored output in the buffer.
+                               "--pdb"     ; Run pdb on failure.
+                               "--verbose")) ; More verbose output.
+  ;; "--failed-first"                 ; Run the previous failed tests first.
+  ;; "--exitfirst"                    ; Exit after first failure.
+  ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
 
-  (python-pytest-pdb-track t))
+  (python-pytest-pdb-track . t))
 
 
 ;; PYTHON COVERAGE
