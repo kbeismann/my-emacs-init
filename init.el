@@ -5,6 +5,7 @@
 
 ;; Author: Karsten Beismann
 ;; Homepage: https://github.com/kbeismann/emacs-init
+;; Created: Tue Sep 24 21:43:39 2019 +0200
 ;; Package-Requires: ((emacs "26.3"))
 ;; Keywords: init emacs
 
@@ -81,10 +82,13 @@
 
 ;;; To-do:
 
-;; * TODO: Init file in org?
-;; * TODO: Better YASnippet implementation.
-;; * TODO: Use function/package to toggle proxies.
-;; * TODO: External repository for snippets.
+;; * NEXT: Structure > Init file in org?
+;; * NEXT: Structure > Use function/package to toggle proxies.
+;; * NEXT: Structure > External repository for snippets.
+;; * NEXT: Structure > Better YASnippet implementation.
+;; * TODO: Packages > Try undo-tree.
+;; * TODO: Packages > Try Origami.
+;; * TODO: Packages > Try real-auto-save.
 
 
 ;;; Code:
