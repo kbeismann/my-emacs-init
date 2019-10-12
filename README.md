@@ -21,22 +21,22 @@ Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
 
 This setup is currently tested with GNU Emacs 26.3.
 
-* Install Emacs:
+1. Install Emacs:
 ```bash
 $ sudo pacman -S emacs
 ```
-* Install fonts, e.g. Dina:
+2. Install fonts, e.g. Dina:
 ```bash
 $ sudo pacman -S dina-font
 ```
-* Create a symbolic link to `~/.emacs` or
+3. Create a symbolic link to `~/.emacs` or
   `~/.emacs.d/init.el`:
 ```bash
 $ mkdir ~/.emacs.d/
 $ cd ~/gitdir/emacs-init/
 $ ln -s ./init.el ~/.emacs.d/init.el
 ```
-* Start Emacs:
+4. Start Emacs:
 ```bash
 $ emacs
 ```
