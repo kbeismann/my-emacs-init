@@ -93,7 +93,6 @@
 
 ;;; Code:
 
-
 ;; STARTUP TIME
 
 ;; This hook returns the loading time after startup.  A hook is used so the
@@ -1085,7 +1084,6 @@
 
 
 ;; FLYCHECK FOR PYTHON
-
 
 (leaf flycheck-pycheckers
 
@@ -2184,7 +2182,6 @@
 
 
 ;;; Footer:
-
 
 (provide 'init)
 ;;; init.el ends here
