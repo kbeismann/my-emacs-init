@@ -1376,9 +1376,9 @@
 
   :custom
 
-  ((flycheck-pycheckers-multi-thread . "true")
+  ((flycheck-pycheckers-multi-thread    . "true")
    (flycheck-pycheckers-max-line-length . 88) ; Follow Black guidelines.
-   (flycheck-pycheckers-checkers . '(pylint flake8 mypy3 bandit)))
+   (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
 
   :config
 
