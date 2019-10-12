@@ -1476,7 +1476,9 @@
 
   :ensure t
 
-  :after projectile company yasnippet
+  :ensure projectile company yasnippet
+
+  :commands lsp
 
   :hook
 
@@ -1491,7 +1493,6 @@
     ("C-c w d" . xref-find-definitions-other-window)
     ("C-c d p" . lsp-describe-thing-at-point)
     ("C-c i m" . helm-imenu)))
-
 
   :custom
 
