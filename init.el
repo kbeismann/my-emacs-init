@@ -142,14 +142,14 @@
 (prog1 "Use leaf to simplify package management"
 
   ;; Add archives and assign priorities.
-  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; FIXME: Band aid > Try without and remove if possibles.
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")
-                           ("melpa" . "https://melpa.org/packages/")
-                           ("melpa-stable" . "https://stable.melpa.org/packages/"))
-        package-archive-priorities '(("gnu" . 2)
-                                     ("org" . 1)
-                                     ("melpa" . 3)
+  (setq package-check-signature t)      ; Do/don't check sig.
+  (setq package-archives '(("gnu"                    . "https://elpa.gnu.org/packages/")
+                           ("org"                    . "https://orgmode.org/elpa/")
+                           ("melpa"                  . "https://melpa.org/packages/")
+                           ("melpa-stable"           . "https://stable.melpa.org/packages/"))
+        package-archive-priorities '(("gnu"          . 2)
+                                     ("org"          . 1)
+                                     ("melpa"        . 3)
                                      ("melpa-stable" . 0)))
 
   ;; Initialize package BEFORE installing/loading leaf.
@@ -177,7 +177,7 @@
 
       :custom
 
-      ((el-get-git-shallow-clone . t)
+      ((el-get-git-shallow-clone  . t)
        (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
 
     (leaf diminish
@@ -266,57 +266,56 @@
 
   :bind
 
-  (("M-o". nil)                          ; Unbind face menu.
-   ("C-x C-z" . nil)                     ; Unbind suspend frame.
-   ("S-SPC" . just-one-space))           ; Bind just-one-space.
-
+  (("M-o"     . nil)                    ; Unbind face menu.
+   ("C-x C-z" . nil)                    ; Unbind suspend frame.
+   ("S-SPC"   . just-one-space))        ; Bind just-one-space.
 
   :custom
 
   ((user-full-name . "Karsten Beismann")
 
    ;; Misc. settings.
-   (ring-bell-function . 'ignore)             ; No annoying bell.
-   (inhibit-startup-screen . t)               ; No starting screen.
-   (mouse-yank-at-point . t)                  ; Paste at cursor, not at mouse.
-   (vc-follow-symlinks . t)                   ; Always follow symbolic links.
+   (ring-bell-function           . 'ignore)   ; No annoying bell.
+   (inhibit-startup-screen       . t)         ; No starting screen.
+   (mouse-yank-at-point          . t)         ; Paste at cursor, not at mouse.
+   (vc-follow-symlinks           . t)         ; Always follow symbolic links.
    (large-file-warning-threshold . 100000000) ; Prevent large file warnings.
 
    ;; Editing and indentation.
-   (tab-width . 4)                            ; Default tab width.
-   (indent-tabs-mode . nil)                   ; Always indent with spaces.
-   (tab-always-indent 'complete)              ; Tab indents before completion.
-   (next-line-add-newlines . t)               ; New line when C-n.
-   (fill-column . my-max-columns)             ; Set M-q columns.
+   (tab-width              . 4)              ; Default tab width.
+   (indent-tabs-mode       . nil)            ; Always indent with spaces.
+   (tab-always-indent      . 'complete)      ; Tab indents before completion .
+   (next-line-add-newlines . t)              ; New line when C-n.
+   (fill-column            . my-max-columns) ; Set M-q columns.
 
    ;; Better scrolling behavior.
-   (scroll-margin . 0)
-   (scroll-conservatively . 10000)
+   (scroll-margin                   . 0)
+   (scroll-conservatively           . 10000)
    (scroll-preserve-screen-position . nil)
-   (auto-window-vscroll . nil)
+   (auto-window-vscroll             . nil)
 
-   ;; Cleaner visuals, max. decoration.
-   (scroll-bar-mode . nil)
-   (menu-bar-mode . nil)
-   (tool-bar-mode . nil)
-   (line-spacing . nil)
-   (truncate-lines . t)
+   ;; Cleaner visuals, max . decoration.
+   (scroll-bar-mode              . nil)
+   (menu-bar-mode                . nil)
+   (tool-bar-mode                . nil)
+   (line-spacing                 . nil)
+   (truncate-lines               . t)
    (font-lock-maximum-decoration . t)
 
-   ;; Clipboard behavior.
+   ;;
    (x-select-enable-clipboard-manager . t)
 
-   ;; Debugging.
-   (debug-on-error . t)
+   ;;
+   (debug-on-error  . t)
    (init-file-debug . t )
 
-   ;; Save-related settings.
-   (save-place-mode . t)
-   (desktop-save-mode . nil)
-   (blink-cursor-mode . t)
+   ;;
+   (save-place-mode         . t)
+   (desktop-save-mode       . nil)
+   (blink-cursor-mode       . t)
 
-   ;; Auto-revert.
-   (auto-revert-interval . 5)
+   ;;
+   (auto-revert-interval    . 5)
    (global-auto-revert-mode . t))
 
   :config
@@ -381,22 +380,22 @@
 
     :custom
 
-    ((make-backup-files . t)
-     (backup-by-copying . t)            ; Don't clobber symlinks.
-     (kept-new-versions . 2)
-     (kept-old-versions . 2)
-     (version-control . t)
-     (delete-old-versions . t)
-     (backup-directory-alist . '(("." . my-backup-dir)))))
+    ((make-backup-files      . t)
+     (backup-by-copying      . t)       ; Don't clobber symlinks.
+     (kept-new-versions      . 2)
+     (kept-old-versions      . 2)
+     (version-control        . t)
+     (delete-old-versions    . t)
+     (backup-directory-alist . `(("." . ,my-backup-dir)))))
 
-  (leaf *auto-save-files)
+  (leaf *auto-save-files
 
-  :custom
+    :custom
 
-  ((auto-save-default . t)
-   (auto-save-interval . 300)
-   (auto-save-list-file-prefix . my-autosave-dir)
-   (auto-save-file-name-transforms . '((".*" my-autosave-dir t)))))
+    ((auto-save-default              . t)
+     (auto-save-interval             . 300)
+     (auto-save-list-file-prefix     . my-autosave-dir)
+     (auto-save-file-name-transforms . `((".*" ,(file-name-as-directory my-autosave-dir) t))))))
 
 
 ;; FONT AND FRAME SETTINGS
@@ -457,8 +456,8 @@
 
   :custom
 
-  ((display-line-numbers . nil)		; No line numbers (prog-mode only).
-   (display-line-numbers-width . 4)	; Default width.
+  ((display-line-numbers       . nil)   ; No line numbers (prog-mode only).
+   (display-line-numbers-width . 4)     ; Default width.
    (display-line-numbers-widen . t))	; Don't disregard narrowing.
 
   :config
@@ -571,11 +570,11 @@
 
   :custom
 
-  ((dired-dwim-target . t)              ; Better default target directory.
-   (dired-recursive-copies . 'always)   ; Copy recursively.
-   (dired-recursive-deletes . 'always)  ; Delete recursively.
-   (dired-hide-details-hide-symlink-targets . nil) ; Show symlinks.
-   (dired-listing-switches . "-lahgF --group-directories-first")))
+  ((dired-dwim-target                       . t)       ; Better target.
+   (dired-recursive-copies                  . 'always) ; Copy recursively.
+   (dired-recursive-deletes                 . 'always) ; Delete recursively.
+   (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
+   (dired-listing-switches                  . "-lahgF --group-directories-first")))
 
 
 ;; ASYNC
@@ -620,18 +619,18 @@
 
   :custom
 
-  ((bibtex-autokey-additional-names . "_etal")
-   (bibtex-autokey-name-separator . "_")
-   (bibtex-autokey-names . 1)
-   (bibtex-autokey-names-stretch . 1)
-   (bibtex-autokey-name-length . 999)
-   (bibtex-autokey-name-year-separator . "-")
-   (bibtex-autokey-year-length . 4)
+  ((bibtex-autokey-additional-names     . "_etal")
+   (bibtex-autokey-name-separator       . "_")
+   (bibtex-autokey-names                . 1)
+   (bibtex-autokey-names-stretch        . 1)
+   (bibtex-autokey-name-length          . 999)
+   (bibtex-autokey-name-year-separator  . "-")
+   (bibtex-autokey-year-length          . 4)
    (bibtex-autokey-year-title-separator . "-")
-   (bibtex-autokey-titleword-separator . "_")
-   (bibtex-autokey-titlewords . 3)
-   (bibtex-autokey-titlewords-stretch . 1)
-   (bibtex-autokey-titleword-length . 5))
+   (bibtex-autokey-titleword-separator  . "_")
+   (bibtex-autokey-titlewords           . 3)
+   (bibtex-autokey-titlewords-stretch   . 1)
+   (bibtex-autokey-titleword-length     . 5))
 
 
   :config
@@ -737,18 +736,18 @@
 
     :bind
 
-    (("M-x" . helm-M-x)
-     ("C-s" . helm-occur)
-     ("C-x b" . helm-mini)
+    (("M-x"     . helm-M-x)
+     ("C-s"     . helm-occur)
+     ("C-x b"   . helm-mini)
      ("C-x C-f" . helm-find-files)
-     ("M-y" . helm-show-kill-ring)
-     ("C-c h" . helm-command-prefix)
+     ("M-y"     . helm-show-kill-ring)
+     ("C-c h"   . helm-command-prefix)
      (helm-command-map
-      ("l" . helm-locate)
-      ("s" . helm-surfraw)
-      ("r" . helm-regexp)
-      ("m" . helm-multi-files)
-      ("a" . helm-apropos)))
+      ("l"      . helm-locate)
+      ("s"      . helm-surfraw)
+      ("r"      . helm-regexp)
+      ("m"      . helm-multi-files)
+      ("a"      . helm-apropos)))
 
     :init
 
@@ -958,7 +957,7 @@
   :custom
 
   ((show-paren-delay . 0.0)
-   (show-paren-mode . t)))
+   (show-paren-mode  . t)))
 
 
 (leaf smartparens
@@ -980,7 +979,7 @@
   :custom
 
   ((sp-highlight-pair-overlay . nil)
-   (smartparens-global-mode . t)))
+   (smartparens-global-mode   . t)))
 
 
 ;; COMPANY
@@ -999,11 +998,11 @@
 
     :custom
 
-    ((company-dabbrev-downcase . nil)
-     (company-idle-delay . 0)
+    ((company-dabbrev-downcase          . nil)
+     (company-idle-delay                . 0)
      (company-tooltip-align-annotations . t)
-     (company-show-numbers . nil)
-     (company-minimum-prefix-length . 1))
+     (company-show-numbers              . nil)
+     (company-minimum-prefix-length     . 1))
 
     :config
 
@@ -1058,10 +1057,10 @@
 
   :hook
 
-  ((before-save-hook . delete-trailing-whitespace)
-   (prog-mode-hook . (lambda () (whitespace-mode 1)))
-   (text-mode-hook . (lambda () (whitespace-mode 1)))
-   (org-mode-hook . (lambda () (whitespace-mode 0)))
+  ((before-save-hook  . delete-trailing-whitespace)
+   (prog-mode-hook    . (lambda () (whitespace-mode 1)))
+   (text-mode-hook    . (lambda () (whitespace-mode 1)))
+   (org-mode-hook     . (lambda () (whitespace-mode 0)))
    (message-mode-hook . (lambda () (whitespace-mode 0))))
 
   :config
@@ -1075,7 +1074,8 @@
 
   ;; Change colors of text that exceeds 78 columns.
   (set-face-attribute 'whitespace-line nil
-                      :foreground base08-prop :background base00-prop
+                      :foreground base08-prop
+                      :background base00-prop
                       :underline nil))
 
 
@@ -1090,10 +1090,10 @@
   :bind
 
   (("C-S-c C-S-c" . mc/edit-lines)
-   ("C->" . mc/mark-next-like-this)
-   ("C-<" . mc/mark-previous-like-this)
-   ("C-c C-<" . mc/mark-all-like-this)
-   ("C-c C->" . mc/mark-all-like-this)))
+   ("C->"         . mc/mark-next-like-this)
+   ("C-<"         . mc/mark-previous-like-this)
+   ("C-c C-<"     . mc/mark-all-like-this)
+   ("C-c C->"     . mc/mark-all-like-this)))
 
 
 ;; FLYCHECK
@@ -1410,7 +1410,7 @@
 
   :custom
 
-  ((pdf-view-display-size . 'fit-page)
+  ((pdf-view-display-size                  . 'fit-page)
    (pdf-annot-activate-created-annotations . t))
 
   :config
@@ -1456,51 +1456,51 @@
     :custom
 
     ;; Directories.
-    ((org-directory . "~/gitdir/orgdir")
+    ((org-directory          . "~/gitdir/orgdir")
      (org-default-notes-file . "~/gitdir/orgdir/notes.org")
-     (org-agenda-files . "~/gitdir/orgdir")
+     (org-agenda-files       . "~/gitdir/orgdir")
 
      ;; Use relative paths.
      (org-link-file-path-type . 'relative)
 
      ;; Startup options.
-     (org-startup-indented . t)
+     (org-startup-indented           . t)
      (org-startup-with-latex-preview . t)
-     (org-startup-align-all-tables . t)
+     (org-startup-align-all-tables   . t)
 
      ;; Indentation.
      (org-indent-mode-turns-on-hiding-stars . t)
-     (org-adapt-indentation . nil)
+     (org-adapt-indentation                 . nil)
 
      ;; Misc.
-     (org-src-window-setup . 'other-window)
-     (org-tags-column . 70)
-     (org-image-actual-width . nil)
+     (org-src-window-setup            . 'other-window)
+     (org-tags-column                 . 70)
+     (org-image-actual-width          . nil)
      (org-highlight-latex-and-related . '(latex script entities))
-     (org-catch-invisible-edits . t)
+     (org-catch-invisible-edits       . t)
 
      ;; All child tasks have to be "DONE" before the parent is "DONE."
      (org-enforce-todo-dependencies . t)
 
      ;; To-do settings.
-     (org-todo-keywords . '((sequence "TODO(t)"
-                                      "IN_PROGRESS(i)"
-                                      "GET_FEEDBACK(f)"
-                                      "|"
-                                      "DONE(d)")))
      (org-hierarchical-todo-statistics . nil)
+     (org-todo-keywords                . '((sequence "TODO(t)"
+                                                     "IN_PROGRESS(i)"
+                                                     "GET_FEEDBACK(f)"
+                                                     "|"
+                                                     "DONE(d)")))
 
      ;; Logging.
-     (org-log-done . 'time)
+     (org-log-done           . 'time)
      (org-log-done-with-time . t)
-     (org-log-repeat . 'time)
+     (org-log-repeat         . 'time)
 
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
-     (calendar-week-start-day . 0)
+     (calendar-week-start-day     . 0)
      (org-agenda-start-on-weekday . t)
-     (org-agenda-start-day . "-3d")
-     (org-agenda-span . 21))
+     (org-agenda-start-day        . "-3d")
+     (org-agenda-span             . 21))
 
     :config
 
@@ -1515,7 +1515,7 @@
 
 
     ;; Always insert blank line before headings.
-    (setq org-blank-before-new-entry '((heading . auto)
+    (setq org-blank-before-new-entry '((heading         . auto)
                                        (plain-list-item . auto)))
 
 
@@ -1526,7 +1526,7 @@
 
 
     ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-    (setq org-refile-targets '((nil :maxlevel . 9)
+    (setq org-refile-targets '((nil :maxlevel              . 9)
                                (org-agenda-files :maxlevel . 9))
           org-refile-use-outline-path 'file
           org-outline-path-complete-in-steps nil
@@ -1777,7 +1777,7 @@
 
   :custom
 
-  ((lsp-inhibit-message . nil)
+  ((lsp-inhibit-message              . nil)
    (lsp-message-project-root-warning . t)
 
    ;; Debugging.
@@ -1787,9 +1787,9 @@
 
    ;; Customization.
    (lsp-enable-symbol-highlighting . t)
-   (lsp-prefer-flymake . nil)
-   (lsp-auto-guess-root . t)
-   (lsp-enable-snippet . nil))
+   (lsp-prefer-flymake             . nil)
+   (lsp-auto-guess-root            . t)
+   (lsp-enable-snippet             . nil))
 
   :config
 
@@ -1932,32 +1932,32 @@
   ;; Major mode font-lock.
   (setq ess-R-font-lock-keywords
         '((ess-R-fl-keyword:modifiers . t)
-          (ess-R-fl-keyword:fun-defs . t)
-          (ess-R-fl-keyword:keywords . t)
+          (ess-R-fl-keyword:fun-defs  . t)
+          (ess-R-fl-keyword:keywords  . t)
           (ess-R-fl-keyword:assign-ops)
           (ess-R-fl-keyword:constants . t)
-          (ess-fl-keyword:fun-calls . t)
-          (ess-fl-keyword:numbers .t )
-          (ess-fl-keyword:operators . t)
-          (ess-fl-keyword:delimiters . t)
-          (ess-fl-keyword:= . t)
-          (ess-R-fl-keyword:F&T . t)
-          (ess-R-fl-keyword:%op% . nil)))
+          (ess-fl-keyword:fun-calls   . t)
+          (ess-fl-keyword:numbers     . t)
+          (ess-fl-keyword:operators   . t)
+          (ess-fl-keyword:delimiters  . t)
+          (ess-fl-keyword:=           . t)
+          (ess-R-fl-keyword:F&T       . t)
+          (ess-R-fl-keyword:%op%      . nil)))
 
   ;; Inferior mode font-lock.
   (setq inferior-R-font-lock-keywords
         '((ess-R-fl-keyword:modifiers . t)
-          (ess-R-fl-keyword:fun-defs . t)
-          (ess-R-fl-keyword:keywords . t)
+          (ess-R-fl-keyword:fun-defs  . t)
+          (ess-R-fl-keyword:keywords  . t)
           (ess-R-fl-keyword:assign-ops)
           (ess-R-fl-keyword:constants . t)
-          (ess-fl-keyword:fun-calls . t)
-          (ess-fl-keyword:numbers . t)
-          (ess-fl-keyword:operators . t)
-          (ess-fl-keyword:delimiters . t)
-          (ess-fl-keyword:= . t)
-          (ess-R-fl-keyword:F&T . t)
-          (ess-R-fl-keyword:%op% . nil))))
+          (ess-fl-keyword:fun-calls   . t)
+          (ess-fl-keyword:numbers     . t)
+          (ess-fl-keyword:operators   . t)
+          (ess-fl-keyword:delimiters  . t)
+          (ess-fl-keyword:=           . t)
+          (ess-R-fl-keyword:F&T       . t)
+          (ess-R-fl-keyword:%op%      . nil))))
 
 
 ;; POLY-MODE
@@ -1970,16 +1970,16 @@
 
   :mode                                 ; TODO: Cleanup > Sort this.
 
-  (("\\.md$" . poly-markdown-mode)
+  (("\\.md$"         . poly-markdown-mode)
    ("README\\.md\\'" . gfm-mode)
-   ("\\.Snw$" . poly-noweb+R-mode)
-   ("\\.Rnw$" . poly-noweb+R-mode)
-   ("\\.Rmd$" . poly-markdown+R-mode)
-   ("\\.rapport$" . poly-rapport-mode)
-   ("\\.Rhtml$" . poly-html+R-mode)
-   ("\\.Rbrew$" . poly-brew+R-mode)
-   ("\\.Rcpp$" . poly-R+C++-mode)
-   ("\\.cppR$" . poly-C++R-mode))
+   ("\\.Snw$"        . poly-noweb+R-mode)
+   ("\\.Rnw$"        . poly-noweb+R-mode)
+   ("\\.Rmd$"        . poly-markdown+R-mode)
+   ("\\.rapport$"    . poly-rapport-mode)
+   ("\\.Rhtml$"      . poly-html+R-mode)
+   ("\\.Rbrew$"      . poly-brew+R-mode)
+   ("\\.Rcpp$"       . poly-R+C++-mode)
+   ("\\.cppR$"       . poly-C++R-mode))
 
   :hook
 
@@ -2003,9 +2003,9 @@
 
   :custom
 
-  ((yas-indent-line . 'fixed)
+  ((yas-indent-line  . 'fixed)
    (yas-snippet-dirs . '("~/gitdir/emacs-init/snippets/" "~/.emacs.d/snippets/"))
-   (yas-global-mode . t)))
+   (yas-global-mode  . t)))
 
 
 ;; GNUPG SETUP
@@ -2043,9 +2043,9 @@
 
   :hook
 
-  ((text-mode-hook . (lambda () (openwith-mode 1)))
-   (dired-mode-hook . (lambda () (openwith-mode 1)))
-   (message-mode-hook . (lambda () (openwith-mode 0)))
+  ((text-mode-hook     . (lambda () (openwith-mode 1)))
+   (dired-mode-hook    . (lambda () (openwith-mode 1)))
+   (message-mode-hook  . (lambda () (openwith-mode 0)))
    (markdown-mode-hook . (lambda () (openwith-mode 1))))
 
   :config
@@ -2179,7 +2179,7 @@
 
   :custom
 
-  ((projectile-mode . t)
+  ((projectile-mode              . t)
    (projectile-completion-system . 'helm))
 
   :config
