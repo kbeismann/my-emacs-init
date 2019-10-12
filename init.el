@@ -1410,6 +1410,15 @@
 
   :config
 
+  (leaf hl-todo
+
+    :ensure t
+
+    :config
+
+    (global-hl-todo-mode t))
+
+
   (leaf magit
 
     :ensure t
