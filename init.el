@@ -1667,22 +1667,23 @@
 
   :ensure t
 
-  :after projectile
+  :ensure projectile
+
+  :setq
+
+  ;; Auto-activation.
+  (conda-env-autoactivate-mode . nil)
 
   :config
 
   ;; Set Conda directory.
-  (custom-set-variables
-   '(conda-anaconda-home "~/miniconda3/"))
+  (custom-set-variables '(conda-anaconda-home "~/miniconda3/"))
 
   ;; Interactive shell support, include.
   (conda-env-initialize-interactive-shells)
 
   ;; Eshell support.
-  (conda-env-initialize-eshell)
-
-  ;; Auto-activation.
-  (setq conda-env-autoactivate-mode nil))
+  (conda-env-initialize-eshell))
 
 
 ;; BLACK FORMATTER
