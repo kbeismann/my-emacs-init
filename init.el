@@ -357,7 +357,7 @@
                       (substring my-os 0 7))
         (progn (add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
                ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-               (add-to-list 'default-frame-alist '(height . 50))
+               (add-to-list 'default-frame-alist '(height . 60))
                (add-to-list 'default-frame-alist '(width . 180)))
 
       ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
@@ -366,7 +366,7 @@
              (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
         (progn (add-to-list 'default-frame-alist
                             '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
-               (add-to-list 'default-frame-alist '(height . 50))
+               (add-to-list 'default-frame-alist '(height . 60))
                (add-to-list 'default-frame-alist '(width . 200)))))))
 
 
