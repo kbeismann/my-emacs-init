@@ -296,17 +296,41 @@
 
    ;; Auto-revert.
    (auto-revert-interval . 5)
-   (global-auto-revert-mode . t)
-
-   ;; External customization file to prevent clutter.
-   (custom-file . "~/.emacs.d/.custom.el"))
+   (global-auto-revert-mode . t))
 
   :config
 
-  (when (file-exists-p custom-file)
-    (load custom-file))
-
   (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
+
+
+;; SEARCH FOR AND CREATE CUSTOMIZATION FILE
+
+;; The following snippet checks if a file specified in my-custom-file
+;; exists.  If it does, set it as custom-file and load it.  If it does not,
+;; create the file with "touch", set it as custom-file, and load it.
+
+(leaf *use-custom-file
+
+  :doc "Use an external customization file to avoid cluttering this file"
+
+  :config
+
+  (prog1 (message "%s" (concat "Looking for a customization file: " my-custom-file))
+
+    (when (not (file-exists-p my-custom-file))
+
+      (progn
+        (message "%s" "No customization file found, creating empty file...")
+        (eshell-command (concat "touch " my-custom-file))))
+
+    (if (file-exists-p my-custom-file)
+
+        (progn
+          (message "%s" "Customization file found...")
+          (setq custom-file my-custom-file)
+          (load custom-file))
+
+      (message "%s" "ERROR: Cannot find customization file..."))))
 
 
 ;; FONT AND FRAME SETTINGS
