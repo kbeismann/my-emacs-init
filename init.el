@@ -342,43 +342,6 @@
       (message "%s" "ERROR: Cannot find customization file..."))))
 
 
-;; FONT AND FRAME SETTINGS
-
-;; Font and frame settings, dependent on the OS.
-;; TODO: Structure > Check if font is present before setting it.
-
-(leaf *os-related-settings
-
-  :doc "Check OS and set appropriate font and frame size"
-
-  :config
-
-  (message "%s" "Checking OS...")
-  (when (eq system-type 'gnu/linux)
-
-    ;; Get OS designation without quotes.
-    (defvar my-os (substring (shell-command-to-string "lsb_release -sd") 1 -2))
-    (message "%s" "Found GNU/Linux...")
-    (message "Found distribution: %s" my-os)
-
-    ;; Font for Manjaro.
-    (if (string-equal "Manjaro"
-                      (substring my-os 0 7))
-        (progn (add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
-               ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-               (add-to-list 'default-frame-alist '(height . 60))
-               (add-to-list 'default-frame-alist '(width . 180)))
-
-      ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
-      (when (string-equal
-             (substring (shell-command-to-string "lsb_release -sd") 0 3)
-             (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
-        (progn (add-to-list 'default-frame-alist
-                            '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
-               (add-to-list 'default-frame-alist '(height . 60))
-               (add-to-list 'default-frame-alist '(width . 200)))))))
-
-
 ;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
 
 (leaf *backup-settings
@@ -422,6 +385,43 @@
    (auto-save-interval . 300)
    (auto-save-list-file-prefix . my-autosave-dir)
    (auto-save-file-name-transforms . '((".*" my-autosave-dir t)))))
+
+
+;; FONT AND FRAME SETTINGS
+
+;; Font and frame settings, dependent on the OS.
+;; TODO: Structure > Check if font is present before setting it.
+
+(leaf *os-related-settings
+
+  :doc "Check OS and set appropriate font and frame size"
+
+  :config
+
+  (message "%s" "Checking OS...")
+  (when (eq system-type 'gnu/linux)
+
+    ;; Get OS designation without quotes.
+    (defvar my-os (substring (shell-command-to-string "lsb_release -sd") 1 -2))
+    (message "%s" "Found GNU/Linux...")
+    (message "Found distribution: %s" my-os)
+
+    ;; Font for Manjaro.
+    (if (string-equal "Manjaro"
+                      (substring my-os 0 7))
+        (progn (add-to-list 'default-frame-alist '(font . "Dina:pixelsize=12"))
+               ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+               (add-to-list 'default-frame-alist '(height . 60))
+               (add-to-list 'default-frame-alist '(width . 180)))
+
+      ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
+      (when (string-equal
+             (substring (shell-command-to-string "lsb_release -sd") 0 3)
+             (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
+        (progn (add-to-list 'default-frame-alist
+                            '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
+               (add-to-list 'default-frame-alist '(height . 60))
+               (add-to-list 'default-frame-alist '(width . 200)))))))
 
 
 ;; LINE NUMBERING
