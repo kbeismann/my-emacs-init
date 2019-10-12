@@ -16,10 +16,30 @@ that Pango removed support for bitmap fonts with version 1.33.
 Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
 
 
-## Installation
 
-* Install fonts if necessary.
-* Create a symbolic link or copy this file to `~/.emacs`.
+## Installation (UNIX-based)
+
+This setup is currently tested with GNU Emacs 26.3.
+
+* Install Emacs:
+```bash
+$ sudo pacman -S emacs
+```
+* Install fonts, e.g. Dina:
+```bash
+$ sudo pacman -S dina-font
+```
+* Create a symbolic link to `~/.emacs` or
+  `~/.emacs.d/init.el`:
+```bash
+$ mkdir ~/.emacs.d/
+$ cd ~/gitdir/emacs-init/
+$ ln -s ./init.el ~/.emacs.d/init.el
+```
+* Start Emacs:
+```bash
+$ emacs
+```
 
 
 ## Working font options
