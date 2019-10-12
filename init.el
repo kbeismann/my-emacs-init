@@ -419,10 +419,11 @@
     ;; Font for Manjaro.
     (if (string-equal "Manjaro" (substring my-os 0 7))
         (progn (message "%s" (concat "Font settings for Manjaro: " my-font-manjaro))
-               (if (member my-font-family-manjaro (font-family-list))
-                   (progn (message "%s" (concat "Font installed: " my-font-family-manjaro))
-                          (set-default-font my-font-manjaro))
-                 (message "%s" (concat "Font not installed: " my-font-family-manjaro)))
+               (if (display-graphic-p)
+                   (if (member my-font-family-manjaro (font-family-list))
+                       (progn (message "%s" (concat "Font installed: " my-font-family-manjaro))
+                              (set-default-font my-font-manjaro))
+                     (message "%s" (concat "Font not installed: " my-font-family-manjaro))))
                ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
                (add-to-list 'default-frame-alist '(height . 60))
                (add-to-list 'default-frame-alist '(width . 180)))
@@ -430,22 +431,24 @@
       ;; Font for Arch.
       (if (string-equal "Arch" (substring my-os 0 4))
           (progn (message "%s" (concat "Font settings for Arch Linux: " my-font-arch))
-                 (if (member my-font-family-arch (font-family-list))
-                     (progn (message "%s" (concat "Font installed: " my-font-family-arch))
-                            (set-default-font my-font-arch))
-                   (message "%s" (concat "Font not installed: " my-font-family-arch))))
+                 (if (display-graphic-p)
+                     (if (member my-font-family-arch (font-family-list))
+                         (progn (message "%s" (concat "Font installed: " my-font-family-arch))
+                                (set-default-font my-font-arch))
+                       (message "%s" (concat "Font not installed: " my-font-family-arch)))))
 
         ;; Font for Ubuntu.
         (when (string-equal
                (substring (shell-command-to-string "lsb_release -sd") 0 3)
                (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
           (progn (message "%s" (concat "Font settings for Ubuntu: " my-font-ubuntu))
-                 (if (member my-font-family-ubuntu (font-family-list))
-                     (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
-                            (set-default-font my-font-ubuntu))
-                   (message "%s" (concat "Font not installed: " my-font-family-ubuntu)))
-                 (add-to-list 'default-frame-alist '(height . 60))
-                 (add-to-list 'default-frame-alist '(width . 200))))))))
+                 (if (display-graphic-p)
+                     (if (member my-font-family-ubuntu (font-family-list))
+                         (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
+                                (set-default-font my-font-ubuntu))
+                       (message "%s" (concat "Font not installed: " my-font-family-ubuntu)))
+                   (add-to-list 'default-frame-alist '(height . 60))
+                   (add-to-list 'default-frame-alist '(width . 200)))))))))
 
 
 ;; LINE NUMBERING
