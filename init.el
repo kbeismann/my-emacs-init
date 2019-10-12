@@ -876,34 +876,40 @@
 
   ((avy-background . t)
    (avy-all-windows . t)
-   (avy-highlight-first . t))           ; When non-nil highlight the first
-                                        ; decision char with avy-lead-face-0.
-                                        ; Do this even when the char is
-                                        ; terminating.  Normally
-                                        ; avy-lead-face-0 is only used for the
-                                        ; first non-terminating decision
-                                        ; chars.
+
+   ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision
+   ;; char with avy-lead-face-0.  Do this even when the char is terminating.
+   ;; Normally avy-lead-face-0 is only used for the first non-terminating
+   ;; decision chars.
+
+   (avy-highlight-first . t))
 
   :config
 
-  ;; Define colors for avy:
-
   ;; Face used for first non-terminating leading chars.
   (set-face-attribute 'avy-lead-face-0 nil
-                      :foreground base0E-prop :background base00-prop
+                      :foreground base0A-prop
+                      :background nil
                       :weight 'bold)
 
   ;; Face used for matched leading chars.  Not sure what this does.
-  (set-face-attribute 'avy-lead-face-1 nil :foreground base09-prop
-                      :background base00-prop :weight 'bold)
+  (set-face-attribute 'avy-lead-face-1 nil
+                      :foreground base09-prop
+                      :background nil
+                      :weight 'bold)
 
   ;; Face used for leading chars.
-  (set-face-attribute 'avy-lead-face-2 nil :foreground base0C-prop
-                      :background base00-prop :weight 'bold)
+  (set-face-attribute 'avy-lead-face-2 nil
+                      :foreground base0C-prop
+                      :background nil
+                      :weight 'bold)
 
   ;; Face used for the leading chars.
-  (set-face-attribute 'avy-lead-face nil :foreground base0A-prop
-                      :background base00-prop :weight 'bold)
+  (set-face-attribute 'avy-lead-face nil
+                      :foreground base0E-prop
+                      :background nil
+                      :weight 'bold
+                      :underline t)
 
   ;; Face for foreground/font during selection: base03.
   (set-face-foreground 'avy-background-face base03-prop))
