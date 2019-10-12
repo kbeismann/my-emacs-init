@@ -203,27 +203,33 @@
 
 ;; BASIC VARIABLES
 
+;; Defines a number of directories and files in ~/.emacs.d/.
+
 (leaf *basic-variables
 
   :doc "Basic variables"
 
   :config
 
-  (defvar my-custom-file             ; TODO: Unused > Variable for .custom.el.
+  (defvar my-custom-file
     (concat user-emacs-directory ".custom.el")
     "My customization file.")
 
-  (defvar my-autosave-dir    ; TODO: Unused > Variable for autosave directory.
+  (defvar my-autosave-dir
     (concat user-emacs-directory "autosave/")
-    "My auto-save-list directory.")
+    "My auto-save directory.")
 
-  (defvar my-backup-dir        ; TODO: Unused > Variable for backup directory.
+  (defvar my-backup-dir
     (concat user-emacs-directory "backup/")
     "My backup directory.")
 
-  (defvar my-cache-dir          ; TODO: Unused > Variable for cache directory.
+  (defvar my-cache-dir
     (concat user-emacs-directory "cache/")
-    "My storage area(cache) directory.")
+    "My storage area (cache) directory.")
+
+  (defvar my-abbrev-dir
+    (concat user-emacs-directory "abbrev/")
+    "My abbreviations directory.")
 
   (defvar my-font-manjaro             ; TODO: Unused > Variable defining font.
     "Dina:pixelsize=12"
@@ -384,7 +390,7 @@
     :custom
 
     ((save-abbrevs . 'silently)
-     (abbrev-file-name . "~/.emacs.d/abbrev_defs" )))
+     (abbrev-file-name . my-abbrev-dir)))
 
   (leaf *lock-files
 
@@ -402,7 +408,7 @@
      (kept-old-versions . 2)
      (version-control . t)
      (delete-old-versions . t)
-     (backup-directory-alist . '(("." . "~/.emacs.d/backups/")))))
+     (backup-directory-alist . '(("." . my-backup-dir)))))
 
   (leaf *auto-save-files)
 
@@ -410,8 +416,8 @@
 
   ((auto-save-default . t)
    (auto-save-interval . 300)
-   (auto-save-list-file-prefix . "~/.emacs.d/autosaves")
-   (auto-save-file-name-transforms . '((".*" "~/.emacs.d/autosaves" t)))))
+   (auto-save-list-file-prefix . my-autosave-dir)
+   (auto-save-file-name-transforms . '((".*" my-autosave-dir t)))))
 
 
 ;; LINE NUMBERING
