@@ -356,7 +356,7 @@
 
 ;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
 
-(leaf *backup-settings
+(leaf *file-settings
 
   :doc "Backups and more"
 
