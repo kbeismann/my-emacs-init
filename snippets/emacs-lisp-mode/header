@@ -3,12 +3,17 @@
 # key: <he
 # contributor: Karsten Beismann
 # --
-;;; `(buffer-name)` --- ${1:TITLE}
+;;; `(buffer-name)` --- ${1:TITLE} -*- lexical-binding: nil; coding: utf-8 -*-
+
+
+;; Copyright (C) 2019 `(insert user-full-name)`
 
 ;; Author: `(insert user-full-name)` <`(insert user-mail-address)`>
 ;; Maintainer: `(insert user-full-name)` <`(insert user-mail-address)`>
 ;; Filename: `(buffer-name)`
 ;; Created: `(format-time-string "%Y-%m-%dT%T")`
+;; Package-Requires:
+;; Homepage:
 ;; Keywords: ${2:KEYWORDS}
 
 
@@ -19,12 +24,19 @@ ${3:COMMENTARY}
 
 ;;; Change Log:
 
-* ---
+;; * ---
+
+
+;;; To-do:
+
+;; * ---
 
 
 ;;; Code:
 
 $0
 
+
+;;; Footer:
 
 ;;; `(buffer-name)` ends here.
