@@ -16,13 +16,13 @@ that Pango removed support for bitmap fonts with version 1.33.
 Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
 
 
-## Installation:
+## Installation
 
 * Install fonts if necessary.
 * Create a symbolic link or copy this file to `~/.emacs`.
 
 
-## Working font options:
+## Working font options
 
 * Hack:
   * `"Hack-9"` ; Arch
@@ -48,7 +48,7 @@ Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
   * `"-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"` ; Ubuntu
 
 
-## Sources (incomplete):
+## Sources (incomplete)
 
 * https://github.com/rememberYou/.emacs.d/blob/master/config.org/
 * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
