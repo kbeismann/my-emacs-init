@@ -143,7 +143,7 @@
 (prog1 "Use leaf to simplify package management"
 
   ;; Add archives and assign priorities.
-  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; TODO: Try without and remove if possibles.
+  ;; (setq package-check-signature nil)    ; Do/don't check sig. ; FIXME: Band aid > Try without and remove if possibles.
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("org" . "https://orgmode.org/elpa/")
                            ("melpa" . "https://melpa.org/packages/")
@@ -210,22 +210,32 @@
 
   :config
 
-  (defvar my-autosave-dir
+  (defvar my-custom-file             ; TODO: Unused > Variable for .custom.el.
+    (concat user-emacs-directory ".custom.el")
+    "My customization file.")
+
+  (defvar my-autosave-dir    ; TODO: Unused > Variable for autosave directory.
     (concat user-emacs-directory "autosave/")
     "My auto-save-list directory.")
 
-  (defvar my-backup-dir
+  (defvar my-backup-dir        ; TODO: Unused > Variable for backup directory.
     (concat user-emacs-directory "backup/")
     "My backup directory.")
 
-  (defvar my-cache-dir
+  (defvar my-cache-dir          ; TODO: Unused > Variable for cache directory.
     (concat user-emacs-directory "cache/")
     "My storage area(cache) directory.")
 
-  (defvar my-font "Dina:pixelsize=12"	; TODO: Currently not in use.
+  (defvar my-font-manjaro             ; TODO: Unused > Variable defining font.
+    "Dina:pixelsize=12"
     "My default font.")
 
-  (defvar my-max-columns 78
+  (defvar my-font-arch                ; TODO: Unused > Variable defining font.
+    "Dina:pixelsize=12"
+    "My default font.")
+
+  (defvar my-max-columns
+    78
     "My predefined characters per line (CPL) limit."))
 
 
@@ -302,8 +312,7 @@
 ;; FONT AND FRAME SETTINGS
 
 ;; Font and frame settings, dependent on the OS.
-
-;; TODO: Check if font is present before setting it.
+;; TODO: Structure > Check if font is present before setting it.
 
 (leaf *os-related-settings
 
@@ -330,7 +339,7 @@
       ;; (add-to-list 'default-frame-alist '(font . "xos4 Terminus:pixelsize=14"))
       (when (string-equal
              (substring (shell-command-to-string "lsb_release -sd") 0 3)
-             (substring "Ubun" 0 3)) ; TODO: Adjust if necessary.
+             (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
         (progn (add-to-list 'default-frame-alist
                             '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
                (add-to-list 'default-frame-alist '(height . 50))
@@ -1025,7 +1034,7 @@
 
 ;; FLYCHECK
 
-(leaf flycheck                          ; TODO: Move up to Flyspell and wrap.
+(leaf flycheck                          ; TODO: Structure > Move up to Flyspell and wrap.
 
   :ensure t
 
@@ -1110,7 +1119,7 @@
 
   :config
 
-  (leaf org				; TODO: Use :bind at some point.
+  (leaf org				; FIXME: Band aid > Use :bind at some point.
 
     :preface
 
@@ -1430,7 +1439,7 @@
 
 ;; LSP
 
-(leaf lsp-mode
+(leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
 
   :ensure t
 
@@ -1682,7 +1691,7 @@
 
 ;; ELPY
 
-;; TODO: Remove at some point.
+;; TODO: Cleanup > Remove at some point.
 
 (leaf elpy
 
@@ -1690,7 +1699,7 @@
 
   :after python
 
-  :init                                 ; TODO: Move down.
+  :init                                 ; TODO: Structure > Move down.
 
   ;; If elpy-enable is off, enable elpy.
   (when (require 'elpy nil t)
@@ -1728,7 +1737,7 @@
   (add-hook 'elpy-mode-hook
             (lambda () (add-to-list 'company-backends 'company-jedi)))
 
-  ;; TODO: Remove clutter.
+  ;; TODO: Cleanup > Remove clutter.
 
   ;; Jedi settings.
   ;; (defun my/python-mode-hook ()
@@ -1888,7 +1897,7 @@
 
   ;; :ensure poly-R
 
-  :mode                                 ; TODO: Sort this.
+  :mode                                 ; TODO: Cleanup > Sort this.
 
   (("\\.md$" . poly-markdown-mode)
    ("README\\.md\\'" . gfm-mode)
