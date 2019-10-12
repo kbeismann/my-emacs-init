@@ -233,11 +233,15 @@
 
   (defvar my-font-manjaro             ; TODO: Unused > Variable defining font.
     "Dina:pixelsize=12"
-    "My default font.")
+    "My default font for Manjaro.")
 
   (defvar my-font-arch                ; TODO: Unused > Variable defining font.
     "Dina:pixelsize=12"
-    "My default font.")
+    "My default font for Arch Linux.")
+
+  (defvar my-font-ubuntu
+    "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
+    "My default font for Ubuntu.")
 
   (defvar my-max-columns
     78
