@@ -1078,8 +1078,6 @@
 
 (leaf python
 
-  :ensure conda sphinx-doc python-docstring lsp-mode
-
   :commands python-mode
 
   :mode (("\\.py\\'" . python-mode)
@@ -1577,8 +1575,6 @@
 
   :ensure t
 
-  :after python
-
   :hook
 
   (python-mode-hook . pipenv-mode)
@@ -1630,8 +1626,6 @@
 
   :disabled t
 
-  :after python
-
   :config
 
   (defun my-coverage ()
@@ -1646,8 +1640,6 @@
 (leaf sphinx-doc
 
   :ensure t
-
-  :after python
 
   :load-path "~/gitdir/sphinx-doc.el/"
 
