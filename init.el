@@ -86,7 +86,6 @@
 ;; * NEXT: Structure > Use function/package to toggle proxies.
 ;; * NEXT: Structure > External repository for snippets.
 ;; * NEXT: Structure > Better YASnippet implementation.
-;; * TODO: Packages > Try undo-tree.
 ;; * TODO: Packages > Try Origami.
 ;; * TODO: Packages > Try real-auto-save.
 
@@ -666,6 +665,19 @@
 (leaf *utility-packages
 
   :config
+
+
+  ;; UNDO-TREE
+
+  (leaf undo-tree
+
+    :ensure t
+
+    :diminish undo-tree-mode
+
+    :custom
+
+    ((global-undo-tree-mode . t)))
 
 
   ;; DEBUGGING INIT FILE
