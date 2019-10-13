@@ -86,7 +86,6 @@
 ;; * NEXT: Structure > Use function/package to toggle proxies.
 ;; * NEXT: Structure > External repository for snippets.
 ;; * NEXT: Structure > Better YASnippet implementation.
-;; * TODO: Packages > Try Origami.
 ;; * TODO: Packages > Try real-auto-save.
 
 
@@ -141,8 +140,8 @@
 (prog1 "Use leaf to simplify package management"
 
   ;; Add archives and assign priorities.
-  (setq package-check-signature 'allow-unsigned)      ; Do/don't check sig.
-  (setq package-archives '(("gnu"                    . "https://elpa.gnu.org/packages/")
+  (setq package-check-signature 'allow-unsigned ; Do/don't check sig.
+        package-archives '(("gnu"                    . "https://elpa.gnu.org/packages/")
                            ("org"                    . "https://orgmode.org/elpa/")
                            ("melpa"                  . "https://melpa.org/packages/")
                            ("melpa-stable"           . "https://stable.melpa.org/packages/"))
@@ -648,7 +647,6 @@
    (bibtex-autokey-titlewords           . 3)
    (bibtex-autokey-titlewords-stretch   . 1)
    (bibtex-autokey-titleword-length     . 5))
-
 
   :config
 
