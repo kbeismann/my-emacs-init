@@ -1510,9 +1510,9 @@
     :custom
 
     ;; Directories.
-    ((org-directory          . "~/gitdir/orgdir")
+    ((org-directory          . "~/gitdir/orgdir/")
      (org-default-notes-file . "~/gitdir/orgdir/notes.org")
-     (org-agenda-files       . "~/gitdir/orgdir")
+     (org-agenda-files       . (list org-directory))
 
      ;; Use relative paths.
      (org-link-file-path-type . 'relative)
