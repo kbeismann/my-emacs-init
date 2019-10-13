@@ -1398,8 +1398,6 @@
 
   :config
 
-  ;; (add-to-list 'flycheck-pycheckers-ignore-codes
-  ;;              '("C0330" "W503" "E701" "B311")))
   (setq flycheck-pycheckers-ignore-codes (append flycheck-pycheckers-ignore-codes
                                                  '("C0330" "W503" "E701" "B311"))))
 
