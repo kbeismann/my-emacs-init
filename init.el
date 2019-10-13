@@ -660,9 +660,9 @@
       (setq bibtex-completion-bibliography path-to-bib))))
 
 
-;; SOME UTILITY PACKAGES
+;; MISC. TOOLS
 
-(leaf *utility-packages
+(leaf *misc-tools
 
   :config
 
