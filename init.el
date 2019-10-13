@@ -675,9 +675,15 @@
 
     :diminish undo-tree-mode
 
+    :bind
+
+    ("C-c u t" . undo-tree-visualize)
+
     :custom
 
-    ((global-undo-tree-mode . t)))
+    ((global-undo-tree-mode     . t)
+     (undo-tree-visualizer-diff . t)))
+
 
 
   ;; DEBUGGING INIT FILE
