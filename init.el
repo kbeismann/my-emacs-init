@@ -326,11 +326,11 @@
 
 ;; SEARCH FOR AND CREATE CUSTOMIZATION FILE
 
-;; The following snippet checks if a file specified in my-custom-file
-;; exists.  If it does, set it as custom-file and load it.  If it does not,
-;; create the file with "touch", set it as custom-file, and load it.
+;; The following snippet checks if a file specified in my-custom-file exists.
+;; If it does, set it as custom-file and load it.  If it does not, create the
+;; file with "touch", set it as custom-file, and load it.
 
-(leaf *use-custom-file
+(leaf cus-edit
 
   :doc "Use an external customization file to avoid cluttering this file"
 
