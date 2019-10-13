@@ -1792,7 +1792,7 @@
    (lsp-message-project-root-warning . t)
 
    ;; Debugging.
-   (lsp-print-io          . t)
+   (lsp-log-io          . t)
    (lsp-trace             . t)
    (lsp-print-performance . t)
 
@@ -1800,7 +1800,7 @@
    (lsp-enable-symbol-highlighting . t)
    (lsp-prefer-flymake             . nil)
    (lsp-auto-guess-root            . t)
-   (lsp-enable-snippet             . nil))
+   (lsp-enable-snippet             . t))
 
   :config
 
