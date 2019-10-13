@@ -704,7 +704,8 @@
      (dashboard-items             . '((recents   . 10)
                                       (projects  . 10)
                                       (agenda    . 5)
-                                      (bookmarks . 5))))
+                                      ;; (bookmarks . 5)
+                                      )))
 
     :config
 
