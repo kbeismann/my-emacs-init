@@ -159,32 +159,34 @@
     (package-refresh-contents)
     (package-install 'leaf))
 
-  (leaf leaf-keywords
-
-    :ensure t
+  (leaf leaf
 
     :config
 
-    (leaf el-get
+    (leaf leaf-keywords
 
-      :ensure t
+      :config
 
-      :init
+      (leaf el-get
 
-      (unless (executable-find "git")
-        (warn "Git not found: el-get can't download packages."))
+        :ensure t
 
-      :custom
+        :init
 
-      ((el-get-git-shallow-clone  . t)
-       (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
+        (unless (executable-find "git")
+          (warn "Git not found: el-get can't download packages."))
 
-    (leaf diminish
+        :custom
 
-      :ensure t)
+        ((el-get-git-shallow-clone  . t)
+         (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
 
-    (leaf-keywords-init)
-    (message "Leaf initiated with additional keywords...")))
+      (leaf diminish
+
+        :ensure t)
+
+      (leaf-keywords-init)
+      (message "Leaf initiated with additional keywords..."))))
 
 
 ;; WORK-RELATED SETTINGS
