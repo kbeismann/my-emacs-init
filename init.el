@@ -2198,6 +2198,8 @@
 
   :ensure helm-projectile
 
+  :diminish projectile-mode
+
   :bind
 
   ("C-c p" . projectile-command-map)
