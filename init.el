@@ -1004,8 +1004,6 @@
 
   :custom
 
-  :config
-
   ((which-key-idle-delay           . 0.5)
    (which-key-idle-secondary-delay . 0))
 
