@@ -685,6 +685,31 @@
      (undo-tree-visualizer-diff . t)))
 
 
+  ;; DASHBOARD
+
+  (leaf dashboard
+
+    :when (version<= "25.1" emacs-version)
+
+    :ensure t
+
+    :custom
+
+    ((dashboard-startup-banner    . 'logo)
+     ;; (dashboard-set-heading-icons . t)
+     ;; (dashboard-set-file-icons    . t)
+     (show-week-agenda-p . nil)
+     (dashboard-items             . '((recents   . 10)
+                                      (projects  . 10)
+                                      (agenda    . 5)
+                                      (bookmarks . 5))))
+
+    :config
+
+    (add-to-list 'dashboard-items '(agenda) t)
+
+    (dashboard-setup-startup-hook))
+
 
   ;; DEBUGGING INIT FILE
 
