@@ -693,6 +693,8 @@
 
     :ensure t
 
+    :diminish dashboard-mode page-break-lines-mode
+
     :custom
 
     ((dashboard-startup-banner    . 'logo)
