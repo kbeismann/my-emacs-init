@@ -551,9 +551,9 @@
 
   :ensure t
 
-  :preface
+  :custom
 
-  (setq load-prefer-newer t)
+  (load-prefer-newer . t)
 
   :config
 
@@ -813,16 +813,18 @@
     ;; Remove old bind for helm-command-map.
     (global-unset-key (kbd "C-x c"))
 
-    :config
+    :custom
 
     ;; Splitting behavior.
-    (setq helm-split-window-inside-p nil
-          helm-move-to-line-cycle-in-source nil ; If t breaks cycling.
-          helm-autoresize-mode t)
+    ((helm-split-window-inside-p        . nil)
+     (helm-move-to-line-cycle-in-source . nil) ; If t breaks cycling.
+     (helm-autoresize-mode              . t)
 
-    ;; Use fuzzy matching when possible.
-    (setq helm-mode-fuzzy-match t
-          helm-completion-in-region-fuzzy-match t)
+     ;; Use fuzzy matching when possible.
+     (helm-mode-fuzzy-match                 . t)
+     (helm-completion-in-region-fuzzy-match . t))
+
+    :config
 
     ;; Turn on helm-mode.
     (helm-mode 1))
@@ -861,10 +863,12 @@
 
   :ensure t
 
-  :config
+  :custom
 
   ;; Change the terminal colors.  Not sure if it works.
-  (setq base16-theme-256-color-source "colors")
+  (base16-theme-256-color-source . "colors")
+
+  :config
 
   ;; Load base16.
   (load-theme 'base16-zenburn 1)
@@ -908,11 +912,11 @@
 
 
   (custom-set-faces '(font-lock-keyword-face ((t (:weight bold))))
-                    '(font-lock-builtin-face ((t (:weight bold)))))
-  ;; '(font-lock-function-name-face ((t (:weight bold))))
-  ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
-  ;; '(font-lock-comment-face ((t (:slant italic))))
-  )
+                    '(font-lock-builtin-face ((t (:weight bold))))))
+
+;; '(font-lock-function-name-face ((t (:weight bold))))
+;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
+;; '(font-lock-comment-face ((t (:slant italic))))
 
 
 ;; AVY
@@ -998,10 +1002,14 @@
 
   :diminish which-key-mode
 
+  :custom
+
   :config
 
-  (setq which-key-idle-delay 0.5
-        which-key-idle-secondary-delay 0)
+  ((which-key-idle-delay           . 0.5)
+   (which-key-idle-secondary-delay . 0))
+
+  :config
 
   (which-key-mode 1))
 
