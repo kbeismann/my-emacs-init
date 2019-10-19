@@ -239,11 +239,11 @@
     "Dina"
     "My default font family for Manjaro.")
 
-  (defvar my-font-arch                ; TODO: Unused > Variable defining font.
+  (defvar my-font-arch
     "Dina:pixelsize=12"
     "My default font for Arch Linux.")
 
-  (defvar my-font-family-arch                ; TODO: Unused > Variable defining font.
+  (defvar my-font-family-arch
     "Dina"
     "My default font family for Arch Linux.")
 
