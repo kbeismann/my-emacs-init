@@ -16,7 +16,6 @@ that Pango removed support for bitmap fonts with version 1.33.
 Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
 
 
-
 ## Installation (UNIX-based)
 
 This setup is currently tested with GNU Emacs 26.3.
@@ -29,43 +28,48 @@ $ sudo pacman -S emacs
 ```bash
 $ sudo pacman -S dina-font
 ```
-3. Create a symbolic link to `~/.emacs` or
+3. Clone the repository:
+```
+cd ~/gitdir/
+git clone https://github.com/kbeismann/emacs-init emacs-init
+```
+4. Create a symbolic link to `~/.emacs` or
   `~/.emacs.d/init.el`:
 ```bash
 $ mkdir ~/.emacs.d/
 $ cd ~/gitdir/emacs-init/
 $ ln -s ./init.el ~/.emacs.d/init.el
 ```
-4. Start Emacs:
+5. Start Emacs:
 ```bash
 $ emacs
 ```
 
 
-## Working font options
-
-* Hack:
-  * `"Hack-9"` ; Arch
-  * `"Hack:pixelsize=14"` ; Arch
-
-* DejaVu Sans Mono:
-  * `"DejaVu Sans Mono-10"`; Arch
-
-* Inconsolata:
-  * `"Inconsolata-11"`
-  * `"Inconsolata:pixelsize=14"` ; Arch
+## Some working font options
 
 * Dina:
   * `"Dina-9"`
-  * `"Dina:pixelsize=12"` ; Arch, Manjaro
+  * `"Dina:pixelsize=12"` -- Arch, Manjaro
   * `"-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"`
 
 * Terminus:
   * `"Terminus-12"`
-  * `"xos4 Terminus-10"` ; Arch, Manjaro
+  * `"xos4 Terminus-10"` -- Arch, Manjaro
   * `"-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"`
-  * `"-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*"` ; Ubuntu
-  * `"-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"` ; Ubuntu
+  * `"-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*"` -- Ubuntu
+  * `"-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"` -- Ubuntu
+
+* Hack:
+  * `"Hack-9"` -- Arch
+  * `"Hack:pixelsize=14"` -- Arch
+
+* DejaVu Sans Mono:
+  * `"DejaVu Sans Mono-10"` -- Arch
+
+* Inconsolata:
+  * `"Inconsolata-11"`
+  * `"Inconsolata:pixelsize=14"` -- Arch
 
 
 ## Sources (incomplete)
