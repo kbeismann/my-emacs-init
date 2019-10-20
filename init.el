@@ -410,17 +410,11 @@
 
   :doc "Check OS and set appropriate font and frame size"
 
-  :preface
+  ;; :hook (after-make-frame-functions . set-face-on-frame)
+  ;; after-make-frame-functions #'load-material-theme
+  ;; :preface
 
   ;; TODO: Possible solution for using Emacs as a daemon.
-
-  ;; (defun set-face-on-frame (frame)
-  ;;   "Configure faces on frame creation"
-  ;;   (select-frame frame)
-  ;;   (if (display-graphic-p)
-  ;;       (progn
-  ;;         (when (member my-font-family-manjaro (font-family-list))
-  ;;           (set-frame-font my-font-manjaro)))))
 
   :config
 
@@ -434,34 +428,40 @@
 
     ;; Font for Manjaro.
     (if (string-equal "Manjaro" (substring my-os 0 7))
-        (progn (message "%s" (concat "Font settings for Manjaro: " my-font-manjaro))
+        (progn (message "%s" (concat "Current font settings for Manjaro: " my-font-manjaro))
+               (message "%s" "Looking for fonts...")
                (if (member my-font-family-manjaro (font-family-list))
                    (progn (message "%s" (concat "Font installed: " my-font-family-manjaro))
-                          (set-default-font my-font-manjaro))
-                 (message "%s" (concat "Font not installed: " my-font-family-manjaro)))
+                          (setq my-font my-font-manjaro))
+                 (message "%s" (concat "Missing font family: " my-font-family-manjaro)))
                ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
                (add-to-list 'default-frame-alist '(height . 60))
                (add-to-list 'default-frame-alist '(width . 180)))
 
       ;; Font for Arch.
       (if (string-equal "Arch" (substring my-os 0 4))
-          (progn (message "%s" (concat "Font settings for Arch Linux: " my-font-arch))
+          (progn (message "%s" (concat "Current font settings for Arch Linux: " my-font-arch))
+                 (message "%s" "Looking for fonts...")
                  (if (member my-font-family-arch (font-family-list))
                      (progn (message "%s" (concat "Font installed: " my-font-family-arch))
-                            (set-default-font my-font-arch))
-                   (message "%s" (concat "Font not installed: " my-font-family-arch))))
+                            (setq my-font my-font-arch))
+                   (message "%s" (concat "Missing font family: " my-font-family-arch))))
 
         ;; Font for Ubuntu.
         (when (string-equal
                (substring (shell-command-to-string "lsb_release -sd") 0 3)
                (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
-          (progn (message "%s" (concat "Font settings for Ubuntu: " my-font-ubuntu))
+          (progn (message "%s" (concat "Current font settings for Ubuntu: " my-font-ubuntu))
+                 (message "%s" "Looking for fonts...")
                  (if (member my-font-family-ubuntu (font-family-list))
                      (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
-                            (set-default-font my-font-ubuntu))
-                   (message "%s" (concat "Font not installed: " my-font-family-ubuntu)))
+                            (setq my-font my-font-ubuntu))
+                   (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
                  (add-to-list 'default-frame-alist '(height . 60))
-                 (add-to-list 'default-frame-alist '(width . 200))))))))
+                 (add-to-list 'default-frame-alist '(width . 200)))))))
+
+  ;; Set specified font.
+  (set-default-font my-font))
 
 
 ;; LINE NUMBERING
