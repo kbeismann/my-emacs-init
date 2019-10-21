@@ -302,19 +302,19 @@
    (truncate-lines               . t)
    (font-lock-maximum-decoration . t)
 
-   ;;
+   ;; Clipboard behavior.
    (x-select-enable-clipboard-manager . t)
 
-   ;;
+   ;; Debugging.
    (debug-on-error  . t)
    (init-file-debug . t )
 
-   ;;
+   ;; Save-related settings.
    (save-place-mode         . t)
    (desktop-save-mode       . nil)
    (blink-cursor-mode       . t)
 
-   ;;
+   ;; Auto-revert.
    (auto-revert-interval    . 5)
    (global-auto-revert-mode . t))
 
