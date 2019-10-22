@@ -1773,6 +1773,7 @@
      ("C-c g c" . magit-clone)
      ("C-c g b" . magit-blame)
      ("C-c g d" . magit-dispatch)
+     ("C-c g o" . magit-branch-checkout)
      ("C-c g a" . magit-commit-amend))
 
     :config
