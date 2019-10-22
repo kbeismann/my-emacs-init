@@ -453,15 +453,22 @@
                (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
           (progn (message "%s" (concat "Current font settings for Ubuntu: " my-font-ubuntu))
                  (message "%s" "Looking for fonts...")
-                 (if (member my-font-family-ubuntu (font-family-list))
-                     (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
-                            (setq my-font my-font-ubuntu))
-                   (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
+                 ;; (if (member my-font-family-ubuntu (font-family-list))
+                 (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
+                        (setq my-font my-font-ubuntu)
+                        (add-to-list 'default-frame-alist
+                                     '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
+                        ;; )
+                        (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
                  (add-to-list 'default-frame-alist '(height . 60))
-                 (add-to-list 'default-frame-alist '(width . 200)))))))
+                 (add-to-list 'default-frame-alist '(width  . 200)))))))
 
   ;; Set specified font.
-  (set-default-font my-font))
+  ;; (set-default-font my-font)
+  ;; (set-face-attribute 'default nil :font my-font )
+  ;; (set-frame-font my-font nil t)
+  )
+
 
 
 ;; LINE NUMBERING
