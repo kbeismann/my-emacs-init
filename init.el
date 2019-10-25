@@ -671,6 +671,25 @@
     (dired-mode-map
      (")" . dired-git-info-mode)))
 
+  (leaf dired-subtree
+
+    :ensure t
+
+    :require t
+
+    :leaf-defer nil
+
+    :after dired
+
+    :bind
+
+    (dired-mode-map
+     (";" . dired-subtree-toggle)
+     ("'" . dired-subtree-remove))
+
+    :custom
+
+    (dired-subtree-use-backgrounds . nil)))
 
 
 ;; ASYNC
