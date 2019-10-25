@@ -103,7 +103,8 @@
               (message "Emacs ready in %s with %d garbage collections."
                        (format "%.2f seconds"
                                (float-time
-                                (time-subtract after-init-time before-init-time)))
+                                (time-subtract after-init-time
+                                               before-init-time)))
                        gcs-done))))
 
 
@@ -477,7 +478,9 @@
         (when (string-equal
                (substring (shell-command-to-string "lsb_release -sd") 0 3)
                (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
-          (progn (message "%s" (concat "Current font settings for Ubuntu: " my-font-ubuntu))
+          (progn (message "%s" (concat
+                                "Current font settings for Ubuntu: "
+                                my-font-ubuntu))
                  (message "%s" "Looking for font family...")
                  (if (and (null
                            (string= "" (shell-command-to-string
@@ -1493,8 +1496,9 @@
 
   :config
 
-  (setq flycheck-pycheckers-ignore-codes (append flycheck-pycheckers-ignore-codes
-                                                 '("C0330" "W503" "E701" "B311"))))
+  (setq flycheck-pycheckers-ignore-codes (append
+                                          flycheck-pycheckers-ignore-codes
+                                          '("C0330" "W503" "E701" "B311"))))
 
 
 ;; PDF-TOOLS
@@ -1904,10 +1908,17 @@
   :config
 
   ;; Define faces for highlighting in LSP.
-  (set-face-attribute 'lsp-face-highlight-write nil :italic nil :underline nil :inherit
-                      'unspecified :background base02-prop :inverse-video t)
-  (set-face-attribute 'lsp-face-highlight-read nil :italic nil :underline nil :inherit
-                      'unspecified :background base02-prop))
+  (set-face-attribute 'lsp-face-highlight-write nil
+                      :italic nil
+                      :underline nil
+                      :inherit 'unspecified
+                      :background base02-prop
+                      :inverse-video t)
+  (set-face-attribute 'lsp-face-highlight-read nil
+                      :italic nil
+                      :underline nil
+                      :inherit 'unspecified
+                      :background base02-prop))
 
 
 ;; COMPANY-LSP
@@ -2114,7 +2125,8 @@
   :custom
 
   ((yas-indent-line  . 'fixed)
-   (yas-snippet-dirs . '("~/gitdir/emacs-init/snippets/" "~/.emacs.d/snippets/"))
+   (yas-snippet-dirs . '("~/gitdir/emacs-init/snippets/"
+                         "~/.emacs.d/snippets/"))
    (yas-global-mode  . t)))
 
 
