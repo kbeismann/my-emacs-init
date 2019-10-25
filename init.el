@@ -627,23 +627,30 @@
 
 ;; DIRED
 
-(leaf dired
+(leaf *dired-setup
 
-  :commands dired
+  :config
 
-  :ensure async
+  (leaf dired
 
-  :hook
+    :commands dired
 
-  (dired-mode-hook . (lambda() (hl-line-mode 1)))
+    :ensure async
 
-  :custom
+    :hook
 
-  ((dired-dwim-target                       . t)       ; Better target.
-   (dired-recursive-copies                  . 'always) ; Copy recursively.
-   (dired-recursive-deletes                 . 'always) ; Delete recursively.
-   (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
-   (dired-listing-switches                  . "-lahgF --group-directories-first")))
+    ((dired-mode-hook . hl-line-mode )
+     (dired-mode-hook . dired-hide-details-mode))
+
+    :custom
+
+    ((dired-dwim-target                       . t)       ; Better target.
+     (dired-recursive-copies                  . 'always) ; Copy recursively.
+     (dired-recursive-deletes                 . 'always) ; Delete recursively.
+     (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
+     (dired-listing-switches                  . "-lahgF --group-directories-first")))
+
+
 
 
 ;; ASYNC
