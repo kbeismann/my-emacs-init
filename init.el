@@ -650,6 +650,26 @@
      (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
      (dired-listing-switches                  . "-lahgF --group-directories-first")))
 
+  (leaf dired-git-info
+
+    :ensure t
+
+    :leaf-defer nil
+
+    :require t
+
+    :after dired
+
+    ;; :diminish dired-git-info-mode
+
+    ;; :hook
+
+    ;; (dired-mode-hook . dired-git-info-mode)
+
+    :bind
+
+    (dired-mode-map
+     (")" . dired-git-info-mode)))
 
 
 
