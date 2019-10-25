@@ -335,7 +335,9 @@
 
   :config
 
-  (prog1 (message "%s" (concat "Looking for a customization file: " my-custom-file))
+  (prog1 (message "%s" (concat
+                        "Looking for a customization file: "
+                        my-custom-file))
 
     (when (not (file-exists-p my-custom-file))
 
@@ -428,27 +430,48 @@
 
     ;; Font for Manjaro.
     (if (string-equal "Manjaro" (substring my-os 0 7))
-        (progn (message "%s" (concat "Current font settings for Manjaro: " my-font-manjaro))
+        (progn (message "%s" (concat
+                              "Current font settings for Manjaro: "
+                              my-font-manjaro))
                (message "%s" "Looking for font family...")
-               (if (and (null (string= "" (shell-command-to-string "which fc-list")))
-                        (null (string= "" (shell-command-to-string (concat "fc-list " my-font-manjaro)))))
-                   ;; (member my-font-family-manjaro (font-family-list)) ; FIXME: Works only situationally.
-                   (progn (message "%s" (concat "Font installed: " my-font-family-manjaro))
+               (if (and (null (string= "" (shell-command-to-string
+                                           "which fc-list")))
+                        (null (string= "" (shell-command-to-string
+                                           (concat
+                                            "fc-list "
+                                            my-font-manjaro)))))
+                   (progn (message "%s" (concat
+                                         "Font installed: "
+                                         my-font-family-manjaro))
                           (setq my-font my-font-manjaro))
-                 (message "%s" (concat "Missing font family: " my-font-family-manjaro)))
+                 (message "%s" (concat
+                                "Missing font family: "
+                                my-font-family-manjaro)))
                ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
                (add-to-list 'default-frame-alist '(height . 60))
                (add-to-list 'default-frame-alist '(width . 180)))
 
       ;; Font for Arch.
       (if (string-equal "Arch" (substring my-os 0 4))
-          (progn (message "%s" (concat "Current font settings for Arch Linux: " my-font-arch))
+          (progn (message "%s" (concat
+                                "Current font settings for Arch Linux: "
+                                my-font-arch))
                  (message "%s" "Looking for font family...")
-                 (if (and (null (string= "" (shell-command-to-string "which fc-list")))
-                          (null (string= "" (shell-command-to-string (concat "fc-list " my-font-arch)))))
-                     (progn (message "%s" (concat "Font installed: " my-font-family-arch))
+                 (if (and (null
+                           (string= "" (shell-command-to-string
+                                        "which fc-list")))
+                          (null
+                           (string= "" (shell-command-to-string
+                                        (concat
+                                         "fc-list "
+                                         my-font-arch)))))
+                     (progn (message "%s" (concat
+                                           "Font installed: "
+                                           my-font-family-arch))
                             (setq my-font my-font-arch))
-                   (message "%s" (concat "Missing font family: " my-font-family-arch))))
+                   (message "%s" (concat
+                                  "Missing font family: "
+                                  my-font-family-arch))))
 
         ;; Font for Ubuntu.
         (when (string-equal
@@ -456,14 +479,24 @@
                (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
           (progn (message "%s" (concat "Current font settings for Ubuntu: " my-font-ubuntu))
                  (message "%s" "Looking for font family...")
-                 (if (member my-font-family-ubuntu (font-family-list))
-                     (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
+                 (if (and (null
+                           (string= "" (shell-command-to-string
+                                        "which fc-list")))
+                          (null
+                           (string= "" (shell-command-to-string
+                                        (concat
+                                         "fc-list "
+                                         my-font-ubuntu)))))
+                     ;; (member my-font-family-ubuntu (font-family-list))
+                     (progn (message "%s" (concat
+                                           "Font installed: "
+                                           my-font-family-ubuntu))
                             (setq my-font my-font-ubuntu)
-                            (add-to-list 'default-frame-alist
-                                         '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*")))
-                   (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
-                 (add-to-list 'default-frame-alist '(height . 60))
-                 (add-to-list 'default-frame-alist '(width  . 200)))))))
+                            ;; (add-to-list 'default-frame-alist
+                            ;;              '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*")))
+                            (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
+                   (add-to-list 'default-frame-alist '(height . 60))
+                   (add-to-list 'default-frame-alist '(width  . 200))))))))
 
   ;; Set specified font.
   (add-to-list 'default-frame-alist `(font . ,my-font)) ; Works for emacsclient as well.
