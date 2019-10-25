@@ -1815,9 +1815,12 @@
     (("C-c g s" . magit-status)
      ("C-c g c" . magit-clone)
      ("C-c g b" . magit-blame)
-     ("C-c g d" . magit-dispatch)
-     ("C-c g o" . magit-branch-checkout)
-     ("C-c g a" . magit-commit-amend))
+     (magit-mode-map
+      ("r s" . magit-reset-soft)
+      ("r h" . magit-reset-hard)
+      ("c a" . magit-commit-amend)
+      ("c r" . magit-commit-reword)
+      ("b c" . magit-branch-checkout)))
 
     :config
 
