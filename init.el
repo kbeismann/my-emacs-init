@@ -414,7 +414,7 @@
   ;; after-make-frame-functions #'load-material-theme
   ;; :preface
 
-  ;; TODO: Possible solution for using Emacs as a daemon.
+  ;; TODO: Maybe write a nicer function to avoid repetition.
 
   :config
 
@@ -429,8 +429,10 @@
     ;; Font for Manjaro.
     (if (string-equal "Manjaro" (substring my-os 0 7))
         (progn (message "%s" (concat "Current font settings for Manjaro: " my-font-manjaro))
-               (message "%s" "Looking for fonts...")
-               (if (member my-font-family-manjaro (font-family-list))
+               (message "%s" "Looking for font family...")
+               (if (and (null (string= "" (shell-command-to-string "which fc-list")))
+                        (null (string= "" (shell-command-to-string (concat "fc-list " my-font-manjaro)))))
+                   ;; (member my-font-family-manjaro (font-family-list)) ; FIXME: Works only situationally.
                    (progn (message "%s" (concat "Font installed: " my-font-family-manjaro))
                           (setq my-font my-font-manjaro))
                  (message "%s" (concat "Missing font family: " my-font-family-manjaro)))
@@ -441,8 +443,9 @@
       ;; Font for Arch.
       (if (string-equal "Arch" (substring my-os 0 4))
           (progn (message "%s" (concat "Current font settings for Arch Linux: " my-font-arch))
-                 (message "%s" "Looking for fonts...")
-                 (if (member my-font-family-arch (font-family-list))
+                 (message "%s" "Looking for font family...")
+                 (if (and (null (string= "" (shell-command-to-string "which fc-list")))
+                          (null (string= "" (shell-command-to-string (concat "fc-list " my-font-arch)))))
                      (progn (message "%s" (concat "Font installed: " my-font-family-arch))
                             (setq my-font my-font-arch))
                    (message "%s" (concat "Missing font family: " my-font-family-arch))))
@@ -452,21 +455,21 @@
                (substring (shell-command-to-string "lsb_release -sd") 0 3)
                (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
           (progn (message "%s" (concat "Current font settings for Ubuntu: " my-font-ubuntu))
-                 (message "%s" "Looking for fonts...")
-                 ;; (if (member my-font-family-ubuntu (font-family-list))
-                 (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
-                        (setq my-font my-font-ubuntu)
-                        (add-to-list 'default-frame-alist
-                                     '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"))
-                        ;; )
-                        (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
+                 (message "%s" "Looking for font family...")
+                 (if (member my-font-family-ubuntu (font-family-list))
+                     (progn (message "%s" (concat "Font installed: " my-font-family-ubuntu))
+                            (setq my-font my-font-ubuntu)
+                            (add-to-list 'default-frame-alist
+                                         '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*")))
+                   (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
                  (add-to-list 'default-frame-alist '(height . 60))
                  (add-to-list 'default-frame-alist '(width  . 200)))))))
 
   ;; Set specified font.
-  ;; (set-default-font my-font)
-  ;; (set-face-attribute 'default nil :font my-font )
+  (add-to-list 'default-frame-alist `(font . ,my-font)) ; Works for emacsclient as well.
+
   ;; (set-frame-font my-font nil t)
+  ;; (set-face-attribute 'default nil :font my-font )
   )
 
 
