@@ -317,7 +317,14 @@
 
    ;; Auto-revert.
    (auto-revert-interval    . 5)
-   (global-auto-revert-mode . t))
+   (global-auto-revert-mode . t)
+
+   ;; Better interpreter settings: scroll down with input/output.
+   (comint-scroll-to-bottom-on-input  . t)
+   (comint-scroll-to-bottom-on-output . t)
+   (comint-move-point-for-output      . t)
+   (scroll-down-aggressively          . 0.5)) ; Not sure what this does.
+
 
   :config
 
@@ -1426,7 +1433,6 @@
 
     (setq python-shell-completion-native-enable nil)
     (setq python-indent-offset 4)         ; Indent with 4 spaces.
-    (setq scroll-down-aggressively 1)     ; Not sure what this does.
 
     ;; Add Company-jedi to python-mode.
     (add-hook 'elpy-mode-hook
@@ -2044,11 +2050,6 @@
   ;; ESS will not print the evaluated commands, also speeds up the
   ;; evaluation.
   (setq ess-eval-visibly nil)
-
-  ;; Better inferior mode settings: scroll down inferior with input/output.
-  (setq comint-scroll-to-bottom-on-input t
-        comint-scroll-to-bottom-on-output t
-        comint-move-point-for-output t)
 
   ;; Major mode font-lock.
   (setq ess-R-font-lock-keywords
