@@ -1866,23 +1866,27 @@
 
     :ensure t
 
+    :leaf-defer nil
+
     :bind
 
     (("C-c g s" . magit-status)
      ("C-c g c" . magit-clone)
      ("C-c g b" . magit-blame)
      (magit-mode-map
-      ("r s" . magit-reset-soft)
-      ("r h" . magit-reset-hard)
-      ("c a" . magit-commit-amend)
-      ("c r" . magit-commit-reword)
-      ("b c" . magit-branch-checkout)))
+      ("C-c r s" . magit-reset-soft)
+      ("C-c r h" . magit-reset-hard)
+      ("C-c c a" . magit-commit-amend)
+      ("C-c c r" . magit-commit-reword)
+      ("C-c b c" . magit-branch-checkout)))
 
     :config
 
     (leaf magit-todos
 
       :ensure t
+
+      :after magit
 
       :hook
 
