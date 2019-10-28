@@ -639,7 +639,7 @@
 
     :hook
 
-    ((dired-mode-hook . hl-line-mode )
+    ((dired-mode-hook . (lambda() (hl-line-mode 1)))
      (dired-mode-hook . dired-hide-details-mode))
 
     :custom
