@@ -412,10 +412,6 @@
 
 ;; Font and frame settings, dependent on the OS.
 
-;; FIXME: Currently, fonts are not set properly when starting Emacs as a daemon.
-;; TODO: https://www.emacswiki.org/emacs/SetFonts
-;; TODO: https://stackoverflow.com/questions/25221960/emacsclient-font-check-not-working
-
 (leaf *os-related-settings
 
   :doc "Check OS and set appropriate font and frame size"
