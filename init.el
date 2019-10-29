@@ -1866,15 +1866,17 @@
 
     :bind
 
-    (("C-c g s" . magit-status)
-     ("C-c g c" . magit-clone)
-     ("C-c g b" . magit-blame)
+    (("C-c g s"   . magit-status)
+     ("C-c g c"   . magit-clone)
+     ("C-c g b"   . magit-blame)
+     ("C-c g f l" . magit-log-buffer-file)
+     ("C-c g l"   . magit-log)
+     ("C-c g b c" . magit-branch-checkout)
      (magit-mode-map
-      ("C-c r s" . magit-reset-soft)
-      ("C-c r h" . magit-reset-hard)
-      ("C-c c a" . magit-commit-amend)
-      ("C-c c r" . magit-commit-reword)
-      ("C-c b c" . magit-branch-checkout)))
+      ("C-c g r s" . magit-reset-soft)
+      ("C-c g r h" . magit-reset-hard)
+      ("C-c g c a" . magit-commit-amend)
+      ("C-c g c r" . magit-commit-reword)))
 
     :config
 
