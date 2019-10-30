@@ -424,92 +424,86 @@
 
   :config
 
-  (message "%s" "Checking OS...")
-  (when (eq system-type 'gnu/linux)
+  (message "Checking OS...")
+  (if (eq system-type 'gnu/linux)
+      (progn
+        (defvar my-os (substring
+                       (shell-command-to-string "lsb_release -sd") 0 -1))
+        (message "Found GNU/Linux...")
+        (message "Found distribution: %s" my-os)
 
-    ;; Get OS designation without quotes.
-    (defvar my-os (substring (shell-command-to-string "lsb_release -sd") 1 -2))
-    (message "%s" "Found GNU/Linux...")
-    (message "Found distribution: %s" my-os)
-
-    ;; Font for Manjaro.
-    (if (string-equal "Manjaro" (substring my-os 0 7))
-        (progn (message "%s" (concat
-                              "Current font settings for Manjaro: "
-                              my-font-manjaro))
-               (message "%s" "Looking for font family...")
-               (if (and (null (string= "" (shell-command-to-string
-                                           "which fc-list")))
-                        (null (string= "" (shell-command-to-string
-                                           (concat
-                                            "fc-list "
-                                            my-font-manjaro)))))
-                   (progn (message "%s" (concat
-                                         "Font installed: "
-                                         my-font-family-manjaro))
-                          (setq my-font my-font-manjaro))
-                 (message "%s" (concat
-                                "Missing font family: "
-                                my-font-family-manjaro)))
-               ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-               (add-to-list 'default-frame-alist '(height . 60))
-               (add-to-list 'default-frame-alist '(width . 180)))
-
-      ;; Font for Arch.
-      (if (string-equal "Arch" (substring my-os 0 4))
-          (progn (message "%s" (concat
-                                "Current font settings for Arch Linux: "
-                                my-font-arch))
-                 (message "%s" "Looking for font family...")
-                 (if (and (null
-                           (string= "" (shell-command-to-string
-                                        "which fc-list")))
-                          (null
-                           (string= "" (shell-command-to-string
-                                        (concat
-                                         "fc-list "
-                                         my-font-arch)))))
-                     (progn (message "%s" (concat
-                                           "Font installed: "
-                                           my-font-family-arch))
-                            (setq my-font my-font-arch))
-                   (message "%s" (concat
-                                  "Missing font family: "
-                                  my-font-family-arch))))
-
-        ;; Font for Ubuntu.
-        (when (string-equal
-               (substring (shell-command-to-string "lsb_release -sd") 0 3)
-               (substring "Ubun" 0 3)) ; FIXME: Band aid > Adjust if necessary.
-          (progn (message "%s" (concat
-                                "Current font settings for Ubuntu: "
-                                my-font-ubuntu))
-                 (message "%s" "Looking for font family...")
-                 (if (and (null
-                           (string= "" (shell-command-to-string
-                                        "which fc-list")))
-                          (null
-                           (string= "" (shell-command-to-string
-                                        (concat
-                                         "fc-list "
-                                         my-font-ubuntu)))))
-                     ;; (member my-font-family-ubuntu (font-family-list))
-                     (progn (message "%s" (concat
-                                           "Font installed: "
-                                           my-font-family-ubuntu))
-                            (setq my-font my-font-ubuntu)
-                            ;; (add-to-list 'default-frame-alist
-                            ;;              '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*")))
-                            (message "%s" (concat "Missing font family: " my-font-family-ubuntu)))
+        ;; Font for Manjaro.
+        (if (string-equal "Manjaro" (substring my-os 1 8))
+            (progn (message "Current font settings for Manjaro: %s"
+                            my-font-manjaro)
+                   (message "%s" "Looking for font family...")
+                   (if (and (null (string= "" (shell-command-to-string
+                                               "which fc-list")))
+                            (null (string= "" (shell-command-to-string
+                                               (concat
+                                                "fc-list "
+                                                my-font-manjaro)))))
+                       (progn (message "Font installed: %s"
+                                       my-font-family-manjaro)
+                              (add-to-list 'default-frame-alist
+                                           `(font . ,my-font-manjaro))) ; Works for emacsclient as well.
+                     (message "Missing font family: %s" my-font-family-manjaro))
+                   ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
                    (add-to-list 'default-frame-alist '(height . 60))
-                   (add-to-list 'default-frame-alist '(width  . 200))))))))
+                   (add-to-list 'default-frame-alist '(width . 180)))
 
-  ;; Set specified font.
-  (add-to-list 'default-frame-alist `(font . ,my-font)) ; Works for emacsclient as well.
+          ;; Font for Arch.
+          (if (string-equal "Arch" (substring my-os 1 5))
+              (progn (message "Current font settings for Arch Linux: %s"
+                              my-font-arch)
+                     (message "Looking for font family...")
+                     (if (and (null
+                               (string= "" (shell-command-to-string
+                                            "which fc-list")))
+                              (null
+                               (string= "" (shell-command-to-string
+                                            (concat
+                                             "fc-list "
+                                             my-font-arch)))))
+                         (progn (message "Font installed: %s"
+                                         my-font-family-arch)
+                                (message "Setting font...")
+                                (add-to-list 'default-frame-alist
+                                             `(font . ,my-font-arch))) ; Works for emacsclient as well.
+                       (message "Missing font family: %s" my-font-family-arch)))
 
-  ;; (set-frame-font my-font nil t)
-  ;; (set-face-attribute 'default nil :font my-font )
-  )
+            ;; Font for Ubuntu.
+            (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
+                ;; (substring "Ubuntu" 0 5) ; FIXME: Band aid > Adjust if necessary.
+                (progn (message "Current font settings for Ubuntu: %s" my-font-ubuntu)
+                       (message "Looking for font family...")
+                       (if (and (null
+                                 (string= "" (shell-command-to-string
+                                              "which fc-list")))
+                                (null
+                                 (string= "" (shell-command-to-string
+                                              (concat
+                                               "fc-list "
+                                               my-font-ubuntu)))))
+                           ;; (member my-font-family-ubuntu (font-family-list))
+                           (progn (message "Font installed: %s"
+                                           my-font-family-ubuntu)
+                                  (message "Setting font...")
+                                  (add-to-list 'default-frame-alist
+                                               `(font . ,my-font-ubuntu))) ; Works for emacsclient as well.
+                         ;; (add-to-list 'default-frame-alist
+                         ;;              '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*")))
+                         (message "Missing font family: %s" my-font-family-ubuntu))
+                       (message "Adjusting frame parameters...")
+                       (add-to-list 'default-frame-alist '(height . 60))
+                       (add-to-list 'default-frame-alist '(width  . 200)))
+
+              (message "No predefined font settings found...")))))
+
+    ;; (set-frame-font my-font nil t)
+    ;; (set-face-attribute 'default nil :font my-font )
+
+    (message "No Linux-based system found, font settings are not applicable...")))
 
 
 
