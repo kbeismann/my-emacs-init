@@ -474,7 +474,6 @@
 
             ;; Font for Ubuntu.
             (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
-                ;; (substring "Ubuntu" 0 5) ; FIXME: Band aid > Adjust if necessary.
                 (progn (message "Current font settings for Ubuntu: %s" my-font-ubuntu)
                        (message "Looking for font family...")
                        (if (and (null
@@ -485,14 +484,11 @@
                                               (concat
                                                "fc-list "
                                                my-font-ubuntu)))))
-                           ;; (member my-font-family-ubuntu (font-family-list))
                            (progn (message "Font installed: %s"
                                            my-font-family-ubuntu)
                                   (message "Setting font...")
                                   (add-to-list 'default-frame-alist
                                                `(font . ,my-font-ubuntu))) ; Works for emacsclient as well.
-                         ;; (add-to-list 'default-frame-alist
-                         ;;              '(font . "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*")))
                          (message "Missing font family: %s" my-font-family-ubuntu))
                        (message "Adjusting frame parameters...")
                        (add-to-list 'default-frame-alist '(height . 60))
