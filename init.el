@@ -142,10 +142,11 @@
 
   ;; Add archives and assign priorities.
   (setq package-check-signature 'allow-unsigned ; Do/don't check sig.
-        package-archives '(("gnu"                    . "https://elpa.gnu.org/packages/")
-                           ("org"                    . "https://orgmode.org/elpa/")
-                           ("melpa"                  . "https://melpa.org/packages/")
-                           ("melpa-stable"           . "https://stable.melpa.org/packages/"))
+        package-archives '(("gnu"          . "https://elpa.gnu.org/packages/")
+                           ("org"          . "https://orgmode.org/elpa/")
+                           ("melpa"        . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/"))
+
         package-archive-priorities '(("gnu"          . 2)
                                      ("org"          . 1)
                                      ("melpa"        . 3)
@@ -311,9 +312,9 @@
    (init-file-debug . t )
 
    ;; Save-related settings.
-   (save-place-mode         . t)
-   (desktop-save-mode       . nil)
-   (blink-cursor-mode       . t)
+   (save-place-mode   . t)
+   (desktop-save-mode . nil)
+   (blink-cursor-mode . t)
 
    ;; Auto-revert.
    (auto-revert-interval    . 5)
@@ -377,7 +378,7 @@
 
     :custom
 
-    ((save-abbrevs . 'silently)
+    ((save-abbrevs     . 'silently)
      (abbrev-file-name . my-abbrev-dir)))
 
   (leaf *lock-files
@@ -450,7 +451,7 @@
                      (message "Missing font family: %s" my-font-family-manjaro))
                    ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
                    (add-to-list 'default-frame-alist '(height . 60))
-                   (add-to-list 'default-frame-alist '(width . 180)))
+                   (add-to-list 'default-frame-alist '(width  . 180)))
 
           ;; Font for Arch.
           (if (string-equal "Arch" (substring my-os 1 5))
@@ -782,15 +783,16 @@
 
     :custom
 
-    ((dashboard-startup-banner    . 'logo)
-     ;; (dashboard-set-heading-icons . t)
-     ;; (dashboard-set-file-icons    . t)
-     (show-week-agenda-p . nil)
-     (dashboard-items             . '((recents   . 10)
-                                      (projects  . 10)
-                                      (agenda    . 5)
-                                      ;; (bookmarks . 5)
-                                      )))
+    ;; (dashboard-set-heading-icons . t)
+    ;; (dashboard-set-file-icons    . t)
+
+    ((dashboard-startup-banner . 'logo)
+     (show-week-agenda-p       . nil)
+     (dashboard-items          . '((recents   . 10)
+                                   (projects  . 10)
+                                   (agenda    . 5)
+                                   ;; (bookmarks . 5)
+                                   )))
 
     :config
 
@@ -1020,12 +1022,12 @@
 
   :bind
 
-  (( "M-SPC" . avy-goto-char)
+  (( "M-SPC"   . avy-goto-char)
    ( "M-S-SPC" . avy-goto-char-2))
 
   :custom
 
-  ((avy-background . t)
+  ((avy-background  . t)
    (avy-all-windows . t)
 
    ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision
@@ -1252,7 +1254,7 @@
 
 ;; FLYCHECK
 
-(leaf flycheck                          ; TODO: Structure > Move up to Flyspell and wrap.
+(leaf flycheck               ; TODO: Structure > Move up to Flyspell and wrap.
 
   :ensure t
 
@@ -1949,7 +1951,7 @@
    (lsp-message-project-root-warning . t)
 
    ;; Debugging.
-   (lsp-log-io          . t)
+   (lsp-log-io            . t)
    (lsp-trace             . t)
    (lsp-print-performance . t)
 
