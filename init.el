@@ -889,6 +889,7 @@
      ("C-x C-f" . helm-find-files)
      ("M-y"     . helm-show-kill-ring)
      ("C-c h"   . helm-command-prefix)
+
      (helm-command-map
       ("l"      . helm-locate)
       ("s"      . helm-surfraw)
@@ -1861,13 +1862,16 @@
      ("C-c g l l"  . magit-log)
      ("C-c g f l"  . magit-log-buffer-file)
      ("C-c g b c"  . magit-branch-checkout)
+
      (magit-mode-map
       ("C-c g r s" . magit-reset-soft)
       ("C-c g r h" . magit-reset-hard)
       ("C-c g c a" . magit-commit-amend)
       ("C-c g c r" . magit-commit-reword))
+
      (prog-mode-map
       ("C-c g b b" . magit-blame))
+
      (dired-mode-map
       ("C-c g c c" . magit-clone)))
 
