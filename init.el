@@ -168,6 +168,21 @@
 
       :config
 
+      (leaf package
+
+        :init
+
+        (leaf *elpa-workaround
+
+          :when
+
+          (or (version= "26.1" emacs-version)
+              (version= "26.2" emacs-version))
+
+          :custom
+
+          ((gnutls-algorithm-priority . "NORMAL:-VERS-TLS1.3"))))
+
       (leaf el-get
 
         :ensure t
