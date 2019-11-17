@@ -443,7 +443,8 @@
      (auto-save-timeout              . 15)
      (auto-save-interval             . 60)
      (auto-save-list-file-prefix     . my-autosave-dir)
-     (auto-save-file-name-transforms . `((".*" ,(file-name-as-directory my-autosave-dir) t))))))
+     (auto-save-file-name-transforms . `((".*" ,(file-name-as-directory
+                                                 my-autosave-dir) t))))))
 
 
 ;; FONT AND FRAME SETTINGS
