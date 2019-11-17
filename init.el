@@ -346,6 +346,22 @@
   (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
 
 
+;; SERVER SETUP
+
+(leaf server
+
+  :require t
+
+  :defun
+
+  (server-running-p server-start)
+
+  :config
+
+  (unless (server-running-p)
+    (server-start)))
+
+
 ;; SEARCH FOR AND CREATE CUSTOMIZATION FILE
 
 ;; The following snippet checks if a file specified in my-custom-file exists.
