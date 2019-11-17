@@ -162,9 +162,13 @@
 
   (leaf leaf
 
+    :require t
+
     :config
 
     (leaf leaf-keywords
+
+      :require t
 
       :config
 
@@ -340,7 +344,6 @@
    (comint-move-point-for-output      . t)
    (scroll-down-aggressively          . 0.5)) ; Not sure what this does.
 
-
   :config
 
   (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
@@ -459,6 +462,7 @@
   :config
 
   (message "Checking OS...")
+
   (if (eq system-type 'gnu/linux)
       (progn
         (defvar my-os (substring
@@ -535,7 +539,6 @@
     (message "No Linux-based system found, font settings are not applicable...")))
 
 
-
 ;; LINE NUMBERING
 
 (leaf *line-numbering
@@ -566,7 +569,6 @@
     (interactive)
     (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
   (global-set-key (kbd "C-c i d") 'insert-current-date)
-
 
   ;; Find non ASCII characters.
   (defun find-first-non-ascii-char ()
