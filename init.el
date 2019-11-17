@@ -2241,17 +2241,33 @@
 
 ;; GNUPG SETUP
 
-(leaf pinentry
+;; Always use GPG2 and use loopback option for better compatablilty.
 
-  :ensure t
+(leaf epa
+
+  :custom
+
+  (epa-pinentry-mode . 'loopback)
 
   :config
 
-  (pinentry-start)
+  (leaf epa-config
 
-  ;; Always use GPG2 and use loopback option for better compatablilty.
-  (setq epg-gpg-program "gpg2"
-        epa-pinentry-mode 'loopback))
+    :after epa
+
+    :custom
+
+    (epg-gpg-program . "gpg2"))
+
+  (leaf pinentry
+
+    :after epa
+
+    :ensure t
+
+    :config
+
+    (pinentry-start)))
 
 
 ;; MU4E/MAILS
