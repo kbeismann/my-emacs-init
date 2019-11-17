@@ -747,6 +747,23 @@
                  #'pcomplete-completions-at-point t)))
 
 
+;; EMACS LISP
+
+(leaf *lisp/emacs-lisp
+
+  :config
+
+  (leaf eldoc
+
+    :doc "Show function arglist or variable docstring in echo area"
+
+    :diminish eldoc-mode
+
+    :custom
+
+    ((eldoc-idle-delay . 0.2))))
+
+
 ;; BIBTEX
 
 (leaf bibtex
