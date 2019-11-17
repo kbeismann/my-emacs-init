@@ -201,8 +201,7 @@
 
         :ensure t)
 
-      (leaf-keywords-init)
-      (message "Leaf initiated with additional keywords..."))))
+      (leaf-keywords-init))))
 
 
 ;; WORK-RELATED SETTINGS
@@ -406,20 +405,23 @@
 
     :custom
 
-    ((make-backup-files      . t)
+    ((require-final-newline  . t)
+     (make-backup-files      . t)
      (backup-by-copying      . t)       ; Don't clobber symlinks.
      (kept-new-versions      . 2)
      (kept-old-versions      . 2)
      (version-control        . t)
      (delete-old-versions    . t)
-     (backup-directory-alist . `(("." . ,my-backup-dir)))))
+     (backup-directory-alist . `(("."                     . ,my-backup-dir)
+                                 (,tramp-file-name-regexp . nil)))))
 
   (leaf *auto-save-files
 
     :custom
 
     ((auto-save-default              . t)
-     (auto-save-interval             . 300)
+     (auto-save-timeout              . 15)
+     (auto-save-interval             . 60)
      (auto-save-list-file-prefix     . my-autosave-dir)
      (auto-save-file-name-transforms . `((".*" ,(file-name-as-directory my-autosave-dir) t))))))
 
