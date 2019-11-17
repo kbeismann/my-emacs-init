@@ -447,8 +447,7 @@
       (progn
         (defvar my-os (substring
                        (shell-command-to-string "lsb_release -sd") 0 -1))
-        (message "Found GNU/Linux...")
-        (message "Found distribution: %s" my-os)
+        (message "Found GNU/Linux distribution: %s" my-os)
 
         ;; Font for Manjaro.
         (if (string-equal "Manjaro" (substring my-os 1 8))
