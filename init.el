@@ -720,7 +720,16 @@
   :config
 
   (dired-async-mode 1)
-  (async-bytecomp-package-mode 0)) 	; Not sure if this creates issues.
+  (async-bytecomp-package-mode 0)       ; Not sure if this creates issues.
+
+  (leaf smtpmail-async
+
+    :after async
+
+    :custom
+
+    (send-mail-function         . 'async-smtpmail-send-it)
+    (message-send-mail-function . 'async-smtpmail-send-it)))
 
 
 ;; ESHELL
