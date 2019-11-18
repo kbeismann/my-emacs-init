@@ -335,9 +335,9 @@
    (desktop-save-mode . nil)
    (blink-cursor-mode . t)
 
-   ;; Auto-revert.
-   (auto-revert-interval    . 5)
-   (global-auto-revert-mode . t)
+   ;; History.
+   (history-length            . 1000)
+   (history-delete-duplicates . t)
 
    ;; Better interpreter settings: scroll down with input/output.
    (comint-scroll-to-bottom-on-input  . t)
@@ -406,6 +406,15 @@
   :doc "Backups and more"
 
   :config
+
+  (leaf autorevert
+
+    :doc "Revert buffers when files change on disk"
+
+    :custom
+
+    ((auto-revert-interval    . 5)
+     (global-auto-revert-mode . t)))
 
   (leaf abbrev
 
