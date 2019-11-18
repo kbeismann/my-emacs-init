@@ -591,7 +591,9 @@
   :config
 
   ;; Only enable line numbers in prog-mode.
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode))
+  (progn
+    (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+    (add-hook 'conf-mode-hook #'display-line-numbers-mode)))
 
 
 ;; MISC. FUNCTIONS
