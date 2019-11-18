@@ -1201,29 +1201,32 @@
   :custom
 
   ((show-paren-delay . 0.0)
-   (show-paren-mode  . t)))
+   (show-paren-mode  . t))
 
+  :config
 
-(leaf smartparens
+  (leaf smartparens
 
-  :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
+    :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
 
-  :ensure t
+    :ensure t
 
-  :leaf-defer nil
+    :leaf-defer nil
 
-  :diminish smartparens-mode smartparens-global-mode
+    :after parens
 
-  :require smartparens-config
+    :diminish smartparens-mode smartparens-global-mode
 
-  :bind
+    :require smartparens-config
 
-  ("C-c d p" . sp-unwrap-sexp)
+    :bind
 
-  :custom
+    ("C-c d p" . sp-unwrap-sexp)
 
-  ((sp-highlight-pair-overlay . nil)
-   (smartparens-global-mode   . t)))
+    :custom
+
+    ((sp-highlight-pair-overlay . nil)
+     (smartparens-global-mode   . t))))
 
 
 ;; COMPANY
