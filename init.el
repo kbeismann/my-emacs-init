@@ -314,7 +314,7 @@
    (scroll-preserve-screen-position . nil)
    (auto-window-vscroll             . nil)
 
-   ;; Cleaner visuals, max . decoration.
+   ;; Cleaner visuals, max. decoration.
    (scroll-bar-mode              . nil)
    (menu-bar-mode                . nil)
    (tool-bar-mode                . nil)
