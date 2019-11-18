@@ -278,7 +278,15 @@
 
   (defvar my-max-columns
     78
-    "My predefined characters per line (CPL) limit."))
+    "My predefined characters per line (CPL) limit.")
+
+  (defvar path-to-my-snippets
+    "~/gitdir/emacs-init/snippets/"
+    "Path to custom snippets.")
+
+  (defvar path-to-snippets
+    "~/.emacs.d/snippets/"
+    "Path to snippets."))
 
 
 ;; BASIC SETTINGS
@@ -2270,8 +2278,8 @@
   :custom
 
   ((yas-indent-line  . 'fixed)
-   (yas-snippet-dirs . '("~/gitdir/emacs-init/snippets/"
-                         "~/.emacs.d/snippets/"))
+   (yas-snippet-dirs . '(path-to-my-snippets
+                         path-to-snippets))
    (yas-global-mode  . t)))
 
 
