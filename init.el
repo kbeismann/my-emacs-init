@@ -1937,7 +1937,6 @@
 
     (global-hl-todo-mode t))
 
-
   (leaf magit
 
     :ensure t
@@ -1977,21 +1976,17 @@
 
       (magit-status-mode-hook . magit-todos-mode)))
 
-
   (leaf gitconfig-mode
 
     :ensure t)
-
 
   (leaf gitignore-mode
 
     :ensure t)
 
-
   (leaf gitattributes-mode
 
     :ensure t)
-
 
   (leaf git-timemachine
 
@@ -2003,8 +1998,7 @@
 
     :bind
 
-    (prog-mode-map
-     ("C-c g t" . git-timemachine-toggle))))
+    ("C-c g t" . git-timemachine-toggle)))
 
 
 ;; LSP
