@@ -1696,6 +1696,7 @@
     ;; Directories.
     ((org-directory          . "~/gitdir/orgdir/")
      (org-default-notes-file . "~/gitdir/orgdir/notes.org")
+     (org-todo-file          . "~/gitdir/orgdir/todo.org")
      (org-agenda-files       . (list org-directory))
 
      ;; Use relative paths.
@@ -1799,7 +1800,7 @@
 
             ;; Key, name, type, target, template, options.
             ("mt" "TODO" entry
-             (file "~/gitdir/orgdir/todo.org")
+             (file org-todo-file)
              "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
              :empty-lines 1
              :prepend 1)
