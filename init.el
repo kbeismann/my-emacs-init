@@ -2407,6 +2407,8 @@
 
   :config
 
+  :ensure t
+
   :bind
 
   (yaml-mode-map
