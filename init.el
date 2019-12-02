@@ -1775,15 +1775,20 @@
 
     (setq org-capture-templates
           '(;; Key, name, type, target, template, options.
+            ;; ("n" "Save Note" entry
+            ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+            ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+            ;;  :empty-lines 1
+            ;;  :prepend 1)
             ("n" "Save Note" entry
-             (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+             (file+headline org-default-notes-file "UNSORTED")
              "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
              :empty-lines 1
              :prepend 1)
 
             ;; Key, name, type, target, template, options.
             ("u" "Store URL" entry
-             (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+             (file+headline org-default-notes-file "UNSORTED")
              "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
              :empty-lines 1
              :prepend 1)
@@ -1801,14 +1806,14 @@
 
             ;; Key, name, type, target, template, options.
             ("ms" "Edit/fix script" entry
-             (file "~/gitdir/orgdir/todo.org")
+             (file org-todo-file)
              "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
              :empty-lines 1
              :prepend 1)
 
             ;; Key, name, type, target, template, options.
             ("mc" "Save URL and check later" entry
-             (file "~/gitdir/orgdir/todo.org")
+             (file org-todo-file)
              "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
              :empty-lines 1
              :prepend 1)))
