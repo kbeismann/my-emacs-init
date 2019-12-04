@@ -860,11 +860,11 @@
   :config
 
   ;; Path to library only set when directory exists.
-  (let ((path-to-library "~/gitdir/library/"))
+  (let ((path-to-library my-library))
     (when (file-exists-p path-to-library)
       (setq bibtex-completion-library-path path-to-library)))
 
-  (let ((path-to-bib "~/gitdir/library/bibliography.bib"))
+  (let ((path-to-bib (concat my-library "bibliography.bib")))
     (when (file-exists-p path-to-bib)
       (setq bibtex-completion-bibliography path-to-bib))))
 
