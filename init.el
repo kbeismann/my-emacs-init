@@ -252,6 +252,22 @@
     (concat user-emacs-directory "abbrev/")
     "My abbreviations directory.")
 
+  (defvar my-gitdir
+    "~/gitdir/"
+    "My directory for git repositories.")
+
+  (defvar my-library
+    (concat my-gitdir "library/")
+    "My library repository.")
+
+  (defvar my-init
+    (concat my-gitdir "emacs-init/")
+    "My Emacs initialization file repository.")
+
+  (defvar my-mu4e-setup
+    (concat my-gitdir "mu4e-setup/mu4e-setup.el")
+    "My mu4e file.")
+
   (defvar my-font-manjaro
     "Dina:pixelsize=12"
     "My default font setting for Manjaro.")
@@ -2304,10 +2320,9 @@
 
 ;; Only load mu4e when path to repository exists.
 
-(prog1 "Load mu4e setup"
-  (let ((mu4e-setup "~/gitdir/mu4e-setup/mu4e-setup.el"))
-    (when (file-exists-p mu4e-setup)
-      (load mu4e-setup))))
+(prog1 "Load my mu4e setup"
+  (when (file-exists-p my-mu4e-setup)
+    (load my-mu4e-setup)))
 
 
 ;; OPENWITH
