@@ -1734,9 +1734,9 @@
     :custom
 
     ;; Directories.
-    ((org-directory          . "~/gitdir/orgdir/")
-     (org-default-notes-file . "~/gitdir/orgdir/notes.org")
-     (org-todo-file          . "~/gitdir/orgdir/todo.org")
+    ((org-directory          . my-orgdir)
+     (org-default-notes-file . my-notes)
+     (org-todo-file          . my-todo-file)
      (org-agenda-files       . (list org-directory))
 
      ;; Use relative paths.
