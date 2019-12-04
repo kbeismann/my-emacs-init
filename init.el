@@ -264,6 +264,30 @@
     (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
 
+  (defvar my-orgdir
+    (concat my-gitdir "orgdir/")
+    "My directory for git repositories.")
+
+  (defvar my-library
+    (concat my-gitdir "library/")
+    "My library repository.")
+
+  (defvar my-init
+    (concat my-gitdir "emacs-init/")
+    "My Emacs initialization file repository.")
+
+  (defvar my-notes
+    (concat my-orgdir "notes.org")
+    "My notes.")
+
+  (defvar my-todo-file
+    (concat my-orgdir "todo.org")
+    "My to-do list.")
+
+  (defvar my-mu4e-setup
+    (concat my-gitdir "mu4e-setup/mu4e-setup.el")
+    "My mu4e file.")
+
   (defvar my-mu4e-setup
     (concat my-gitdir "mu4e-setup/mu4e-setup.el")
     "My mu4e file.")
