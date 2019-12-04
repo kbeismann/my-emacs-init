@@ -1963,6 +1963,8 @@
 
     :ensure t
 
+    :require t
+
     :leaf-defer nil
 
     :bind
