@@ -1815,6 +1815,9 @@
     ;; ORG-CAPTURE-TEMPLATES
 
     (setq org-capture-templates
+
+          ;; Basic templates for notes and URLs:
+
           '(;; Key, name, type, target, template, options.
             ;; ("n" "Save Note" entry
             ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
@@ -1834,7 +1837,7 @@
              :empty-lines 1
              :prepend 1)
 
-            ;; --- TEMPLATES FOR MY TO-DO LIST ---
+            ;; Templates for my personal to-do list:
 
             ("m" "My list")
 
