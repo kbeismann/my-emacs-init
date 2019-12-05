@@ -260,6 +260,14 @@
     (concat my-gitdir "library/")
     "My library repository.")
 
+  (defvar my-bibliography
+    (concat my-library "bibliography.bib")
+    "My bibliography.")
+
+  (defvar my-readings
+    (concat my-library "readings.org")
+    "My list of readings.")
+
   (defvar my-init
     (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
