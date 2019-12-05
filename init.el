@@ -864,7 +864,7 @@
     (when (file-exists-p path-to-library)
       (setq bibtex-completion-library-path path-to-library)))
 
-  (let ((path-to-bib (concat my-library "bibliography.bib")))
+  (let ((path-to-bib my-bibliography))
     (when (file-exists-p path-to-bib)
       (setq bibtex-completion-bibliography path-to-bib))))
 
