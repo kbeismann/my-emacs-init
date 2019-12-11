@@ -164,15 +164,15 @@
 
   (leaf leaf
 
-    :require t
-
     :config
 
     (leaf leaf-keywords
 
+      :ensure t
+
       :require t
 
-      :config
+      :init
 
       (leaf package
 
@@ -206,6 +206,8 @@
       (leaf diminish
 
         :ensure t)
+
+      :config
 
       (leaf-keywords-init))))
 
