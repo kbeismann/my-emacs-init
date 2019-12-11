@@ -310,11 +310,13 @@
     "My default font family for Manjaro.")
 
   (defvar my-font-arch
-    "Dina:pixelsize=12"
+    "Terminus:pixelsize=12"
+    ;; "Dina:pixelsize=12"
     "My default font for Arch Linux.")
 
   (defvar my-font-family-arch
-    "Dina"
+    "Terminus"
+    ;; "Dina"
     "My default font family for Arch Linux.")
 
   (defvar my-font-ubuntu
