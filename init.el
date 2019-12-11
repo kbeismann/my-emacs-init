@@ -1407,98 +1407,9 @@
 
 ;; PYTHON-MODE
 
-(leaf python
-
-  :commands python-mode
-
-  :mode (("\\.py\\'" . python-mode)
-         ("\\.wsgi$" . python-mode))
+(leaf *python-setup
 
   :config
-
-  ;; PIPENV
-
-  (leaf pipenv
-
-    :ensure t
-
-    :hook
-
-    (python-mode-hook . pipenv-mode)
-
-    :init
-
-    (setq pipenv-projectile-after-switch-function
-          #'pipenv-projectile-after-switch-extended))
-
-
-  ;; PYTHON-PYTEST
-
-  ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
-
-  (leaf python-pytest
-
-    :ensure t
-
-    :after python
-
-    :bind
-
-    (python-mode-map
-     ("C-c t p t" . python-pytest)
-     ("C-c t p r" . python-repeat)
-     ("C-c t p p" . python-pytest-popup)
-     ("C-c t p D" . python-pytest-file)
-     ("C-c t p d" . python-pytest-file-dwim)
-     ("C-c t p F" . python-pytest-function)
-     ("C-c t p f" . python-pytest-function-dwim)
-     ("C-c t p l" . python-pytest-last-failed))
-
-    :custom
-
-    (python-pytest-arguments . '("--color"   ; Colored output in the buffer.
-                                 "--pdb"     ; Run pdb on failure.
-                                 "--verbose")) ; More verbose output.
-    ;; "--failed-first"                 ; Run the previous failed tests first.
-    ;; "--exitfirst"                    ; Exit after first failure.
-    ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
-
-    (python-pytest-pdb-track . t))
-
-
-  ;; PYTHON COVERAGE
-
-  (leaf pycoverage
-
-    :disabled t
-
-    :config
-
-    (defun my-coverage ()
-      (interactive)
-      (when (derived-mode-p 'python-mode)
-        (progn
-          (pycoverage-mode)))))
-
-
-  ;; SPHINX-DOC
-
-  (leaf sphinx-doc
-
-    :ensure t
-
-    :load-path "~/gitdir/sphinx-doc.el/"
-
-    :hook
-
-    (python-mode-hook . sphinx-doc-mode)
-
-    :custom
-
-    ;; Show all arguments (except "self").
-    ((sphinx-doc-all-arguments . t)
-     (sphinx-doc-exclude-rtype . t)))
-
 
   ;; CONDA
 
@@ -1506,17 +1417,13 @@
 
     :ensure t
 
-    :ensure projectile
+    :after python
 
-    :setq
+    :custom
 
-    ;; Auto-activation.
-    (conda-env-autoactivate-mode . nil)
+    (conda-anaconda-home . "~/miniconda3/")
 
     :config
-
-    ;; Set Conda directory.
-    (custom-set-variables '(conda-anaconda-home "~/miniconda3/"))
 
     ;; Interactive shell support, include.
     (conda-env-initialize-interactive-shells)
@@ -1524,133 +1431,229 @@
     ;; Eshell support.
     (conda-env-initialize-eshell))
 
+  ;; PYTHON-MODE
 
-  ;; BLACK FORMATTER
+  (leaf python
 
-  (leaf blacken
+    :commands python-mode
 
-    :disabled t
-
-    :after python
-
-    :hook
-
-    (python-mode-hook . blacken-mode))
-
-
-  ;; PY-ISORT
-
-  (leaf py-isort
-
-    :disabled t t
-
-    :hook
-
-    (before-save-hook . py-isort-before-save))
-
-
-  ;; PYTHON-DOCSTRING
-
-  (leaf python-docstring
-
-    :ensure t
-
-    :after python
-
-    :hook
-
-    (python-mode-hook . python-docstring-mode))
-
-
-  ;; ELPY
-
-  ;; TODO: Cleanup > Remove at some point.
-
-  (leaf elpy
-
-    :disabled t
-
-    :after python
-
-    :init                                 ; TODO: Structure > Move down.
-
-    ;; If elpy-enable is off, enable elpy.
-    (when (require 'elpy nil t)
-      (elpy-enable))
-
-    :bind
-
-    (elpy-mode-map
-     ("C-c C-g C-d" . elpy-goto-definition-other-window))
-
-    :hook
-
-    (python-mode-hook . elpy-mode)
+    :mode (("\\.py\\'" . python-mode)
+           ("\\.wsgi$" . python-mode))
 
     :config
 
-    (setq elpy-test-pytest-runner-command '("py.test" "-c" "--pdb" "-x"))
+    ;; PIPENV
 
-    ;; RPC backend for elpy.
-    (setq elpy-rpc-python-command "python3")
+    (leaf pipenv
 
-    (setq python-shell-interpreter "python3"
-          python-shell-interpreter-args "-i")
-    ;; python-shell-interpreter-args "console --simple-prompt")
-    ;; python-shell-prompt-detect-failure-warning nil)
-    ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
-    ;;              "jupyter")
-    (setq gud-pdb-command-name "python3 -m pdb") ; Using pdb.
+      :ensure t
 
-    (setq python-shell-completion-native-enable nil)
-    (setq python-indent-offset 4)         ; Indent with 4 spaces.
+      :hook
 
-    ;; Add Company-jedi to python-mode.
-    (add-hook 'elpy-mode-hook
-              (lambda () (add-to-list 'company-backends 'company-jedi)))
+      (python-mode-hook . pipenv-mode)
 
-    ;; TODO: Cleanup > Remove clutter.
+      :init
 
-    ;; Jedi settings.
-    ;; (defun my/python-mode-hook ()
-    ;;   (add-to-list 'company-backends 'company-jedi))
-    ;; (add-hook 'python-mode-hook 'my/python-mode-hook)
-
-    ;; (setq elpy-rpc-backend "jedi")        ; Use Jedi as backend.
-    ;; (setq jedi:complete-on-dot t)
-    ;; (setq jedi:use-shortcuts t)
-
-    ;; ;; Solve company, yasnippet conflicts.
-    ;; (defun company-yasnippet-or-completion ()
-    ;;   "Solve company yasnippet conflicts."
-    ;;   (interactive)
-    ;;   (let ((yas-fallback-behavior
-    ;;          (apply 'company-complete-common nil)))
-    ;;     (yas-expand)))
-
-    ;; (add-hook 'company-mode-hook
-    ;;           (lambda ()
-    ;;             (substitute-key-definition
-    ;;              'company-complete-common
-    ;;              'company-yasnippet-or-completion
-    ;;              company-active-map)))
+      (setq pipenv-projectile-after-switch-function
+            #'pipenv-projectile-after-switch-extended))
 
 
-    ;; Fix the yasnippet issue with the following function.
-    ;; (defun company-yasnippet-or-completion ()
-    ;;   "Solve company yasnippet conflicts."
-    ;;   (interactive)
-    ;;   (let ((yas-fallback-behavior
-    ;;          (apply 'company-complete-common nil)))
-    ;;     (yas-expand)))
-    ;; (add-hook 'company-mode-hook
-    ;;           (lambda ()
-    ;;             (substitute-key-definition
-    ;;              'company-complete-common
-    ;;              'company-yasnippet-or-completion
-    ;;              company-active-map)))
+    ;; PYTHON-PYTEST
 
-    ))
+    ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
+
+    (leaf python-pytest
+
+      :ensure t
+
+      :after python
+
+      :bind
+
+      (python-mode-map
+       ("C-c t p t" . python-pytest)
+       ("C-c t p r" . python-repeat)
+       ("C-c t p p" . python-pytest-popup)
+       ("C-c t p D" . python-pytest-file)
+       ("C-c t p d" . python-pytest-file-dwim)
+       ("C-c t p F" . python-pytest-function)
+       ("C-c t p f" . python-pytest-function-dwim)
+       ("C-c t p l" . python-pytest-last-failed))
+
+      :custom
+
+      (python-pytest-arguments . '("--color"   ; Colored output in the buffer.
+                                   "--pdb"     ; Run pdb on failure.
+                                   "--verbose")) ; More verbose output.
+      ;; "--failed-first"                 ; Run the previous failed tests first.
+      ;; "--exitfirst"                    ; Exit after first failure.
+      ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
+
+      (python-pytest-pdb-track . t))
+
+
+    ;; PYTHON COVERAGE
+
+    (leaf pycoverage
+
+      :disabled t
+
+      :config
+
+      (defun my-coverage ()
+        (interactive)
+        (when (derived-mode-p 'python-mode)
+          (progn
+            (pycoverage-mode)))))
+
+
+    ;; SPHINX-DOC
+
+    (leaf sphinx-doc
+
+      :ensure t
+
+      :load-path "~/gitdir/sphinx-doc.el/"
+
+      :hook
+
+      (python-mode-hook . sphinx-doc-mode)
+
+      :custom
+
+      ;; Show all arguments (except "self").
+      ((sphinx-doc-all-arguments . t)
+       (sphinx-doc-exclude-rtype . t)))
+
+
+    ;; BLACK FORMATTER
+
+    (leaf blacken
+
+      :ensure t
+
+      ;; :disabled t
+
+      :after python
+
+      :hook
+
+      (python-mode-hook . blacken-mode))
+
+
+    ;; PY-ISORT
+
+    (leaf py-isort
+
+      :disabled t t
+
+      :hook
+
+      (before-save-hook . py-isort-before-save))
+
+
+    ;; PYTHON-DOCSTRING
+
+    (leaf python-docstring
+
+      :ensure t
+
+      :after python
+
+      :hook
+
+      (python-mode-hook . python-docstring-mode))
+
+
+    ;; ELPY
+
+    ;; TODO: Cleanup > Remove at some point.
+
+    (leaf elpy
+
+      :disabled t
+
+      :after python
+
+      :init                                 ; TODO: Structure > Move down.
+
+      ;; If elpy-enable is off, enable elpy.
+      (when (require 'elpy nil t)
+        (elpy-enable))
+
+      :bind
+
+      (elpy-mode-map
+       ("C-c C-g C-d" . elpy-goto-definition-other-window))
+
+      :hook
+
+      (python-mode-hook . elpy-mode)
+
+      :config
+
+      (setq elpy-test-pytest-runner-command '("py.test" "-c" "--pdb" "-x"))
+
+      ;; RPC backend for elpy.
+      (setq elpy-rpc-python-command "python3")
+
+      (setq python-shell-interpreter "python3"
+            python-shell-interpreter-args "-i")
+      ;; python-shell-interpreter-args "console --simple-prompt")
+      ;; python-shell-prompt-detect-failure-warning nil)
+      ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+      ;;              "jupyter")
+      (setq gud-pdb-command-name "python3 -m pdb") ; Using pdb.
+
+      (setq python-shell-completion-native-enable nil)
+      (setq python-indent-offset 4)         ; Indent with 4 spaces.
+
+      ;; Add Company-jedi to python-mode.
+      (add-hook 'elpy-mode-hook
+                (lambda () (add-to-list 'company-backends 'company-jedi)))
+
+      ;; TODO: Cleanup > Remove clutter.
+
+      ;; Jedi settings.
+      ;; (defun my/python-mode-hook ()
+      ;;   (add-to-list 'company-backends 'company-jedi))
+      ;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+
+      ;; (setq elpy-rpc-backend "jedi")        ; Use Jedi as backend.
+      ;; (setq jedi:complete-on-dot t)
+      ;; (setq jedi:use-shortcuts t)
+
+      ;; ;; Solve company, yasnippet conflicts.
+      ;; (defun company-yasnippet-or-completion ()
+      ;;   "Solve company yasnippet conflicts."
+      ;;   (interactive)
+      ;;   (let ((yas-fallback-behavior
+      ;;          (apply 'company-complete-common nil)))
+      ;;     (yas-expand)))
+
+      ;; (add-hook 'company-mode-hook
+      ;;           (lambda ()
+      ;;             (substitute-key-definition
+      ;;              'company-complete-common
+      ;;              'company-yasnippet-or-completion
+      ;;              company-active-map)))
+
+
+      ;; Fix the yasnippet issue with the following function.
+      ;; (defun company-yasnippet-or-completion ()
+      ;;   "Solve company yasnippet conflicts."
+      ;;   (interactive)
+      ;;   (let ((yas-fallback-behavior
+      ;;          (apply 'company-complete-common nil)))
+      ;;     (yas-expand)))
+      ;; (add-hook 'company-mode-hook
+      ;;           (lambda ()
+      ;;             (substitute-key-definition
+      ;;              'company-complete-common
+      ;;              'company-yasnippet-or-completion
+      ;;              company-active-map)))
+
+      )))
 
 
 ;; FLYCHECK FOR PYTHON
