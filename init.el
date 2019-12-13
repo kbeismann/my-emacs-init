@@ -1710,7 +1710,34 @@
 
   :config
 
-  (pdf-loader-install))
+  ;; (pdf-loader-install)
+
+
+  ;; ORG-NOTER
+
+  ;; Org-noter's purpose is to let you create notes that are kept in sync when
+  ;; you scroll through the document, but that are external to it - the notes
+  ;; themselves live in an Org-mode file.
+
+  ;; Sources:
+  ;; * https://github.com/weirdNox/org-noter
+
+  ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
+
+  (leaf org-noter
+
+    :ensure t
+
+    :after pdf-tools
+
+    :bind
+
+    (pdf-view-mode-map
+     ("C-c o n" . org-noter))
+
+    :custom
+
+    (org-noter-separate-notes-from-heading . t)))
 
 
 ;; ORG-MODE
@@ -1947,29 +1974,6 @@
       ;;         (start-process "open" "*open*" "open" fpath)))
       ;; (setq helm-bibtex-notes-path "~/Documents/Bibliographie/Recherche/notizen.org")))
       ))
-
-
-  ;; ORG-NOTER
-
-
-  ;; Org-noter's purpose is to let you create notes that are kept in sync when
-  ;; you scroll through the document, but that are external to it - the notes
-  ;; themselves live in an Org-mode file.
-
-  ;; Sources:
-  ;; * https://github.com/weirdNox/org-noter
-
-  ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
-
-  (leaf org-noter
-
-    :ensure t
-
-    :after org
-
-    :config
-
-    (setq org-noter-separate-notes-from-heading t))
 
 
   ;; ORG-JOURNAL
