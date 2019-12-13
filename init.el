@@ -2426,13 +2426,13 @@
 
 (leaf gscholar-bibtex
 
-  :disabled t
+  ;; :disabled t
 
-  ;; :ensure nil
+  :ensure t
 
   :config
 
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
   (setq gscholar-bibtex-default-source "Google Scholar"))
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
