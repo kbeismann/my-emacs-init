@@ -1178,25 +1178,26 @@
   ;; Face used for first non-terminating leading chars.
   (set-face-attribute 'avy-lead-face-0 nil
                       :foreground base0A-prop
-                      :background nil
+                      :background base00-prop
                       :weight 'bold)
 
   ;; Face used for matched leading chars.  Not sure what this does.
   (set-face-attribute 'avy-lead-face-1 nil
                       :foreground base09-prop
-                      :background nil
+                      :background base00-prop
                       :weight 'bold)
 
   ;; Face used for leading chars.
   (set-face-attribute 'avy-lead-face-2 nil
                       :foreground base0C-prop
-                      :background nil
+                      :background base00-prop
+
                       :weight 'bold)
 
   ;; Face used for the leading chars.
   (set-face-attribute 'avy-lead-face nil
                       :foreground base0E-prop
-                      :background nil
+                      :background base00-prop
                       :weight 'bold
                       :underline t)
 
