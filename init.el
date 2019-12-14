@@ -1432,7 +1432,11 @@
 
     :ensure t
 
-    :after python
+    :after dired
+
+    :bind
+
+    ("C-c $" . conda-env-activate)
 
     :custom
 
