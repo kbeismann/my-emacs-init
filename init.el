@@ -338,11 +338,11 @@
     "My predefined characters per line (CPL) limit.")
 
   (defvar path-to-my-snippets
-    "~/gitdir/emacs-init/snippets/"
+    (concat my-gitdir "emacs-init/snippets/")
     "Path to custom snippets.")
 
   (defvar path-to-snippets
-    "~/.emacs.d/snippets/"
+    (concat user-emacs-directory "snippets/")
     "Path to snippets."))
 
 
