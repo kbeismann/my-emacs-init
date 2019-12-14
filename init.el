@@ -394,7 +394,7 @@
 
    ;; Debugging.
    (debug-on-error  . t)
-   (init-file-debug . t )
+   (init-file-debug . t)
 
    ;; Save-related settings.
    (save-place-mode   . t)
