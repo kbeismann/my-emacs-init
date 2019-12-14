@@ -411,6 +411,12 @@
    (comint-move-point-for-output      . t)
    (scroll-down-aggressively          . 0.5)) ; Not sure what this does.
 
+  :setq
+
+  ;; Better splitting behavior.
+  (split-height-threshold . 80)
+  (split-width-threshold  . (* 2 my-max-columns))
+
   :config
 
   (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
