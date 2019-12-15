@@ -1720,60 +1720,6 @@
                                           '("C0330" "W503" "E701" "B311"))))
 
 
-;; PDF-TOOLS
-
-;; For better viewing and handling of PDFs in Emacs.
-
-(leaf pdf-tools
-
-  :ensure t
-
-  :init
-
-  (pdf-loader-install)
-
-  :bind
-
-  (pdf-view-mode-map
-   ("C-s" . isearch-forward))
-
-  :custom
-
-  ((pdf-view-display-size                  . 'fit-page)
-   (pdf-annot-activate-created-annotations . t))
-
-  :config
-
-  ;; (pdf-loader-install)
-
-
-  ;; ORG-NOTER
-
-  ;; Org-noter's purpose is to let you create notes that are kept in sync when
-  ;; you scroll through the document, but that are external to it - the notes
-  ;; themselves live in an Org-mode file.
-
-  ;; Sources:
-  ;; * https://github.com/weirdNox/org-noter
-
-  ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
-
-  (leaf org-noter
-
-    :ensure t
-
-    :after pdf-tools
-
-    :bind
-
-    (pdf-view-mode-map
-     ("C-c o n" . org-noter))
-
-    :custom
-
-    (org-noter-separate-notes-from-heading . t)))
-
-
 ;; ORG-MODE
 
 (leaf org				; FIXME: Band aid > Use :bind at some point.
@@ -2037,6 +1983,60 @@
 
   (setq org-journal-directory "~/gitdir/journal/")
   (setq org-journal-date-format "%Y-%m-%d, %A"))
+
+
+;; PDF-TOOLS
+
+;; For better viewing and handling of PDFs in Emacs.
+
+(leaf pdf-tools
+
+  :ensure t
+
+  :init
+
+  (pdf-loader-install)
+
+  :bind
+
+  (pdf-view-mode-map
+   ("C-s" . isearch-forward))
+
+  :custom
+
+  ((pdf-view-display-size                  . 'fit-page)
+   (pdf-annot-activate-created-annotations . t))
+
+  :config
+
+  ;; (pdf-loader-install)
+
+
+  ;; ORG-NOTER
+
+  ;; Org-noter's purpose is to let you create notes that are kept in sync when
+  ;; you scroll through the document, but that are external to it - the notes
+  ;; themselves live in an Org-mode file.
+
+  ;; Sources:
+  ;; * https://github.com/weirdNox/org-noter
+
+  ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
+
+  (leaf org-noter
+
+    :ensure t
+
+    :after pdf-tools
+
+    :bind
+
+    (pdf-view-mode-map
+     ("C-c o n" . org-noter))
+
+    :custom
+
+    (org-noter-separate-notes-from-heading . t)))
 
 
 ;; GIT AND VERSION CONTROL
