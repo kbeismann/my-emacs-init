@@ -1726,6 +1726,14 @@
 
   :config
 
+  ;; Directories.
+  (prog1 "Setting directories without :custom"
+
+    (setq org-directory           my-orgdir)
+    (setq org-default-notes-file  my-notes)
+    (setq org-todo-file           my-todo-file)
+    (setq org-agenda-files        (list org-directory)))
+
   (leaf *org-custom
 
     :init
@@ -1771,14 +1779,8 @@
 
     :custom
 
-    ;; Directories.
-    ((org-directory          . my-orgdir)
-     (org-default-notes-file . my-notes)
-     (org-todo-file          . my-todo-file)
-     (org-agenda-files       . (list org-directory))
-
-     ;; Use relative paths.
-     (org-link-file-path-type . 'relative)
+    ;; Use relative paths.
+    ((org-link-file-path-type . 'relative)
 
      ;; Startup options.
      (org-startup-indented           . t)
