@@ -1776,27 +1776,41 @@
 
 ;; ORG-MODE
 
-(leaf *org-setup
+(leaf org				; FIXME: Band aid > Use :bind at some point.
 
   :config
 
-  (leaf org				; FIXME: Band aid > Use :bind at some point.
+  (leaf *org-custom
 
-    :preface
+    :init
 
-    (prog1 "Key bindings for org"
+    (leaf org-plus-contrib
 
-      (global-set-key (kbd "C-c a") 'org-agenda)
-      (global-set-key (kbd "C-c c") 'org-capture)
-      (global-set-key (kbd "C-c l") 'org-store-link)
-      (global-set-key (kbd "C-c b") 'crossref-add-bibtex-entry))
+      :ensure t)
 
-    ;; :bind
+    :bind
 
-    ;; (("C-c a" . org-agenda)		  ; Call org-agenda.
-    ;;  ("C-c c" . org-capture)		  ; Org-capture notes.
-    ;;  ("C-c l" . org-store-link)		  ; Store link.
-    ;;  ("C-c b" . crossref-add-bibtex-entry)) ; Search/add .bib entries.
+    (("C-c a" . org-agenda)                 ; Call org-agenda.
+     ("C-c c" . org-capture)                ; Org-capture notes.
+     ("C-c l" . org-store-link)             ; Store link.
+
+     (org-mode-map
+
+      ("C-c b" . crossref-add-bibtex-entry)  ; Search/add .bib entries.
+      ("C-c i" . org-clock-in)
+      ("C-c o" . org-clock-out)
+      ("C-c n" . org-narrow-to-subtree)
+      ;; ("C-c b" . org-narrow-to-block)
+      ("C-c e" . org-set-effort)))
+
+    ;; :preface
+
+    ;; (prog1 "Key bindings for org"
+
+    ;;   (global-set-key (kbd "C-c a") 'org-agenda)
+    ;;   (global-set-key (kbd "C-c c") 'org-capture)
+    ;;   (global-set-key (kbd "C-c l") 'org-store-link)
+    ;;   (global-set-key (kbd "C-c b") 'crossref-add-bibtex-entry))
 
     :hook
 
@@ -1857,174 +1871,172 @@
      (calendar-week-start-day     . 0)
      (org-agenda-start-on-weekday . t)
      (org-agenda-start-day        . "-3d")
-     (org-agenda-span             . 21))
+     (org-agenda-span             . 21)))
 
-    :config
-
-    ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
-    (defun org-summary-todo (n-done n-not-done)
-      "Switch entry to DONE when all subentries are done, to TODO otherwise."
-      (let (org-log-done-with-time org-log-states)   ; turn off logging
-        (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done-with-time org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
 
-    ;; FORMATTING
+  ;; FORMATTING
 
 
-    ;; Always insert blank line before headings.
-    (setq org-blank-before-new-entry '((heading         . auto)
-                                       (plain-list-item . auto)))
+  ;; Always insert blank line before headings.
+  (setq org-blank-before-new-entry '((heading         . auto)
+                                     (plain-list-item . auto)))
 
 
 
-    ;; ORG-REFILE
+  ;; ORG-REFILE
 
-    (leaf *org-refile)
-
-
-    ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-    (setq org-refile-targets '((nil :maxlevel              . 9)
-                               (org-agenda-files :maxlevel . 9))
-          org-refile-use-outline-path 'file
-          org-outline-path-complete-in-steps nil
-          org-refile-allow-creating-parent-nodes 'confirm)
+  (leaf *org-refile)
 
 
-    ;; ORG-CAPTURE-TEMPLATES
-
-    (setq org-capture-templates
-
-          ;; Basic templates for notes and URLs:
-
-          '(;; Key, name, type, target, template, options.
-            ;; ("n" "Save Note" entry
-            ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
-            ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-            ;;  :empty-lines 1
-            ;;  :prepend 1)
-            ("n" "Save Note" entry
-             (file+headline org-default-notes-file "UNSORTED")
-             "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-             :empty-lines 1
-             :prepend 1)
-
-            ;; Key, name, type, target, template, options.
-            ("u" "Store URL" entry
-             (file+headline org-default-notes-file "UNSORTED")
-             "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-             :empty-lines 1
-             :prepend 1)
-
-            ;; Templates for my personal to-do list:
-
-            ("m" "My list")
-
-            ;; Key, name, type, target, template, options.
-            ("mt" "TODO" entry
-             (file org-todo-file)
-             "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
-             :empty-lines 1
-             :prepend 1)
-
-            ;; Key, name, type, target, template, options.
-            ("ms" "Edit/fix script" entry
-             (file org-todo-file)
-             "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
-             :empty-lines 1
-             :prepend 1)
-
-            ;; Key, name, type, target, template, options.
-            ("mc" "Save URL and check later" entry
-             (file org-todo-file)
-             "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
-             :empty-lines 1
-             :prepend 1)))
-
-    ;; Don't confirm before evaluating.
-    (setq org-confirm-babel-evaluate nil)
-
-    ;; Available languages: https://orgmode.org/org.html#Languages
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((shell      . t)
-       (emacs-lisp . t)
-       (org        . t)
-       (python     . t)
-       (R          . t)
-       (latex      . t)))
-
-    ;; Better source block behavior.
-    (setq org-src-preserve-indentation t
-          org-edit-src-content-indentation 0)
-
-    ;; Highlight code in code blocks in native language, also use TAB as
-    ;; in native language.
-    (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t)
-
-    ;; Change font size for LaTeX previews.
-    (setq org-format-latex-options
-          (plist-put org-format-latex-options :scale 1.5))
-    (setq org-format-latex-options
-          (plist-put org-format-latex-options :html-scale 1.5))
-
-    (setq org-latex-toc-command "\\tableofcontents \\clearpage")
-
-    ;; Use Python 3
-    (setq org-babel-python-command "python3"))
+  ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  (setq org-refile-targets '((nil :maxlevel              . 9)
+                             (org-agenda-files :maxlevel . 9))
+        org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil
+        org-refile-allow-creating-parent-nodes 'confirm)
 
 
-  (leaf org-ref
+  ;; ORG-CAPTURE-TEMPLATES
 
-    :ensure t
+  (setq org-capture-templates
 
-    :after org
+        ;; Basic templates for notes and URLs:
 
-    :bind
+        '(;; Key, name, type, target, template, options.
+          ;; ("n" "Save Note" entry
+          ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
+          ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n\n"
+          ;;  :empty-lines 1
+          ;;  :prepend 1)
+          ("n" "Save Note" entry
+           (file+headline org-default-notes-file "UNSORTED")
+           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n\n"
+           :empty-lines 1
+           :prepend 1)
 
-    (bibtex-mode-map
-     ("C-c C-c" . org-ref-clean-bibtex-entry))
+          ;; Key, name, type, target, template, options.
+          ("u" "Store URL" entry
+           (file+headline org-default-notes-file "UNSORTED")
+           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n\n"
+           :empty-lines 1
+           :prepend 1)
 
-    :init
+          ;; Templates for my personal to-do list:
 
-    (progn
-      (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
-      (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
-            org-ref-bibliography-notes "~/gitdir/library/notes.org"
-            org-ref-pdf-directory "~/gitdir/library/archive/")
+          ("m" "My to-do list")
 
-      ;; Add "bibtex %b" to enable bibtex export.
-      (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
+          ;; Key, name, type, target, template, options.
+          ("mt" "TODO" entry
+           (file org-todo-file)
+           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n"
+           :empty-lines 1
+           :prepend 1)
 
-    :config
+          ;; Key, name, type, target, template, options.
+          ("ms" "Edit/fix script" entry
+           (file org-todo-file)
+           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\nLINK: %a\n:END:\n\n%i\n\n"
+           :empty-lines 1
+           :prepend 1)
 
-    (progn
+          ;; Key, name, type, target, template, options.
+          ("mc" "Save URL and check later" entry
+           (file org-todo-file)
+           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+           :empty-lines 1
+           :prepend 1)))
 
-      (setq org-ref-default-citation-link "parencite")
-      ;; bibtex-dialect 'biblatex)
+  ;; Don't confirm before evaluating.
+  (setq org-confirm-babel-evaluate nil)
 
-      ;; (setq helm-bibtex-pdf-open-function
-      ;;       (lambda (fpath)
-      ;;         (start-process "open" "*open*" "open" fpath)))
-      ;; (setq helm-bibtex-notes-path "~/Documents/Bibliographie/Recherche/notizen.org")))
-      ))
+  ;; Available languages: https://orgmode.org/org.html#Languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell      . t)
+     (emacs-lisp . t)
+     (org        . t)
+     (python     . t)
+     (R          . t)
+     (latex      . t)))
+
+  ;; Better source block behavior.
+  (setq org-src-preserve-indentation t
+        org-edit-src-content-indentation 0)
+
+  ;; Highlight code in code blocks in native language, also use TAB as
+  ;; in native language.
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t)
+
+  ;; Change font size for LaTeX previews.
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :scale 1.5))
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :html-scale 1.5))
+
+  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
+
+  ;; Use Python 3
+  (setq org-babel-python-command "python3"))
 
 
-  ;; ORG-JOURNAL
+(leaf org-ref
+
+  :ensure t
+
+  :after org
+
+  :bind
+
+  (bibtex-mode-map
+   ("C-c C-c" . org-ref-clean-bibtex-entry))
+
+  :init
+
+  (progn
+    (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
+    (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
+          org-ref-bibliography-notes "~/gitdir/library/notes.org"
+          org-ref-pdf-directory "~/gitdir/library/archive/")
+
+    ;; Add "bibtex %b" to enable bibtex export.
+    (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
+
+  :config
+
+  (progn
+
+    (setq org-ref-default-citation-link "parencite")
+    ;; bibtex-dialect 'biblatex)
+
+    ;; (setq helm-bibtex-pdf-open-function
+    ;;       (lambda (fpath)
+    ;;         (start-process "open" "*open*" "open" fpath)))
+    ;; (setq helm-bibtex-notes-path "~/Documents/Bibliographie/Recherche/notizen.org")))
+    ))
 
 
-  (leaf org-journal
+;; ORG-JOURNAL
 
-    :disabled t
 
-    :after org
+(leaf org-journal
 
-    ;; :ensure nil
+  :disabled t
 
-    :config
+  :after org
 
-    (setq org-journal-directory "~/gitdir/journal/")
-    (setq org-journal-date-format "%Y-%m-%d, %A")))
+  ;; :ensure nil
+
+  :config
+
+  (setq org-journal-directory "~/gitdir/journal/")
+  (setq org-journal-date-format "%Y-%m-%d, %A"))
 
 
 ;; GIT AND VERSION CONTROL
