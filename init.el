@@ -1825,27 +1825,23 @@
     (let (org-log-done-with-time org-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
-
-  ;; FORMATTING
-
-
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
                                      (plain-list-item . auto)))
 
 
-
   ;; ORG-REFILE
 
-  (leaf *org-refile)
+  (leaf *org-refile                     ; TODO: Use :custom.
 
+    :config
 
-  ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-  (setq org-refile-targets '((nil :maxlevel              . 9)
-                             (org-agenda-files :maxlevel . 9))
-        org-refile-use-outline-path 'file
-        org-outline-path-complete-in-steps nil
-        org-refile-allow-creating-parent-nodes 'confirm)
+    ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+    (setq org-refile-targets '((nil :maxlevel              . 9)
+                               (org-agenda-files :maxlevel . 9))
+          org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps nil
+          org-refile-allow-creating-parent-nodes 'confirm))
 
 
   ;; ORG-CAPTURE-TEMPLATES
