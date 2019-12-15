@@ -721,6 +721,26 @@
   (auto-compile-on-save-mode))
 
 
+;; BENCHMARK
+
+;; There are two ways in which benchmark-init's results can be presented, as a
+;; table or in a tree. The table can be displayed by running:
+
+;; (benchmark-init/show-durations-tabulated)
+
+(leaf benchmark-init
+
+  :url https://github.com/dholm/benchmark-init-el
+
+  :leaf-defer nil
+
+  :ensure t
+
+  :require t
+
+  :hook ((after-init-hook . benchmark-init/deactivate)))
+
+
 ;; AUTH-SOURCE
 
 (leaf auth-source
