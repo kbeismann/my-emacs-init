@@ -2371,12 +2371,15 @@
   (("C-c y i" . yas-insert-snippet)
    ("C-c y v" . yas-visit-snippet-file))
 
+  ;; :setq
+
+
   :custom
 
-  ((yas-indent-line  . 'fixed)
-   (yas-snippet-dirs . '(path-to-my-snippets
-                         path-to-snippets))
-   (yas-global-mode  . t)))
+  ((yas-indent-line . 'fixed)
+   (yas-snippet-dirs . '(path-to-my-snippets))
+   ;; path-to-snippets)
+   (yas-global-mode . t)))
 
 
 ;; GNUPG SETUP
