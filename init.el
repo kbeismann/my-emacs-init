@@ -1292,8 +1292,6 @@
 
     :leaf-defer nil
 
-    :after parens
-
     :diminish smartparens-mode smartparens-global-mode
 
     :require smartparens-config
