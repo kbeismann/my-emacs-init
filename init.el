@@ -1279,7 +1279,7 @@
 
   :custom
 
-  ((show-paren-delay . 0.1)
+  ((show-paren-delay . 0.0)
    (show-paren-mode  . t))
 
   :config
