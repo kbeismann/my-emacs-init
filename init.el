@@ -1221,7 +1221,6 @@
   (set-face-attribute 'avy-lead-face-2 nil
                       :foreground base0C-prop
                       :background base00-prop
-
                       :weight 'bold)
 
   ;; Face used for the leading chars.
