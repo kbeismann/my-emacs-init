@@ -314,15 +314,15 @@
   (defvar my-font-arch
     ;; "DejaVu Sans Mono-10"; Arch
     ;; "Hack:pixelsize=12"
-    "Terminus:pixelsize=12"
-    ;; "Dina:pixelsize=12"
+    ;; "Terminus:pixelsize=12"
+    "Dina:pixelsize=13"
     "My default font for Arch Linux.")
 
   (defvar my-font-family-arch
     ;; "DejaVu"
     ;; "Hack"
-    "Terminus"
-    ;; "Dina"
+    ;; "Terminus"
+    "Dina"
     "My default font family for Arch Linux.")
 
   (defvar my-font-ubuntu
