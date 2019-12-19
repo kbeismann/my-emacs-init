@@ -1733,11 +1733,11 @@
 
   (leaf *org-custom
 
-    :init
+    ;; :init
 
-    (leaf org-plus-contrib
+    ;; (leaf org-plus-contrib
 
-      :ensure t)
+    ;;   :ensure t)
 
     :bind
 
