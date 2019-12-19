@@ -2052,10 +2052,6 @@
 
     :ensure t
 
-    :require t
-
-    :leaf-defer nil
-
     :bind
 
     (("C-c g s"    . magit-status)
@@ -2081,13 +2077,11 @@
 
       :ensure t
 
-      :leaf-defer nil
-
       :after magit
 
-      :hook
+      :config
 
-      (magit-status-mode-hook . magit-todos-mode)))
+      (magit-todos-mode)))
 
   (leaf gitconfig-mode
 
