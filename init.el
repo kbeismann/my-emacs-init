@@ -1988,10 +1988,6 @@
 
   :ensure t
 
-  :init
-
-  (pdf-loader-install)
-
   :bind
 
   (pdf-view-mode-map
@@ -2004,7 +2000,7 @@
 
   :config
 
-  ;; (pdf-loader-install)
+  (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
 
 
   ;; ORG-NOTER
