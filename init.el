@@ -2606,6 +2606,34 @@
   (setq realgud:pdb-command-name "python3 -m pdb"))
 
 
+;; EMMS
+
+(leaf emms
+
+  :doc
+
+  "EMMS is the Emacs Multi-Media System. It tries to be a clean
+  and small application to play multimedia files from Emacs using
+  external players. Many of its ideas are derived from
+  MpthreePlayer, but it tries to be more general and cleaner. It
+  is comparable to Bongo."
+
+  :url
+
+  "https://www.emacswiki.org/emacs/"
+
+  :ensure t
+
+  :init
+
+  (emms-all)
+  (emms-default-players)
+
+  :config
+
+  (leaf emms-streams))
+
+
 ;;; Footer:
 
 (provide 'init)
