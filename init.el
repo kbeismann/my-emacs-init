@@ -2364,7 +2364,7 @@
   :custom
 
   ((yas-indent-line . 'fixed)
-   (yas-snippet-dirs . '(path-to-my-snippets path-to-snippets "~/.emacs.d/elpa/yasnippet-snippets-20191117.1730/snippets/"))
+   (yas-snippet-dirs . '(path-to-my-snippets path-to-snippets "~/.emacs.d/elpa/yasnippet-snippets-20191210.1511/snippets/"))
    (yas-global-mode . t)))
 
 
