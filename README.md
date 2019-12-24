@@ -24,17 +24,26 @@ This setup is currently tested with GNU Emacs 26.3.
 ```bash
 $ sudo pacman -S emacs
 ```
-2. Install fonts, e.g. Dina:
+2. Install fonts, e.g. Dina, compatible with Pango 1.44, from the AUR via
+   `yay`:
+
 ```bash
-$ sudo pacman -S dina-font
+$ sudo yay -S dina-font-otb
 ```
+
+Keep in mind bitmap fonts do not work with Pango 1.44 if they are not in an
+`.otb` format.
+
 3. Clone the repository:
+
 ```
 cd ~/gitdir/
 git clone https://github.com/kbeismann/emacs-init emacs-init
 ```
+
 4. Create a symbolic link to `~/.emacs` or
   `~/.emacs.d/init.el`:
+
 ```bash
 $ mkdir ~/.emacs.d/
 $ cd ~/gitdir/emacs-init/
@@ -47,6 +56,8 @@ $ emacs
 
 
 ## Some working font options
+
+OUT OF DATE!
 
 * Dina:
   * `"Dina-9"`
