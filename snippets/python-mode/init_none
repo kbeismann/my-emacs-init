@@ -4,5 +4,8 @@
 # group : definitions
 # --
 def __init__(self$1) -> None:
+    """Constructor method
+
+    """
     pass
     $0
