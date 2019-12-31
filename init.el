@@ -1443,6 +1443,7 @@
 
   :config
 
+
   ;; CONDA
 
   (leaf conda
@@ -1467,6 +1468,7 @@
     ;; Eshell support.
     (conda-env-initialize-eshell))
 
+
   ;; PYTHON-MODE
 
   (leaf python
@@ -1477,6 +1479,7 @@
            ("\\.wsgi$" . python-mode))
 
     :config
+
 
     ;; PIPENV
 
