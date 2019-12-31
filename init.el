@@ -1581,7 +1581,11 @@
 
     (leaf py-isort
 
-      :disabled t t
+      ;; :disabled t
+
+      :ensure t
+
+      :after python
 
       :hook
 
