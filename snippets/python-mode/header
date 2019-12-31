@@ -5,7 +5,7 @@
 # --
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""${1:TITLE}
+"""${1:TITLE}.
 
 :project: ${2:PROJECT}
 :author: `(insert user-full-name)`
@@ -15,21 +15,20 @@
 
 Commentary
 ----------
-
 $1.
 
-Example
--------
-
----
+Examples
+--------
+    $ python3 `(buffer-name)`
 
 Environment
 -----------
+    $ conda activate XXX
 
----
+To-do
+-----
+* ---
 
-Module contents
----------------
 """
 
 # PACKAGES
@@ -37,7 +36,9 @@ Module contents
 
 import os
 import sys
-import typing
+from typing import Any, Union, Tuple, Callable, TypeVar, Generic, List, Dict, Optional, Sequence, NewType, Mapping, Iterable, Sized
+import logging
+from logging import Logger
 import datetime
 import pandas as pd
 from pathlib import Path
