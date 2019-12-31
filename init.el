@@ -1592,6 +1592,20 @@
       (before-save-hook . py-isort-before-save))
 
 
+    ;; PYIMPORT
+
+    (leaf pyimport
+
+      :ensure t
+
+      :after python
+
+      :bind
+
+      (python-mode-map
+       ("C-c m i" . pyimport-insert-missing)))
+
+
     ;; PYTHON-DOCSTRING
 
     (leaf python-docstring
