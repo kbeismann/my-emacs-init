@@ -23,7 +23,7 @@ Examples
 
 Environment
 -----------
-    $ conda activate XXX
+    $ conda activate env
 
 To-do
 -----
