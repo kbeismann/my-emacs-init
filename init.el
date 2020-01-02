@@ -1584,8 +1584,6 @@
 
     (leaf py-isort
 
-      ;; :disabled t
-
       :ensure t
 
       :after python
