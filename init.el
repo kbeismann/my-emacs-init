@@ -2012,14 +2012,16 @@
   (pdf-view-mode-map
    ("C-s" . isearch-forward))
 
+  :init
+
+  (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
+
   :custom
 
   ((pdf-view-display-size                  . 'fit-page)
    (pdf-annot-activate-created-annotations . t))
 
   :config
-
-  (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
 
 
   ;; ORG-NOTER
