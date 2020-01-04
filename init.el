@@ -738,7 +738,9 @@
 
   :require t
 
-  :hook ((after-init-hook . benchmark-init/deactivate)))
+  :hook
+
+  ((after-init-hook . benchmark-init/deactivate)))
 
 
 ;; AUTH-SOURCE
@@ -1590,7 +1592,7 @@
 
       :hook
 
-      (before-save-hook . py-isort-before-save))
+      ((python-mode-hook before-save-hook) . py-isort-before-save))
 
 
     ;; PYIMPORT
@@ -1785,7 +1787,7 @@
     :hook
 
     ;; Align tags when saving.
-    ((before-save-hook . org-align-all-tags)
+    (((org-mode-hook before-save-hook) . org-align-all-tags)
 
      ;; Switch to DONE when sub-entries are done.
      (org-after-todo-statistics-hook . org-summary-todo)
