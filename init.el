@@ -905,13 +905,13 @@
   :config
 
   ;; Path to library only set when directory exists.
-  (let ((path-to-library my-library))
-    (when (file-exists-p path-to-library)
-      (setq bibtex-completion-library-path path-to-library)))
-
-  (let ((path-to-bib my-bibliography))
-    (when (file-exists-p path-to-bib)
-      (setq bibtex-completion-bibliography path-to-bib))))
+  (prog1 "Set bibliography and library paths."
+    (let ((path-to-library my-library))
+      (when (file-exists-p path-to-library)
+        (setq bibtex-completion-library-path path-to-library)))
+    (let ((path-to-bib my-bibliography))
+      (when (file-exists-p path-to-bib)
+        (setq bibtex-completion-bibliography path-to-bib)))))
 
 
 ;; MISC. TOOLS
