@@ -1974,14 +1974,7 @@
 
   (progn
 
-    (setq org-ref-default-citation-link "parencite")
-    ;; bibtex-dialect 'biblatex)
-
-    ;; (setq helm-bibtex-pdf-open-function
-    ;;       (lambda (fpath)
-    ;;         (start-process "open" "*open*" "open" fpath)))
-    ;; (setq helm-bibtex-notes-path "~/Documents/Bibliographie/Recherche/notizen.org")))
-    ))
+    (setq org-ref-default-citation-link "parencite")))
 
 
 ;; ORG-JOURNAL
