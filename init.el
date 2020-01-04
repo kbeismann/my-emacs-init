@@ -1742,6 +1742,8 @@
 
 (leaf org				; FIXME: Band aid > Use :bind at some point.
 
+  :ensure org-ref
+
   :config
 
   ;; Directories.
@@ -1951,8 +1953,6 @@
 (leaf org-ref
 
   :ensure t
-
-  :after org
 
   :bind
 
