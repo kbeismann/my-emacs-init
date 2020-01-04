@@ -1735,7 +1735,8 @@
 
   (setq flycheck-pycheckers-ignore-codes (append
                                           flycheck-pycheckers-ignore-codes
-                                          '("C0330" "W503" "E701" "B311" "E231" "E203"))))
+                                          '("C0330" "W503" "E701" "B311"
+                                            "E231" "E203" "C0301"))))
 
 
 ;; ORG-MODE
