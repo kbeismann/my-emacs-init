@@ -893,7 +893,7 @@
    (bibtex-autokey-name-separator       . "_")
    (bibtex-autokey-names                . 1)
    (bibtex-autokey-names-stretch        . 1)
-   (bibtex-autokey-name-length          . 999)
+   (bibtex-autokey-name-length          . 10)
    (bibtex-autokey-name-year-separator  . "-")
    (bibtex-autokey-year-length          . 4)
    (bibtex-autokey-year-title-separator . "-")
