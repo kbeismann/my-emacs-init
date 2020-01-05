@@ -779,6 +779,19 @@
      (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
      (dired-listing-switches                  . "-lahgF --group-directories-first")))
 
+  (leaf dired-du
+
+    :ensure t
+
+    :hook
+
+    (dired-mode-hook . dired-du-mode)
+
+    :custom
+
+    (dired-du-size-format . t))
+
+
   (leaf dired-git-info
 
     :ensure t
