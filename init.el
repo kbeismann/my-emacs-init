@@ -1977,7 +1977,8 @@
 
   :init
 
-  (progn
+  (prog1 "Set paths to bibliography files."
+
     (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
     (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
           org-ref-bibliography-notes "~/gitdir/library/notes.org"
