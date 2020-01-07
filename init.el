@@ -415,7 +415,7 @@
 
   ;; Better splitting behavior.
   (split-height-threshold . 80)
-  (split-width-threshold  . (* 2 my-max-columns))
+  (split-width-threshold  . '(* 2 my-max-columns))
 
   :config
 
