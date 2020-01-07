@@ -786,6 +786,8 @@
 
     :hook
 
+    :diminish dired-du-mode
+
     (dired-mode-hook . dired-du-mode)
 
     :custom
@@ -803,7 +805,7 @@
 
     :after dired
 
-    ;; :diminish dired-git-info-mode
+    :diminish dired-git-info-mode
 
     ;; :hook
 
@@ -841,6 +843,8 @@
 (leaf async
 
   :ensure t
+
+  :diminish dired-async-mode
 
   :config
 
