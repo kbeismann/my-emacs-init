@@ -779,6 +779,7 @@
      (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
      (dired-listing-switches                  . "-lahgF --group-directories-first")))
 
+
   (leaf dired-du
 
     :ensure t
@@ -812,6 +813,7 @@
 
     (dired-mode-map
      (")" . dired-git-info-mode)))
+
 
   (leaf dired-subtree
 
@@ -2000,7 +2002,6 @@
 
 ;; ORG-JOURNAL
 
-
 (leaf org-journal
 
   :disabled t
@@ -2219,7 +2220,6 @@
 
 
 ;; LSP-UI
-
 
 (leaf lsp-ui
 
