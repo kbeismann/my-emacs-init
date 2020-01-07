@@ -555,7 +555,7 @@
                          (null (string= "" (shell-command-to-string
                                             (concat
                                              "fc-list "
-                                             my-font-family-manjaro))))) ; TODO: Probably family?
+                                             my-font-family-manjaro)))))
                     (progn
                       (message (concat font0 "done"))
                       (message "Font installed: %s"
@@ -579,7 +579,7 @@
                                  (string= "" (shell-command-to-string
                                               (concat
                                                "fc-list "
-                                               my-font-family-arch))))) ; TODO: Probably family?
+                                               my-font-family-arch)))))
                            (progn
                              (message (concat font0 "done"))
                              (message "Font installed: %s"
