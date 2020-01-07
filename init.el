@@ -87,8 +87,7 @@
 ;; * NEXT: Structure > Use function/package to toggle proxies.
 ;; * NEXT: Structure > External repository for snippets.
 ;; * NEXT: Structure > Better YASnippet implementation.
-;; * TODO: Packages > Try real-auto-save.
-;; * TODO: Packages > Try org-books.
+;; * TODO: Fix > The org/org-ref setup is too messy.
 
 
 ;;; Code:
