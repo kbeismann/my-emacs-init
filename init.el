@@ -1970,6 +1970,8 @@
 
   :bind
 
+  (org-mode-map
+   ("C-c i c" . org-reftex-citation))
   (bibtex-mode-map
    ("C-c C-c" . org-ref-clean-bibtex-entry))
 
