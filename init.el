@@ -917,6 +917,9 @@
 
   :config
 
+  (setq bibtex-dialect 'biblatex)
+
+
   ;; Path to library only set when directory exists.
   (prog1 "Set bibliography and library paths."
     (let ((path-to-library my-library))
