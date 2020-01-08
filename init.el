@@ -48,6 +48,8 @@
 
 ;;; Working font options:
 
+;; THESE OPTIONS ARE OUTDATED SINCE PANDOC 1.44!
+
 ;; * Hack:
 ;; ** "Hack-9" ; Arch
 ;; ** "Hack:pixelsize=14" ; Arch
@@ -59,9 +61,9 @@
 ;; ** "Inconsolata-11"
 ;; ** "Inconsolata:pixelsize=14" ; Arch
 
-;; * Dina:
+;; * Dina: Working with Pango 1.44 when using the AUR version dina-font-otb.
 ;; ** "Dina-9"
-;; ** "Dina:pixelsize=12" ; Arch, Manjaro
+;; ** "Dina:pixelsize=12"
 ;; ** "-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"
 
 ;; * Terminus:
