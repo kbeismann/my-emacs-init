@@ -2459,9 +2459,9 @@
 
 (leaf openwith
 
-  :disabled t
+  ;; :disabled t
 
-  ;; :ensure nil
+  :ensure t
 
   :hook
 
