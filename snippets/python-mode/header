@@ -3,7 +3,7 @@
 # key: <he
 # contributor: Karsten Beismann
 # --
-#!/usr/bin/env python3
+#!/usr/bin/env python3 > REMOVE IF UNNECESSARY.
 # -*- coding: utf-8 -*-
 """${1:TITLE}.
 
@@ -58,8 +58,8 @@ from typing import (
     Union
 )
 
-import dask.dataframe as dd
-import pandas as pd
+import dask.dataframe as dd  # type: ignore
+import pandas as pd  # type: ignore
 
 
 # CODE
