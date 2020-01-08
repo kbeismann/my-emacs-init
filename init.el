@@ -1602,7 +1602,12 @@
 
       :hook
 
-      (python-mode-hook . blacken-mode))
+      ((python-mode-hook . blacken-mode)
+       (python-mode-hook . (lambda() (setq-local whitespace-line-column 88))))
+
+      :config
+
+      )
 
 
     ;; PY-ISORT
