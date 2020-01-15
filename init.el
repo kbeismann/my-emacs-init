@@ -2041,7 +2041,7 @@
 
   :init
 
-  (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
+  ;; (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
 
   :custom
 
