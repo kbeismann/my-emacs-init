@@ -2104,8 +2104,6 @@
      ("C-c g b c"  . magit-branch-checkout)
 
      (magit-mode-map
-      ("C-c g r s" . magit-reset-soft)
-      ("C-c g r h" . magit-reset-hard)
       ("C-c g c a" . magit-commit-amend)
       ("C-c g c r" . magit-commit-reword))
 
