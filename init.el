@@ -785,9 +785,9 @@
 
     :ensure t
 
-    :hook
-
     :diminish dired-du-mode
+
+    :hook
 
     (dired-mode-hook . dired-du-mode)
 
@@ -1983,10 +1983,15 @@
 
   :ensure t
 
+  :ensure helm
+
+  :require t
+
   :bind
 
   (org-mode-map
-   ("C-c i c" . org-reftex-citation))
+   ("C-c i c" . org-ref-helm-insert-cite-link)
+   ("C-c i r" . crossref-lookup))
   (bibtex-mode-map
    ("C-c C-c" . org-ref-clean-bibtex-entry))
 
@@ -1994,6 +1999,10 @@
 
   (prog1 "Set paths to bibliography files."
 
+    (setq reftex-use-external-file-finders t) ; Use this to find bibliographies.
+    (setq reftex-external-file-finders
+          '(("tex" . "/usr/bin/kpsewhich -format=.tex %f")
+            ("bib" . "/usr/bin/kpsewhich -format=.bib %f")))
     (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
     (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
           org-ref-bibliography-notes "~/gitdir/library/notes.org"
@@ -2041,7 +2050,7 @@
 
   :init
 
-  ;; (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
+  (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
 
   :custom
 
@@ -2478,22 +2487,22 @@
     (if (string-equal
          (substring (shell-command-to-string "lsb_release -sd") 0 3)
          (substring "Arch" 0 3))
-        (setq openwith-associations '(("\\.png\\'" "feh" (file))
-                                      ("\\.jpg\\'" "feh" (file)f)
+        (setq openwith-associations '(("\\.png\\'" "imv" (file))
+                                      ("\\.jpg\\'" "imv" (file)f)
                                       ("\\.docx\\'" "libreoffice" (file))
                                       ("\\.odt\\'" "libreoffice" (file))
                                       ;; ("\\.pdf\\'" "evince" (file))
-                                      ("\\.html\\'" "GDK_BACKEND=wayland firefox --new-window" (file))
-                                      ("\\.htm\\'" "GDK_BACKEND=wayland firefox --new-window" (file))
-                                      ("\\.mkv\\'" "mplayer" (file))))
-      (setq openwith-associations '(("\\.png\\'" "feh" (file))
-                                    ("\\.jpg\\'" "feh" (file)f)
+                                      ;; ("\\.html\\'" "firefox --new-window" (file))
+                                      ;; ("\\.htm\\'" "firefox --new-window" (file))
+                                      ("\\.mkv\\'" "mpv" (file))))
+      (setq openwith-associations '(("\\.png\\'" "imv" (file))
+                                    ("\\.jpg\\'" "imv" (file)f)
                                     ("\\.docx\\'" "libreoffice" (file))
                                     ("\\.odt\\'" "libreoffice" (file))
                                     ;; ("\\.pdf\\'" "evince" (file))
-                                    ("\\.html\\'" "GDK_BACKEND=wayland firefox --new-window" (file))
-                                    ("\\.htm\\'" "GDK_BACKEND=wayland firefox --new-window" (file))
-                                    ("\\.mkv\\'" "mplayer" (file))))
+                                    ("\\.html\\'" "firefox --new-window" (file))
+                                    ("\\.htm\\'" "firefox --new-window" (file))
+                                    ("\\.mkv\\'" "mpv" (file))))
       )))
 
 
