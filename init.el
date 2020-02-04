@@ -789,9 +789,9 @@
 
     :diminish dired-du-mode
 
-    :hook
+    ;; :hook
 
-    (dired-mode-hook . dired-du-mode)
+    ;; (dired-mode-hook . dired-du-mode)
 
     :custom
 
