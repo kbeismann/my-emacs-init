@@ -1644,9 +1644,10 @@
 
       :after python
 
-      :hook
+      ;; :hook
 
-      ((python-mode-hook before-save-hook) . py-isort-before-save))
+      ;; ((python-mode-hook before-save-hook) . py-isort-before-save)
+      )
 
 
     ;; PYIMPORT
