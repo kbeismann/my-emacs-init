@@ -839,6 +839,32 @@
     (dired-subtree-use-backgrounds . nil)))
 
 
+;; TRAMP FOR REMOTE FILE SYSTEMS
+
+(leaf tramp
+
+  ;; :disabled t
+
+  :ensure t
+
+  :ensure helm-tramp
+
+  :after dired
+
+  :bind
+
+  ("C-c t h" . helm-tramp))
+
+;; :custom
+
+;; (
+;; ("ssh" . tramp-default-method)
+;; (10    . tramp-verbose)
+;;  )
+;; )
+
+
+
 ;; ASYNC
 
 (leaf async
@@ -2619,28 +2645,6 @@
 
   (helm-projectile-on))
 
-
-;; TRAMP FOR REMOTE FILE SYSTEMS
-
-(leaf tramp
-
-  :disabled t
-
-  ;; :ensure nil
-
-  :ensure helm-tramp
-
-  :after helm
-
-  :bind
-
-  ("C-c t h" . helm-tramp)
-
-  :config
-
-  ;; (setq tramp-default-method "ssh")
-
-  (setq tramp-verbose 10))
 
 
 ;; REALGUD DEBUGGER
