@@ -2516,16 +2516,18 @@
     (if (string-equal
          (substring (shell-command-to-string "lsb_release -sd") 0 3)
          (substring "Arch" 0 3))
-        (setq openwith-associations '(("\\.png\\'" "imv" (file))
-                                      ("\\.jpg\\'" "imv" (file)f)
+        (setq openwith-associations '(
+                                      ;; ("\\.png\\'" "imv" (file))
+                                      ;; ("\\.jpg\\'" "imv" (file)f)
                                       ("\\.docx\\'" "libreoffice" (file))
                                       ("\\.odt\\'" "libreoffice" (file))
                                       ;; ("\\.pdf\\'" "evince" (file))
                                       ;; ("\\.html\\'" "firefox --new-window" (file))
                                       ;; ("\\.htm\\'" "firefox --new-window" (file))
                                       ("\\.mkv\\'" "mpv" (file))))
-      (setq openwith-associations '(("\\.png\\'" "imv" (file))
-                                    ("\\.jpg\\'" "imv" (file)f)
+      (setq openwith-associations '(
+                                    ;; ("\\.png\\'" "imv" (file))
+                                    ;; ("\\.jpg\\'" "imv" (file)f)
                                     ("\\.docx\\'" "libreoffice" (file))
                                     ("\\.odt\\'" "libreoffice" (file))
                                     ;; ("\\.pdf\\'" "evince" (file))
