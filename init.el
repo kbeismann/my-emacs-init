@@ -389,6 +389,7 @@
    (truncate-lines               . t)
    (font-lock-maximum-decoration . t)
    (fringe-mode                  . 1)   ; This is the value for "minimal".
+   (global-hl-line-mode          . 1)
 
    ;; Clipboard behavior.
    (x-select-enable-clipboard-manager . t)
@@ -769,7 +770,8 @@
 
     :hook
 
-    ((dired-mode-hook . (lambda() (hl-line-mode 1)))
+    (
+     ;; (dired-mode-hook . (lambda() (hl-line-mode 1)))
      (dired-mode-hook . dired-hide-details-mode))
 
     :custom
