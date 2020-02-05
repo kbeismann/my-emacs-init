@@ -838,7 +838,8 @@
 
     :custom
 
-    (dired-subtree-use-backgrounds . nil)))
+    ((dired-subtree-use-backgrounds . nil)
+     (dired-subtree-line-prefix     . "    >"))))
 
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
