@@ -2081,25 +2081,40 @@
 
 ;; For better viewing and handling of PDFs in Emacs.
 
-(leaf pdf-tools
+
+(leaf doc-view
 
   :ensure t
 
-  :bind
-
-  (pdf-view-mode-map
-   ("C-s" . isearch-forward))
-
-  ;; :init
-
-  ;; (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
-
-  :custom
-
-  ((pdf-view-display-size                  . 'fit-page)
-   (pdf-annot-activate-created-annotations . t))
-
   :config
+
+  (leaf pdf-tools
+
+    :ensure t
+
+    :bind
+
+    (pdf-view-mode-map
+     ("C-s" . isearch-forward))
+
+    :init
+
+    (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
+
+    :custom
+
+    ((pdf-view-display-size                  . 'fit-page)
+     (pdf-annot-activate-created-annotations . t))
+
+    :config
+
+    (leaf org-pdfview
+
+      :config
+
+      (add-to-list 'org-file-apps
+                   '("\\.pdf\\'" . (lambda (file link)
+                                     (org-pdfview-open link))))))
 
 
   ;; ORG-NOTER
@@ -2116,8 +2131,6 @@
   (leaf org-noter
 
     :ensure t
-
-    :after pdf-tools
 
     :bind
 
@@ -2508,7 +2521,7 @@
 
 (leaf openwith
 
-  ;; :disabled t
+  :disabled t
 
   :ensure t
 
