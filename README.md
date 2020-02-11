@@ -18,12 +18,18 @@ Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
 
 ## Installation (UNIX-based)
 
-This setup is currently tested with GNU Emacs 26.3.
+This setup is currently tested with GNU Emacs 28.0.50.
 
 1. Install Emacs:
 ```bash
 $ sudo pacman -S emacs
 ```
+Or to use the most up-to-date version:
+```bash
+git clone https://github.com/emacs-mirror/emacs.git emacs
+```
+
+
 2. Install fonts, e.g. Dina, compatible with Pango 1.44, from the AUR via
    `yay`:
 
@@ -91,3 +97,4 @@ OUT OF DATE!
 * https://github.com/rememberYou/.emacs.d/
 * https://github.com/zamansky/using-emacs
 * https://ladicle.com/post/config/
+* https://www.gnu.org/software/emacs/
