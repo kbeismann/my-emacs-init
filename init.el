@@ -937,11 +937,14 @@
 (leaf bibtex
 
   :ensure org-ref
+  :ensure gscholar-bibtex
 
   :bind
 
   (bibtex-mode-map
-   ("C-c C-c" . org-ref-clean-bibtex-entry))
+   ("C-c C-c" . org-ref-clean-bibtex-entry)
+   ("C-c ["   . crossref-lookup)
+   ("C-c ]"   . gscholar-bibtex))
 
 
   :custom
@@ -2052,13 +2055,7 @@
 
     ;; Add "bibtex %b" to enable bibtex export.
     ;; Source: https://github.com/jkitchin/org-ref
-    (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
-
-  :config
-
-  (progn
-
-    (define-key org-mode-map  "C-c [" 'crossref-lookup)))
+    (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))))
 
 
 ;; ORG-JOURNAL
