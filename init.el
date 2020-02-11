@@ -936,6 +936,14 @@
 
 (leaf bibtex
 
+  :ensure org-ref
+
+  :bind
+
+  (bibtex-mode-map
+   ("C-c C-c" . org-ref-clean-bibtex-entry))
+
+
   :custom
 
   ((bibtex-autokey-additional-names     . "_etal")
@@ -950,6 +958,10 @@
    (bibtex-autokey-titlewords           . 3)
    (bibtex-autokey-titlewords-stretch   . 1)
    (bibtex-autokey-titleword-length     . 5))
+
+  ;; :init
+
+  ;; (setq bibtex-set-dialect 'biblatex)
 
   :config
 
@@ -2015,15 +2027,15 @@
 
   :ensure helm
 
+  :after org
+
   :require t
 
-  :bind
+  ;; :bind
 
-  (org-mode-map
-   ("C-c i c" . org-ref-helm-insert-cite-link)
-   ("C-c i r" . crossref-lookup))
-  (bibtex-mode-map
-   ("C-c C-c" . org-ref-clean-bibtex-entry))
+  ;; (org-mode-map
+  ;;  ("C-c i c" . org-ref-helm-insert-cite-link)
+  ;;  ("C-c i r" . crossref-lookup))
 
   :init
 
@@ -2046,7 +2058,7 @@
 
   (progn
 
-    (setq org-ref-default-citation-link "parencite")))
+    (define-key org-mode-map  "C-c [" 'crossref-lookup)))
 
 
 ;; ORG-JOURNAL
