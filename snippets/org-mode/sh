@@ -4,6 +4,6 @@
 # contributor: Karsten Beismann
 # --
 
-#+BEGIN_SRC sh :results output :export both
+#+BEGIN_SRC sh :results output :export both :eval no
 $0
 #+END_SRC

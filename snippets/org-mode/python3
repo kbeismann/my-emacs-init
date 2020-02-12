@@ -4,6 +4,6 @@
 # contributor: Karsten Beismann
 # --
 
-#+BEGIN_SRC python :results output code :export both
+#+BEGIN_SRC python :results output code :export both :eval yes
 $0
 #+END_SRC
