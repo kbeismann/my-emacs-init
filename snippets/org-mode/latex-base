@@ -4,6 +4,6 @@
 # contributor: Karsten Beismann
 # --
 
-#+BEGIN_EXPORT LaTeX
+#+BEGIN_EXPORT LaTeX :eval yes
 $0
 #+END_EXPORT

@@ -4,7 +4,7 @@
 # contributor: Karsten Beismann
 # --
 
-#+BEGIN_LaTeX
+#+BEGIN_LaTeX :eval yes
 \begin{equation*}
 $0
 \end{equation*}

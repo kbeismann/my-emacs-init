@@ -4,6 +4,6 @@
 # contributor: Karsten Beismann
 # --
 
-#+BEGIN_SRC R :colnames yes :results output :session
+#+BEGIN_SRC R :colnames yes :results output :session :eval yes
 $0
 #+END_SRC

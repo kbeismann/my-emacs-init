@@ -4,6 +4,6 @@
 # contributor: Karsten Beismann
 # --
 
-#+BEGIN_SRC shell :results output :session :export both
+#+BEGIN_SRC shell :results output :session :export both :eval no
 $0
 #+END_SRC
