@@ -2055,10 +2055,7 @@
 
     ;; Add "bibtex %b" to enable bibtex export.
     ;; Source: https://github.com/jkitchin/org-ref
-    (setq org-latex-pdf-process (list "latexmk -shell-escape -gg -bibtex -f -pdf %f"))
-    ;; (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -gg"))
-    ;; (setq org-latex-compiler "xelatex")
-    ))
+    (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))))
 
 
 ;; ORG-JOURNAL
