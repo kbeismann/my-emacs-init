@@ -3,5 +3,4 @@
 # key: <ref
 # contributor: Karsten Beismann
 # --
-
 (ref:${1"**reference**"}) $0

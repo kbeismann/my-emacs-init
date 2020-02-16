@@ -3,7 +3,6 @@
 # key: <shell
 # contributor: Karsten Beismann
 # --
-
-#+BEGIN_SRC shell :results output :session :export both :eval no
+#+BEGIN_SRC shell :results output :session :export both
 $0
 #+END_SRC

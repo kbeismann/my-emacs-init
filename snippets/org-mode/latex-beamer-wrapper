@@ -3,6 +3,5 @@
 # key: <lawr
 # contributor: Karsten Beismann
 # --
-
 #+LaTeX: \resizebox{\textwidth}{\texthight}{!}{
 #+LaTeX: }

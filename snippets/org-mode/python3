@@ -3,7 +3,6 @@
 # key: <p3
 # contributor: Karsten Beismann
 # --
-
-#+BEGIN_SRC python :results output code :export both :eval yes
+#+BEGIN_SRC python :results output code :export both
 $0
 #+END_SRC
