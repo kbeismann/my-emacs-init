@@ -3,7 +3,7 @@
 # key: <al
 # contributor: Karsten Beismann
 # --
-#+BEGIN_LaTeX :eval yes
+#+BEGIN_LaTeX
 \begin{align*}
 $0
 \end{align*}

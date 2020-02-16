@@ -4,7 +4,6 @@
 # contributor: Karsten Beismann
 # --
 # -*- mode: org; coding: utf-8; -*-
-
 #+TITLE: ${1:TITLE}
 #+AUTHOR: `(insert user-full-name)`
 #+EMAIL: `(insert user-mail-address)`

@@ -3,7 +3,6 @@
 # key: <la
 # contributor: Karsten Beismann
 # --
-
-#+BEGIN_EXPORT LaTeX :eval yes
+#+BEGIN_EXPORT LaTeX
 $0
 #+END_EXPORT

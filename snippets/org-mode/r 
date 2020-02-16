@@ -3,7 +3,6 @@
 # key: <r
 # contributor: Karsten Beismann
 # --
-
-#+BEGIN_SRC R :colnames yes :results output :session :eval yes
+#+BEGIN_SRC R :colnames yes :results output :session
 $0
 #+END_SRC
