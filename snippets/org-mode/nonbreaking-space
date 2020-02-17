@@ -1,8 +1,6 @@
 # -*- mode: snippet -*-
-# name: latex-base
-# key: <la
+# name: nonbreaking-space
+# key: <nbsp
 # contributor: Karsten Beismann
 # --
-#+BEGIN_SRC latex
-$0
-#+END_SRC
+\nbsp{}
