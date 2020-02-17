@@ -3,8 +3,8 @@
 # key: <eq
 # contributor: Karsten Beismannk
 # --
-#+BEGIN_LaTeX
+#+BEGIN_SRC latex
 \begin{equation*}
 $0
 \end{equation*}
-#+END_LaTeX
+#+END_SRC

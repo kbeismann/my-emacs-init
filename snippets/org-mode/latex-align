@@ -3,8 +3,8 @@
 # key: <al
 # contributor: Karsten Beismann
 # --
-#+BEGIN_LaTeX
+#+BEGIN_SRC latex
 \begin{align*}
 $0
 \end{align*}
-#+END_LaTeX
+#+END_SRC
