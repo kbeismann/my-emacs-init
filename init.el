@@ -1366,7 +1366,7 @@
 
     :bind
 
-    ("C-c d p" . sp-unwrap-sexp)
+    ("C-c u s" . sp-unwrap-sexp)
 
     :custom
 
