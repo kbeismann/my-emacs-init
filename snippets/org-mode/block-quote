@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: blockquote
+# key: <bq
+# contributor: Karsten Beismann
+# --
+#+BEGIN_QUOTE
+$0
+#+END_QUOTE
