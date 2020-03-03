@@ -6,12 +6,9 @@
 
 ## Commentary
 
-This Emacs initialization file creates my personalized version of GNU Emacs: a
-non-invasive editor with a minimalist design.  It highlights relevant
-information only while hiding non-essential elements whenever possible.
-Currently, it uses `leaf` to create a modular system.  Dependent on the
-system, the bitmap fonts have to be installed and configured upfront.  Note
-that Pango removed support for bitmap fonts with version 1.33.
+Currently, this Emacs setup uses `leaf` to create a modular system.  Dependent
+on the system, the bitmap fonts have to be installed and configured upfront.
+Note that Pango removed support for bitmap fonts with version 1.33.
 
 Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
 
