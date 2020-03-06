@@ -850,13 +850,17 @@
 
   :ensure t
 
-  :ensure helm-tramp
+  :ensure tramp-term
 
   :after dired
 
   :bind
 
-  ("C-c t h" . helm-tramp))
+  ("C-c t h" . helm-tramp)
+
+  :config
+
+  (setq tramp-debug-buffer t))
 
 ;; :custom
 
@@ -865,7 +869,6 @@
 ;; (10    . tramp-verbose)
 ;;  )
 ;; )
-
 
 
 ;; ASYNC
@@ -1109,6 +1112,8 @@
   (leaf helm
 
     :ensure t
+
+    :ensure helm-tramp
 
     :leaf-defer nil
 
