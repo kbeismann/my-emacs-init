@@ -221,7 +221,7 @@
 
   :config
 
-  (let ((proxies "~/gitdir/emacs-work/proxies.el"))
+  (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
     (when (file-exists-p proxies)
       (load proxies))))
 
