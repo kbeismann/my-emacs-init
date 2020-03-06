@@ -2656,6 +2656,24 @@
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
 
 
+;; SSH DEPLOY
+
+(leaf ssh-deploy
+
+  :url https://github.com/cjohansson/emacs-ssh-deploy
+
+  :ensure t
+
+  :hook
+
+  ((after-save . ssh-deploy-after-save)
+   (find-file  . ssh-deploy-find-file))
+
+  :config
+
+  (ssh-deploy-line-mode))
+
+
 ;; PROJECTILE
 
 (leaf projectile
