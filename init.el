@@ -2473,10 +2473,15 @@
 
   :custom
 
-  ((yas-indent-line . 'fixed)
-   (yas-snippet-dirs . '(path-to-my-snippets path-to-snippets "~/.emacs.d/elpa/yasnippet-snippets-20191230.1405/snippets/"))
-   (yas-global-mode . t)))
+  ((yas-indent-line  . 'fixed)
+   (yas-snippet-dirs . '(path-to-my-snippets "~/.emacs.d/elpa/yasnippet-snippets-20200122.1140/snippets/"))
+   (yas-global-mode  . t))
 
+  ;; :config
+
+  ;; (setq yas-snippet-dirs (append yas-snippet-dirs
+  ;;                                '(path-to-snippets path-to-my-snippets)))
+  )
 
 ;; GNUPG SETUP
 
