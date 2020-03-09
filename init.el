@@ -327,11 +327,12 @@
     "My default font family for Arch Linux.")
 
   (defvar my-font-ubuntu
-    "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
+    ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
+    "Terminus:pixelsize=14"
     "My default font setting for Ubuntu.")
 
   (defvar my-font-family-ubuntu
-    "xos4 Terminus"
+    "Terminus"
     "My default font family setting for Ubuntu.")
 
   (defvar my-max-columns
