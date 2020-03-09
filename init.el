@@ -300,17 +300,13 @@
     (concat my-gitdir "mu4e-setup/mu4e-setup.el")
     "My mu4e file.")
 
-  (defvar my-mu4e-setup
-    (concat my-gitdir "mu4e-setup/mu4e-setup.el")
-    "My mu4e file.")
+  (defvar my-font-huckleberry
+    "Dina:pixelsize=13"
+    "My default font for Huckleberry.")
 
-  (defvar my-font-manjaro
-    "Dina:pixelsize=12"
-    "My default font setting for Manjaro.")
-
-  (defvar my-font-family-manjaro
+  (defvar my-font-family-huckleberry
     "Dina"
-    "My default font family for Manjaro.")
+    "My default font family for Huckleberry.")
 
   (defvar my-font-arch
     ;; "DejaVu Sans Mono-10"; Arch
@@ -532,7 +528,7 @@
 
   :custom
 
-  ((checkos0 . "Checking OS...")
+  ((checkos0 . "Checking OS and hostname...")
    (font0    . "Looking for font family...")
    (font1    . "Setting font..."))
 
@@ -548,28 +544,29 @@
                          (shell-command-to-string "lsb_release -sd") 0 -1))
           (message "Found GNU/Linux distribution: %s" my-os)
 
-          ;; Font for Manjaro.
-          (if (string-equal "Manjaro" (substring my-os 1 8))
+          (defvar my-hostname (substring
+                               (shell-command-to-string "hostname") 0 -1))
+          (message "Found hostname: %s" my-hostname)
+
+          ;; Font for Huckleberry.
+          (if (string-equal "huckleberry" (substring my-hostname 0 11))
               (progn
-                (message "Current font settings for Manjaro: %s"
-                         my-font-manjaro)
+                (message "Current font settings for Huckleberry: %s"
+                         my-font-huckleberry)
                 (message font0)
                 (if (and (null (string= "" (shell-command-to-string
                                             "which fc-list")))
                          (null (string= "" (shell-command-to-string
                                             (concat
                                              "fc-list "
-                                             my-font-family-manjaro)))))
+                                             my-font-family-huckleberry)))))
                     (progn
                       (message (concat font0 "done"))
                       (message "Font installed: %s"
-                               my-font-family-manjaro)
+                               my-font-family-huckleberry)
                       (add-to-list 'default-frame-alist
-                                   `(font . ,my-font-manjaro))) ; Works for emacsclient as well.
-                  (message "Missing font family: %s" my-font-family-manjaro))
-                ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-                (add-to-list 'default-frame-alist '(height . 60))
-                (add-to-list 'default-frame-alist '(width  . 180)))
+                                   `(font . ,my-font-huckleberry))) ; Works for emacsclient as well.
+                  (message "Missing font family: %s" my-font-family-huckleberry)))
 
             ;; Font for Arch.
             (if (string-equal "Arch" (substring my-os 1 5))
