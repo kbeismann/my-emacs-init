@@ -2650,13 +2650,39 @@
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
 
 
+;; DIRED-RSYNC
+
+(leaf dired-rsync
+
+  :ensure t
+
+  :url https://github.com/stsquad/dired-rsync
+
+  :doc "Adds single command to sync dired buffer with remote."
+
+  :after dired
+
+  :bind
+
+  (dired-mode-map
+   ("C-c C-r" . dired-rsync)))
+
+
 ;; SSH DEPLOY
 
+;; Currently replaced by rsync.
+
 (leaf ssh-deploy
+
+  :disabled t
 
   :url https://github.com/cjohansson/emacs-ssh-deploy
 
   :ensure t
+
+  :bind
+
+  ("C-c z" . ssh-deploy-prefix-map)
 
   :hook
 
@@ -2665,7 +2691,8 @@
 
   :config
 
-  (ssh-deploy-line-mode))
+  (ssh-deploy-line-mode)
+  (ssh-deploy-add-menu))
 
 
 ;; PROJECTILE
