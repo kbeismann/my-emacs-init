@@ -257,7 +257,7 @@
     "My abbreviations directory.")
 
   (defvar my-gitdir
-    "~/gitdir/"
+    "~/gitdir/my-git/"
     "My directory for git repositories.")
 
   (defvar my-library
@@ -277,15 +277,11 @@
     "My Emacs initialization file repository.")
 
   (defvar my-orgdir
-    (concat my-gitdir "my-git/orgdir/")
+    (concat my-gitdir "orgdir/")
     "My directory for git repositories.")
 
-  (defvar my-library
-    (concat my-gitdir "library/")
-    "My library repository.")
-
   (defvar my-init
-    (concat my-gitdir "my-git/emacs-init/")
+    (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
 
   (defvar my-notes
