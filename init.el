@@ -967,6 +967,10 @@
 
   (setq bibtex-dialect 'biblatex)
 
+  ;; A good summary: http://www.jonathanleroux.org/bibtex-mode.html.
+  (setq bibtex-additional-formatting '(page-dashes whitespace sort-fields))
+  (setq bibtex-entry-format (append bibtex-entry-format bibtex-additional-formatting))
+
 
   ;; Path to library only set when directory exists.
   (prog1 "Set bibliography and library paths."
