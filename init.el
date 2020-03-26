@@ -1570,6 +1570,8 @@
 
       :ensure t
 
+      :ensure projectile
+
       :after python
 
       :bind
