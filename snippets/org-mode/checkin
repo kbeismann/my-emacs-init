@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# name: chkin
+# key: <chkin
+# contributor: Karsten Beismann
+# --
+1) *Summary since last check-in:*
+
+   - ---
+
+2) *Short-term outlook for this/next week:*
+
+   - ---
+
+3) *Long-term outlook:*
+
+   - ---
+
+3) *Questions:*
+
+   - ---
+
+4) *Notes:*
+
+   - ---
+
+$0
