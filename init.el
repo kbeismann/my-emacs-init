@@ -840,8 +840,6 @@
 
 (leaf tramp
 
-  ;; :disabled t
-
   :ensure t
 
   :ensure tramp-term
@@ -852,17 +850,12 @@
 
   ("C-c t h" . helm-tramp)
 
-  :config
+  :custom
 
-  (setq tramp-debug-buffer t))
-
-;; :custom
-
-;; (
-;; ("ssh" . tramp-default-method)
-;; (10    . tramp-verbose)
-;;  )
-;; )
+  ((tramp-debug-buffer . t)
+   (tramp-read-passwd  . t)
+   (tramp-default-method . "ssh")
+   (tramp-verbose . 10)))
 
 
 ;; ASYNC
