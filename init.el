@@ -2770,6 +2770,13 @@
   (leaf emms-streams))
 
 
+;; CENTERED WINDOW MODE
+
+(leaf centered-window
+
+  :ensure t)
+
+
 ;;; Footer:
 
 (provide 'init)
