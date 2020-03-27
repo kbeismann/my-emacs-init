@@ -607,8 +607,8 @@
                                     (message (concat font1 "done"))) ; Works for emacsclient as well.
                            (message "Missing font family: %s" my-font-family-ubuntu))
                          (message "Adjusting frame parameters...")
-                         (add-to-list 'default-frame-alist '(height . 60))
-                         (add-to-list 'default-frame-alist '(width  . 200))
+                         (add-to-list 'default-frame-alist '(height . 50))
+                         (add-to-list 'default-frame-alist '(width  . 180))
                          (message "Adjusting frame parameters...done"))
 
                 (message "No predefined font settings found")))))
