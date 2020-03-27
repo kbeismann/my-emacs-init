@@ -1027,14 +1027,7 @@
 
     (add-to-list 'dashboard-items '(agenda) t)
 
-    (dashboard-setup-startup-hook))
-
-
-  ;; DEBUGGING INIT FILE
-
-  (leaf bug-hunter
-
-    :ensure t)
+    (dashboard-setup-startup-hook)))
 
 
 ;; DICTIONARY, FLYCHECK, AND FLYSPELL
