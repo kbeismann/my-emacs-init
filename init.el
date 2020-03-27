@@ -1343,7 +1343,7 @@
 
   (leaf smartparens
 
-    :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
+    :url https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3
 
     :ensure t
 
@@ -2190,7 +2190,7 @@
 
   (leaf git-timemachine
 
-    :url "https://gitlab.com/pidu/git-timemachine"
+    :url https://gitlab.com/pidu/git-timemachine
 
     :ensure t
 
@@ -2649,7 +2649,7 @@
 
   :ensure t
 
-  :url "https://github.com/stsquad/dired-rsync"
+  :url https://github.com/stsquad/dired-rsync
 
   :doc "Adds single command to sync dired buffer with remote."
 
@@ -2667,7 +2667,7 @@
 
 (leaf ssh-deploy
 
-  :url "https://github.com/cjohansson/emacs-ssh-deploy"
+  :url https://github.com/cjohansson/emacs-ssh-deploy
 
   :doc "Effortlessly deploy local files and directories to remote hosts via Tramp."
 
@@ -2742,9 +2742,7 @@
   MpthreePlayer, but it tries to be more general and cleaner. It
   is comparable to Bongo."
 
-  :url
-
-  "https://www.emacswiki.org/emacs/"
+  :url https://www.emacswiki.org/emacs/
 
   :ensure t
 
