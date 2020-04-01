@@ -1909,12 +1909,14 @@
 
         ;; Basic templates for notes and URLs:
 
-        '(;; Key, name, type, target, template, options.
+        '(
+          ;; Key, name, type, target, template, options.
           ;; ("n" "Save Note" entry
           ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNSORTED")
           ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n\n"
           ;;  :empty-lines 1
           ;;  :prepend 1)
+
           ("n" "Save Note" entry
            (file+headline org-default-notes-file "UNSORTED")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:created: %U\n:END:\n\n%i\n\n\n"
