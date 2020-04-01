@@ -213,19 +213,6 @@
       (leaf-keywords-init))))
 
 
-;; WORK-RELATED SETTINGS
-
-(leaf *work-related-settings
-
-  :doc "Load work-related settings if file exists"
-
-  :config
-
-  (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
-    (when (file-exists-p proxies)
-      (load proxies))))
-
-
 ;; BASIC VARIABLES
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
@@ -2747,6 +2734,20 @@
 (leaf centered-window
 
   :ensure t)
+
+
+
+;; WORK-RELATED SETTINGS
+
+(leaf *work-related-settings
+
+  :doc "Load work-related settings if file exists"
+
+  :config
+
+  (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
+    (when (file-exists-p proxies)
+      (load proxies))))
 
 
 ;;; Footer:
