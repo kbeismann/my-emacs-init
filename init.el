@@ -2747,9 +2747,15 @@
 
   :config
 
+  ;; If the directory exists, load proxy settings.
   (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
     (when (file-exists-p proxies)
-      (load proxies))))
+      (load proxies)))
+
+  ;; If the directory exists, load templates for work.
+  (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
+    (when (file-exists-p templates)
+      (load templates))))
 
 
 ;;; Footer:
