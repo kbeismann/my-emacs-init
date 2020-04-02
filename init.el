@@ -2738,7 +2738,6 @@
   :ensure t)
 
 
-
 ;; WORK-RELATED SETTINGS
 
 (leaf *work-related-settings
