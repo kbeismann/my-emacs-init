@@ -2748,13 +2748,21 @@
 
   ;; If the directory exists, load proxy settings.
   (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
-    (when (file-exists-p proxies)
-      (load proxies)))
+    (if (file-exists-p proxies)
+        (progn
+          (message "%s" "Found proxy settings for work...")
+          (load proxies))
+      (message "%s" "No proxy settings specified.")
+      ))
 
   ;; If the directory exists, load templates for work.
   (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
-    (when (file-exists-p templates)
-      (load templates))))
+    (if (and (file-exists-p templates)
+             (boundp 'org-capture-templates))
+        (progn
+          (message "%s" "Adding templates for work...")
+          (load templates))
+      (message "%s" "No additional templates specified."))))
 
 
 ;;; Footer:
