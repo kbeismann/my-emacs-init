@@ -307,11 +307,13 @@
 
   (defvar my-font-ubuntu
     ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
-    "Terminus:pixelsize=14"
+    ;; "Terminus:pixelsize=14"
+    "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
 
   (defvar my-font-family-ubuntu
-    "Terminus"
+    ;; "Terminus"
+    "Hack"
     "My default font family setting for Ubuntu.")
 
   (defvar my-max-columns
