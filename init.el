@@ -638,7 +638,7 @@
   (defun insert-current-date ()
     "Insert the current date and time in a standard Emacs format."
     (interactive)
-    (insert (format-time-string "<%Y-%m-%dT%a %H:%M>")))
+    (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
   (global-set-key (kbd "C-c d i") 'insert-current-date)
 
   ;; Find non ASCII characters.
