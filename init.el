@@ -1959,6 +1959,60 @@
            :empty-lines 1
            :prepend 1)))
 
+
+  ;; CLEAN TAGS IN ORG MODE
+
+  (defun dmj/org-remove-redundant-tags ()
+    "Remove redundant tags of headlines in current buffer.
+
+A tag is considered redundant if it is local to a headline and
+inherited by a parent headline."
+    (interactive)
+    (when (eq major-mode 'org-mode)
+      (save-excursion
+        (org-map-entries
+         '(lambda ()
+            (let ((alltags (split-string (or (org-entry-get (point) "ALLTAGS") "") ":"))
+                  local inherited tag)
+              (dolist (tag alltags)
+                (if (get-text-property 0 'inherited tag)
+                    (push tag inherited) (push tag local)))
+              (dolist (tag local)
+                (if (member tag inherited) (org-toggle-tag tag 'off)))))
+         t nil))))
+
+  ;; Source: https://www.reddit.com/r/emacs/comments/ae23fj/orgmode_clean_tag_string_on_refile/
+
+  ;; ;; This function iterates the headlines-at-point's current tags and removes
+  ;; ;; any with the inherited text property.
+  ;; (defun my/org-remove-inherited-tag-strings ()
+  ;;   "Removes inherited tags from the headline-at-point's tag
+  ;;   string.  Note this does not change the inherited tags for a
+  ;;   headline, just the tag string."
+  ;;   (interactive)
+  ;;   (org-set-tags (seq-remove (lambda (tag)
+  ;;                               (get-text-property 0 'inherited tag))
+  ;;                             (org-get-tags))))
+
+  ;; ;; This function is just a wrapper that visits the last refiled headline and
+  ;; ;; removes its inherited tags. Saving the window excursion restores our
+  ;; ;; window configuration prior to visiting the refiled headline. That way we
+  ;; ;; don't lose our place when calling the function.
+  ;; (defun my/org-clean-tags ()
+  ;;   "Visit last refiled headline and remove inherited tags from tag string."
+  ;;   (save-window-excursion
+  ;;     (org-refile-goto-last-stored)
+  ;;     (my/org-remove-inherited-tag-string)))
+
+  ;; ;; Add my/org-clean-tags to run after org-refile inserts the headline at the
+  ;; ;; refile-target.
+  ;; (add-hook 'org-after-refile-insert-hook 'my/org-clean-tags)
+
+  ;; ;; Clean up an existing org-mode file's tags.
+  ;; (org-map-entries #'my/org-remove-inherited-tag-strings)
+
+
+
   ;; Don't confirm before evaluating.
   (setq org-confirm-babel-evaluate nil)
 
