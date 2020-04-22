@@ -2820,7 +2820,13 @@ inherited by a parent headline."
         (progn
           (message "%s" "Adding templates for work...")
           (load templates))
-      (message "%s" "No additional templates specified."))))
+      (message "%s" "No additional templates specified.")))
+
+  (let ((orgdir "~/gitdir/work-git/orgdir/"))
+    (if (file-directory-p orgdir)
+        (progn
+          (message "%s" "Found work-related org directory...")
+          (setq org-agenda-files (append org-agenda-files (list orgdir)))))))
 
 
 ;;; Footer:
