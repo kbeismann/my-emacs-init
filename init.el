@@ -1862,11 +1862,13 @@
 
      ;; To-do settings.
      (org-hierarchical-todo-statistics . nil)
-     (org-todo-keywords                . '((sequence "TODO(t)"
-                                                     "IN_PROGRESS(i)"
-                                                     "GET_FEEDBACK(f)"
-                                                     "|"
-                                                     "DONE(d)")))
+     (org-todo-keywords                . '((sequence
+                                            "IN_PROGRESS(i)"
+                                            "TODO(t)"
+                                            "GET_FEEDBACK(f)"
+                                            "|"
+                                            "WONT_DO(w)"
+                                            "DONE(d)")))
 
      ;; Logging.
      (org-log-done           . 'time)
