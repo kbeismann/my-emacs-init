@@ -1865,7 +1865,8 @@
      (org-todo-keywords                . '((sequence
                                             "IN_PROGRESS(i)"
                                             "TODO(t)"
-                                            "GET_FEEDBACK(f)"
+                                            "BUG(b)"
+                                            "BACKLOG(l)"
                                             "|"
                                             "WONT_DO(w)"
                                             "DONE(d)")))
