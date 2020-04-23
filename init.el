@@ -2193,6 +2193,13 @@ inherited by a parent headline."
      (dired-mode-map
       ("C-c g c c" . magit-clone)))
 
+    ;; :custom
+
+    ;; (
+    ;; (magit-commit-show-diff . nil)
+    ;; (magit-refresh-status-buffer . nil))
+
+
     :config
 
     (leaf magit-todos
