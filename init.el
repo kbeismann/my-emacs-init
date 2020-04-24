@@ -2177,6 +2177,8 @@
 
     (leaf magit-todos
 
+      :disabled t
+
       :ensure t
 
       :after magit
