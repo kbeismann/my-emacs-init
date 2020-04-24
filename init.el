@@ -1963,55 +1963,28 @@
 
   ;; CLEAN TAGS IN ORG MODE
 
-  (defun dmj/org-remove-redundant-tags ()
-    "Remove redundant tags of headlines in current buffer.
+  ;; Source: https://fuco1.github.io/2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling.html
 
-A tag is considered redundant if it is local to a headline and
-inherited by a parent headline."
-    (interactive)
-    (when (eq major-mode 'org-mode)
-      (save-excursion
-        (org-map-entries
-         '(lambda ()
-            (let ((alltags (split-string (or (org-entry-get (point) "ALLTAGS") "") ":"))
-                  local inherited tag)
-              (dolist (tag alltags)
-                (if (get-text-property 0 'inherited tag)
-                    (push tag inherited) (push tag local)))
-              (dolist (tag local)
-                (if (member tag inherited) (org-toggle-tag tag 'off)))))
-         t nil))))
+  ;; Note: * Updated for Org 9.2.
 
-  ;; Source: https://www.reddit.com/r/emacs/comments/ae23fj/orgmode_clean_tag_string_on_refile/
+  (defun my-org-remove-inherited-local-tags ()
+    "Remove local tags that can be inherited instead."
+    (let* ((target-tags-local (org-get-tags nil 'local))
+           ;; We have to remove the local tags otherwise they would not
+           ;; show up as being inherited if they are present on
+           ;; parents---the local tag would "override" the parent
+           (target-tags-inherited
+            (unwind-protect
+                (progn
+                  (org-set-tags nil)
+                  (org-get-tags))
+              (org-set-tags target-tags-local))))
+      (-each target-tags-local
+        (lambda (tag)
+          (when (member tag target-tags-inherited)
+            (org-toggle-tag tag 'off))))))
 
-  ;; ;; This function iterates the headlines-at-point's current tags and removes
-  ;; ;; any with the inherited text property.
-  ;; (defun my/org-remove-inherited-tag-strings ()
-  ;;   "Removes inherited tags from the headline-at-point's tag
-  ;;   string.  Note this does not change the inherited tags for a
-  ;;   headline, just the tag string."
-  ;;   (interactive)
-  ;;   (org-set-tags (seq-remove (lambda (tag)
-  ;;                               (get-text-property 0 'inherited tag))
-  ;;                             (org-get-tags))))
-
-  ;; ;; This function is just a wrapper that visits the last refiled headline and
-  ;; ;; removes its inherited tags. Saving the window excursion restores our
-  ;; ;; window configuration prior to visiting the refiled headline. That way we
-  ;; ;; don't lose our place when calling the function.
-  ;; (defun my/org-clean-tags ()
-  ;;   "Visit last refiled headline and remove inherited tags from tag string."
-  ;;   (save-window-excursion
-  ;;     (org-refile-goto-last-stored)
-  ;;     (my/org-remove-inherited-tag-string)))
-
-  ;; ;; Add my/org-clean-tags to run after org-refile inserts the headline at the
-  ;; ;; refile-target.
-  ;; (add-hook 'org-after-refile-insert-hook 'my/org-clean-tags)
-
-  ;; ;; Clean up an existing org-mode file's tags.
-  ;; (org-map-entries #'my/org-remove-inherited-tag-strings)
-
+  (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags)
 
 
   ;; Don't confirm before evaluating.
