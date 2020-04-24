@@ -1910,7 +1910,7 @@
 
   ;; ORG-CAPTURE-TEMPLATES
 
-  (setq org-capture-templates
+  (setq org-capture-templates           ; TODO: Clean up and restructure the templates.
 
         ;; Basic templates for notes and URLs:
 
@@ -1922,7 +1922,7 @@
           ;;  :empty-lines 1
           ;;  :prepend 1)
 
-          ("n" "Save Note" entry
+          ("n" "Save note" entry
            (file+headline org-default-notes-file "UNSORTED")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
            :empty-lines 1
@@ -1931,7 +1931,7 @@
           ;; Key, name, type, target, template, options.
           ("u" "Store URL" entry
            (file+headline org-default-notes-file "UNSORTED")
-           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
            :empty-lines 1
            :prepend 1)
 
@@ -1942,21 +1942,21 @@
           ;; Key, name, type, target, template, options.
           ("mt" "TODO" entry
            (file org-todo-file)
-           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
+           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
            :empty-lines 1
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
-          ("ms" "Edit/fix script" entry
+          ("mf" "Edit/fix file" entry
            (file org-todo-file)
-           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\nLINK: %a\n:END:\n\n%i\n\n"
+           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n%i\n\n"
            :empty-lines 1
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
-          ("mc" "Save URL and check later" entry
+          ("mu" "Save URL and check later" entry
            (file org-todo-file)
-           "* TODO \[\#B\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\nURL: %x\n\n%i\n\n"
+           "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
            :empty-lines 1
            :prepend 1)))
 
