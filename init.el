@@ -1117,7 +1117,11 @@
 
      ;; Use fuzzy matching when possible.
      (helm-mode-fuzzy-match                 . t)
-     (helm-completion-in-region-fuzzy-match . t))
+     (helm-completion-in-region-fuzzy-match . t)
+
+     ;; (helm-display-function . 'helm-display-buffer-in-own-frame)
+     (helm-display-buffer-reuse-frame . nil)
+     (helm-use-undecorated-frame-option . t))
 
     :config
 
