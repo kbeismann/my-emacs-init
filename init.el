@@ -1555,10 +1555,10 @@
        ("C-c t p t" . python-pytest)
        ("C-c t p r" . python-repeat)
        ("C-c t p p" . python-pytest-popup)
-       ("C-c t p D" . python-pytest-file)
-       ("C-c t p d" . python-pytest-file-dwim)
-       ("C-c t p F" . python-pytest-function)
-       ("C-c t p f" . python-pytest-function-dwim)
+       ("C-c t p d" . python-pytest-file)
+       ("C-c t p D" . python-pytest-file-dwim)
+       ("C-c t p f" . python-pytest-function)
+       ("C-c t p F" . python-pytest-function-dwim)
        ("C-c t p l" . python-pytest-last-failed))
 
       :custom
