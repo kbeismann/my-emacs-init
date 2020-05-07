@@ -2683,7 +2683,7 @@
 
 (leaf ssh-deploy
 
-  :disabled t
+  ;; :disabled t
 
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
 
@@ -2693,12 +2693,12 @@
 
   :bind
 
-  ("C-c z" . ssh-deploy-prefix-map)
+  ("C-c z d" . ssh-deploy-prefix-map)
 
   :hook
 
-  ((after-save . ssh-deploy-after-save)
-   (find-file  . ssh-deploy-find-file))
+  ((after-save-hook . ssh-deploy-after-save)
+   (find-file       . ssh-deploy-find-file))
 
   :config
 
