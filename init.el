@@ -377,7 +377,7 @@
    (x-select-enable-clipboard-manager . t)
 
    ;; Debugging.
-   (debug-on-error  . t)
+   (debug-on-error  . nil)
    (init-file-debug . t)
 
    ;; Save-related settings.
