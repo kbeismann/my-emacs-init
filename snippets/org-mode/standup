@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: standup
+# key: <standup
+# contributor: Karsten Beismann
+# --
+- *Progress since last stand-up:*
+
+   1. ...$0
+
+- *Outlook:*
+
+   1. ...
+
+- *Questions/collaboration:*
+
+   + ...
+
+- *Notes:*
+
+   + ...
