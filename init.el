@@ -1951,7 +1951,7 @@
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
-          ("mf" "Edit/fix file" entry
+          ("me" "Edit/fix file" entry
            (file org-todo-file)
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n%i\n\n"
            :empty-lines 1
