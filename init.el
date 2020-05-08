@@ -1966,15 +1966,15 @@
 
           ;; Key, name, type, target, template, options.
           ("mm" "Meeting minutes" entry
-           (file+headline org-todo-file "UNSORTED")
-           "* TODO \[\#A\] %^{Title}  :meeting:%^g\nSCHEDULED: %(format-time-string \"<<%Y-%m-%d %a %H:%M>>\")\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
+           (file+headline org-default-dpdhl-notes-file "Unsorted")
+           "* TODO \[\#A\] %^{Title} :meeting:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
            :empty-lines 0
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
           ("ms" "Stand-up" entry
-           (file+headline org-todo-file "UNSORTED")
-           "* TODO \[\#A\] %^{Title}  :meeting:%^g\nSCHEDULED: %(format-time-string \"<<%Y-%m-%d %a %H:%M>>\")\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n- *Progress since last stand-up:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
+           (file+headline org-default-dpdhl-notes-file "Unsorted")
+           "* TODO \[\#A\] Stand-up :meeting:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
            :empty-lines 0
            :prepend 1)))
 
