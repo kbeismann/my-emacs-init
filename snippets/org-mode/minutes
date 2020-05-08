@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: minutes
+# key: <minutes
+# contributor: Karsten Beismann
+# --
+- *Attendees:*
+
+  + [X] Karsten Beismann
+  + [ ] ...
+
+- *Agenda:*
+
+  1. ...$0
+
+- *Notes:*
+
+  + ...
+
+- *Next steps:*
+
+  + ...
