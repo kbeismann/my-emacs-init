@@ -276,7 +276,7 @@
     "My notes.")
 
   (defvar my-todo-file
-    (concat my-orgdir "todo.org")
+    (concat my-orgdir "todos.org")
     "My to-do list.")
 
   (defvar my-mu4e-setup
