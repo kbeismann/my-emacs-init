@@ -2446,7 +2446,9 @@
 
   :disabled t
 
-  ;; :ensure poly-R
+  :ensure t
+
+  :ensure poly-R
 
   :mode                                 ; TODO: Cleanup > Sort this.
 
