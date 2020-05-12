@@ -1345,6 +1345,37 @@
      (smartparens-global-mode   . t))))
 
 
+;; HIGHLIGHT INDENTATIONS
+
+(leaf highlight-indent-guides
+
+  :disabled t
+
+  :ensure t
+
+  :hook
+
+  (prog-mode-hook . highlight-indent-guides-mode)
+
+  :custom
+
+  (highlight-indent-guides-method . 'fill))
+
+(leaf highlight-indentation
+
+  :ensure t
+
+  :hook
+
+  ((prog-mode-hook . highlight-indentation-mode)
+   (yaml-mode-hook . highlight-indentation-mode))
+
+  :config
+
+  (set-face-background 'highlight-indentation-face base01-prop)
+  (set-face-background 'highlight-indentation-current-column-face base02-prop))
+
+
 ;; COMPANY
 
 (leaf *company-setup
