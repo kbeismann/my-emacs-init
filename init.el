@@ -1905,10 +1905,12 @@
      (org-todo-keywords                . '((sequence
                                             "IN_PROGRESS(i)"
                                             "TODO(t)"
+                                            "BLOCKED(k)"
                                             "BUG(b)"
                                             "BACKLOG(l)"
                                             "|"
-                                            "WONT_DO(w)"
+                                            "CHANCELLED(w)"
+                                            "FORWARDED(f)"
                                             "DONE(d)")))
 
      ;; Logging.
