@@ -1914,16 +1914,25 @@
                                             "DONE(d)")))
 
      ;; Logging.
-     (org-log-done           . 'time)
      (org-log-done-with-time . t)
+     (org-log-done           . 'time)
      (org-log-repeat         . 'time)
+
+     (org-agenda-skip-scheduled-if-done . t)
+     (org-agenda-skip-deadline-if-done  . t)
+     (org-agenda-include-deadlines      . t)
+     (org-agenda-include-diary          . t)
+     ;; (org-agenda-block-separator        . nil)
+     ;; (org-agenda-compact-blocks         . nil)
+     (org-agenda-start-with-log-mode    . t)
 
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
-     (calendar-week-start-day     . 0)
-     (org-agenda-start-on-weekday . t)
-     (org-agenda-start-day        . "-3d")
-     (org-agenda-span             . 21)))
+     ;; (org-agenda-start-day        . "-3d")
+     ;; (calendar-week-start-day     . 1)
+     ;; (org-agenda-start-on-weekday . 1)
+     (org-agenda-span             . 6)
+     ))
 
   ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
   (defun org-summary-todo (n-done n-not-done)
@@ -2074,7 +2083,34 @@
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
   ;; Use Python 3
-  (setq org-babel-python-command "python3"))
+  (setq org-babel-python-command "python3")
+
+  (leaf org-super-agenda
+
+    ;; :disabled t
+
+    :ensure t
+
+    :config
+
+    (org-super-agenda-mode)
+
+    (setq org-super-agenda-groups
+          '(
+            (:name "PCT"
+                   :time-grid t
+                   :tag ("pct"))
+            (:name "Urgent"
+                   :priority "A")
+            (:name "Blocked"
+                   :todo "BLOCKED")
+            (:priority<= "B"
+                         :scheduled future
+                         :order 1)))
+
+    )
+
+  )
 
 
 (leaf org-ref
