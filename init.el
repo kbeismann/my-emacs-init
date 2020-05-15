@@ -2131,10 +2131,10 @@
     (setq reftex-external-file-finders
           '(("tex" . "/usr/bin/kpsewhich -format=.tex %f")
             ("bib" . "/usr/bin/kpsewhich -format=.bib %f")))
-    (setq reftex-default-bibliography '("~/gitdir/library/bibliography.bib"))
-    (setq org-ref-default-bibliography '("~/gitdir/library/bibliography.bib")
-          org-ref-bibliography-notes "~/gitdir/library/notes.org"
-          org-ref-pdf-directory "~/gitdir/library/archive/")
+    (setq reftex-default-bibliography '("~/gitdir/my-git/library/bibliography.bib"))
+    (setq org-ref-default-bibliography '("~/gitdir/my-git/library/bibliography.bib")
+          org-ref-bibliography-notes "~/gitdir/my-git/library/notes.org"
+          org-ref-pdf-directory "~/gitdir/my-git/library/archive/")
 
     ;; Add "bibtex %b" to enable bibtex export.
     ;; Source: https://github.com/jkitchin/org-ref
