@@ -285,10 +285,12 @@
 
   (defvar my-font-huckleberry
     "Dina:pixelsize=13"
+    ;; "Hack:pixelsize=14"
     "My default font for Huckleberry.")
 
   (defvar my-font-family-huckleberry
     "Dina"
+    ;; "Hack"
     "My default font family for Huckleberry.")
 
   (defvar my-font-arch
