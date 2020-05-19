@@ -2419,7 +2419,7 @@
 
   :disabled t
 
-  ;; :ensure nil
+  :ensure t
 
   :hook
 
