@@ -2089,7 +2089,7 @@
 
   (leaf org-super-agenda
 
-    ;; :disabled t
+    :disabled t
 
     :ensure t
 
