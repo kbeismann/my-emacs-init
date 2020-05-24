@@ -1994,14 +1994,14 @@
 
           ;; Key, name, type, target, template, options.
           ("mt" "TODO" entry
-           (file org-todo-file)
+           (file org-todo-file "To-dos")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
            :empty-lines 1
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
           ("me" "Edit/fix file" entry
-           (file org-todo-file)
+           (file org-todo-file "To-dos")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n%i\n\n"
            :empty-lines 1
            :prepend 1)
