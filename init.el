@@ -1962,9 +1962,8 @@
 
     :config
 
-    ;; (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-    (setq org-refile-targets '((nil :maxlevel              . 5)
-                               (org-agenda-files :maxlevel . 5))
+    (setq org-refile-targets '((nil :maxlevel              . 9)
+                               (org-agenda-files :maxlevel . 9))
           org-refile-use-outline-path 'file
           org-outline-path-complete-in-steps nil
           org-refile-allow-creating-parent-nodes 'confirm))
