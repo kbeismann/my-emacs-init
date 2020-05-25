@@ -1923,7 +1923,7 @@
      (org-agenda-skip-scheduled-if-done . t)
      (org-agenda-skip-deadline-if-done  . t)
      (org-agenda-include-deadlines      . t)
-     (org-agenda-include-diary          . t)
+     (org-agenda-include-diary          . nil)
      ;; (org-agenda-block-separator        . nil)
      ;; (org-agenda-compact-blocks         . nil)
      (org-agenda-start-with-log-mode    . t)
@@ -1933,8 +1933,17 @@
      ;; (org-agenda-start-day        . "-3d")
      ;; (calendar-week-start-day     . 1)
      ;; (org-agenda-start-on-weekday . 1)
-     (org-agenda-span             . 6)
-     ))
+     (org-agenda-span             . 6)))
+
+  (leaf german-holidays
+
+    :ensure t
+
+    :config
+
+    ;; Show German holidays only.
+    ;; (calendar-holidays . (append (calendar)))
+    (setq calendar-holidays holiday-german-NW-holidays))
 
   ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
   (defun org-summary-todo (n-done n-not-done)
