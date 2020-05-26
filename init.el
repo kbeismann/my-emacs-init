@@ -1937,6 +1937,8 @@
 
   (leaf german-holidays
 
+    :disabled t
+
     :ensure t
 
     :config
@@ -2572,8 +2574,13 @@
   :custom
 
   ((yas-indent-line  . 'fixed)
-   (yas-snippet-dirs . '(path-to-my-snippets "~/.emacs.d/elpa/yasnippet-snippets-20200122.1140/snippets/"))
    (yas-global-mode  . t))
+
+  :config
+
+  (progn
+    (setq path-to-yasnippet-snippets (eval (concat (car (file-expand-wildcards "~/.emacs.d/elpa/yasnippet-snippets-*")) "/snippets/")))
+    (setq yas-snippet-dirs (path-to-my-snippets path-to-yasnippet-snippets)))
 
   ;; :config
 
