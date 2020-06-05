@@ -2166,7 +2166,7 @@
 
   :config
 
-  (setq org-journal-directory "~/gitdir/journal/")
+  (setq org-journal-directory "~/gitdir/my-git/journal/")
   (setq org-journal-date-format "%Y-%m-%d, %A"))
 
 
