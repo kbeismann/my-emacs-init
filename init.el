@@ -2465,6 +2465,8 @@
 
 (leaf ess
 
+  :disabled t
+
   :ensure t
 
   :commands R
@@ -2579,7 +2581,10 @@
   :config
 
   (progn
-    (setq path-to-yasnippet-snippets (eval (concat (car (file-expand-wildcards "~/.emacs.d/elpa/yasnippet-snippets-*")) "/snippets/")))
+    (setq path-to-yasnippet-snippets
+          (eval (concat (car
+                         (file-expand-wildcards "~/.emacs.d/elpa/yasnippet-snippets-*"))
+                        "/snippets/")))
     (setq yas-snippet-dirs (path-to-my-snippets path-to-yasnippet-snippets)))
 
   ;; :config
@@ -2700,7 +2705,7 @@
 
 (leaf ein
 
-  ;; :disabled t
+  :disabled t
 
   :ensure t
 
@@ -2719,6 +2724,8 @@
 ;; the "10 fast fingers" tests.
 
 (leaf typit
+
+  :disabled t
 
   :ensure t)
 
