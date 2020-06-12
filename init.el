@@ -2725,8 +2725,6 @@
 
 (leaf typit
 
-  :disabled t
-
   :ensure t)
 
 
