@@ -328,7 +328,34 @@
 
   (defvar path-to-snippets
     (concat user-emacs-directory "snippets/")
-    "Path to snippets."))
+    "Path to snippets.")
+
+  ;; YASNIPPET
+
+  ;; * TODO: Packages > Fix YASnippet.
+
+  (leaf yasnippet
+
+    :ensure t
+
+    :ensure yasnippet-snippets
+
+    :diminish yas-minor-mode
+
+    :bind
+
+    (("C-c y i" . yas-insert-snippet)
+     ("C-c y v" . yas-visit-snippet-file))
+
+    :custom
+
+    ((yas-indent-line  . 'fixed)
+     (yas-global-mode  . t))
+
+    :config
+
+    (setq yas-snippet-dirs (append yas-snippet-dirs
+                                   '(path-to-my-snippets)))))
 
 
 ;; BASIC SETTINGS
@@ -2554,44 +2581,6 @@
   :hook
 
   (poly-markdown-mode . display-line-numbers-mode))
-
-
-;; YASNIPPET
-
-;; * TODO: Packages > Fix YASnippet.
-
-(leaf yasnippet
-
-  :ensure t
-
-  :ensure yasnippet-snippets
-
-  :diminish yas-minor-mode
-
-  :bind
-
-  (("C-c y i" . yas-insert-snippet)
-   ("C-c y v" . yas-visit-snippet-file))
-
-  :custom
-
-  ((yas-indent-line  . 'fixed)
-   (yas-global-mode  . t))
-
-  :config
-
-  (progn
-    (setq path-to-yasnippet-snippets
-          (eval (concat (car
-                         (file-expand-wildcards "~/.emacs.d/elpa/yasnippet-snippets-*"))
-                        "/snippets/")))
-    (setq yas-snippet-dirs (path-to-my-snippets path-to-yasnippet-snippets)))
-
-  ;; :config
-
-  ;; (setq yas-snippet-dirs (append yas-snippet-dirs
-  ;;                                '(path-to-snippets path-to-my-snippets)))
-  )
 
 
 ;; GNUPG SETUP
