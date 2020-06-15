@@ -871,10 +871,10 @@
 
   :custom
 
-  ((tramp-debug-buffer . t)
-   (tramp-read-passwd  . t)
+  ((tramp-debug-buffer   . t)
+   (tramp-read-passwd    . t)
    (tramp-default-method . "ssh")
-   (tramp-verbose . 10)))
+   (tramp-verbose        . 10)))
 
 
 ;; ASYNC
