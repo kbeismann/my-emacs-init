@@ -1715,7 +1715,8 @@
       :bind
 
       (python-mode-map
-       ("C-c m i" . pyimport-insert-missing)))
+       ("C-c m i" . pyimport-insert-missing)
+       ("C-c u r" . pyimport-remove-unused)))
 
 
     ;; PYTHON-DOCSTRING
