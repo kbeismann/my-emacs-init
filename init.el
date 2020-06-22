@@ -88,7 +88,6 @@
 ;; * NEXT: Structure > Init file in org?
 ;; * NEXT: Structure > Use function/package to toggle proxies.
 ;; * NEXT: Structure > External repository for snippets.
-;; * NEXT: Structure > Better YASnippet implementation.
 ;; * TODO: Fix > The org/org-ref setup is too messy.
 
 
