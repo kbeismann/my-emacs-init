@@ -15,18 +15,22 @@
 
 Commentary
 ----------
+
 $1.
 
 Examples
 --------
+
     $ python3 `(buffer-name)`
 
 Environment
 -----------
+
     $ conda activate env
 
 To-do
 -----
+
 * ---
 
 """
