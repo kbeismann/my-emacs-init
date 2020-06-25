@@ -2351,9 +2351,14 @@
 
       :after magit
 
+      :commands (magit-todos-mode)
+
       :config
 
-      (magit-todos-mode)))
+      ;; Suppress warning: magit-todos: Not overriding bind of "jT" in
+      ;; ‘magit-status-mode-map
+      (let ((inhibit-message t))
+        (magit-todos-mode 1))))
 
   (leaf gitconfig-mode
 
