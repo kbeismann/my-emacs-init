@@ -1048,7 +1048,7 @@
 
     :ensure t
 
-    :diminish dashboard-mode page-break-lines-mode
+    :diminish (dashboard-mode page-break-lines-mode)
 
     :custom
 
@@ -1136,7 +1136,7 @@
 
     ;; :leaf-defer nil
 
-    :diminish helm-mode
+    :diminish (helm-mode helm-autoresize-mode)
 
     ;; :ensure helm-R
 
@@ -1384,7 +1384,7 @@
 
     ;; :leaf-defer nil
 
-    :diminish smartparens-mode smartparens-global-mode
+    :diminish (smartparens-mode smartparens-global-mode)
 
     :require smartparens-config
 
@@ -1549,7 +1549,7 @@
 
   :ensure t
 
-  :diminish global-flycheck-mode flycheck-mode
+  :diminish (global-flycheck-mode flycheck-mode)
 
   :bind
 
