@@ -2661,6 +2661,7 @@
 ;; Only load mu4e when path to repository exists.
 
 (prog1 "Load my mu4e setup"
+
   (when (file-exists-p my-mu4e-setup)
     (load my-mu4e-setup)))
 
