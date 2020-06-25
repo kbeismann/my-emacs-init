@@ -853,7 +853,17 @@
     :custom
 
     ((dired-subtree-use-backgrounds . nil)
-     (dired-subtree-line-prefix     . "    >"))))
+     (dired-subtree-line-prefix     . "    >")))
+
+  (leaf uniquify
+
+    :doc "Ensure unique file names."
+
+    :ensure t
+
+    :custom
+
+    (uniquify-buffer-name-style . 'post-forward)))
 
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
