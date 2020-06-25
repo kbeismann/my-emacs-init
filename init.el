@@ -108,7 +108,9 @@
            (concat (format-time-string "[%F %T.%3N %Z] ")
                    fmt-string)
            args))
-  ;; Add time stamp to the message function.
+
+  ;; Add time stamp to the message function.  This is deactivated at the end
+  ;; of the init file.
   (advice-add 'message :around #'my-message-with-timestamp))
 
 (prog1 "Show startup time"
@@ -2947,6 +2949,9 @@
           (message "%s" "Found work-related org directory...")
           (setq org-agenda-files (append org-agenda-files (list orgdir)))))))
 
+
+;; Remove timestamp from messages after startup.
+(advice-remove 'message #'my-message-with-timestamp)
 
 ;;; Footer:
 
