@@ -2713,7 +2713,7 @@
 
 (leaf gscholar-bibtex
 
-  ;; :disabled t
+  :disabled t
 
   :ensure t
 
