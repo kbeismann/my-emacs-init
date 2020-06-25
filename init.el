@@ -398,6 +398,7 @@
    (line-spacing                 . nil)
    (truncate-lines               . t)
    (font-lock-maximum-decoration . t)
+   (diff-font-lock-syntax        . t)
    (fringe-mode                  . 1)   ; This is the value for "minimal".
    (global-hl-line-mode          . 1)
 
