@@ -2298,6 +2298,10 @@
 
     :ensure t
 
+    :after base16-theme
+
+    ;; :diminish magit-auto-revert-mode
+
     :bind
 
     (("C-c g s"    . magit-status)
@@ -2315,14 +2319,20 @@
      (dired-mode-map
       ("C-c g c c" . magit-clone)))
 
-    ;; :custom
+    :custom
 
-    ;; (
-    ;; (magit-commit-show-diff . nil)
-    ;; (magit-refresh-status-buffer . nil))
-
+    (magit-diff-refine-hunk . 'all)
 
     :config
+
+    ;; (set-face-attribute 'magit-diff-added
+    ;;                     nil :background base0B-prop :foreground nil)
+    ;; (set-face-attribute 'magit-diff-added-highlight
+    ;;                     nil :background base0B-prop :foreground nil)
+    ;; (set-face-attribute 'magit-diff-removed
+    ;;                     nil :background base09-prop :foreground nil)
+    ;; (set-face-attribute 'magit-diff-removed-highlight
+    ;;                     nil :background base09-prop :foreground nil)
 
     (leaf magit-todos
 
