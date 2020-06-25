@@ -1132,9 +1132,9 @@
 
     :ensure helm-tramp
 
-    :leaf-defer nil
-
     :require helm-config
+
+    ;; :leaf-defer nil
 
     :diminish helm-mode
 
@@ -1382,7 +1382,7 @@
 
     :ensure t
 
-    :leaf-defer nil
+    ;; :leaf-defer nil
 
     :diminish smartparens-mode smartparens-global-mode
 
