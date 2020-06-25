@@ -755,26 +755,30 @@
   (auto-compile-on-save-mode))
 
 
-;; BENCHMARK
+;; BENCHMARKS
 
-;; There are two ways in which benchmark-init's results can be presented, as a
-;; table or in a tree. The table can be displayed by running:
+(leaf *benchmarking
 
-;; (benchmark-init/show-durations-tabulated)
+  :config
 
-(leaf benchmark-init
+  (leaf benchmark-init
 
-  :url "https://github.com/dholm/benchmark-init-el"
+    :url "https://github.com/dholm/benchmark-init-el"
 
-  :leaf-defer nil
+    :doc "There are two ways in which benchmark-init's results
+    can be presented, as a table or in a tree. The table can be
+    displayed by
+    running: (benchmark-init/show-durations-tabulated)"
 
-  :ensure t
+    :leaf-defer nil
 
-  :require t
+    :ensure t
 
-  :hook
+    :require t
 
-  ((after-init-hook . benchmark-init/deactivate)))
+    :hook
+
+    ((after-init-hook . benchmark-init/deactivate))))
 
 
 ;; AUTH-SOURCE
