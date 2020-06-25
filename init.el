@@ -1684,7 +1684,7 @@
 
     ;; BLACK FORMATTER
 
-    (leaf blacken
+    (leaf python-black
 
       :ensure t
 
@@ -1694,10 +1694,8 @@
 
       :hook
 
-      ((python-mode-hook . blacken-mode)
-       (python-mode-hook . (lambda() (setq-local whitespace-line-column 88))))
-
-      )
+      ((python-mode-hook . python-black-on-save-mode)
+       (python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))))
 
 
     ;; PY-ISORT
