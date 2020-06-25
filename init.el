@@ -98,6 +98,19 @@
 ;; This hook returns the loading time after startup.  A hook is used so the
 ;; message does not get clobbered with other messages.
 
+(prog1 "Add timestamp to messages"
+
+  (defun my-message-with-timestamp (old-func fmt-string &rest args)
+    "Prepend current timestamp (with microsecond precision) to a message.
+
+     Source: https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-entry-in-emacs-messages-buffer"
+    (apply old-func
+           (concat (format-time-string "[%F %T.%3N %Z] ")
+                   fmt-string)
+           args))
+  ;; Add time stamp to the message function.
+  (advice-add 'message :around #'my-message-with-timestamp))
+
 (prog1 "Show startup time"
 
   (add-hook 'emacs-startup-hook
