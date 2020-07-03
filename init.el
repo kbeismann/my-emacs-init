@@ -1134,7 +1134,7 @@
 
     :require helm-config
 
-    ;; :leaf-defer nil
+    :leaf-defer nil
 
     :diminish (helm-mode helm-autoresize-mode)
 
@@ -2485,7 +2485,7 @@
 
 (leaf helm-lsp
 
-  :disabled t
+  ;; :disabled t
 
   ;; :ensure nil
 
