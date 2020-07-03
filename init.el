@@ -1402,7 +1402,7 @@
 
 (leaf highlight-indent-guides
 
-  :disabled t
+  :url "https://github.com/DarthFennec/highlight-indent-guides"
 
   :ensure t
 
@@ -1412,21 +1412,8 @@
 
   :custom
 
-  (highlight-indent-guides-method . 'fill))
-
-(leaf highlight-indentation
-
-  :ensure t
-
-  :hook
-
-  ((prog-mode-hook . highlight-indentation-mode)
-   (yaml-mode-hook . highlight-indentation-mode))
-
-  :config
-
-  (set-face-background 'highlight-indentation-face base01-prop)
-  (set-face-background 'highlight-indentation-current-column-face base02-prop))
+  ((highlight-indent-guides-method . 'column)
+   (highlight-indent-guides-delay  . 0)))
 
 
 ;; COMPANY
