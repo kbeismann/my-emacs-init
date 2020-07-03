@@ -2731,23 +2731,6 @@
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
 
-;; JUPYTER NOTEBOOK
-
-;; Seems buggy...
-
-(leaf ein
-
-  :disabled t
-
-  :ensure t
-
-  ;; :config
-
-  ;; ;; Work-around for proxy issues.  Not sure if this works.
-  ;; (setq request-curl-options '("--noproxy" "127.0.0.1:8888"))
-  )
-
-
 ;; TYPIT
 
 ;; This is a typing game for Emacs. In this game, you type words that are
