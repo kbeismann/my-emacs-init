@@ -1164,7 +1164,7 @@
     :custom
 
     ;; Splitting behavior.
-    ((helm-split-window-inside-p        . nil)
+    ((helm-split-window-inside-p        . t)
      (helm-move-to-line-cycle-in-source . nil) ; If t breaks cycling.
      (helm-autoresize-mode              . t)
 
@@ -1334,7 +1334,7 @@
 
 (leaf whole-line-or-region
 
-  :disabled t
+  :ensure t
 
   :config
 
@@ -1354,8 +1354,8 @@
 
   :custom
 
-  ((which-key-idle-delay           . 0.5)
-   (which-key-idle-secondary-delay . 0.5))
+  ((which-key-idle-delay           . 1)
+   (which-key-idle-secondary-delay . 0))
 
   :config
 
