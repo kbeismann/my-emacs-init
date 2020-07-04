@@ -1233,11 +1233,11 @@
     (defvar base04-prop (nth 09 base16-zenburn-colors))
     (defvar base05-prop (nth 11 base16-zenburn-colors))
     (defvar base06-prop (nth 13 base16-zenburn-colors))
-    (defvar base07-prop (nth 15 base16-zenburn-colors))
-    (defvar base08-prop (nth 17 base16-zenburn-colors))
-    (defvar base09-prop (nth 19 base16-zenburn-colors))
-    (defvar base0A-prop (nth 21 base16-zenburn-colors))
-    (defvar base0B-prop (nth 23 base16-zenburn-colors))
+    (defvar base07-prop (nth 15 base16-zenburn-colors)) ; White.
+    (defvar base08-prop (nth 17 base16-zenburn-colors)) ; Pink.
+    (defvar base09-prop (nth 19 base16-zenburn-colors)) ; Orange.
+    (defvar base0A-prop (nth 21 base16-zenburn-colors)) ; Yellow.
+    (defvar base0B-prop (nth 23 base16-zenburn-colors)) ; Green.
     (defvar base0C-prop (nth 25 base16-zenburn-colors))
     (defvar base0D-prop (nth 27 base16-zenburn-colors))
     (defvar base0E-prop (nth 29 base16-zenburn-colors))
