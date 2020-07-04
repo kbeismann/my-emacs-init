@@ -1248,10 +1248,10 @@
   (set-face-foreground 'vertical-border (face-background 'vertical-border))
 
   ;; Adjust mode line colors.
-  (set-face-background 'mode-line base04-prop)
-  (set-face-foreground 'mode-line base00-prop)
+  (set-face-background 'mode-line base02-prop)
+  (set-face-foreground 'mode-line base04-prop)
   (set-face-background 'mode-line-inactive base01-prop)
-  (set-face-foreground 'mode-line-inactive base03-prop)
+  (set-face-foreground 'mode-line-inactive base04-prop)
 
   ;; Hide the fringe but show linebreak arrows.
   (set-face-attribute 'fringe
