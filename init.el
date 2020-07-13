@@ -89,6 +89,7 @@
 ;; * NEXT: Structure > Use function/package to toggle proxies.
 ;; * NEXT: Structure > External repository for snippets.
 ;; * TODO: Fix > The org/org-ref setup is too messy.
+;; * TODO: Add global settings for Org Columns view.
 
 
 ;;; Code:
