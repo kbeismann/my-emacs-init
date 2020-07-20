@@ -2339,8 +2339,6 @@
 
     (leaf magit-todos
 
-      :disabled t
-
       :ensure t
 
       :after magit
@@ -2350,7 +2348,7 @@
       :config
 
       ;; Suppress warning: magit-todos: Not overriding bind of "jT" in
-      ;; ‘magit-status-mode-map
+      ;; magit-status-mode-map.
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
 
