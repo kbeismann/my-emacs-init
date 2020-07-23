@@ -817,7 +817,8 @@
      (dired-recursive-copies                  . 'always) ; Copy recursively.
      (dired-recursive-deletes                 . 'always) ; Delete recursively.
      (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
-     (dired-listing-switches                  . "-lahgF --group-directories-first")))
+     (dired-listing-switches                  . "-lahgF --group-directories-first")
+     (delete-by-moving-to-trash               . t)))
 
 
   (leaf dired-du
