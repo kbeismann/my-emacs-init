@@ -1420,11 +1420,12 @@
 
   :custom
 
-  ((highlight-indent-guides-method . 'column)
-   (highlight-indent-guides-delay  . 0)))
+  ((highlight-indent-guides-method     . 'column)
+   (highlight-indent-guides-responsive . 'stack)
+   (highlight-indent-guides-delay      . 0)))
 
 
-;; COMPANY
+;; Company
 
 (leaf *company-setup
 
