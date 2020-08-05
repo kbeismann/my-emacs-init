@@ -1612,9 +1612,9 @@
 
       :ensure flycheck
 
-      ;; :hook
+      :hook
 
-      ;; ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
+      ((python-mode-hook flycheck-mode-hook) . flycheck--setup)
 
       :custom
 
@@ -1623,7 +1623,6 @@
        (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
 
       :config
-
       (setq flycheck-pycheckers-ignore-codes (append
                                               flycheck-pycheckers-ignore-codes
                                               '("C0330" "W503" "E701" "B311"
