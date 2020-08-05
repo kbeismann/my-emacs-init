@@ -2387,7 +2387,7 @@
 
   :ensure t
 
-  :ensure projectile company yasnippet
+  :ensure projectile company yasnippet flycheck
 
   :commands lsp
 
