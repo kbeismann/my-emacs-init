@@ -1598,8 +1598,36 @@
     :mode (("\\.py\\'" . python-mode)
            ("\\.wsgi$" . python-mode))
 
+    :hook
+
+    ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
+
     :config
 
+    ;; FLYCHECK FOR PYTHON
+
+    (leaf flycheck-pycheckers
+
+      :ensure t
+
+      :ensure flycheck
+
+      ;; :hook
+
+      ;; ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
+
+      :custom
+
+      ((flycheck-pycheckers-multi-thread    . "true")
+       (flycheck-pycheckers-max-line-length . 88) ; Follow Black guidelines.
+       (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
+
+      :config
+
+      (setq flycheck-pycheckers-ignore-codes (append
+                                              flycheck-pycheckers-ignore-codes
+                                              '("C0330" "W503" "E701" "B311"
+                                                "E231" "E203" "C0301"))))
 
     ;; PIPENV
 
@@ -1834,32 +1862,6 @@
       ;;              company-active-map)))
 
       )))
-
-
-;; FLYCHECK FOR PYTHON
-
-(leaf flycheck-pycheckers
-
-  :ensure t
-
-  :ensure flycheck
-
-  :hook
-
-  ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
-
-  :custom
-
-  ((flycheck-pycheckers-multi-thread    . "true")
-   (flycheck-pycheckers-max-line-length . 88) ; Follow Black guidelines.
-   (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
-
-  :config
-
-  (setq flycheck-pycheckers-ignore-codes (append
-                                          flycheck-pycheckers-ignore-codes
-                                          '("C0330" "W503" "E701" "B311"
-                                            "E231" "E203" "C0301"))))
 
 
 ;; ORG-MODE
