@@ -1578,7 +1578,8 @@
 
     :custom
 
-    (conda-anaconda-home . "~/miniconda3/")
+    ((conda-anaconda-home       . "~/miniconda3/")
+     (conda-env-executables-dir . "condabin"))
 
     :config
 
