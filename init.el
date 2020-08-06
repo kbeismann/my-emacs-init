@@ -1599,10 +1599,6 @@
     :mode (("\\.py\\'" . python-mode)
            ("\\.wsgi$" . python-mode))
 
-    :hook
-
-    ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
-
     :config
 
     ;; FLYCHECK FOR PYTHON
@@ -1613,9 +1609,9 @@
 
       :ensure flycheck
 
-      :hook
+      ;; :hook
 
-      ((python-mode-hook flycheck-mode-hook) . flycheck--setup)
+      ;; ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
 
       :custom
 
@@ -1624,6 +1620,10 @@
        (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
 
       :config
+
+      (with-eval-after-load 'flycheck
+        (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+
       (setq flycheck-pycheckers-ignore-codes (append
                                               flycheck-pycheckers-ignore-codes
                                               '("C0330" "W503" "E701" "B311"
