@@ -1619,8 +1619,9 @@
 
       :config
 
-      (with-eval-after-load 'flycheck
-        (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+      ;; TODO: Add this to :hook.
+      (with-eval-after-load 'flycheck (add-hook 'flycheck-mode-hook
+                                                #'flycheck-pycheckers-setup))
 
       (setq flycheck-pycheckers-ignore-codes (append
                                               flycheck-pycheckers-ignore-codes
@@ -1718,8 +1719,6 @@
     (leaf python-black
 
       :ensure t
-
-      ;; :disabled t
 
       :after python
 
