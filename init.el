@@ -1609,7 +1609,7 @@
 
       :ensure flycheck
 
-      :after python
+      :after python flycheck
 
       :custom
 
@@ -1623,10 +1623,11 @@
       (with-eval-after-load 'flycheck (add-hook 'flycheck-mode-hook
                                                 #'flycheck-pycheckers-setup))
 
-      (setq flycheck-pycheckers-ignore-codes (append
-                                              flycheck-pycheckers-ignore-codes
-                                              '("C0330" "W503" "E701" "B311"
-                                                "E231" "E203" "C0301"))))
+      ;; (setq flycheck-pycheckers-ignore-codes (append
+      ;;                                         flycheck-pycheckers-ignore-codes
+      ;;                                         '("C0330" "W503" "E701" "B311"
+      ;;                                           "E231" "E203" "C0301")))
+      )
 
     ;; PIPENV
 
@@ -2386,6 +2387,8 @@
   :ensure t
 
   :ensure projectile company yasnippet flycheck
+
+  :after flycheck
 
   :commands lsp
 
