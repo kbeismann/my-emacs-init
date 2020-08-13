@@ -1609,9 +1609,7 @@
 
       :ensure flycheck
 
-      ;; :hook
-
-      ;; ((python-mode-hook flycheck-mode-hook) . flycheck-pycheckers-setup)
+      :after python
 
       :custom
 
@@ -1739,10 +1737,9 @@
 
       :after python
 
-      ;; :hook
+      :hook
 
-      ;; ((python-mode-hook before-save-hook) . py-isort-before-save)
-      )
+      (before-save-hook . py-isort-before-save))
 
 
     ;; PYIMPORT
