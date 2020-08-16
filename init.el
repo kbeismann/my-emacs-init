@@ -291,7 +291,7 @@
     "My notes.")
 
   (defvar my-todo-file
-    (concat my-orgdir "todos.org")
+    (concat my-orgdir "notes.org")
     "My to-do list.")
 
   (defvar my-mu4e-setup
@@ -2028,14 +2028,14 @@
           ("n" "Save note" entry
            (file+headline org-default-notes-file "Unsorted")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
-           :empty-lines 1
+           :empty-lines 0
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
           ("u" "Store URL" entry
            (file+headline org-default-notes-file "Unsorted")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
-           :empty-lines 1
+           :empty-lines 0
            :prepend 1)
 
           ;; Templates for my personal to-do list:
@@ -2044,23 +2044,23 @@
 
           ;; Key, name, type, target, template, options.
           ("mt" "TODO" entry
-           (file org-todo-file)
+           (file org-todo-file "To-dos")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
-           :empty-lines 1
+           :empty-lines 0
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
           ("me" "Edit/fix file" entry
-           (file org-todo-file)
+           (file org-todo-file "To-dos")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n%i\n\n"
-           :empty-lines 1
+           :empty-lines 0
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
           ("mu" "Save URL and check later" entry
-           (file org-todo-file)
+           (file org-todo-file "To-dos")
            "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
-           :empty-lines 1
+           :empty-lines 0
            :prepend 1)
 
           ;; Key, name, type, target, template, options.
