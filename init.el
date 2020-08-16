@@ -2224,6 +2224,8 @@
 
     :ensure t
 
+    :disabled t
+
     :bind
 
     (pdf-view-mode-map
