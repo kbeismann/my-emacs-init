@@ -1971,7 +1971,7 @@
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
      ;; (org-agenda-start-day        . "-3d")
-     ;; (calendar-week-start-day     . 1)
+     (calendar-week-start-day     . 1)
      ;; (org-agenda-start-on-weekday . 1)
      (org-agenda-span             . 6)))
 
