@@ -324,7 +324,7 @@
 
   (defvar my-font-ubuntu
     ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
-    "Terminus:pixelsize=12"
+    "Terminus:pixelsize=14"
     ;; "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
 
