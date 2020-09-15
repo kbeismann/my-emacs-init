@@ -1725,7 +1725,8 @@
 
       :hook
 
-      ((python-mode-hook . python-black-on-save-mode)
+      (
+       ;; (python-mode-hook . python-black-on-save-mode)
        (python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))))
 
 
@@ -1735,11 +1736,11 @@
 
       :ensure t
 
-      :after python
+      :after python)
 
-      :hook
+    ;; :hook
 
-      (before-save-hook . py-isort-before-save))
+    ;; (before-save-hook . py-isort-before-save))
 
 
     ;; PYIMPORT
