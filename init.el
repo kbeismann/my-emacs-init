@@ -1702,7 +1702,7 @@
 
       :ensure t
 
-      :load-path "~/gitdir/sphinx-doc.el/"
+      :load-path "~/gitdir/my-git/sphinx-doc.el/"
 
       :hook
 
