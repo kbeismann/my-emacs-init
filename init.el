@@ -2597,30 +2597,43 @@
 
 ;; POLY-MODE
 
-(leaf poly-markdown
+;; (leaf poly-markdown
 
-  :disabled t
+;;   ;; :disabled t
+
+;;   :ensure t
+
+;;   ;; :ensure poly-R
+
+;;   :mode                                 ; TODO: Cleanup > Sort this.
+
+;;   (("\\.md$"         . poly-markdown-mode)
+;;    ("README\\.md\\'" . gfm-mode)
+;;    ("\\.Snw$"        . poly-noweb+R-mode)
+;;    ("\\.Rnw$"        . poly-noweb+R-mode)
+;;    ("\\.Rmd$"        . poly-markdown+R-mode)
+;;    ("\\.rapport$"    . poly-rapport-mode)
+;;    ("\\.Rhtml$"      . poly-html+R-mode)
+;;    ("\\.Rbrew$"      . poly-brew+R-mode)
+;;    ("\\.Rcpp$"       . poly-R+C++-mode)
+;;    ("\\.cppR$"       . poly-C++R-mode)))
+
+
+;; MARKDOWN-MODE
+
+(leaf markdown-mode
 
   :ensure t
 
-  :ensure poly-R
+  :mode
 
-  :mode                                 ; TODO: Cleanup > Sort this.
+  (("README\\.md\\'" . gfm-mode)
+   ("\\.md\\'" . markdown-mode)
+   ("\\.markdown\\'" . markdown-mode))
 
-  (("\\.md$"         . poly-markdown-mode)
-   ("README\\.md\\'" . gfm-mode)
-   ("\\.Snw$"        . poly-noweb+R-mode)
-   ("\\.Rnw$"        . poly-noweb+R-mode)
-   ("\\.Rmd$"        . poly-markdown+R-mode)
-   ("\\.rapport$"    . poly-rapport-mode)
-   ("\\.Rhtml$"      . poly-html+R-mode)
-   ("\\.Rbrew$"      . poly-brew+R-mode)
-   ("\\.Rcpp$"       . poly-R+C++-mode)
-   ("\\.cppR$"       . poly-C++R-mode))
+  :init
 
-  :hook
-
-  (poly-markdown-mode . display-line-numbers-mode))
+  (setq markdown-command "pandoc"))
 
 
 ;; GNUPG SETUP
