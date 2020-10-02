@@ -1727,7 +1727,9 @@
 
       (
        ;; (python-mode-hook . python-black-on-save-mode)
-       (python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))))
+       (python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))
+       (python-black-macchiato-command . "~/.local/bin/black-macchiato"))
+      )
 
 
     ;; PY-ISORT
