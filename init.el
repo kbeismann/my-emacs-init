@@ -1978,18 +1978,6 @@
      ;; (org-agenda-start-on-weekday . 1)
      (org-agenda-span             . 6)))
 
-  (leaf german-holidays
-
-    :disabled t
-
-    :ensure t
-
-    :config
-
-    ;; Show German holidays only.
-    ;; (calendar-holidays . (append (calendar)))
-    (setq calendar-holidays holiday-german-NW-holidays))
-
   ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
   (defun org-summary-todo (n-done n-not-done)
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
