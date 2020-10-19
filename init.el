@@ -2077,30 +2077,33 @@
              :prepend 1))))
 
 
-  ;; CLEAN TAGS IN ORG MODE
 
-  ;; Source: https://fuco1.github.io/2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling.html
+  (leaf *org-remove-tags
 
-  ;; Note: * Updated for Org 9.2.
+    :doc "Clean tags in org mode."
 
-  (defun my-org-remove-inherited-local-tags ()
-    "Remove local tags that can be inherited instead."
-    (let* ((target-tags-local (org-get-tags nil 'local))
-           ;; We have to remove the local tags otherwise they would not
-           ;; show up as being inherited if they are present on
-           ;; parents---the local tag would "override" the parent
-           (target-tags-inherited
-            (unwind-protect
-                (progn
-                  (org-set-tags nil)
-                  (org-get-tags))
-              (org-set-tags target-tags-local))))
-      (-each target-tags-local
-        (lambda (tag)
-          (when (member tag target-tags-inherited)
-            (org-toggle-tag tag 'off))))))
+    :url "https://fuco1.github.io/2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling.html"
 
-  (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags)
+    :config
+
+    (defun my-org-remove-inherited-local-tags ()
+      "Remove local tags that can be inherited instead."
+      (let* ((target-tags-local (org-get-tags nil 'local))
+             ;; We have to remove the local tags otherwise they would not
+             ;; show up as being inherited if they are present on
+             ;; parents---the local tag would "override" the parent
+             (target-tags-inherited
+              (unwind-protect
+                  (progn
+                    (org-set-tags nil)
+                    (org-get-tags))
+                (org-set-tags target-tags-local))))
+        (-each target-tags-local
+          (lambda (tag)
+            (when (member tag target-tags-inherited)
+              (org-toggle-tag tag 'off))))))
+
+    (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags))
 
 
   ;; Don't confirm before evaluating.
