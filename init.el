@@ -931,7 +931,12 @@
 
     :ensure flyspell-indent
 
-    :ensure t)
+    :ensure t
+
+    :config
+
+    (eval-after-load 'flycheck
+      '(flycheck-indent-setup)))
   )
 
 
