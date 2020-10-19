@@ -1981,12 +1981,6 @@
      ;; (org-agenda-start-on-weekday . 1)
      (org-agenda-span             . 6)))
 
-  ;; Switch entry to DONE when all subentries are done, to TODO otherwise.
-  (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done-with-time org-log-states)   ; turn off logging
-      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
                                      (plain-list-item . auto)))
@@ -2104,6 +2098,18 @@
               (org-toggle-tag tag 'off))))))
 
     (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags))
+
+  (leaf *org-summary-todo
+
+    :doc "Switch entry to DONE when all subentries are done, to TODO otherwise."
+
+    :config
+
+    (defun org-summary-todo (n-done n-not-done)
+      "Switch entry to DONE when all subentries are done, to TODO otherwise."
+      (let (org-log-done-with-time org-log-states)   ; turn off logging
+        (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
+
 
 
   ;; Don't confirm before evaluating.
