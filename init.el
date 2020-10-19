@@ -818,21 +818,15 @@
      (dired-listing-switches                  . "-lahgF --group-directories-first")
      (delete-by-moving-to-trash               . t)))
 
-
   (leaf dired-du
 
     :ensure t
 
     :diminish dired-du-mode
 
-    ;; :hook
-
-    ;; (dired-mode-hook . dired-du-mode)
-
     :custom
 
     (dired-du-size-format . t))
-
 
   (leaf dired-git
 
@@ -844,16 +838,9 @@
 
     (dired-mode-hook . dired-git-mode))
 
-
   (leaf dired-subtree
 
-    :disabled t
-
     :ensure t
-
-    ;; :require t
-
-    ;; :leaf-defer nil
 
     :bind
 
