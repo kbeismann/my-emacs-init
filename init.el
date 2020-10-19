@@ -828,16 +828,6 @@
 
     (dired-du-size-format . t))
 
-  (leaf dired-git
-
-    :ensure t
-
-    :diminish dired-git-mode
-
-    :hook
-
-    (dired-mode-hook . dired-git-mode))
-
   (leaf dired-subtree
 
     :ensure t
