@@ -2281,13 +2281,10 @@
     :bind
 
     (("C-c g s"    . magit-status)
-     ("C-c g l l"  . magit-log)
-     ("C-c g f l"  . magit-log-buffer-file)
-     ("C-c g b c"  . magit-branch-checkout)
 
-     (magit-mode-map
-      ("C-c g c a" . magit-commit-amend)
-      ("C-c g c r" . magit-commit-reword))
+     ;; (magit-mode-map
+     ;; ("C-c g c a" . magit-commit-amend)
+     ;; ("C-c g c r" . magit-commit-reword))
 
      (prog-mode-map
       ("C-c g b b" . magit-blame))
