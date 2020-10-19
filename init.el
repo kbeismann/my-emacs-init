@@ -844,9 +844,9 @@
 
     :diminish dired-git-info-mode
 
-    ;; :hook
+    :hook
 
-    ;; (dired-mode-hook . dired-git-info-mode)
+    (dired-mode-hook . dired-git-info-mode)
 
     :bind
 
