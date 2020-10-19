@@ -2192,22 +2192,6 @@
     (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f"))))
 
 
-;; ORG-JOURNAL
-
-(leaf org-journal
-
-  :disabled t
-
-  :after org
-
-  ;; :ensure nil
-
-  :config
-
-  (setq org-journal-directory "~/gitdir/my-git/journal/")
-  (setq org-journal-date-format "%Y-%m-%d, %A"))
-
-
 ;; PDF-TOOLS
 
 ;; For better viewing and handling of PDFs in Emacs.
