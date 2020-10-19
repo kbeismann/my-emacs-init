@@ -276,6 +276,10 @@
     (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
 
+  (defvar my-org-templates
+    (concat my-init "templates.el")
+    "My Org templates.")
+
   (defvar my-orgdir
     (concat my-gitdir "orgdir/")
     "My directory for git repositories.")
