@@ -2125,6 +2125,9 @@
      (R          . t)
      (latex      . t)))
 
+  ;; Use Python 3
+  (setq org-babel-python-command "python3")
+
   ;; Better source block behavior.
   (setq org-src-preserve-indentation t
         org-edit-src-content-indentation 0)
@@ -2141,9 +2144,6 @@
         (plist-put org-format-latex-options :html-scale 1.5))
 
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
-
-  ;; Use Python 3
-  (setq org-babel-python-command "python3")
 
   (leaf org-super-agenda
 
