@@ -2143,20 +2143,6 @@
 
   (setq org-latex-toc-command "\\tableofcontents \\clearpage"))
 
-(leaf org-roam
-
-  :after org
-
-  :ensure t
-
-  :hook
-
-  (after-init-hook . org-roam-mode)
-
-  :config
-
-  (setq org-roam-directory (concat my-orgdir "roam/")))
-
 (leaf org-ref
 
   :ensure t
