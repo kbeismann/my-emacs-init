@@ -927,13 +927,9 @@
 
     ((eldoc-idle-delay . 0.2)))
 
-  (leaf srefactor
 
-    :require srefactor-lisp
 
-    :doc "The command srefactor-lisp-format-buffer can rearrange the code back into readable manner"
-
-    :ensure t))
+  )
 
 
 ;; BIBTEX
