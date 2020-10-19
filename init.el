@@ -927,8 +927,11 @@
 
     ((eldoc-idle-delay . 0.2)))
 
+  (leaf indent-lint
 
+    :ensure flyspell-indent
 
+    :ensure t)
   )
 
 
