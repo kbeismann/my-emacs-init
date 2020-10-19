@@ -2161,12 +2161,7 @@
                    :todo "BLOCKED")
             (:priority<= "B"
                          :scheduled future
-                         :order 1)))
-
-    )
-
-  )
-
+                         :order 1)))))
 
 (leaf org-ref
 
