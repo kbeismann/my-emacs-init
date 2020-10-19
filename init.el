@@ -2141,35 +2141,35 @@
   (setq org-format-latex-options
         (plist-put org-format-latex-options :html-scale 1.5))
 
-  (setq org-latex-toc-command "\\tableofcontents \\clearpage"))
+  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
-(leaf org-ref
+  (leaf org-ref
 
-  :ensure t
+    :ensure t
 
-  ;; :bind
+    ;; :bind
 
-  ;; (org-mode-map
-  ;;  ("C-c i c" . org-ref-helm-insert-cite-link)
-  ;;  ("C-c i r" . crossref-lookup))
+    ;; (org-mode-map
+    ;;  ("C-c i c" . org-ref-helm-insert-cite-link)
+    ;;  ("C-c i r" . crossref-lookup))
 
-  :init
+    :init
 
-  (prog1 "Set paths to bibliography files."
+    (prog1 "Set paths to bibliography files."
 
-    (setq reftex-use-external-file-finders t) ; Use this to find bibliographies.
-    (setq reftex-external-file-finders
-          '(("tex" . "/usr/bin/kpsewhich -format=.tex %f")
-            ("bib" . "/usr/bin/kpsewhich -format=.bib %f")))
-    (setq reftex-default-bibliography '("~/gitdir/my-git/library/bibliography.bib"))
-    (setq org-ref-default-bibliography '("~/gitdir/my-git/library/bibliography.bib")
-          org-ref-bibliography-notes "~/gitdir/my-git/library/notes.org"
-          org-ref-pdf-directory "~/gitdir/my-git/library/archive/")
+      (setq reftex-use-external-file-finders t) ; Use this to find bibliographies.
+      (setq reftex-external-file-finders
+            '(("tex" . "/usr/bin/kpsewhich -format=.tex %f")
+              ("bib" . "/usr/bin/kpsewhich -format=.bib %f")))
+      (setq reftex-default-bibliography '("~/gitdir/my-git/library/bibliography.bib"))
+      (setq org-ref-default-bibliography '("~/gitdir/my-git/library/bibliography.bib")
+            org-ref-bibliography-notes "~/gitdir/my-git/library/notes.org"
+            org-ref-pdf-directory "~/gitdir/my-git/library/archive/")
 
-    ;; Add "bibtex %b" to enable bibtex export.
-    ;; Source: https://github.com/jkitchin/org-ref
-    ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
-    (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f"))))
+      ;; Add "bibtex %b" to enable bibtex export.
+      ;; Source: https://github.com/jkitchin/org-ref
+      ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+      (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f")))))
 
 
 ;; PDF-TOOLS
