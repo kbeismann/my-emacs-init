@@ -36,8 +36,7 @@
 ;; upfront.  Note that Pango removed support for bitmap fonts with version
 ;; 1.33.
 
-;; Some optional settings, e.g. my mu4e setup, are not part of this
-;; repository.
+;; Some optional settings are not part of this repository.
 
 
 ;;; Installation:
@@ -85,11 +84,10 @@
 
 ;;; To-do:
 
-;; * NEXT: Structure > Init file in org?
-;; * NEXT: Structure > Use function/package to toggle proxies.
 ;; * NEXT: Structure > External repository for snippets.
 ;; * TODO: Fix > The org/org-ref setup is too messy.
-;; * TODO: Add global settings for Org Columns view.
+;; * TODO: Minor > Add global settings for Org Columns view.
+;; * TODO: Formatting > Format this file with a formatter.
 
 
 ;;; Code:
