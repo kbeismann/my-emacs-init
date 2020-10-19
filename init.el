@@ -284,10 +284,6 @@
     (concat my-gitdir "orgdir/")
     "My directory for git repositories.")
 
-  (defvar my-init
-    (concat my-gitdir "emacs-init/")
-    "My Emacs initialization file repository.")
-
   (defvar my-notes
     (concat my-orgdir "notes.org")
     "My notes.")
