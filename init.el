@@ -2110,8 +2110,6 @@
       (let (org-log-done-with-time org-log-states)   ; turn off logging
         (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
 
-
-
   ;; Don't confirm before evaluating.
   (setq org-confirm-babel-evaluate nil)
 
