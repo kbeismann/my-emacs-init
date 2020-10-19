@@ -2141,30 +2141,7 @@
   (setq org-format-latex-options
         (plist-put org-format-latex-options :html-scale 1.5))
 
-  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
-
-  (leaf org-super-agenda
-
-    :disabled t
-
-    :ensure t
-
-    :config
-
-    (org-super-agenda-mode)
-
-    (setq org-super-agenda-groups
-          '(
-            (:name "PCT"
-                   :time-grid t
-                   :tag ("pct"))
-            (:name "Urgent"
-                   :priority "A")
-            (:name "Blocked"
-                   :todo "BLOCKED")
-            (:priority<= "B"
-                         :scheduled future
-                         :order 1)))))
+  (setq org-latex-toc-command "\\tableofcontents \\clearpage"))
 
 (leaf org-ref
 
