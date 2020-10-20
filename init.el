@@ -1193,85 +1193,33 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (when (derived-mode-p 'python-mode)
           (progn
             (pycoverage-mode)))))
-
-
-    ;; SPHINX-DOC
-
     (leaf sphinx-doc
-
       :ensure t
-
       :load-path "~/gitdir/my-git/sphinx-doc.el/"
-
       :hook
-
       (python-mode-hook . sphinx-doc-mode)
-
       :custom
-
       ;; Show all arguments (except "self").
       ((sphinx-doc-all-arguments . t)
        (sphinx-doc-exclude-rtype . t)))
-
-
-    ;; BLACK FORMATTER
-
     (leaf python-black
-
       :ensure t
-
-      :after python
-
       :hook
-
-      (
-       ;; (python-mode-hook . python-black-on-save-mode)
-       (python-mode-hook . (lambda() (setq-local whitespace-line-column 88))))
-
+      (python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))
       :custom
-
       (python-black-macchiato-command . "~/.local/bin/black-macchiato"))
-
-
-
-    ;; PY-ISORT
-
     (leaf py-isort
-
       :ensure t
-
       :after python)
-
-    ;; :hook
-
-    ;; (before-save-hook . py-isort-before-save))
-
-
-    ;; PYIMPORT
-
     (leaf pyimport
-
       :ensure t
-
-      :after python
-
       :bind
-
       (python-mode-map
        ("C-c m i" . pyimport-insert-missing)
        ("C-c u r" . pyimport-remove-unused)))
-
-
-    ;; PYTHON-DOCSTRING
-
     (leaf python-docstring
-
       :ensure t
-
-      :after python
-
       :hook
-
       (python-mode-hook . python-docstring-mode))))
 
 
