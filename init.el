@@ -917,9 +917,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; AVY
 
-;; Move with the power of your mind and jump to things in Emacs tree-style.
-
 (leaf avy
+
+  :doc "Move with the power of your mind and jump to things in
+  Emacs tree-style"
 
   :ensure t
 
