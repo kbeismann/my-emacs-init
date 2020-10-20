@@ -1962,11 +1962,6 @@
       (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f")))))
 
 
-;; PDF-TOOLS
-
-;; For better viewing and handling of PDFs in Emacs.
-
-
 (leaf doc-view
 
   :ensure t
@@ -1976,8 +1971,6 @@
   (leaf pdf-tools
 
     :ensure t
-
-    :disabled t
 
     :bind
 
