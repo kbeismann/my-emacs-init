@@ -865,22 +865,15 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; SET COLOR THEME
 
 (leaf base16-theme
-
   :ensure t
-
   :custom
-
   ;; Change the terminal colors.  Not sure if it works.
   (base16-theme-256-color-source . "colors")
-
   :config
-
   ;; Load base16.
   (load-theme 'base16-zenburn 1)
-
   ;; Replace the name of the theme if necessary.
   (prog1 "Create a variable for each color"
-
     (defvar base00-prop (nth 01 base16-zenburn-colors))
     (defvar base01-prop (nth 03 base16-zenburn-colors))
     (defvar base02-prop (nth 05 base16-zenburn-colors))
@@ -897,34 +890,26 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (defvar base0D-prop (nth 27 base16-zenburn-colors))
     (defvar base0E-prop (nth 29 base16-zenburn-colors))
     (defvar base0F-prop (nth 31 base16-zenburn-colors)))
-
   ;; Remove the vertical line between windows:
   (set-face-background 'vertical-border base00-prop)
   (set-face-foreground 'vertical-border (face-background 'vertical-border))
-
   ;; Adjust mode line colors.
   (set-face-background 'mode-line base02-prop)
   (set-face-foreground 'mode-line base04-prop)
   (set-face-background 'mode-line-inactive base01-prop)
   (set-face-foreground 'mode-line-inactive base04-prop)
-
   ;; Hide the fringe but show linebreak arrows.
   (set-face-attribute 'fringe
                       nil :background base00-prop :foreground base02-prop)
-
   ;; Look of the current line number.  Here, the background is the color
   ;; of the number.
   (set-face-attribute 'line-number-current-line
                       nil :background base08-prop :foreground base00-prop)
-
   ;; Look and color of the line numbers.
   (set-face-attribute 'line-number
                       nil :background base00-prop :foreground base02-prop)
-
-
   (custom-set-faces '(font-lock-keyword-face ((t (:weight bold))))
                     '(font-lock-builtin-face ((t (:weight bold))))))
-
 ;; '(font-lock-function-name-face ((t (:weight bold))))
 ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
 ;; '(font-lock-comment-face ((t (:slant italic))))
