@@ -677,15 +677,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; TRAMP FOR REMOTE FILE SYSTEMS
 
 (leaf tramp
-  :ensure t
-  :ensure tramp-term
   :bind
   ("C-c t h" . helm-tramp)
   :custom
   ((tramp-debug-buffer   . t)
    (tramp-read-passwd    . t)
    (tramp-default-method . "ssh")
-   (tramp-verbose        . 10)))
+   (tramp-verbose        . 10))
+  :config
+  (leaf tramp-term
+    :ensure t))
 
 
 ;; ASYNC
