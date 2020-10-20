@@ -622,63 +622,40 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; AUTH-SOURCE
 
 (leaf auth-source
-
   :ensure t
-
   :custom
-
   (auth-sources . '("~/.authinfo.gpg")))
 
 
 ;; DIRED
 
 (leaf *dired-setup
-
   :config
-
   (leaf dired
-
     :commands dired
-
     :ensure async
-
     :hook
-
     (
-     ;; (dired-mode-hook . (lambda() (hl-line-mode 1)))
      (dired-mode-hook . dired-hide-details-mode))
-
     :custom
-
     ((dired-dwim-target                       . t)       ; Better target.
      (dired-recursive-copies                  . 'always) ; Copy recursively.
      (dired-recursive-deletes                 . 'always) ; Delete recursively.
      (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
      (dired-listing-switches                  . "-lahgF --group-directories-first")
      (delete-by-moving-to-trash               . t)))
-
   (leaf dired-du
-
     :ensure t
-
     :diminish dired-du-mode
-
     :custom
-
     (dired-du-size-format . t))
-
   (leaf dired-subtree
-
     :ensure t
-
     :bind
-
     (dired-mode-map
      (";" . dired-subtree-toggle)
      ("'" . dired-subtree-remove))
-
     :custom
-
     ((dired-subtree-use-backgrounds . nil)
      (dired-subtree-line-prefix     . "    >"))))
 
