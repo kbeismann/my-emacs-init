@@ -705,41 +705,27 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; EMACS LISP
 
 (leaf *lisp/emacs-lisp
-
   :config
-
   (leaf eldoc
-
     :doc "Show function arglist or variable docstring in echo area"
-
     :diminish eldoc-mode
-
     :custom
-
     ((eldoc-idle-delay . 0.2)))
-
   (leaf ppp
-
     :ensure t))
 
 
 ;; BIBTEX
 
 (leaf bibtex
-
   :ensure org-ref
   :ensure gscholar-bibtex
-
   :bind
-
   (bibtex-mode-map
    ("C-c C-c" . org-ref-clean-bibtex-entry)
    ("C-c ["   . crossref-lookup)
    ("C-c ]"   . gscholar-bibtex))
-
-
   :custom
-
   ((bibtex-autokey-additional-names     . "_etal")
    (bibtex-autokey-name-separator       . "_")
    (bibtex-autokey-names                . 1)
@@ -753,14 +739,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (bibtex-autokey-titlewords-stretch   . 1)
    (bibtex-autokey-titleword-length     . 5))
   :config
-
   (setq bibtex-dialect 'biblatex)
-
   ;; A good summary: http://www.jonathanleroux.org/bibtex-mode.html.
   (setq bibtex-additional-formatting '(page-dashes whitespace sort-fields))
   (setq bibtex-entry-format (append bibtex-entry-format bibtex-additional-formatting))
-
-
   ;; Path to library only set when directory exists.
   (prog1 "Set bibliography and library paths."
     (let ((path-to-library my-library))
