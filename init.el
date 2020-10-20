@@ -918,58 +918,43 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; AVY
 
 (leaf avy
-
   :doc "Move with the power of your mind and jump to things in
   Emacs tree-style"
-
   :ensure t
-
   :after base16-theme
-
   :bind
-
   (( "M-SPC"   . avy-goto-char)
    ( "M-S-SPC" . avy-goto-char-2))
-
   :custom
-
   ((avy-background  . t)
    (avy-all-windows . t)
-
    ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision
    ;; char with avy-lead-face-0.  Do this even when the char is terminating.
    ;; Normally avy-lead-face-0 is only used for the first non-terminating
    ;; decision chars.
-
    (avy-highlight-first . t))
-
   :config
-
   ;; Face used for first non-terminating leading chars.
   (set-face-attribute 'avy-lead-face-0 nil
                       :foreground base0A-prop
                       :background base00-prop
                       :weight 'bold)
-
   ;; Face used for matched leading chars.  Not sure what this does.
   (set-face-attribute 'avy-lead-face-1 nil
                       :foreground base09-prop
                       :background base00-prop
                       :weight 'bold)
-
   ;; Face used for leading chars.
   (set-face-attribute 'avy-lead-face-2 nil
                       :foreground base0C-prop
                       :background base00-prop
                       :weight 'bold)
-
   ;; Face used for the leading chars.
   (set-face-attribute 'avy-lead-face nil
                       :foreground base0E-prop
                       :background base00-prop
                       :weight 'bold
                       :underline t)
-
   ;; Face for foreground/font during selection: base03.
   (set-face-foreground 'avy-background-face base03-prop))
 
