@@ -524,17 +524,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; LINE NUMBERING
 
 (leaf *line-numbering
-
   :doc "The display-line-numbers colors can be changed by editing base16.el"
-
   :custom
-
   ((display-line-numbers       . nil)   ; No line numbers (prog-mode only).
    (display-line-numbers-width . 4)     ; Default width.
    (display-line-numbers-widen . t))	; Don't disregard narrowing.
-
   :config
-
   ;; Only enable line numbers in prog-mode.
   (progn
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -544,9 +539,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; MISC. FUNCTIONS
 
 (leaf *misc-functions
-
   :config
-
   ;; Using the shell to insert the date.
   (defun insert-current-date-time ()
     "Insert the current date and time in a standard Emacs format."
@@ -558,7 +551,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (interactive)
     (insert (format-time-string "<%Y-%m-%d %a>")))
   (global-set-key (kbd "C-c d i") 'insert-current-date)
-
   ;; Find non ASCII characters.
   (defun find-first-non-ascii-char ()
     "Find the first non-ASCII character from point onward."
@@ -581,13 +573,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; MODE LINE
 
 (leaf *mode-line-settings
-
   :config
-
   ;; These options have to be included in mode-line-format as well.
   (column-number-mode 1)                  ; Show column number.
   (line-number-mode 1)                    ; Show line number in mode line.
-
   ;; Simplify the cursor position: No proportional position (percentage) nor
   ;; texts like "Bot", "Top" or "All".  Source:
   ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
@@ -605,15 +594,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; AUTO-COMPILE
 
 (leaf auto-compile
-
   :ensure t
-
   :custom
-
   (load-prefer-newer . t)
-
   :config
-
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
@@ -621,26 +605,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; BENCHMARKS
 
 (leaf *benchmarking
-
   :config
-
   (leaf benchmark-init
-
     :url "https://github.com/dholm/benchmark-init-el"
-
     :doc "There are two ways in which benchmark-init's results
     can be presented, as a table or in a tree. The table can be
     displayed by
     running: (benchmark-init/show-durations-tabulated)"
-
     :leaf-defer nil
-
     :ensure t
-
     :require t
-
     :hook
-
     ((after-init-hook . benchmark-init/deactivate))))
 
 
