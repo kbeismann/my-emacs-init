@@ -1414,9 +1414,11 @@
 
 ;; AGGRESSIVE-INDENT
 
-;; Turn aggressive-indent on for everything.
-
 (leaf aggressive-indent
+
+  :url "https://github.com/Malabarba/aggressive-indent-mode"
+
+  :doc "aggressive-indent-mode is a minor mode that keeps your code always indented"
 
   :ensure t
 
