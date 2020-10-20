@@ -634,8 +634,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (leaf dired
     :commands dired
     :hook
-    (
-     (dired-mode-hook . dired-hide-details-mode))
+    (dired-mode-hook . dired-hide-details-mode)
     :custom
     ((dired-dwim-target                       . t)       ; Better target.
      (dired-recursive-copies                  . 'always) ; Copy recursively.
