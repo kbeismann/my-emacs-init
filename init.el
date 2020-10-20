@@ -925,16 +925,7 @@
 
     :custom
 
-    ((eldoc-idle-delay . 0.2)))
-
-  (leaf indent-lint
-
-    :ensure t
-
-    :config
-
-    (eval-after-load 'flycheck
-      '(flycheck-indent-setup))))
+    ((eldoc-idle-delay . 0.2))))
 
 
 ;; BIBTEX
