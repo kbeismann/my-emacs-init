@@ -642,8 +642,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
      (dired-listing-switches                  . "-lahgF --group-directories-first")
      (delete-by-moving-to-trash               . t)))
-  (leaf async
-    :ensure t)
   (leaf dired-du
     :ensure t
     :require t
