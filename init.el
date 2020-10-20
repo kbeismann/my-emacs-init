@@ -1119,105 +1119,55 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; PYTHON-MODE
 
 (leaf *python-setup
-
   :config
-
-
-  ;; CONDA
-
   (leaf conda
-
     :ensure t
-
     :after dired
-
     :bind
-
     ("C-c $" . conda-env-activate)
-
     :custom
-
     ((conda-anaconda-home       . "~/miniconda3/")
      (conda-env-executables-dir . "condabin"))
-
     :config
-
     ;; Interactive shell support, include.
     (conda-env-initialize-interactive-shells)
-
     ;; Eshell support.
     (conda-env-initialize-eshell))
-
-
-  ;; PYTHON-MODE
-
   (leaf python
-
     :commands python-mode
-
     :mode (("\\.py\\'" . python-mode)
            ("\\.wsgi$" . python-mode))
-
     :config
-
-    ;; FLYCHECK FOR PYTHON
-
     (leaf flycheck-pycheckers
-
       :ensure t
-
       :ensure flycheck
-
       :after python flycheck
-
       :custom
-
       ((flycheck-pycheckers-multi-thread    . "true")
        (flycheck-pycheckers-max-line-length . 88) ; Follow Black guidelines.
        (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
-
       :config
-
       ;; TODO: Add this to :hook.
       (with-eval-after-load 'flycheck (add-hook 'flycheck-mode-hook
                                                 #'flycheck-pycheckers-setup))
-
       ;; (setq flycheck-pycheckers-ignore-codes (append
       ;;                                         flycheck-pycheckers-ignore-codes
       ;;                                         '("C0330" "W503" "E701" "B311"
       ;;                                           "E231" "E203" "C0301")))
       )
-
-    ;; PIPENV
-
     (leaf pipenv
-
       :ensure t
-
       :hook
-
       (python-mode-hook . pipenv-mode)
-
       :init
-
       (setq pipenv-projectile-after-switch-function
             #'pipenv-projectile-after-switch-extended))
-
-
-    ;; PYTHON-PYTEST
-
-    ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
-
     (leaf python-pytest
-
+      :doc "Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/"
       :ensure t
-
       :ensure projectile
-
       :after python
-
       :bind
-
       (python-mode-map
        ("C-c t p t" . python-pytest)
        ("C-c t p r" . python-repeat)
@@ -1227,27 +1177,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
        ("C-c t p f" . python-pytest-function)
        ("C-c t p F" . python-pytest-function-dwim)
        ("C-c t p l" . python-pytest-last-failed))
-
       :custom
-
       (python-pytest-arguments . '("--color"   ; Colored output in the buffer.
                                    "--pdb"     ; Run pdb on failure.
                                    "--verbose")) ; More verbose output.
       ;; "--failed-first"                 ; Run the previous failed tests first.
       ;; "--exitfirst"                    ; Exit after first failure.
       ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
-
       (python-pytest-pdb-track . t))
-
-
-    ;; PYTHON COVERAGE
-
     (leaf pycoverage
-
       :disabled t
-
       :config
-
       (defun my-coverage ()
         (interactive)
         (when (derived-mode-p 'python-mode)
