@@ -756,22 +756,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; MISC. TOOLS
 
 (leaf *misc-tools
-
   :config
-
-
   (leaf undo-tree
-
     :ensure t
-
     :diminish undo-tree-mode
-
     :bind
-
     ("C-c u t" . undo-tree-visualize)
-
     :custom
-
     ((global-undo-tree-mode     . t)
      (undo-tree-visualizer-diff . t))))
 
