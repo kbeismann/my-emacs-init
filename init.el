@@ -779,7 +779,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
   ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
   :config
-  ;; HUNSPELL IS NOT USED ON MANJARO RIGHT NOW! REQUIRES ASPELL!
   ;; If Hunspell is present, setup Hunspell dictionaries.
   (when (executable-find "hunspell")
     (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
