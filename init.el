@@ -681,12 +681,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :diminish dired-async-mode
   :config
   (dired-async-mode 1)
-  (async-bytecomp-package-mode 0)       ; Not sure if this creates issues.
-  (leaf smtpmail-async
-    :after async mu4e
-    :custom
-    (send-mail-function         . 'async-smtpmail-send-it)
-    (message-send-mail-function . 'async-smtpmail-send-it)))
+  (async-bytecomp-package-mode 0))       ; Not sure if this creates issues.
 
 
 ;; ESHELL
@@ -694,19 +689,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Check out https://github.com/jcf/emacs.d/blob/master/init-packages.org.
 
 (leaf eshell
-
   :commands eshell
-
   :bind
-
   ("C-z" . eshell)
-
   :hook
-
   (eshell-mode-hook . my-eshell-remove-pcomplete)
-
   :config
-
   ;; Fixes weird issues in eshell.
   (defun my-eshell-remove-pcomplete ()
     (remove-hook 'completion-at-point-functions
