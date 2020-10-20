@@ -1226,84 +1226,58 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; ORG-MODE
 
 (leaf org				; FIXME: Band aid > Use :bind at some point.
-
   :config
-
-  ;; Directories.
   (prog1 "Setting directories without :custom"
-
     (setq org-directory           my-orgdir)
     (setq org-default-notes-file  my-notes)
     (setq org-todo-file           my-todo-file)
     (setq org-agenda-files        (list org-directory)))
-
   (leaf *org-custom
-
     ;; :init
-
     ;; (leaf org-plus-contrib
-
     ;;   :ensure t)
-
     :bind
-
     (("C-c a" . org-agenda)                 ; Call org-agenda.
      ("C-c c" . org-capture)                ; Org-capture notes.
      ("C-c l" . org-store-link)             ; Store link.
-
      (org-mode-map
-
       ("C-c b" . crossref-add-bibtex-entry)  ; Search/add .bib entries.
       ("C-c i" . org-clock-in)
       ("C-c o" . org-clock-out)
       ("C-c n" . org-narrow-to-subtree)
       ;; ("C-c b" . org-narrow-to-block)
       ("C-c e" . org-set-effort)))
-
     ;; :preface
-
     ;; (prog1 "Key bindings for org"
-
     ;;   (global-set-key (kbd "C-c a") 'org-agenda)
     ;;   (global-set-key (kbd "C-c c") 'org-capture)
     ;;   (global-set-key (kbd "C-c l") 'org-store-link)
     ;;   (global-set-key (kbd "C-c b") 'crossref-add-bibtex-entry))
-
     :hook
-
     ;; Align tags when saving.
     (((org-mode-hook before-save-hook) . org-align-all-tags)
-
      ;; Switch to DONE when sub-entries are done.
      (org-after-todo-statistics-hook . org-summary-todo)
-
      ;; Highlight current line in agenda.
      (org-agenda-mode-hook . (lambda () (hl-line-mode 1))))
-
     :custom
-
     ;; Use relative paths.
     ((org-link-file-path-type . 'relative)
-
      ;; Startup options.
      (org-startup-indented           . nil)
      (org-startup-with-latex-preview . t)
      (org-startup-align-all-tables   . t)
-
      ;; Indentation.
      (org-indent-mode-turns-on-hiding-stars . nil)
      (org-adapt-indentation                 . nil)
-
      ;; Misc.
      (org-src-window-setup            . 'other-window)
      (org-tags-column                 . 70)
      (org-image-actual-width          . nil)
      (org-highlight-latex-and-related . '(latex script entities))
      (org-catch-invisible-edits       . t)
-
      ;; All child tasks have to be "DONE" before the parent is "DONE."
      (org-enforce-todo-dependencies . t)
-
      ;; To-do settings.
      (org-hierarchical-todo-statistics . nil)
      (org-todo-keywords                . '((sequence
@@ -1316,12 +1290,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                             "CHANCELLED(w)"
                                             "FORWARDED(f)"
                                             "DONE(d)")))
-
      ;; Logging.
      (org-log-done-with-time . t)
      (org-log-done           . 'time)
      (org-log-repeat         . 'time)
-
      (org-agenda-skip-scheduled-if-done . t)
      (org-agenda-skip-deadline-if-done  . t)
      (org-agenda-include-deadlines      . t)
@@ -1329,40 +1301,25 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      ;; (org-agenda-block-separator        . nil)
      ;; (org-agenda-compact-blocks         . nil)
      (org-agenda-start-with-log-mode    . t)
-
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
      ;; (org-agenda-start-day        . "-3d")
      (calendar-week-start-day     . 1)
      ;; (org-agenda-start-on-weekday . 1)
      (org-agenda-span             . 6)))
-
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
                                      (plain-list-item . auto)))
-
-
-  ;; ORG-REFILE
-
   (leaf *org-refile                     ; TODO: Use :custom.
-
     :config
-
     (setq org-refile-targets '((nil :maxlevel              . 9)
                                (org-agenda-files :maxlevel . 9))
           org-refile-use-outline-path 'file
           org-outline-path-complete-in-steps nil
           org-refile-allow-creating-parent-nodes 'confirm))
-
-
-  ;; ORG-CAPTURE-TEMPLATES
-
   (leaf *org-capture-templates
-
     :doc "Templates for org-capture"
-
     :config
-
     ;; If the directory exists, load templates for work.
     (let ((templates my-org-templates))
       (if (and (file-exists-p templates)
@@ -1371,16 +1328,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
             (message "%s" "Adding templates...")
             (load templates))
         (message "%s" "No templates specified."))))
-
-
   (leaf *org-remove-tags
-
     :doc "Clean tags in org mode."
-
     :url "https://fuco1.github.io/2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling.html"
-
     :config
-
     (defun my-org-remove-inherited-local-tags ()
       "Remove local tags that can be inherited instead."
       (let* ((target-tags-local (org-get-tags nil 'local))
@@ -1397,23 +1348,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (lambda (tag)
             (when (member tag target-tags-inherited)
               (org-toggle-tag tag 'off))))))
-
     (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags))
-
   (leaf *org-summary-todo
-
     :doc "Switch entry to DONE when all subentries are done, to TODO otherwise."
-
     :config
-
     (defun org-summary-todo (n-done n-not-done)
       "Switch entry to DONE when all subentries are done, to TODO otherwise."
       (let (org-log-done-with-time org-log-states)   ; turn off logging
         (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
-
   ;; Don't confirm before evaluating.
   (setq org-confirm-babel-evaluate nil)
-
   ;; Available languages: https://orgmode.org/org.html#Languages
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -1423,41 +1367,29 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (python     . t)
      (R          . t)
      (latex      . t)))
-
   ;; Use Python 3
   (setq org-babel-python-command "python3")
-
   ;; Better source block behavior.
   (setq org-src-preserve-indentation t
         org-edit-src-content-indentation 0)
-
   ;; Highlight code in code blocks in native language, also use TAB as
   ;; in native language.
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t)
-
   ;; Change font size for LaTeX previews.
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 1.5))
   (setq org-format-latex-options
         (plist-put org-format-latex-options :html-scale 1.5))
-
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
-
   (leaf org-ref
-
     :ensure t
-
     ;; :bind
-
     ;; (org-mode-map
     ;;  ("C-c i c" . org-ref-helm-insert-cite-link)
     ;;  ("C-c i r" . crossref-lookup))
-
     :init
-
     (prog1 "Set paths to bibliography files."
-
       (setq reftex-use-external-file-finders t) ; Use this to find bibliographies.
       (setq reftex-external-file-finders
             '(("tex" . "/usr/bin/kpsewhich -format=.tex %f")
@@ -1466,7 +1398,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       (setq org-ref-default-bibliography '("~/gitdir/my-git/library/bibliography.bib")
             org-ref-bibliography-notes "~/gitdir/my-git/library/notes.org"
             org-ref-pdf-directory "~/gitdir/my-git/library/archive/")
-
       ;; Add "bibtex %b" to enable bibtex export.
       ;; Source: https://github.com/jkitchin/org-ref
       ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
