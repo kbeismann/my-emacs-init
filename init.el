@@ -987,7 +987,6 @@
 
   :config
 
-
   ;; UNDO-TREE
 
   (leaf undo-tree
@@ -1004,7 +1003,6 @@
 
     ((global-undo-tree-mode     . t)
      (undo-tree-visualizer-diff . t)))
-
 
   ;; DASHBOARD
 
