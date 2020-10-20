@@ -809,86 +809,55 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; HELM
 
 (leaf *helm-setup
-
   :config
-
   (leaf helm
-
     :ensure t
-
     :ensure helm-tramp
-
     :require helm-config
-
     :leaf-defer nil
-
     :diminish (helm-mode helm-autoresize-mode)
-
     ;; :ensure helm-R
-
     :bind
-
     (("M-x"     . helm-M-x)
      ("C-s"     . helm-occur)
      ("C-x b"   . helm-mini)
      ("C-x C-f" . helm-find-files)
      ("M-y"     . helm-show-kill-ring)
      ("C-c h"   . helm-command-prefix)
-
      (helm-command-map
       ("l"      . helm-locate)
       ("s"      . helm-surfraw)
       ("r"      . helm-regexp)
       ("m"      . helm-multi-files)
       ("a"      . helm-apropos)))
-
     :init
-
     ;; Remove old bind for helm-command-map.
     (global-unset-key (kbd "C-x c"))
-
     :custom
-
     ;; Splitting behavior.
     ((helm-split-window-inside-p        . t)
      (helm-move-to-line-cycle-in-source . nil) ; If t breaks cycling.
      (helm-autoresize-mode              . t)
-
      ;; Use fuzzy matching when possible.
      (helm-mode-fuzzy-match                 . t)
      (helm-completion-in-region-fuzzy-match . t)
-
      ;; (helm-display-function . 'helm-display-buffer-in-own-frame)
      (helm-display-buffer-reuse-frame . nil)
      (helm-use-undecorated-frame-option . t))
-
     :config
-
     ;; Turn on helm-mode.
     (helm-mode 1))
-
-
   ;; Use helm for Flyspell.
   (leaf helm-flyspell
-
     :ensure t
-
     :bind
-
     ("C-c f c" . helm-flyspell-correct))
-
-
   ;; Use helm for BibTeX.
   (leaf helm-bibtex
-
     :disabled t
-
     :ensure t
-
     :after helm bibtex
-
     :bind
-
     (helm-command-map
      ("b". helm-bibtex))))
 
