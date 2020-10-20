@@ -759,7 +759,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
   :config
 
-  ;; UNDO-TREE
 
   (leaf undo-tree
 
