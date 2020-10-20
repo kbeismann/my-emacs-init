@@ -98,11 +98,10 @@
 ;; message does not get clobbered with other messages.
 
 (prog1 "Add timestamp to messages"
-
   (defun my-message-with-timestamp (old-func fmt-string &rest args)
-    "Prepend current timestamp (with microsecond precision) to a message.
-
-     Source: https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-entry-in-emacs-messages-buffer"
+    "Prepend current timestamp (with microsecond precision) to a
+message.  Source:
+https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-entry-in-emacs-messages-buffer"
     (apply old-func
            (concat (format-time-string "[%F %T.%3N %Z] ")
                    fmt-string)
@@ -113,7 +112,6 @@
   (advice-add 'message :around #'my-message-with-timestamp))
 
 (prog1 "Show startup time"
-
   (add-hook 'emacs-startup-hook
             (lambda ()
               (message "Emacs ready in %s with %d garbage collections."
@@ -132,21 +130,16 @@
 ;; time to about half.
 
 (prog1 "Improve startup time"
-
   ;; (setq gc-cons-threshold 64000000) ; Former value.
-
   ;; Before startup, increase threshold.
   (setq gc-cons-threshold most-positive-fixnum)
-
   ;; Restore consing between collection after initialization.
   (add-hook 'after-init-hook #'(lambda ()
                                  (setq gc-cons-threshold 800000)))
-
   ;; Let's increase the max-lisp-eval-depth and max-specpdl-size to
   ;; prevent exceeding recursion limits.
   (setq max-lisp-eval-depth 50000
         max-specpdl-size 10000)
-
   ;; Disable certain byte compiler warnings to cut down on the noise.
   (setq byte-compile-warnings '(not free-vars unresolved noruntime
                                     lexical make-local)))
@@ -155,74 +148,48 @@
 ;; LEAF SETUP
 
 (prog1 "Use leaf to simplify package management"
-
   ;; Add archives and assign priorities.
   (setq package-check-signature 'allow-unsigned ; Do/don't check sig.
         package-archives '(("gnu"          . "https://elpa.gnu.org/packages/")
                            ("org"          . "https://orgmode.org/elpa/")
                            ("melpa"        . "https://melpa.org/packages/")
                            ("melpa-stable" . "https://stable.melpa.org/packages/"))
-
         package-archive-priorities '(("gnu"          . 2)
                                      ("org"          . 1)
                                      ("melpa"        . 3)
                                      ("melpa-stable" . 0)))
-
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize)
-
   ;; Install leaf if necessary.
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
 
   (leaf leaf
-
     :config
-
     (leaf leaf-keywords
-
       :ensure t
-
       :require t
-
       :init
-
       (leaf package
-
         :init
-
         (leaf *elpa-workaround
-
           :when
-
           (or (version= "26.1" emacs-version)
               (version= "26.2" emacs-version))
-
           :custom
-
           ((gnutls-algorithm-priority . "NORMAL:-VERS-TLS1.3"))))
-
       (leaf el-get
-
         :ensure t
-
         :init
-
         (unless (executable-find "git")
           (warn "Git not found: el-get can't download packages."))
-
         :custom
-
         ((el-get-git-shallow-clone  . t)
          (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
-
       (leaf diminish
-
         :ensure t)
-
       :config
-
       (leaf-keywords-init))))
 
 
@@ -231,142 +198,108 @@
 ;; Defines a number of directories and files in ~/.emacs.d/.
 
 (leaf *basic-variables
-
   :doc "Basic variables"
-
   :config
-
   (defvar my-custom-file
     (concat user-emacs-directory ".custom.el")
     "My customization file.")
-
   (defvar my-autosave-dir
     (concat user-emacs-directory "autosave/")
     "My auto-save directory.")
-
   (defvar my-backup-dir
     (concat user-emacs-directory "backup/")
     "My backup directory.")
-
   (defvar my-cache-dir
     (concat user-emacs-directory "cache/")
     "My storage area (cache) directory.")
-
   (defvar my-abbrev-dir
     (concat user-emacs-directory "abbrev/")
     "My abbreviations directory.")
-
   (defvar my-gitdir
     "~/gitdir/my-git/"
     "My directory for git repositories.")
-
   (defvar my-library
     (concat my-gitdir "library/")
     "My library repository.")
-
   (defvar my-bibliography
     (concat my-library "bibliography.bib")
     "My bibliography.")
-
   (defvar my-readings
     (concat my-library "readings.org")
     "My list of readings.")
-
   (defvar my-init
     (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
-
   (defvar my-org-templates
     (concat my-init "templates.el")
     "My Org templates.")
-
   (defvar my-orgdir
     (concat my-gitdir "orgdir/")
     "My directory for git repositories.")
-
   (defvar my-notes
     (concat my-orgdir "notes.org")
     "My notes.")
-
   (defvar my-todo-file
     (concat my-orgdir "notes.org")
     "My to-do list.")
-
   (defvar my-mu4e-setup
     (concat my-gitdir "mu4e-setup/mu4e-setup.el")
     "My mu4e file.")
-
   (defvar my-font-huckleberry
     "Dina:pixelsize=13"
     ;; "Hack:pixelsize=14"
     "My default font for Huckleberry.")
-
   (defvar my-font-family-huckleberry
     "Dina"
     ;; "Hack"
     "My default font family for Huckleberry.")
-
   (defvar my-font-arch
     ;; "DejaVu Sans Mono-10"; Arch
     ;; "Hack:pixelsize=12"
     ;; "Terminus:pixelsize=12"
     "Dina:pixelsize=13"
     "My default font for Arch Linux.")
-
   (defvar my-font-family-arch
     ;; "DejaVu"
     ;; "Hack"
     ;; "Terminus"
     "Dina"
     "My default font family for Arch Linux.")
-
   (defvar my-font-ubuntu
     ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
     "Terminus:pixelsize=14"
     ;; "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
-
   (defvar my-font-family-ubuntu
     "Terminus"
     ;; "Hack"
     "My default font family setting for Ubuntu.")
-
   (defvar my-max-columns
     78
     "My predefined characters per line (CPL) limit.")
-
   (defvar path-to-my-snippets
     (concat my-gitdir "emacs-init/snippets/")
     "Path to custom snippets.")
-
   (defvar path-to-snippets
     (concat user-emacs-directory "snippets/")
     "Path to snippets.")
+
 
   ;; YASNIPPET
 
   ;; * TODO: Packages > Fix YASnippet.
 
   (leaf yasnippet
-
     :ensure t
-
     :ensure yasnippet-snippets
-
     :diminish yas-minor-mode
-
     :bind
-
     (("C-c y i" . yas-insert-snippet)
      ("C-c y v" . yas-visit-snippet-file))
-
     :custom
-
     ((yas-indent-line  . 'fixed)
      (yas-global-mode  . t))
-
     :config
-
     (setq yas-snippet-dirs (append yas-snippet-dirs
                                    '(path-to-my-snippets)))))
 
@@ -374,37 +307,35 @@
 ;; BASIC SETTINGS
 
 (leaf *basic-settings
-
   :bind
-
   (("M-o"     . nil)                    ; Unbind face menu.
    ("C-x C-z" . nil)                    ; Unbind suspend frame.
    ("S-SPC"   . just-one-space))        ; Bind just-one-space.
-
+  :setq
+  ;; Better splitting behavior.
+  (split-height-threshold . 80)
+  (split-width-threshold  . '(* 2 my-max-columns))
+  :config
+  (defalias 'yes-or-no-p 'y-or-n-p)    ; y/n instead of yes/no.
   :custom
-
   ((user-full-name . "Karsten Beismann")
-
    ;; Misc. settings.
    (ring-bell-function           . 'ignore)   ; No annoying bell.
    (inhibit-startup-screen       . t)         ; No starting screen.
    (mouse-yank-at-point          . t)         ; Paste at cursor, not at mouse.
    (vc-follow-symlinks           . t)         ; Always follow symbolic links.
    (large-file-warning-threshold . 100000000) ; Prevent large file warnings.
-
    ;; Editing and indentation.
    (tab-width              . 4)              ; Default tab width.
    (indent-tabs-mode       . nil)            ; Always indent with spaces.
    (tab-always-indent      . 'complete)      ; Tab indents before completion .
    (next-line-add-newlines . t)              ; New line when C-n.
    (fill-column            . my-max-columns) ; Set M-q columns.
-
    ;; Better scrolling behavior.
    (scroll-margin                   . 0)
    (scroll-conservatively           . 10000)
    (scroll-preserve-screen-position . nil)
    (auto-window-vscroll             . nil)
-
    ;; Cleaner visuals, max. decoration.
    (scroll-bar-mode              . nil)
    (menu-bar-mode                . nil)
@@ -415,38 +346,23 @@
    (diff-font-lock-syntax        . t)
    (fringe-mode                  . 1)   ; This is the value for "minimal".
    (global-hl-line-mode          . 1)
-
    ;; Clipboard behavior.
    (x-select-enable-clipboard-manager . t)
-
    ;; Debugging.
    (debug-on-error  . nil)
    (init-file-debug . t)
-
    ;; Save-related settings.
    (save-place-mode   . t)
    (desktop-save-mode . nil)
    (blink-cursor-mode . t)
-
    ;; History.
    (history-length            . 1000)
    (history-delete-duplicates . t)
-
    ;; Better interpreter settings: scroll down with input/output.
    (comint-scroll-to-bottom-on-input  . t)
    (comint-scroll-to-bottom-on-output . t)
    (comint-move-point-for-output      . t)
-   (scroll-down-aggressively          . 0.5)) ; Not sure what this does.
-
-  :setq
-
-  ;; Better splitting behavior.
-  (split-height-threshold . 80)
-  (split-width-threshold  . '(* 2 my-max-columns))
-
-  :config
-
-  (defalias 'yes-or-no-p 'y-or-n-p))    ; y/n instead of yes/no.
+   (scroll-down-aggressively          . 0.5))) ; Not sure what this does.
 
 
 ;; SEARCH FOR AND CREATE CUSTOMIZATION FILE
@@ -456,68 +372,44 @@
 ;; file with "touch", set it as custom-file, and load it.
 
 (leaf cus-edit
-
   :doc "Use an external customization file to avoid cluttering this file"
-
   :config
-
   (prog1 (message "%s" (concat
                         "Looking for a customization file: "
                         my-custom-file))
-
     (when (not (file-exists-p my-custom-file))
-
       (progn
         (message "%s" "No customization file found, creating empty file...")
         (eshell-command (concat "touch " my-custom-file))
         (message "%s" "No customization file found, creating empty file...done")))
-
     (if (file-exists-p my-custom-file)
-
         (progn
           (message "%s" "Customization file found")
           (setq custom-file my-custom-file)
           (load custom-file))
-
       (message "%s" "ERROR: Cannot find customization file"))))
 
 
 ;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
 
 (leaf *file-settings
-
   :doc "Backups and more"
-
   :config
-
   (leaf autorevert
-
     :doc "Revert buffers when files change on disk"
-
     :custom
-
     ((auto-revert-interval    . 5)
      (global-auto-revert-mode . t)))
-
   (leaf abbrev
-
     :diminish abbrev-mode
-
     :custom
-
     ((save-abbrevs     . 'silently)
      (abbrev-file-name . my-abbrev-dir)))
-
   (leaf *lock-files
-
     :custom
-
     (create-lockfiles . nil))
-
   (leaf files
-
     :custom
-
     ((require-final-newline  . t)
      (make-backup-files      . t)
      (backup-by-copying      . t)       ; Don't clobber symlinks.
@@ -527,11 +419,8 @@
      (delete-old-versions    . t)
      (backup-directory-alist . `(("."                     . ,my-backup-dir)
                                  (,tramp-file-name-regexp . nil)))))
-
   (leaf *auto-save-files
-
     :custom
-
     ((auto-save-default              . t)
      (auto-save-timeout              . 15)
      (auto-save-interval             . 60)
