@@ -965,14 +965,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; automatically if there is no region.
 
 (leaf whole-line-or-region
-
   :ensure t
-
   :diminish (whole-line-or-region-global-mode
              whole-line-or-region-local-mode)
-
   :config
-
   (whole-line-or-region-global-mode 1))
 
 
@@ -982,18 +978,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; your currently entered incomplete command (a prefix) in a popup.
 
 (leaf which-key
-
   :ensure t
-
   :diminish which-key-mode
-
   :custom
-
   ((which-key-idle-delay           . 1)
    (which-key-idle-secondary-delay . 0))
-
   :config
-
   (which-key-mode 1))
 
 
@@ -1003,32 +993,18 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; * https://github.com/rejeep/emacs/blob/master/init.el
 
 (leaf parens
-
   :custom
-
   ((show-paren-delay . 0.0)
    (show-paren-mode  . t))
-
   :config
-
   (leaf smartparens
-
     :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
-
     :ensure t
-
-    ;; :leaf-defer nil
-
     :diminish (smartparens-mode smartparens-global-mode)
-
     :require smartparens-config
-
     :bind
-
     ("C-c u s" . sp-unwrap-sexp)
-
     :custom
-
     ((sp-highlight-pair-overlay . nil)
      (smartparens-global-mode   . t))))
 
