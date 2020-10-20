@@ -242,9 +242,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (defvar my-todo-file
     (concat my-orgdir "notes.org")
     "My to-do list.")
-  (defvar my-mu4e-setup
-    (concat my-gitdir "mu4e-setup/mu4e-setup.el")
-    "My mu4e file.")
+  ;; (defvar my-mu4e-setup
+  ;;   (concat my-gitdir "mu4e-setup/mu4e-setup.el")
+  ;;   "My mu4e file.")
   (defvar my-font-huckleberry
     "Dina:pixelsize=13"
     ;; "Hack:pixelsize=14"
@@ -1856,10 +1856,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; Only load mu4e when path to repository exists.
 
-(prog1 "Load my mu4e setup"
+;; (prog1 "Load my mu4e setup"
 
-  (when (file-exists-p my-mu4e-setup)
-    (load my-mu4e-setup)))
+;;   (when (file-exists-p my-mu4e-setup)
+;;     (load my-mu4e-setup)))
 
 
 ;; OPENWITH
