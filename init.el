@@ -1012,17 +1012,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; HIGHLIGHT INDENTATIONS
 
 (leaf highlight-indent-guides
-
   :url "https://github.com/DarthFennec/highlight-indent-guides"
-
   :ensure t
-
   :hook
-
   (prog-mode-hook . highlight-indent-guides-mode)
-
   :custom
-
   ((highlight-indent-guides-method     . 'column)
    (highlight-indent-guides-responsive . 'stack)
    (highlight-indent-guides-delay      . 0)))
@@ -1031,46 +1025,29 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Company
 
 (leaf *company-setup
-
   :config
-
   (leaf company
-
     :ensure t
-
     :ensure company-math
-
     :diminish company-mode
-
     :custom
-
     ((company-dabbrev-downcase          . nil)
      (company-idle-delay                . 0)
      (company-tooltip-align-annotations . t)
      (company-show-numbers              . nil)
      (company-minimum-prefix-length     . 1))
-
     :config
-
     (global-company-mode 1)
-
     ;; Global activation of the Unicode symbol completion.
     (add-to-list 'company-backends 'company-math-symbols-unicode))
-
   (leaf company-bibtex
-
     :ensure t
-
     :after bibtex
-
     :custom
-
     ;; The regular expression matching key names alphanumeric characters,
     ;; dashes (-), and underscores (_). This is customizable via:
     (company-bibtex-key-regex . "[[:alnum:]+_]*")
-
     :config
-
     ;; Add backend for company-bibtex.
     (add-to-list 'company-backends 'company-bibtex)))
 
@@ -1078,15 +1055,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; AGGRESSIVE-INDENT
 
 (leaf aggressive-indent
-
   :url "https://github.com/Malabarba/aggressive-indent-mode"
-
   :doc "aggressive-indent-mode is a minor mode that keeps your code always indented"
-
   :ensure t
-
   :config
-
   (global-aggressive-indent-mode 1))
 
 
@@ -1096,30 +1068,21 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; while saving, also removes all white space at the end of lines.
 
 (leaf whitespace
-
   :ensure t
-
   :after base16-theme
-
   :diminish whitespace-mode
-
   :hook
-
   ((before-save-hook  . delete-trailing-whitespace)
    (prog-mode-hook    . (lambda () (whitespace-mode 1)))
    (text-mode-hook    . (lambda () (whitespace-mode 1)))
    (org-mode-hook     . (lambda () (whitespace-mode 0)))
    (message-mode-hook . (lambda () (whitespace-mode 0))))
-
   :config
-
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns
         delete-trailing-lines t)
-
   ;; Define whitespace stylization.
   (setq whitespace-style '(face newline lines-tail trailing))
-
   ;; Change colors of text that exceeds 78 columns.
   (set-face-attribute 'whitespace-line nil
                       :foreground base08-prop
@@ -1132,11 +1095,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Basic bindings for multiple-cursors.
 
 (leaf multiple-cursors
-
   :ensure t
-
   :bind
-
   (("C-S-c C-S-c" . mc/edit-lines)
    ("C->"         . mc/mark-next-like-this)
    ("C-<"         . mc/mark-previous-like-this)
@@ -1147,18 +1107,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; FLYCHECK
 
 (leaf flycheck               ; TODO: Structure > Move up to Flyspell and wrap.
-
   :ensure t
-
   :diminish (global-flycheck-mode flycheck-mode)
-
   :bind
-
   (("M-n" . flycheck-next-error)
    ("M-p" . flycheck-previous-error))
-
   :custom
-
   ((global-flycheck-mode . t)))
 
 
