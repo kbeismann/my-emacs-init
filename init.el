@@ -570,6 +570,20 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
 
 
+;; MISC. TOOLS
+
+(leaf *misc-tools
+  :config
+  (leaf undo-tree
+    :ensure t
+    :diminish undo-tree-mode
+    :bind
+    ("C-c u t" . undo-tree-visualize)
+    :custom
+    ((global-undo-tree-mode     . t)
+     (undo-tree-visualizer-diff . t))))
+
+
 ;; MODE LINE
 
 (leaf *mode-line-settings
@@ -751,20 +765,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (let ((path-to-bib my-bibliography))
       (when (file-exists-p path-to-bib)
         (setq bibtex-completion-bibliography path-to-bib)))))
-
-
-;; MISC. TOOLS
-
-(leaf *misc-tools
-  :config
-  (leaf undo-tree
-    :ensure t
-    :diminish undo-tree-mode
-    :bind
-    ("C-c u t" . undo-tree-visualize)
-    :custom
-    ((global-undo-tree-mode     . t)
-     (undo-tree-visualizer-diff . t))))
 
 
 ;; DICTIONARY, FLYCHECK, AND FLYSPELL
