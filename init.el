@@ -1996,8 +1996,9 @@
                    '("\\.pdf\\'" . (lambda (file link)
                                      (org-pdfview-open link))))))
 
-
   (leaf nov
+
+    :doc "For reading .epub files"
 
     :ensure t
 
