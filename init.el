@@ -925,7 +925,11 @@
 
     :custom
 
-    ((eldoc-idle-delay . 0.2))))
+    ((eldoc-idle-delay . 0.2)))
+
+  (leaf ppp
+
+    :ensure t))
 
 
 ;; BIBTEX
