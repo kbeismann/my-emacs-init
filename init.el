@@ -1403,6 +1403,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f")))))
 
 
+;; TODO: Continue removing whitespace here.
+
 (leaf doc-view
 
   :ensure t
