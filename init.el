@@ -696,6 +696,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (eshell-mode-hook . my-eshell-remove-pcomplete)
   :config
   ;; Fixes weird issues in eshell.
+  ;; TODO: Eshell is still using autocomplete.
   (defun my-eshell-remove-pcomplete ()
     (remove-hook 'completion-at-point-functions
                  #'pcomplete-completions-at-point t)))
