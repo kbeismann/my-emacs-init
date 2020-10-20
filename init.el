@@ -588,15 +588,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (column-number-mode 1)                  ; Show column number.
   (line-number-mode 1)                    ; Show line number in mode line.
 
-
-  ;; SIMPLIFY THE CURSOR POSITION
-
-  ;; Source:
-
+  ;; Simplify the cursor position: No proportional position (percentage) nor
+  ;; texts like "Bot", "Top" or "All".  Source:
   ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
-
-  ;; No proportional position (percentage) nor texts like "Bot", "Top" or "All".
-
   (setq mode-line-position
         '(;; %p print percent of buffer above top of window, o Top, Bot or All.
           ;; (-3 "%p")
