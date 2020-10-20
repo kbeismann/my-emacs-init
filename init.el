@@ -847,13 +847,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     ;; Turn on helm-mode.
     (helm-mode 1))
-  ;; Use helm for Flyspell.
   (leaf helm-flyspell
+    :doc "Use helm for Flyspell"
     :ensure t
     :bind
     ("C-c f c" . helm-flyspell-correct))
-  ;; Use helm for BibTeX.
   (leaf helm-bibtex
+    :doc "Use helm for BibTeX"
     :disabled t
     :ensure t
     :after helm bibtex
