@@ -1150,10 +1150,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ;; TODO: Add this to :hook.
       (with-eval-after-load 'flycheck (add-hook 'flycheck-mode-hook
                                                 #'flycheck-pycheckers-setup))
-      (setq flycheck-pycheckers-ignore-codes (append
-                                              flycheck-pycheckers-ignore-codes
-                                              '("C0330" "W503" "E701" "B311"
-                                                "E231" "E203" "C0301")))
+      ;; (setq flycheck-pycheckers-ignore-codes (append
+      ;;                                         flycheck-pycheckers-ignore-codes
+      ;;                                         '("C0330" "W503" "E701" "B311"
+      ;;                                           "E231" "E203" "C0301")))
       )
     (leaf pipenv
       :ensure t
