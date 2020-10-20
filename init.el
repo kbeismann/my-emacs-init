@@ -1002,38 +1002,7 @@
     :custom
 
     ((global-undo-tree-mode     . t)
-     (undo-tree-visualizer-diff . t)))
-
-  ;; DASHBOARD
-
-  (leaf dashboard
-
-    :disabled t
-
-    :when (version<= "25.1" emacs-version)
-
-    :ensure t
-
-    :diminish (dashboard-mode page-break-lines-mode)
-
-    :custom
-
-    ;; (dashboard-set-heading-icons . t)
-    ;; (dashboard-set-file-icons    . t)
-
-    ((dashboard-startup-banner . 'logo)
-     (show-week-agenda-p       . nil)
-     (dashboard-items          . '((recents   . 10)
-                                   (projects  . 10)
-                                   (agenda    . 5)
-                                   ;; (bookmarks . 5)
-                                   )))
-
-    :config
-
-    (add-to-list 'dashboard-items '(agenda) t)
-
-    (dashboard-setup-startup-hook)))
+     (undo-tree-visualizer-diff . t))))
 
 
 ;; DICTIONARY, FLYCHECK, AND FLYSPELL
