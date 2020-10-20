@@ -677,22 +677,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; ASYNC
 
 (leaf async
-
   :ensure t
-
   :diminish dired-async-mode
-
   :config
-
   (dired-async-mode 1)
   (async-bytecomp-package-mode 0)       ; Not sure if this creates issues.
-
   (leaf smtpmail-async
-
     :after async mu4e
-
     :custom
-
     (send-mail-function         . 'async-smtpmail-send-it)
     (message-send-mail-function . 'async-smtpmail-send-it)))
 
