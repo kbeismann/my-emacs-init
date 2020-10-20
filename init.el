@@ -752,11 +752,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (bibtex-autokey-titlewords           . 3)
    (bibtex-autokey-titlewords-stretch   . 1)
    (bibtex-autokey-titleword-length     . 5))
-
-  ;; :init
-
-  ;; (setq bibtex-set-dialect 'biblatex)
-
   :config
 
   (setq bibtex-dialect 'biblatex)
