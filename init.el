@@ -770,24 +770,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; DICTIONARY, FLYCHECK, AND FLYSPELL
 
 (leaf flyspell
-
   :ensure t
-
   :diminish flyspell-mode
-
   :hook
-
   ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
    (text-mode-hook . (lambda() (flyspell-mode))))
-
   ;; Deactivate for logs and log editing.
   ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
   ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
-
   :config
-
   ;; HUNSPELL IS NOT USED ON MANJARO RIGHT NOW! REQUIRES ASPELL!
-
   ;; If Hunspell is present, setup Hunspell dictionaries.
   (when (executable-find "hunspell")
     (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
@@ -795,7 +787,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           ispell-dictionary "en_US"
           ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
           ispell-hunspell-dictionary-alist nil)
-
     ;; Settings for English, US.
     (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
                                                   "[[:alpha:]]"
@@ -805,7 +796,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                                   ("-d" "en_US")
                                                   nil
                                                   iso-8859-1))
-
     ;; Settings for German, Germany.
     (add-to-list 'ispell-local-dictionary-alist '("deutsch-hunspell"
                                                   "[[:alpha:]]"
