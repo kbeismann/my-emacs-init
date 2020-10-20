@@ -433,38 +433,26 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; Font and frame settings, dependent on the OS.
 
+;; TODO: Maybe write a nicer function to avoid repetition.
+
 (leaf *os-related-settings
-
   :doc "Check OS and set appropriate font and frame size"
-
-  ;; :hook (after-make-frame-functions . set-face-on-frame)
-  ;; after-make-frame-functions #'load-material-theme
-  ;; :preface
-
-  ;; TODO: Maybe write a nicer function to avoid repetition.
-
   :custom
-
   ((checkos0 . "Checking OS and hostname...")
    (font0    . "Looking for font family...")
    (font1    . "Setting font..."))
-
   :config
-
   (progn
     (message checkos0)
     (if (eq system-type 'gnu/linux)
-
         (progn
           (message (concat checkos0 "done"))
           (defvar my-os (substring
                          (shell-command-to-string "lsb_release -sd") 0 -1))
           (message "Found GNU/Linux distribution: %s" my-os)
-
           (defvar my-hostname (substring
                                (shell-command-to-string "hostname") 0 -1))
           (message "Found hostname: %s" my-hostname)
-
           ;; Font for Huckleberry.
           (if (string-equal "huckleberry" (substring my-hostname 0 11))
               (progn
@@ -484,7 +472,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       (add-to-list 'default-frame-alist
                                    `(font . ,my-font-huckleberry))) ; Works for emacsclient as well.
                   (message "Missing font family: %s" my-font-family-huckleberry)))
-
             ;; Font for Arch.
             (if (string-equal "Arch" (substring my-os 1 5))
                 (progn (message "Current font settings for Arch Linux: %s"
@@ -507,7 +494,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                           `(font . ,my-font-arch)) ; Works for emacsclient as well.
                              (message (concat font1 "done")))
                          (message "Missing font family: %s" my-font-family-arch)))
-
               ;; Font for Ubuntu.
               (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
                   (progn (message "Current font settings for Ubuntu: %s" my-font-ubuntu)
@@ -531,12 +517,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                          (add-to-list 'default-frame-alist '(height . 50))
                          (add-to-list 'default-frame-alist '(width  . 180))
                          (message "Adjusting frame parameters...done"))
-
                 (message "No predefined font settings found")))))
-
-      ;; (set-frame-font my-font nil t)
-      ;; (set-face-attribute 'default nil :font my-font )
-
       (message "No Linux-based system found > font settings are not applicable"))))
 
 
