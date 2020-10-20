@@ -660,7 +660,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      ("'" . dired-subtree-remove))
     :custom
     ((dired-subtree-use-backgrounds . nil)
-     (dired-subtree-line-prefix     . "   "))))
+     (dired-subtree-line-prefix     . "   |-"))))
 
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
