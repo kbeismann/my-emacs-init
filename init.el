@@ -1322,8 +1322,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     ;; If the directory exists, load templates for work.
     (let ((templates my-org-templates))
-      (if (and (file-exists-p templates)
-               (boundp 'org-capture-templates))
+      (if (file-exists-p templates)
           (progn
             (message "%s" "Adding templates...")
             (load templates))
