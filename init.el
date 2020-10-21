@@ -89,6 +89,7 @@
 ;; * TODO: Fix > The org/org-ref setup is too messy.
 ;; * TODO: Minor > Add global settings for Org Columns view.
 ;; * TODO: Formatting > Format this file with a formatter.
+;; * TODO: Packages > Fix YASnippet.
 
 
 ;;; Code:
@@ -148,6 +149,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; LEAF SETUP
 
+;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
   ;; Add archives and assign priorities.
   (setq package-check-signature 'allow-unsigned ; Do/don't check sig.
@@ -287,8 +289,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 
   ;; YASNIPPET
-
-  ;; * TODO: Packages > Fix YASnippet.
 
   (leaf yasnippet
     :ensure t
