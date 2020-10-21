@@ -1389,16 +1389,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
-
   ;; ORG-NOTER
 
   ;; Org-noter's purpose is to let you create notes that are kept in sync when
   ;; you scroll through the document, but that are external to it - the notes
   ;; themselves live in an Org-mode file.
-
   ;; Sources:
   ;; * https://github.com/weirdNox/org-noter
-
   ;; * Also a more detailed setup: https://write.as/dani/notes-on-org-noter
   (leaf org-noter
     :ensure t
@@ -1407,7 +1404,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      ("C-c o n" . org-noter))
     :custom
     (org-noter-separate-notes-from-heading . t)))
-
 
 ;; GIT AND VERSION CONTROL
 
@@ -1463,7 +1459,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :bind
     ("C-c g t" . git-timemachine-toggle)))
 
-
 ;; LSP
 
 (leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
@@ -1507,7 +1502,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :inherit 'unspecified
                       :background base02-prop))
 
-
 ;; COMPANY-LSP
 
 (leaf company-lsp
@@ -1522,7 +1516,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         company-lsp-cache-candidates nil
         company-lsp-enable-snippet t))
 
-
 ;; LSP-UI
 
 (leaf lsp-ui
@@ -1535,14 +1528,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         lsp-ui-doc-use-childframe nil
         lsp-ui-sideline-mode nil))
 
-
 ;; HELM-LSP
 
 (leaf helm-lsp
   ;; :disabled t
   ;; :ensure nil
   :commands helm-lsp-workspace-symbol)
-
 
 ;; LATEX/AUCTEX
 
@@ -1568,7 +1559,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
   ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t))
-
 
 ;; EMACS SPEAKS STATISTICS (ESS)
 
@@ -1624,7 +1614,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (ess-R-fl-keyword:F&T       . t)
           (ess-R-fl-keyword:%op%      . nil))))
 
-
 ;; POLY-MODE
 
 ;; (leaf poly-markdown
@@ -1643,7 +1632,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;;    ("\\.Rcpp$"       . poly-R+C++-mode)
 ;;    ("\\.cppR$"       . poly-C++R-mode)))
 
-
 ;; MARKDOWN-MODE
 
 (leaf markdown-mode
@@ -1655,11 +1643,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :init
   (setq markdown-command "pandoc"))
 
-
 ;; GNUPG SETUP
 
 ;; Always use GPG2 and use loopback option for better compatablilty.
-
 (leaf epa
   :custom
   (epa-pinentry-mode . 'loopback)
@@ -1674,15 +1660,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     (pinentry-start)))
 
-
 ;; MU4E/MAILS
 
 ;; Only load mu4e when path to repository exists.
-
 ;; (prog1 "Load my mu4e setup"
 ;;   (when (file-exists-p my-mu4e-setup)
 ;;     (load my-mu4e-setup)))
-
 
 ;; OPENWITH
 
@@ -1722,12 +1705,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                     ("\\.mkv\\'" "mpv" (file))))
       )))
 
-
 ;; GSCHOLAR-BIBTEX
 
 ;; "Google Scholar" as default source and write to bibliography.bib
 ;; directly.
-
 (leaf gscholar-bibtex
   :disabled t
   :ensure t
@@ -1735,7 +1716,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (setq gscholar-bibtex-default-source "Google Scholar"))
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
-
 
 ;; TYPIT
 
@@ -1747,7 +1727,6 @@ minute).
 "
   :ensure t)
 
-
 ;; YAML-MODE
 
 (leaf yaml-mode
@@ -1757,7 +1736,6 @@ minute).
   (yaml-mode-map
    ("\C-m" . newline-and-indent)))
 
-
 ;; CSV-MODE
 
 (leaf csv-mode
@@ -1765,7 +1743,6 @@ minute).
   (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
   (autoload 'csv-mode "csv-mode"
     "Major mode for editing comma-separated value files." t))
-
 
 ;; EDIFF
 
@@ -1777,7 +1754,6 @@ minute).
   ;; Revert windows on exit - needs winner mode
   (winner-mode)
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
-
 
 ;; SSH DEPLOY
 
@@ -1795,7 +1771,6 @@ minute).
   (ssh-deploy-line-mode)
   (ssh-deploy-add-menu))
 
-
 ;; PROJECTILE
 
 (leaf projectile
@@ -1810,12 +1785,10 @@ minute).
   :config
   (helm-projectile-on))
 
-
 ;; CENTERED WINDOW MODE
 
 (leaf centered-window
   :ensure t)
-
 
 ;; WORK-RELATED SETTINGS
 
@@ -1843,7 +1816,6 @@ minute).
         (progn
           (message "%s" "Found work-related org directory...")
           (setq org-agenda-files (append org-agenda-files (list orgdir)))))))
-
 
 ;; Remove timestamp from messages after startup.
 (advice-remove 'message #'my-message-with-timestamp)
