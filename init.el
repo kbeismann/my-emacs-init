@@ -961,8 +961,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; HIGHLIGHTING PARENTHESES and SMARTPARENS
 
-;; Sources:
-;; * https://github.com/rejeep/emacs/blob/master/init.el
+;; Sources: https://github.com/rejeep/emacs/blob/master/init.el
 (leaf parens
   :custom
   ((show-paren-delay . 0.0)
@@ -1398,8 +1397,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Sources:
   ;; * https://github.com/weirdNox/org-noter
 
-  ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
-
+  ;; * Also a more detailed setup: https://write.as/dani/notes-on-org-noter
   (leaf org-noter
     :ensure t
     :bind
