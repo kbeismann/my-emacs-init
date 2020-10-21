@@ -990,7 +990,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (highlight-indent-guides-responsive . 'stack)
    (highlight-indent-guides-delay      . 0)))
 
-;; Company
+;; COMPANY
 
 (leaf *company-setup
   :config
