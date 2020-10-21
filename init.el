@@ -1844,8 +1844,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; SSH DEPLOY
 
-;; Currently replaced by rsync.
-
 (leaf ssh-deploy
   ;; :disabled t
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
