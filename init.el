@@ -98,7 +98,6 @@
 
 ;; This hook returns the loading time after startup.  A hook is used so the
 ;; message does not get clobbered with other messages.
-
 (prog1 "Add timestamp to messages"
   (defun my-message-with-timestamp (old-func fmt-string &rest args)
     "Prepend current timestamp (with microsecond precision) to a
@@ -123,14 +122,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                                before-init-time)))
                        gcs-done))))
 
-
 ;; LESS GC DURING STARTUP
 
 ;; This block effectively disables garbage collection for the initialization
 ;; time and re-enables it after.  If the machine has enough RAM, at most 64MB
 ;; every time you start up a new Emacs, this will reduce package-initialize
 ;; time to about half.
-
 (prog1 "Improve startup time"
   ;; (setq gc-cons-threshold 64000000) ; Former value.
   ;; Before startup, increase threshold.
@@ -145,7 +142,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Disable certain byte compiler warnings to cut down on the noise.
   (setq byte-compile-warnings '(not free-vars unresolved noruntime
                                     lexical make-local)))
-
 
 ;; LEAF SETUP
 
@@ -195,11 +191,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       :config
       (leaf-keywords-init))))
 
-
 ;; BASIC VARIABLES
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
-
 (leaf *basic-variables
   :doc "Basic variables"
   :config
@@ -287,7 +281,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (concat user-emacs-directory "snippets/")
     "Path to snippets.")
 
-
   ;; YASNIPPET
 
   (leaf yasnippet
@@ -303,7 +296,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     (setq yas-snippet-dirs (append yas-snippet-dirs
                                    '(path-to-my-snippets)))))
-
 
 ;; BASIC SETTINGS
 
@@ -365,13 +357,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (comint-move-point-for-output      . t)
    (scroll-down-aggressively          . 0.5))) ; Not sure what this does.
 
-
 ;; SEARCH FOR AND CREATE CUSTOMIZATION FILE
 
 ;; The following snippet checks if a file specified in my-custom-file exists.
 ;; If it does, set it as custom-file and load it.  If it does not, create the
 ;; file with "touch", set it as custom-file, and load it.
-
 (leaf cus-edit
   :doc "Use an external customization file to avoid cluttering this file"
   :config
@@ -390,14 +380,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (load custom-file))
       (message "%s" "ERROR: Cannot find customization file"))))
 
-
 ;; WARNINGS
 
 (leaf warnings
   :doc "Deal with warnings"
   :config
   (setq warning-suppress-types '((yasnippet backquote-change))))
-
 
 ;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
 
@@ -437,13 +425,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (auto-save-file-name-transforms . `((".*" ,(file-name-as-directory
                                                  my-autosave-dir) t))))))
 
-
 ;; FONT AND FRAME SETTINGS
 
 ;; Font and frame settings, dependent on the OS.
-
 ;; TODO: Maybe write a nicer function to avoid repetition.
-
 (leaf *os-related-settings
   :doc "Check OS and set appropriate font and frame size"
   :custom
@@ -529,7 +514,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                 (message "No predefined font settings found")))))
       (message "No Linux-based system found > font settings are not applicable"))))
 
-
 ;; LINE NUMBERING
 
 (leaf *line-numbering
@@ -543,7 +527,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (progn
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
     (add-hook 'conf-mode-hook #'display-line-numbers-mode)))
-
 
 ;; MISC. FUNCTIONS
 
@@ -578,7 +561,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (message "No non-ASCII characters."))))
   (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
 
-
 ;; MISC. TOOLS
 
 (leaf *misc-tools
@@ -591,7 +573,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :custom
     ((global-undo-tree-mode     . t)
      (undo-tree-visualizer-diff . t))))
-
 
 ;; MODE LINE
 
@@ -613,7 +594,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           ;; %c print the current column.
           (line-number-mode ("%l" (column-number-mode ":%c"))))))
 
-
 ;; AUTO-COMPILE
 
 (leaf auto-compile
@@ -623,7 +603,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
-
 
 ;; BENCHMARKS
 
@@ -641,14 +620,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :hook
     ((after-init-hook . benchmark-init/deactivate))))
 
-
 ;; AUTH-SOURCE
 
 (leaf auth-source
   :ensure t
   :custom
   (auth-sources . '("~/.authinfo.gpg")))
-
 
 ;; DIRED
 
@@ -682,7 +659,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((dired-subtree-use-backgrounds . nil)
      (dired-subtree-line-prefix     . "   |-"))))
 
-
 ;; TRAMP FOR REMOTE FILE SYSTEMS
 
 (leaf tramp
@@ -697,7 +673,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (leaf tramp-term
     :ensure t))
 
-
 ;; ASYNC
 
 (leaf async
@@ -707,11 +682,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (dired-async-mode 1)
   (async-bytecomp-package-mode 0))       ; Not sure if this creates issues.
 
-
 ;; ESHELL
 
 ;; Check out https://github.com/jcf/emacs.d/blob/master/init-packages.org.
-
 (leaf eshell
   :commands eshell
   :bind
@@ -725,7 +698,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (remove-hook 'completion-at-point-functions
                  #'pcomplete-completions-at-point t)))
 
-
 ;; EMACS LISP
 
 (leaf *lisp/emacs-lisp
@@ -737,7 +709,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((eldoc-idle-delay . 0.2)))
   (leaf ppp
     :ensure t))
-
 
 ;; BIBTEX
 
@@ -776,7 +747,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       (when (file-exists-p path-to-bib)
         (setq bibtex-completion-bibliography path-to-bib)))))
 
-
 ;; DICTIONARY, FLYCHECK, AND FLYSPELL
 
 (leaf flyspell
@@ -814,7 +784,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                                   ("-d" "de_DE")
                                                   nil
                                                   iso-8859-1))))
-
 
 ;; HELM
 
@@ -871,7 +840,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (helm-command-map
      ("b". helm-bibtex))))
 
-
 ;; SET COLOR THEME
 
 (leaf base16-theme
@@ -924,7 +892,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
 ;; '(font-lock-comment-face ((t (:slant italic))))
 
-
 ;; AVY
 
 (leaf avy
@@ -968,12 +935,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Face for foreground/font during selection: base03.
   (set-face-foreground 'avy-background-face base03-prop))
 
-
 ;; WHOLE-LINE-OR-REGION
 
 ;; Convenience: Instead of marking the line, M-x and C-x remove the whole line
 ;; automatically if there is no region.
-
 (leaf whole-line-or-region
   :ensure t
   :diminish (whole-line-or-region-global-mode
@@ -981,12 +946,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :config
   (whole-line-or-region-global-mode 1))
 
-
 ;; WHICH-KEY
 
 ;; Provides a minor mode for Emacs that displays the key bindings following
 ;; your currently entered incomplete command (a prefix) in a popup.
-
 (leaf which-key
   :ensure t
   :diminish which-key-mode
@@ -996,12 +959,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :config
   (which-key-mode 1))
 
-
 ;; HIGHLIGHTING PARENTHESES and SMARTPARENS
 
 ;; Sources:
 ;; * https://github.com/rejeep/emacs/blob/master/init.el
-
 (leaf parens
   :custom
   ((show-paren-delay . 0.0)
@@ -1018,7 +979,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((sp-highlight-pair-overlay . nil)
      (smartparens-global-mode   . t))))
 
-
 ;; HIGHLIGHT INDENTATIONS
 
 (leaf highlight-indent-guides
@@ -1030,7 +990,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((highlight-indent-guides-method     . 'column)
    (highlight-indent-guides-responsive . 'stack)
    (highlight-indent-guides-delay      . 0)))
-
 
 ;; Company
 
@@ -1061,7 +1020,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;; Add backend for company-bibtex.
     (add-to-list 'company-backends 'company-bibtex)))
 
-
 ;; AGGRESSIVE-INDENT
 
 (leaf aggressive-indent
@@ -1071,12 +1029,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :config
   (global-aggressive-indent-mode 1))
 
-
 ;; WHITESPACE
 
 ;; Make sure that there is a single additional line at the end of the file
 ;; while saving, also removes all white space at the end of lines.
-
 (leaf whitespace
   :ensure t
   :after base16-theme
@@ -1099,11 +1055,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :background base00-prop
                       :underline nil))
 
-
 ;; MULTIPLE CURSORS
 
 ;; Basic bindings for multiple-cursors.
-
 (leaf multiple-cursors
   :ensure t
   :bind
@@ -1112,7 +1066,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    ("C-<"         . mc/mark-previous-like-this)
    ("C-c C-<"     . mc/mark-all-like-this)
    ("C-c C->"     . mc/mark-all-like-this)))
-
 
 ;; FLYCHECK
 
@@ -1124,7 +1077,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    ("M-p" . flycheck-previous-error))
   :custom
   ((global-flycheck-mode . t)))
-
 
 ;; PYTHON-MODE
 
@@ -1231,7 +1183,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       :ensure t
       :hook
       (python-mode-hook . python-docstring-mode))))
-
 
 ;; ORG-MODE
 
@@ -1411,7 +1362,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ;; Source: https://github.com/jkitchin/org-ref
       ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
       (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f")))))
-
 
 (leaf doc-view
   :ensure t
