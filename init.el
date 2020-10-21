@@ -390,6 +390,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       (message "%s" "ERROR: Cannot find customization file"))))
 
 
+;; WARNINGS
+
+(leaf warnings
+  :doc "Deal with warnings"
+  :config
+  (setq warning-suppress-types '((yasnippet backquote-change))))
+
+
 ;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
 
 (leaf *file-settings
