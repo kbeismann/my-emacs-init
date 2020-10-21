@@ -80,6 +80,7 @@
 ;; * https://gitlab.com/k-bps/mesk/blob/master/src/init.org
 ;; * https://github.com/zamansky/using-emacs
 ;; * https://ladicle.com/post/config/
+;; * https://github.com/kimim/kimim-emacs
 
 
 ;;; To-do:
