@@ -1707,8 +1707,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; GSCHOLAR-BIBTEX
 
-;; "Google Scholar" as default source and write to bibliography.bib
-;; directly.
+;; "Google Scholar" as default source and write to bibliography.bib directly.
 (leaf gscholar-bibtex
   :disabled t
   :ensure t
