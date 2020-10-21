@@ -1829,19 +1829,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
 
 
-;; DIRED-RSYNC
-
-(leaf dired-rsync
-  :disabled t
-  :ensure t
-  :url "https://github.com/stsquad/dired-rsync"
-  :doc "Adds single command to sync dired buffer with remote."
-  :after dired
-  :bind
-  (dired-mode-map
-   ("C-c C-r" . dired-rsync)))
-
-
 ;; SSH DEPLOY
 
 (leaf ssh-deploy
