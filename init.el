@@ -1414,47 +1414,28 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 
 (leaf doc-view
-
   :ensure t
-
   :config
-
   (leaf pdf-tools
-
     :ensure t
-
     :bind
-
     (pdf-view-mode-map
      ("C-s" . isearch-forward))
-
     :init
-
     (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
-
     :custom
-
     ((pdf-view-display-size                  . 'fit-page)
      (pdf-annot-activate-created-annotations . t))
-
     :config
-
     (leaf org-pdfview
-
       :config
-
       (add-to-list 'org-file-apps
                    '("\\.pdf\\'" . (lambda (file link)
                                      (org-pdfview-open link))))))
-
   (leaf nov
-
     :doc "For reading .epub files"
-
     :ensure t
-
     :config
-
     (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 
@@ -1470,61 +1451,38 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Also a more detailed setup: https://write.as/dani/notes-on-org-noter
 
   (leaf org-noter
-
     :ensure t
-
     :bind
-
     (pdf-view-mode-map
      ("C-c o n" . org-noter))
-
     :custom
-
     (org-noter-separate-notes-from-heading . t)))
 
 
 ;; GIT AND VERSION CONTROL
 
 (leaf *git-tools
-
   :config
-
   (leaf hl-todo
-
     :ensure t
-
     :config
-
     (global-hl-todo-mode t))
-
   (leaf magit
-
     :ensure t
-
     :after base16-theme
-
     ;; :diminish magit-auto-revert-mode
-
     :bind
-
     (("C-c g s"    . magit-status)
-
      ;; (magit-mode-map
      ;; ("C-c g c a" . magit-commit-amend)
      ;; ("C-c g c r" . magit-commit-reword))
-
      (prog-mode-map
       ("C-c g b b" . magit-blame))
-
      (dired-mode-map
       ("C-c g c c" . magit-clone)))
-
     :custom
-
     (magit-diff-refine-hunk . 'all)
-
     :config
-
     ;; (set-face-attribute 'magit-diff-added
     ;;                     nil :background base0B-prop :foreground nil)
     ;; (set-face-attribute 'magit-diff-added-highlight
@@ -1533,65 +1491,39 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;;                     nil :background base09-prop :foreground nil)
     ;; (set-face-attribute 'magit-diff-removed-highlight
     ;;                     nil :background base09-prop :foreground nil)
-
     (leaf magit-todos
-
       :ensure t
-
       :after magit
-
       :commands (magit-todos-mode)
-
       :config
-
       ;; Suppress warning: magit-todos: Not overriding bind of "jT" in
       ;; magit-status-mode-map.
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
-
   (leaf gitconfig-mode
-
     :ensure t)
-
   (leaf gitignore-mode
-
     :ensure t)
-
   (leaf gitattributes-mode
-
     :ensure t)
-
   (leaf git-timemachine
-
     :url "https://gitlab.com/pidu/git-timemachine"
-
     :ensure t
-
     :diminish git-timemachine-mode
-
     :bind
-
     ("C-c g t" . git-timemachine-toggle)))
 
 
 ;; LSP
 
 (leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
-
   :ensure t
-
   :ensure projectile company yasnippet flycheck
-
   :after flycheck
-
   :commands lsp
-
   :hook
-
   (python-mode-hook . lsp)
-
   :bind
-
   (lsp-mode-map
    (("C-c r p" . lsp-rename)
     ("C-c f r" . lsp-find-references)
@@ -1599,25 +1531,19 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ("C-c w d" . xref-find-definitions-other-window)
     ("C-c d p" . lsp-describe-thing-at-point)
     ("C-c i m" . helm-imenu)))
-
   :custom
-
   ((lsp-inhibit-message              . nil)
    (lsp-message-project-root-warning . t)
-
    ;; Debugging.
    (lsp-log-io            . t)
    (lsp-trace             . t)
    (lsp-print-performance . t)
-
    ;; Customization.
    (lsp-enable-symbol-highlighting . t)
    (lsp-prefer-flymake             . nil)
    (lsp-auto-guess-root            . t)
    (lsp-enable-snippet             . t))
-
   :config
-
   ;; Define faces for highlighting in LSP.
   (set-face-attribute 'lsp-face-highlight-write nil
                       :italic nil
@@ -1635,17 +1561,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; COMPANY-LSP
 
 (leaf company-lsp
-
   :ensure t
-
   :after lsp company
-
   :commands company-lsp
-
   :config
-
   (push 'company-lsp company-backends)
-
   ;; Disable client-side cache because the LSP server does a better job.
   (setq company-transformers nil
         company-lsp-async t
@@ -1656,17 +1576,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; LSP-UI
 
 (leaf lsp-ui
-
   :disabled t
-
   :commands lsp-ui-mode
-
   :hook
-
   (lsp . lsp-ui-mode)
-
   :config
-
   (setq lsp-ui-sideline-ignore-duplicate t
         lsp-ui-doc-use-childframe nil
         lsp-ui-sideline-mode nil))
@@ -1675,48 +1589,33 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; HELM-LSP
 
 (leaf helm-lsp
-
   ;; :disabled t
-
   ;; :ensure nil
-
   :commands helm-lsp-workspace-symbol)
 
 
 ;; LATEX/AUCTEX
 
 (leaf auctex
-
   :disabled t
-
   :ensure t
-
   :hook
-
   ((LaTeX-mode-hook . turn-on-reftex)
    (LaTeX-mode-hook . LaTeX-math-mode))
-
   :config
-
   ;; (unload-feature 'tex-site) ; Remove a preinstalled AUCTeX completely
   ;; before ; any of its modes have been used.
-
   (latex-preview-pane-enable)
-
   ;; Basic setup.
   (setq-default TeX-auto-save t
                 TeX-parse-self t
                 TeX-master nil)
-
   (setq TeX-show-compilation nil) ; If t, automatically shows compilation log.
   (setq TeX-save-query nil)       ; Don't prompt for saving the .tex file.
-
-
   ;; Misc. Latex settings.
   ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-
   ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t))
 
@@ -1724,39 +1623,28 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; EMACS SPEAKS STATISTICS (ESS)
 
 (leaf ess
-
   :disabled t
-
   :ensure t
-
   :commands R
-
   :config
-
   ;; Always split window vertically.
   ;; (add-hook 'ess-mode-hook
   ;;           (lambda()
   ;;             (setq-local split-height-threshold nil)
   ;;             (setq-local split-width-threshold  0)
   ;;             ))
-
   ;; Load Rnw-mode and Snw-mode first.
   ;; (add-to-list 'auto-mode-alist '("\\.Rnw\\'" . Rnw-mode))
   ;; (add-to-list 'auto-mode-alist '("\\.Snw\\'" . Snw-mode))
-
   ;; Always whitespace after comma.
   (setq ess-R-smart-operators nil)
-
   ;; Don't restore history and don't save history.
   (setq inferior-R-args "--no-restore-history --no-save")
-
   ;; Start R in the working directory by default.
   (setq ess-ask-for-ess-directory nil)
-
   ;; ESS will not print the evaluated commands, also speeds up the
   ;; evaluation.
   (setq ess-eval-visibly nil)
-
   ;; Major mode font-lock.
   (setq ess-R-font-lock-keywords
         '((ess-R-fl-keyword:modifiers . t)
@@ -1771,7 +1659,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (ess-fl-keyword:=           . t)
           (ess-R-fl-keyword:F&T       . t)
           (ess-R-fl-keyword:%op%      . nil)))
-
   ;; Inferior mode font-lock.
   (setq inferior-R-font-lock-keywords
         '((ess-R-fl-keyword:modifiers . t)
@@ -1791,15 +1678,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; POLY-MODE
 
 ;; (leaf poly-markdown
-
 ;;   ;; :disabled t
-
 ;;   :ensure t
-
 ;;   ;; :ensure poly-R
-
 ;;   :mode                                 ; TODO: Cleanup > Sort this.
-
 ;;   (("\\.md$"         . poly-markdown-mode)
 ;;    ("README\\.md\\'" . gfm-mode)
 ;;    ("\\.Snw$"        . poly-noweb+R-mode)
@@ -1815,17 +1697,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; MARKDOWN-MODE
 
 (leaf markdown-mode
-
   :ensure t
-
   :mode
-
   (("README\\.md\\'" . gfm-mode)
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode))
-
   :init
-
   (setq markdown-command "pandoc"))
 
 
@@ -1834,29 +1711,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Always use GPG2 and use loopback option for better compatablilty.
 
 (leaf epa
-
   :custom
-
   (epa-pinentry-mode . 'loopback)
-
   :config
-
   (leaf epa-config
-
     :after epa
-
     :custom
-
     (epg-gpg-program . "gpg2"))
-
   (leaf pinentry
-
     :after epa
-
     :ensure t
-
     :config
-
     (pinentry-start)))
 
 
@@ -1865,7 +1730,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Only load mu4e when path to repository exists.
 
 ;; (prog1 "Load my mu4e setup"
-
 ;;   (when (file-exists-p my-mu4e-setup)
 ;;     (load my-mu4e-setup)))
 
@@ -1873,23 +1737,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; OPENWITH
 
 (leaf openwith
-
   :disabled t
-
   :ensure t
-
   :hook
-
   ((text-mode-hook     . (lambda () (openwith-mode 1)))
    (dired-mode-hook    . (lambda () (openwith-mode 1)))
    (message-mode-hook  . (lambda () (openwith-mode 0)))
    (markdown-mode-hook . (lambda () (openwith-mode 1))))
-
   :config
-
   (openwith-mode 1)                     ; Activate/deactivate openwith-mode by
                                         ; default.
-
   ;; Manually define file associations.
   (when (eq system-type 'gnu/linux)
     (if (string-equal
@@ -1922,15 +1779,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; directly.
 
 (leaf gscholar-bibtex
-
   :disabled t
-
   :ensure t
-
   :config
-
   ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
   (setq gscholar-bibtex-default-source "Google Scholar"))
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
@@ -1943,20 +1795,15 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; the "10 fast fingers" tests.
 
 (leaf typit
-
   :ensure t)
 
 
 ;; YAML-MODE
 
 (leaf yaml-mode
-
   :config
-
   :ensure t
-
   :bind
-
   (yaml-mode-map
    ("\C-m" . newline-and-indent)))
 
@@ -1964,9 +1811,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; CSV-MODE
 
 (leaf csv-mode
-
   :config
-
   (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
   (autoload 'csv-mode "csv-mode"
     "Major mode for editing comma-separated value files." t))
@@ -1975,14 +1820,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; EDIFF
 
 (leaf ediff
-
   :custom
-
   ((ediff-window-setup-function . 'ediff-setup-windows-plain) ; Don't start another frame.
    (ediff-split-window-function . 'split-window-horizontally)) ; Put windows side by side.
-
   :config
-
   ;; Revert windows on exit - needs winner mode
   (winner-mode)
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
@@ -1991,19 +1832,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; DIRED-RSYNC
 
 (leaf dired-rsync
-
   :disabled t
-
   :ensure t
-
   :url "https://github.com/stsquad/dired-rsync"
-
   :doc "Adds single command to sync dired buffer with remote."
-
   :after dired
-
   :bind
-
   (dired-mode-map
    ("C-c C-r" . dired-rsync)))
 
@@ -2013,26 +1847,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Currently replaced by rsync.
 
 (leaf ssh-deploy
-
   ;; :disabled t
-
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
-
   :doc "Effortlessly deploy local files and directories to remote hosts via Tramp."
-
   :ensure t
-
   :bind
-
   ("C-c z d" . ssh-deploy-prefix-map)
-
   :hook
-
   ((after-save-hook . ssh-deploy-after-save)
    (find-file       . ssh-deploy-find-file))
-
   :config
-
   (ssh-deploy-line-mode)
   (ssh-deploy-add-menu))
 
@@ -2040,42 +1864,29 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; PROJECTILE
 
 (leaf projectile
-
   :after helm
-
   :ensure helm-projectile
-
   :diminish projectile-mode
-
   :bind
-
   ("C-c p" . projectile-command-map)
-
   :custom
-
   ((projectile-mode              . t)
    (projectile-completion-system . 'helm))
-
   :config
-
   (helm-projectile-on))
 
 
 ;; CENTERED WINDOW MODE
 
 (leaf centered-window
-
   :ensure t)
 
 
 ;; WORK-RELATED SETTINGS
 
 (leaf *work-related-settings
-
   :doc "Load work-related settings if file exists"
-
   :config
-
   ;; If the directory exists, load proxy settings.
   (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
     (if (file-exists-p proxies)
@@ -2084,7 +1895,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (load proxies))
       (message "%s" "No proxy settings specified.")
       ))
-
   ;; If the directory exists, load templates for work.
   (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
     (if (and (file-exists-p templates)
@@ -2093,7 +1903,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (message "%s" "Adding templates for work...")
           (load templates))
       (message "%s" "No additional templates specified.")))
-
   (let ((orgdir "~/gitdir/work-git/orgdir/"))
     (if (file-directory-p orgdir)
         (progn
