@@ -1645,7 +1645,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; GNUPG SETUP
 
-;; Always use GPG2 and use loopback option for better compatablilty.
+;; Always use GPG2 and use loopback option for better compatibility.
 (leaf epa
   :custom
   (epa-pinentry-mode . 'loopback)
