@@ -100,12 +100,14 @@
 ;; message does not get clobbered with other messages.
 (prog1 "Add timestamp to messages"
   (defun my-message-with-timestamp (old-func fmt-string &rest args)
+
     "Prepend current timestamp (with microsecond precision) to a
 message.  Source:
 https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-entry-in-emacs-messages-buffer"
     (apply old-func
-           (concat (format-time-string "[%F %T.%3N %Z] ")
-                   fmt-string)
+           (concat
+            (format-time-string "[%F %T.%3N %Z] ")
+            fmt-string)
            args))
 
   ;; Add time stamp to the message function.  This is deactivated at the end
@@ -129,30 +131,37 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; every time you start up a new Emacs, this will reduce package-initialize
 ;; time to about half.
 (prog1 "Improve startup time"
+
   ;; (setq gc-cons-threshold 64000000) ; Former value.
   ;; Before startup, increase threshold.
   (setq gc-cons-threshold most-positive-fixnum)
   ;; Restore consing between collection after initialization.
-  (add-hook 'after-init-hook #'(lambda ()
-                                 (setq gc-cons-threshold 800000)))
+  (add-hook 'after-init-hook
+            #'(lambda ()
+                (setq gc-cons-threshold 800000)))
   ;; Let's increase the max-lisp-eval-depth and max-specpdl-size to
   ;; prevent exceeding recursion limits.
   (setq max-lisp-eval-depth 50000
+
         max-specpdl-size 10000)
   ;; Disable certain byte compiler warnings to cut down on the noise.
-  (setq byte-compile-warnings '(not free-vars unresolved noruntime
+  (setq byte-compile-warnings '(not free-vars
+                                    unresolved noruntime
                                     lexical make-local)))
 
 ;; LEAF SETUP
 
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
+
   ;; Add archives and assign priorities.
-  (setq package-check-signature 'allow-unsigned ; Do/don't check sig.
+  (setq package-check-signature 'allow-unsigned
+                                        ; Do/don't check sig.
         package-archives '(("gnu"          . "https://elpa.gnu.org/packages/")
                            ("org"          . "https://orgmode.org/elpa/")
                            ("melpa"        . "https://melpa.org/packages/")
                            ("melpa-stable" . "https://stable.melpa.org/packages/"))
+
         package-archive-priorities '(("gnu"          . 2)
                                      ("org"          . 1)
                                      ("melpa"        . 3)
@@ -163,32 +172,42 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
-
   (leaf leaf
     :config
+
     (leaf leaf-keywords
       :ensure t
       :require t
       :init
+
       (leaf package
         :init
+
         (leaf *elpa-workaround
           :when
-          (or (version= "26.1" emacs-version)
-              (version= "26.2" emacs-version))
+          (or
+           (version= "26.1" emacs-version)
+           (version= "26.2" emacs-version))
           :custom
           ((gnutls-algorithm-priority . "NORMAL:-VERS-TLS1.3"))))
+
+
       (leaf el-get
         :ensure t
         :init
+
         (unless (executable-find "git")
           (warn "Git not found: el-get can't download packages."))
         :custom
         ((el-get-git-shallow-clone  . t)
          (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
+
+
       (leaf diminish
         :ensure t)
+
       :config
+
       (leaf-keywords-init))))
 
 ;; BASIC VARIABLES
@@ -197,48 +216,63 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 (leaf *basic-variables
   :doc "Basic variables"
   :config
+
   (defvar my-custom-file
     (concat user-emacs-directory ".custom.el")
     "My customization file.")
+
   (defvar my-autosave-dir
     (concat user-emacs-directory "autosave/")
     "My auto-save directory.")
+
   (defvar my-backup-dir
     (concat user-emacs-directory "backup/")
     "My backup directory.")
+
   (defvar my-cache-dir
     (concat user-emacs-directory "cache/")
     "My storage area (cache) directory.")
+
   (defvar my-abbrev-dir
     (concat user-emacs-directory "abbrev/")
     "My abbreviations directory.")
+
   (defvar my-gitdir
     "~/gitdir/my-git/"
     "My directory for git repositories.")
+
   (defvar my-library
     (concat my-gitdir "library/")
     "My library repository.")
+
   (defvar my-bibliography
     (concat my-library "bibliography.bib")
     "My bibliography.")
+
   (defvar my-readings
     (concat my-library "readings.org")
     "My list of readings.")
+
   (defvar my-init
     (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
+
   (defvar my-org-templates
     (concat my-init "templates.el")
     "My Org templates.")
+
   (defvar my-orgdir
     (concat my-gitdir "orgdir/")
     "My directory for git repositories.")
+
   (defvar my-notes
     (concat my-orgdir "notes.org")
     "My notes.")
+
   (defvar my-todo-file
     (concat my-orgdir "notes.org")
     "My to-do list.")
+
   ;; (defvar my-mu4e-setup
   ;;   (concat my-gitdir "mu4e-setup/mu4e-setup.el")
   ;;   "My mu4e file.")
@@ -246,43 +280,51 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     "Dina:pixelsize=13"
     ;; "Hack:pixelsize=14"
     "My default font for Huckleberry.")
+
   (defvar my-font-family-huckleberry
     "Dina"
     ;; "Hack"
     "My default font family for Huckleberry.")
+
   (defvar my-font-arch
     ;; "DejaVu Sans Mono-10"; Arch
     ;; "Hack:pixelsize=12"
     ;; "Terminus:pixelsize=12"
     "Dina:pixelsize=13"
     "My default font for Arch Linux.")
+
   (defvar my-font-family-arch
     ;; "DejaVu"
     ;; "Hack"
     ;; "Terminus"
     "Dina"
     "My default font family for Arch Linux.")
+
   (defvar my-font-ubuntu
     ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
     "Terminus:pixelsize=14"
     ;; "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
+
   (defvar my-font-family-ubuntu
     "Terminus"
     ;; "Hack"
     "My default font family setting for Ubuntu.")
+
   (defvar my-max-columns
     78
     "My predefined characters per line (CPL) limit.")
+
   (defvar path-to-my-snippets
     (concat my-gitdir "emacs-init/snippets/")
     "Path to custom snippets.")
+
   (defvar path-to-snippets
     (concat user-emacs-directory "snippets/")
     "Path to snippets.")
 
-  ;; YASNIPPET
 
+  ;; YASNIPPET
   (leaf yasnippet
     :ensure t
     :ensure yasnippet-snippets
@@ -294,36 +336,52 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((yas-indent-line  . 'fixed)
      (yas-global-mode  . t))
     :config
+
     (setq yas-snippet-dirs (append yas-snippet-dirs
                                    '(path-to-my-snippets)))))
 
 ;; BASIC SETTINGS
-
 (leaf *basic-settings
   :bind
-  (("M-o"     . nil)                    ; Unbind face menu.
-   ("C-x C-z" . nil)                    ; Unbind suspend frame.
+  (("M-o"     . nil)
+                                        ; Unbind face menu.
+   ("C-x C-z" . nil)
+                                        ; Unbind suspend frame.
    ("S-SPC"   . just-one-space))        ; Bind just-one-space.
   :setq
   ;; Better splitting behavior.
   (split-height-threshold . 80)
-  (split-width-threshold  . '(* 2 my-max-columns))
+  (split-width-threshold  .
+                          '(* 2 my-max-columns))
   :config
-  (defalias 'yes-or-no-p 'y-or-n-p)    ; y/n instead of yes/no.
+
+  (defalias 'yes-or-no-p 'y-or-n-p)
+                                        ; y/n instead of yes/no.
   :custom
+
   ((user-full-name . "Karsten Beismann")
    ;; Misc. settings.
-   (ring-bell-function           . 'ignore)   ; No annoying bell.
-   (inhibit-startup-screen       . t)         ; No starting screen.
-   (mouse-yank-at-point          . t)         ; Paste at cursor, not at mouse.
-   (vc-follow-symlinks           . t)         ; Always follow symbolic links.
-   (large-file-warning-threshold . 100000000) ; Prevent large file warnings.
+   (ring-bell-function           . 'ignore)
+                                        ; No annoying bell.
+   (inhibit-startup-screen       . t)
+                                        ; No starting screen.
+   (mouse-yank-at-point          . t)
+                                        ; Paste at cursor, not at mouse.
+   (vc-follow-symlinks           . t)
+                                        ; Always follow symbolic links.
+   (large-file-warning-threshold . 100000000)
+                                        ; Prevent large file warnings.
    ;; Editing and indentation.
-   (tab-width              . 4)              ; Default tab width.
-   (indent-tabs-mode       . nil)            ; Always indent with spaces.
-   (tab-always-indent      . 'complete)      ; Tab indents before completion .
-   (next-line-add-newlines . t)              ; New line when C-n.
-   (fill-column            . my-max-columns) ; Set M-q columns.
+   (tab-width              . 4)
+                                        ; Default tab width.
+   (indent-tabs-mode       . nil)
+                                        ; Always indent with spaces.
+   (tab-always-indent      . 'complete)
+                                        ; Tab indents before completion .
+   (next-line-add-newlines . t)
+                                        ; New line when C-n.
+   (fill-column            . my-max-columns)
+                                        ; Set M-q columns.
    ;; Better scrolling behavior.
    (scroll-margin                   . 0)
    (scroll-conservatively           . 10000)
@@ -337,7 +395,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (truncate-lines               . t)
    (font-lock-maximum-decoration . t)
    (diff-font-lock-syntax        . t)
-   (fringe-mode                  . 1)   ; This is the value for "minimal".
+   (fringe-mode                  . 1)
+                                        ; This is the value for "minimal".
    (global-hl-line-mode          . 1)
    ;; Clipboard behavior.
    (x-select-enable-clipboard-manager . t)
@@ -355,7 +414,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (comint-scroll-to-bottom-on-input  . t)
    (comint-scroll-to-bottom-on-output . t)
    (comint-move-point-for-output      . t)
-   (scroll-down-aggressively          . 0.5))) ; Not sure what this does.
+   (scroll-down-aggressively          . 0.5)))
+
+                                        ; Not sure what this does.
 
 ;; SEARCH FOR AND CREATE CUSTOMIZATION FILE
 
@@ -365,65 +426,81 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 (leaf cus-edit
   :doc "Use an external customization file to avoid cluttering this file"
   :config
-  (prog1 (message "%s" (concat
-                        "Looking for a customization file: "
-                        my-custom-file))
+
+  (prog1 (message "%s"
+                  (concat
+                   "Looking for a customization file: "
+                   my-custom-file))
     (when (not (file-exists-p my-custom-file))
       (progn
         (message "%s" "No customization file found, creating empty file...")
-        (eshell-command (concat "touch " my-custom-file))
+        (eshell-command
+         (concat "touch " my-custom-file))
         (message "%s" "No customization file found, creating empty file...done")))
     (if (file-exists-p my-custom-file)
         (progn
           (message "%s" "Customization file found")
           (setq custom-file my-custom-file)
           (load custom-file))
+
       (message "%s" "ERROR: Cannot find customization file"))))
 
 ;; WARNINGS
-
 (leaf warnings
   :doc "Deal with warnings"
   :config
+
   (setq warning-suppress-types '((yasnippet backquote-change))))
 
 ;; BACKUPS/ABBREVS/LOCKFILES/CUSTOMIZATION
-
 (leaf *file-settings
   :doc "Backups and more"
   :config
+
   (leaf autorevert
     :doc "Revert buffers when files change on disk"
     :custom
     ((auto-revert-interval    . 5)
      (global-auto-revert-mode . t)))
+
+
   (leaf abbrev
     :diminish abbrev-mode
     :custom
     ((save-abbrevs     . 'silently)
      (abbrev-file-name . my-abbrev-dir)))
+
+
   (leaf *lock-files
     :custom
     (create-lockfiles . nil))
+
+
   (leaf files
     :custom
     ((require-final-newline  . t)
      (make-backup-files      . t)
-     (backup-by-copying      . t)       ; Don't clobber symlinks.
+     (backup-by-copying      . t)
+                                        ; Don't clobber symlinks.
      (kept-new-versions      . 2)
      (kept-old-versions      . 2)
      (version-control        . t)
      (delete-old-versions    . t)
-     (backup-directory-alist . `(("."                     . ,my-backup-dir)
-                                 (,tramp-file-name-regexp . nil)))))
+     (backup-directory-alist .
+                             `(("."                     . ,my-backup-dir)
+                               (,tramp-file-name-regexp . nil)))))
+
+
   (leaf *auto-save-files
     :custom
     ((auto-save-default              . t)
      (auto-save-timeout              . 15)
      (auto-save-interval             . 60)
      (auto-save-list-file-prefix     . my-autosave-dir)
-     (auto-save-file-name-transforms . `((".*" ,(file-name-as-directory
-                                                 my-autosave-dir) t))))))
+     (auto-save-file-name-transforms .
+                                     `((".*" ,(file-name-as-directory
+                                               my-autosave-dir)
+                                        t))))))
 
 ;; FONT AND FRAME SETTINGS
 
@@ -436,91 +513,130 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (font0    . "Looking for font family...")
    (font1    . "Setting font..."))
   :config
+
   (progn
     (message checkos0)
     (if (eq system-type 'gnu/linux)
         (progn
-          (message (concat checkos0 "done"))
-          (defvar my-os (substring
-                         (shell-command-to-string "lsb_release -sd") 0 -1))
+          (message
+           (concat checkos0 "done"))
+          (defvar my-os
+            (substring
+             (shell-command-to-string "lsb_release -sd")
+             0 -1))
           (message "Found GNU/Linux distribution: %s" my-os)
-          (defvar my-hostname (substring
-                               (shell-command-to-string "hostname") 0 -1))
+          (defvar my-hostname
+            (substring
+             (shell-command-to-string "hostname")
+             0 -1))
           (message "Found hostname: %s" my-hostname)
           ;; Font for Huckleberry.
-          (if (string-equal "huckleberry" (substring my-hostname 0 11))
+          (if (string-equal "huckleberry"
+                            (substring my-hostname 0 11))
               (progn
                 (message "Current font settings for Huckleberry: %s"
                          my-font-huckleberry)
                 (message font0)
-                (if (and (null (string= "" (shell-command-to-string
-                                            "which fc-list")))
-                         (null (string= "" (shell-command-to-string
-                                            (concat
-                                             "fc-list "
-                                             my-font-family-huckleberry)))))
+                (if (and
+                     (null (string= ""
+                                    (shell-command-to-string
+                                     "which fc-list")))
+                     (null (string= ""
+                                    (shell-command-to-string
+                                     (concat
+                                      "fc-list "
+                                      my-font-family-huckleberry)))))
                     (progn
-                      (message (concat font0 "done"))
+                      (message
+                       (concat font0 "done"))
                       (message "Font installed: %s"
                                my-font-family-huckleberry)
                       (add-to-list 'default-frame-alist
-                                   `(font . ,my-font-huckleberry))) ; Works for emacsclient as well.
+                                   `(font . ,my-font-huckleberry)))
+
+                                        ; Works for emacsclient as well.
                   (message "Missing font family: %s" my-font-family-huckleberry)))
+
             ;; Font for Arch.
-            (if (string-equal "Arch" (substring my-os 1 5))
-                (progn (message "Current font settings for Arch Linux: %s"
-                                my-font-arch)
-                       (message font0)
-                       (if (and (null
-                                 (string= "" (shell-command-to-string
-                                              "which fc-list")))
-                                (null
-                                 (string= "" (shell-command-to-string
-                                              (concat
-                                               "fc-list "
-                                               my-font-family-arch)))))
-                           (progn
-                             (message (concat font0 "done"))
-                             (message "Font installed: %s"
-                                      my-font-family-arch)
-                             (message font1)
-                             (add-to-list 'default-frame-alist
-                                          `(font . ,my-font-arch)) ; Works for emacsclient as well.
-                             (message (concat font1 "done")))
-                         (message "Missing font family: %s" my-font-family-arch)))
+            (if (string-equal "Arch"
+                              (substring my-os 1 5))
+                (progn
+                  (message "Current font settings for Arch Linux: %s"
+                           my-font-arch)
+                  (message font0)
+                  (if (and
+                       (null
+                        (string= ""
+                                 (shell-command-to-string
+                                  "which fc-list")))
+                       (null
+                        (string= ""
+                                 (shell-command-to-string
+                                  (concat
+                                   "fc-list "
+                                   my-font-family-arch)))))
+                      (progn
+                        (message
+                         (concat font0 "done"))
+                        (message "Font installed: %s"
+                                 my-font-family-arch)
+                        (message font1)
+                        (add-to-list 'default-frame-alist
+                                     `(font . ,my-font-arch))
+                                        ; Works for emacsclient as well.
+                        (message
+                         (concat font1 "done")))
+
+                    (message "Missing font family: %s" my-font-family-arch)))
+
               ;; Font for Ubuntu.
-              (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
-                  (progn (message "Current font settings for Ubuntu: %s" my-font-ubuntu)
-                         (message font1)
-                         (if (and (null
-                                   (string= "" (shell-command-to-string
-                                                "which fc-list")))
-                                  (null
-                                   (string= "" (shell-command-to-string
-                                                (concat
-                                                 "fc-list "
-                                                 my-font-family-ubuntu)))))
-                             (progn (message "Font installed: %s"
-                                             my-font-family-ubuntu)
-                                    (message font1)
-                                    (add-to-list 'default-frame-alist
-                                                 `(font . ,my-font-ubuntu))
-                                    (message (concat font1 "done"))) ; Works for emacsclient as well.
-                           (message "Missing font family: %s" my-font-family-ubuntu))
-                         (message "Adjusting frame parameters...")
-                         (add-to-list 'default-frame-alist '(height . 50))
-                         (add-to-list 'default-frame-alist '(width  . 180))
-                         (message "Adjusting frame parameters...done"))
+              (if (string-equal
+                   (substring my-os 0 5)
+                   (substring "Ubuntu" 0 5))
+                  (progn
+                    (message "Current font settings for Ubuntu: %s" my-font-ubuntu)
+                    (message font1)
+                    (if (and
+                         (null
+                          (string= ""
+                                   (shell-command-to-string
+                                    "which fc-list")))
+                         (null
+                          (string= ""
+                                   (shell-command-to-string
+                                    (concat
+                                     "fc-list "
+                                     my-font-family-ubuntu)))))
+                        (progn
+                          (message "Font installed: %s"
+                                   my-font-family-ubuntu)
+                          (message font1)
+                          (add-to-list 'default-frame-alist
+                                       `(font . ,my-font-ubuntu))
+                          (message
+                           (concat font1 "done")))
+
+                                        ; Works for emacsclient as well.
+                      (message "Missing font family: %s" my-font-family-ubuntu))
+                    (message "Adjusting frame parameters...")
+                    (add-to-list 'default-frame-alist
+                                 '(height . 50))
+                    (add-to-list 'default-frame-alist
+                                 '(width  . 180))
+                    (message "Adjusting frame parameters...done"))
+
                 (message "No predefined font settings found")))))
+
       (message "No Linux-based system found > font settings are not applicable"))))
 
 ;; LINE NUMBERING
-
 (leaf *line-numbering
   :doc "The display-line-numbers colors can be changed by editing base16.el"
   :custom
-  ((display-line-numbers       . nil)   ; No line numbers (prog-mode only).
-   (display-line-numbers-width . 4)     ; Default width.
+  ((display-line-numbers       . nil)
+                                        ; No line numbers (prog-mode only).
+   (display-line-numbers-width . 4)
+                                        ; Default width.
    (display-line-numbers-widen . t))	; Don't disregard narrowing.
   :config
   ;; Only enable line numbers in prog-mode.
@@ -529,22 +645,37 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (add-hook 'conf-mode-hook #'display-line-numbers-mode)))
 
 ;; MISC. FUNCTIONS
-
 (leaf *misc-functions
   :config
+
   ;; Using the shell to insert the date.
   (defun insert-current-date-time ()
+
     "Insert the current date and time in a standard Emacs format."
     (interactive)
-    (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
-  (global-set-key (kbd "C-c d t i") 'insert-current-date-time)
+    (insert
+     (format-time-string "<%Y-%m-%d %a %H:%M>")))
+
+
+  (global-set-key
+   (kbd "C-c d t i")
+   'insert-current-date-time)
+
   (defun insert-current-date ()
+
     "Insert the current date in a standard Emacs format."
     (interactive)
-    (insert (format-time-string "<%Y-%m-%d %a>")))
-  (global-set-key (kbd "C-c d i") 'insert-current-date)
+    (insert
+     (format-time-string "<%Y-%m-%d %a>")))
+
+
+  (global-set-key
+   (kbd "C-c d i")
+   'insert-current-date)
+
   ;; Find non ASCII characters.
   (defun find-first-non-ascii-char ()
+
     "Find the first non-ASCII character from point onward."
     (interactive)
     (let (point)
@@ -552,19 +683,27 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (setq point
               (catch 'non-ascii
                 (while (not (eobp))
-                  (or (eq (char-charset (following-char))
-                          'ascii)
-                      (throw 'non-ascii (point)))
+                  (or
+                   (eq
+                    (char-charset
+                     (following-char))
+                    'ascii)
+                   (throw 'non-ascii
+                          (point)))
                   (forward-char 1)))))
       (if point
           (goto-char point)
         (message "No non-ASCII characters."))))
-  (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
+
+
+  (global-set-key
+   (kbd "C-S-s")
+   'find-first-non-ascii-char))
 
 ;; MISC. TOOLS
-
 (leaf *misc-tools
   :config
+
   (leaf undo-tree
     :ensure t
     :diminish undo-tree-mode
@@ -575,12 +714,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (undo-tree-visualizer-diff . t))))
 
 ;; MODE LINE
-
 (leaf *mode-line-settings
   :config
+
   ;; These options have to be included in mode-line-format as well.
-  (column-number-mode 1)                  ; Show column number.
-  (line-number-mode 1)                    ; Show line number in mode line.
+  (column-number-mode 1)
+                                        ; Show column number.
+  (line-number-mode 1)
+                                        ; Show line number in mode line.
   ;; Simplify the cursor position: No proportional position (percentage) nor
   ;; texts like "Bot", "Top" or "All".  Source:
   ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
@@ -592,22 +733,25 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           ;; " "
           ;; %l print the current line number.
           ;; %c print the current column.
-          (line-number-mode ("%l" (column-number-mode ":%c"))))))
+          (line-number-mode
+           ("%l"
+            (column-number-mode ":%c"))))))
 
 ;; AUTO-COMPILE
-
 (leaf auto-compile
   :ensure t
   :custom
   (load-prefer-newer . t)
   :config
+
   (auto-compile-on-load-mode)
+
   (auto-compile-on-save-mode))
 
 ;; BENCHMARKS
-
 (leaf *benchmarking
   :config
+
   (leaf benchmark-init
     :url "https://github.com/dholm/benchmark-init-el"
     :doc "There are two ways in which benchmark-init's results
@@ -621,33 +765,41 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((after-init-hook . benchmark-init/deactivate))))
 
 ;; AUTH-SOURCE
-
 (leaf auth-source
   :ensure t
   :custom
-  (auth-sources . '("~/.authinfo.gpg")))
+  (auth-sources .
+                '("~/.authinfo.gpg")))
 
 ;; DIRED
-
 (leaf *dired-setup
   :config
+
   (leaf dired
     :commands dired
     :hook
     (dired-mode-hook . dired-hide-details-mode)
     :custom
-    ((dired-dwim-target                       . t)       ; Better target.
-     (dired-recursive-copies                  . 'always) ; Copy recursively.
-     (dired-recursive-deletes                 . 'always) ; Delete recursively.
-     (dired-hide-details-hide-symlink-targets . nil)     ; Show symlinks.
+    ((dired-dwim-target                       . t)
+                                        ; Better target.
+     (dired-recursive-copies                  . 'always)
+                                        ; Copy recursively.
+     (dired-recursive-deletes                 . 'always)
+                                        ; Delete recursively.
+     (dired-hide-details-hide-symlink-targets . nil)
+                                        ; Show symlinks.
      (dired-listing-switches                  . "-lahgF --group-directories-first")
      (delete-by-moving-to-trash               . t)))
+
+
   (leaf dired-du
     :ensure t
     :require t
     :diminish dired-du-mode
     :custom
     (dired-du-size-format . t))
+
+
   (leaf dired-subtree
     :ensure t
     :require t
@@ -660,7 +812,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (dired-subtree-line-prefix     . "   |-"))))
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
-
 (leaf tramp
   :bind
   ("C-c t h" . helm-tramp)
@@ -670,17 +821,21 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (tramp-default-method . "ssh")
    (tramp-verbose        . 10))
   :config
+
   (leaf tramp-term
     :ensure t))
 
 ;; ASYNC
-
 (leaf async
   :ensure t
   :diminish dired-async-mode
   :config
+
   (dired-async-mode 1)
-  (async-bytecomp-package-mode 0))       ; Not sure if this creates issues.
+
+  (async-bytecomp-package-mode 0))
+
+                                        ; Not sure if this creates issues.
 
 ;; ESHELL
 
@@ -692,6 +847,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :hook
   (eshell-mode-hook . my-eshell-remove-pcomplete)
   :config
+
   ;; Fixes weird issues in eshell.
   ;; TODO: Eshell is still using autocomplete.
   (defun my-eshell-remove-pcomplete ()
@@ -699,19 +855,20 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                  #'pcomplete-completions-at-point t)))
 
 ;; EMACS LISP
-
 (leaf *lisp/emacs-lisp
   :config
+
   (leaf eldoc
     :doc "Show function arglist or variable docstring in echo area"
     :diminish eldoc-mode
     :custom
     ((eldoc-idle-delay . 0.2)))
+
+
   (leaf ppp
     :ensure t))
 
 ;; BIBTEX
-
 (leaf bibtex
   :ensure org-ref
   :ensure gscholar-bibtex
@@ -734,10 +891,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (bibtex-autokey-titlewords-stretch   . 1)
    (bibtex-autokey-titleword-length     . 5))
   :config
+
   (setq bibtex-dialect 'biblatex)
+
   ;; A good summary: http://www.jonathanleroux.org/bibtex-mode.html.
   (setq bibtex-additional-formatting '(page-dashes whitespace sort-fields))
+
   (setq bibtex-entry-format (append bibtex-entry-format bibtex-additional-formatting))
+
   ;; Path to library only set when directory exists.
   (prog1 "Set bibliography and library paths."
     (let ((path-to-library my-library))
@@ -748,47 +909,56 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (setq bibtex-completion-bibliography path-to-bib)))))
 
 ;; DICTIONARY, FLYCHECK, AND FLYSPELL
-
 (leaf flyspell
   :ensure t
   :diminish flyspell-mode
   :hook
-  ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
-   (text-mode-hook . (lambda() (flyspell-mode))))
+  ((prog-mode-hook .
+                   (lambda()
+                     (flyspell-prog-mode)))
+   (text-mode-hook .
+                   (lambda()
+                     (flyspell-mode))))
   ;; Deactivate for logs and log editing.
   ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
   ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
   :config
   ;; If Hunspell is present, setup Hunspell dictionaries.
   (when (executable-find "hunspell")
-    (setq ispell-program-name (executable-find "hunspell") ; Use Hunspell.
+    (setq ispell-program-name (executable-find "hunspell")
+                                        ; Use Hunspell.
           ispell-local-dictionary "en_US"
+
           ispell-dictionary "en_US"
-          ispell-really-hunspell nil    ; Temporary fix for Hunspell 1.7.
+
+          ispell-really-hunspell nil
+                                        ; Temporary fix for Hunspell 1.7.
           ispell-hunspell-dictionary-alist nil)
     ;; Settings for English, US.
-    (add-to-list 'ispell-local-dictionary-alist '("english-hunspell"
-                                                  "[[:alpha:]]"
-                                                  "[^[:alpha:]]"
-                                                  "[']"
-                                                  t
-                                                  ("-d" "en_US")
-                                                  nil
-                                                  iso-8859-1))
+    (add-to-list 'ispell-local-dictionary-alist
+                 '("english-hunspell"
+                   "[[:alpha:]]"
+                   "[^[:alpha:]]"
+                   "[']"
+                   t
+                   ("-d" "en_US")
+                   nil
+                   iso-8859-1))
     ;; Settings for German, Germany.
-    (add-to-list 'ispell-local-dictionary-alist '("deutsch-hunspell"
-                                                  "[[:alpha:]]"
-                                                  "[^[:alpha:]]"
-                                                  "[']"
-                                                  t
-                                                  ("-d" "de_DE")
-                                                  nil
-                                                  iso-8859-1))))
+    (add-to-list 'ispell-local-dictionary-alist
+                 '("deutsch-hunspell"
+                   "[[:alpha:]]"
+                   "[^[:alpha:]]"
+                   "[']"
+                   t
+                   ("-d" "de_DE")
+                   nil
+                   iso-8859-1))))
 
 ;; HELM
-
 (leaf *helm-setup
   :config
+
   (leaf helm
     :ensure t
     :ensure helm-tramp
@@ -810,12 +980,15 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ("m"      . helm-multi-files)
       ("a"      . helm-apropos)))
     :init
+
     ;; Remove old bind for helm-command-map.
-    (global-unset-key (kbd "C-x c"))
+    (global-unset-key
+     (kbd "C-x c"))
     :custom
     ;; Splitting behavior.
     ((helm-split-window-inside-p        . t)
-     (helm-move-to-line-cycle-in-source . nil) ; If t breaks cycling.
+     (helm-move-to-line-cycle-in-source . nil)
+                                        ; If t breaks cycling.
      (helm-autoresize-mode              . t)
      ;; Use fuzzy matching when possible.
      (helm-mode-fuzzy-match                 . t)
@@ -824,13 +997,18 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (helm-display-buffer-reuse-frame . nil)
      (helm-use-undecorated-frame-option . t))
     :config
+
     ;; Turn on helm-mode.
     (helm-mode 1))
+
+
   (leaf helm-flyspell
     :doc "Use helm for Flyspell"
     :ensure t
     :bind
     ("C-c f c" . helm-flyspell-correct))
+
+
   (leaf helm-bibtex
     :doc "Use helm for BibTeX"
     :disabled t
@@ -841,59 +1019,98 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      ("b". helm-bibtex))))
 
 ;; SET COLOR THEME
-
 (leaf base16-theme
   :ensure t
   :custom
   ;; Change the terminal colors.  Not sure if it works.
   (base16-theme-256-color-source . "colors")
   :config
+
   ;; Load base16.
   (load-theme 'base16-zenburn 1)
+
   ;; Replace the name of the theme if necessary.
   (prog1 "Create a variable for each color"
-    (defvar base00-prop (nth 01 base16-zenburn-colors))
-    (defvar base01-prop (nth 03 base16-zenburn-colors))
-    (defvar base02-prop (nth 05 base16-zenburn-colors))
-    (defvar base03-prop (nth 07 base16-zenburn-colors))
-    (defvar base04-prop (nth 09 base16-zenburn-colors))
-    (defvar base05-prop (nth 11 base16-zenburn-colors))
-    (defvar base06-prop (nth 13 base16-zenburn-colors))
-    (defvar base07-prop (nth 15 base16-zenburn-colors)) ; White.
-    (defvar base08-prop (nth 17 base16-zenburn-colors)) ; Pink.
-    (defvar base09-prop (nth 19 base16-zenburn-colors)) ; Orange.
-    (defvar base0A-prop (nth 21 base16-zenburn-colors)) ; Yellow.
-    (defvar base0B-prop (nth 23 base16-zenburn-colors)) ; Green.
-    (defvar base0C-prop (nth 25 base16-zenburn-colors))
-    (defvar base0D-prop (nth 27 base16-zenburn-colors))
-    (defvar base0E-prop (nth 29 base16-zenburn-colors))
-    (defvar base0F-prop (nth 31 base16-zenburn-colors)))
+    (defvar base00-prop
+      (nth 01 base16-zenburn-colors))
+    (defvar base01-prop
+      (nth 03 base16-zenburn-colors))
+    (defvar base02-prop
+      (nth 05 base16-zenburn-colors))
+    (defvar base03-prop
+      (nth 07 base16-zenburn-colors))
+    (defvar base04-prop
+      (nth 09 base16-zenburn-colors))
+    (defvar base05-prop
+      (nth 11 base16-zenburn-colors))
+    (defvar base06-prop
+      (nth 13 base16-zenburn-colors))
+    (defvar base07-prop
+      (nth 15 base16-zenburn-colors))
+                                        ; White.
+    (defvar base08-prop
+      (nth 17 base16-zenburn-colors))
+                                        ; Pink.
+    (defvar base09-prop
+      (nth 19 base16-zenburn-colors))
+                                        ; Orange.
+    (defvar base0A-prop
+      (nth 21 base16-zenburn-colors))
+                                        ; Yellow.
+    (defvar base0B-prop
+      (nth 23 base16-zenburn-colors))
+                                        ; Green.
+    (defvar base0C-prop
+      (nth 25 base16-zenburn-colors))
+    (defvar base0D-prop
+      (nth 27 base16-zenburn-colors))
+    (defvar base0E-prop
+      (nth 29 base16-zenburn-colors))
+    (defvar base0F-prop
+      (nth 31 base16-zenburn-colors)))
+
+
   ;; Remove the vertical line between windows:
   (set-face-background 'vertical-border base00-prop)
-  (set-face-foreground 'vertical-border (face-background 'vertical-border))
+
+  (set-face-foreground 'vertical-border
+                       (face-background 'vertical-border))
+
   ;; Adjust mode line colors.
   (set-face-background 'mode-line base02-prop)
+
   (set-face-foreground 'mode-line base04-prop)
+
   (set-face-background 'mode-line-inactive base01-prop)
+
   (set-face-foreground 'mode-line-inactive base04-prop)
+
   ;; Hide the fringe but show linebreak arrows.
   (set-face-attribute 'fringe
                       nil :background base00-prop :foreground base02-prop)
+
   ;; Look of the current line number.  Here, the background is the color
   ;; of the number.
   (set-face-attribute 'line-number-current-line
                       nil :background base08-prop :foreground base00-prop)
+
   ;; Look and color of the line numbers.
   (set-face-attribute 'line-number
                       nil :background base00-prop :foreground base02-prop)
-  (custom-set-faces '(font-lock-keyword-face ((t (:weight bold))))
-                    '(font-lock-builtin-face ((t (:weight bold))))))
+
+  (custom-set-faces
+   '(font-lock-keyword-face
+     ((t
+       (:weight bold))))
+   '(font-lock-builtin-face
+     ((t
+       (:weight bold))))))
+
 ;; '(font-lock-function-name-face ((t (:weight bold))))
 ;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
 ;; '(font-lock-comment-face ((t (:slant italic))))
 
 ;; AVY
-
 (leaf avy
   :doc "Move with the power of your mind and jump to things in
   Emacs tree-style"
@@ -911,27 +1128,32 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    ;; decision chars.
    (avy-highlight-first . t))
   :config
+
   ;; Face used for first non-terminating leading chars.
   (set-face-attribute 'avy-lead-face-0 nil
                       :foreground base0A-prop
                       :background base00-prop
                       :weight 'bold)
+
   ;; Face used for matched leading chars.  Not sure what this does.
   (set-face-attribute 'avy-lead-face-1 nil
                       :foreground base09-prop
                       :background base00-prop
                       :weight 'bold)
+
   ;; Face used for leading chars.
   (set-face-attribute 'avy-lead-face-2 nil
                       :foreground base0C-prop
                       :background base00-prop
                       :weight 'bold)
+
   ;; Face used for the leading chars.
   (set-face-attribute 'avy-lead-face nil
                       :foreground base0E-prop
                       :background base00-prop
                       :weight 'bold
                       :underline t)
+
   ;; Face for foreground/font during selection: base03.
   (set-face-foreground 'avy-background-face base03-prop))
 
@@ -944,6 +1166,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :diminish (whole-line-or-region-global-mode
              whole-line-or-region-local-mode)
   :config
+
   (whole-line-or-region-global-mode 1))
 
 ;; WHICH-KEY
@@ -957,6 +1180,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((which-key-idle-delay           . 1)
    (which-key-idle-secondary-delay . 0))
   :config
+
   (which-key-mode 1))
 
 ;; HIGHLIGHTING PARENTHESES and SMARTPARENS
@@ -967,6 +1191,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((show-paren-delay . 0.0)
    (show-paren-mode  . t))
   :config
+
   (leaf smartparens
     :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
     :ensure t
@@ -979,7 +1204,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (smartparens-global-mode   . t))))
 
 ;; HIGHLIGHT INDENTATIONS
-
 (leaf highlight-indent-guides
   :url "https://github.com/DarthFennec/highlight-indent-guides"
   :ensure t
@@ -991,9 +1215,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (highlight-indent-guides-delay      . 0)))
 
 ;; COMPANY
-
 (leaf *company-setup
   :config
+
   (leaf company
     :ensure t
     :ensure company-math
@@ -1005,9 +1229,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (company-show-numbers              . nil)
      (company-minimum-prefix-length     . 1))
     :config
+
     (global-company-mode 1)
+
     ;; Global activation of the Unicode symbol completion.
     (add-to-list 'company-backends 'company-math-symbols-unicode))
+
+
   (leaf company-bibtex
     :ensure t
     :after bibtex
@@ -1016,16 +1244,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;; dashes (-), and underscores (_). This is customizable via:
     (company-bibtex-key-regex . "[[:alnum:]+_]*")
     :config
+
     ;; Add backend for company-bibtex.
     (add-to-list 'company-backends 'company-bibtex)))
 
 ;; AGGRESSIVE-INDENT
-
 (leaf aggressive-indent
   :url "https://github.com/Malabarba/aggressive-indent-mode"
   :doc "aggressive-indent-mode is a minor mode that keeps your code always indented"
   :ensure t
   :config
+
   (global-aggressive-indent-mode 1))
 
 ;; WHITESPACE
@@ -1038,16 +1267,28 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :diminish whitespace-mode
   :hook
   ((before-save-hook  . delete-trailing-whitespace)
-   (prog-mode-hook    . (lambda () (whitespace-mode 1)))
-   (text-mode-hook    . (lambda () (whitespace-mode 1)))
-   (org-mode-hook     . (lambda () (whitespace-mode 0)))
-   (message-mode-hook . (lambda () (whitespace-mode 0))))
+   (prog-mode-hook    .
+                      (lambda ()
+                        (whitespace-mode 1)))
+   (text-mode-hook    .
+                      (lambda ()
+                        (whitespace-mode 1)))
+   (org-mode-hook     .
+                      (lambda ()
+                        (whitespace-mode 0)))
+   (message-mode-hook .
+                      (lambda ()
+                        (whitespace-mode 0))))
   :config
+
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns
+
         delete-trailing-lines t)
+
   ;; Define whitespace stylization.
   (setq whitespace-style '(face newline lines-tail trailing))
+
   ;; Change colors of text that exceeds 78 columns.
   (set-face-attribute 'whitespace-line nil
                       :foreground base08-prop
@@ -1067,7 +1308,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    ("C-c C->"     . mc/mark-all-like-this)))
 
 ;; FLYCHECK
-
 (leaf flycheck               ; TODO: Structure > Move up to Flyspell and wrap.
   :ensure t
   :diminish (global-flycheck-mode flycheck-mode)
@@ -1078,9 +1318,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((global-flycheck-mode . t)))
 
 ;; PYTHON-MODE
-
 (leaf *python-setup
   :config
+
   (leaf conda
     :ensure t
     :after dired
@@ -1090,39 +1330,55 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((conda-anaconda-home       . "~/miniconda3/")
      (conda-env-executables-dir . "condabin"))
     :config
+
     ;; Interactive shell support, include.
     (conda-env-initialize-interactive-shells)
+
     ;; Eshell support.
     (conda-env-initialize-eshell))
+
+
   (leaf python
     :commands python-mode
     :mode (("\\.py\\'" . python-mode)
            ("\\.wsgi$" . python-mode))
     :config
+
     (leaf flycheck-pycheckers
       :ensure t
       :ensure flycheck
       :after python flycheck
       :custom
       ((flycheck-pycheckers-multi-thread    . "true")
-       (flycheck-pycheckers-max-line-length . 88) ; Follow Black guidelines.
-       (flycheck-pycheckers-checkers        . '(pylint flake8 mypy3 bandit)))
+       (flycheck-pycheckers-max-line-length . 88)
+                                        ; Follow Black guidelines.
+       (flycheck-pycheckers-checkers        .
+                                            '(pylint flake8 mypy3 bandit)))
       :config
+
       ;; TODO: Add this to :hook.
-      (with-eval-after-load 'flycheck (add-hook 'flycheck-mode-hook
-                                                #'flycheck-pycheckers-setup))
+      (with-eval-after-load 'flycheck
+        (add-hook 'flycheck-mode-hook
+                  #'flycheck-pycheckers-setup))
+
+
       ;; (setq flycheck-pycheckers-ignore-codes (append
       ;;                                         flycheck-pycheckers-ignore-codes
       ;;                                         '("C0330" "W503" "E701" "B311"
       ;;                                           "E231" "E203" "C0301")))
       )
+
+
     (leaf pipenv
       :ensure t
       :hook
       (python-mode-hook . pipenv-mode)
       :init
+
       (setq pipenv-projectile-after-switch-function
             #'pipenv-projectile-after-switch-extended))
+
+
     (leaf python-pytest
       :doc "Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/"
       :ensure t
@@ -1139,21 +1395,27 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
        ("C-c t p F" . python-pytest-function-dwim)
        ("C-c t p l" . python-pytest-last-failed))
       :custom
-      (python-pytest-arguments . '("--color"   ; Colored output in the buffer.
-                                   "--pdb"     ; Run pdb on failure.
-                                   "--verbose")) ; More verbose output.
+      (python-pytest-arguments .
+                               '("--color"   ; Colored output in the buffer.
+                                 "--pdb"     ; Run pdb on failure.
+                                 "--verbose")) ; More verbose output.
       ;; "--failed-first"                 ; Run the previous failed tests first.
       ;; "--exitfirst"                    ; Exit after first failure.
       ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
       (python-pytest-pdb-track . t))
+
+
     (leaf pycoverage
       :disabled t
       :config
+
       (defun my-coverage ()
         (interactive)
         (when (derived-mode-p 'python-mode)
           (progn
             (pycoverage-mode)))))
+
+
     (leaf sphinx-doc
       :ensure t
       :load-path "~/gitdir/my-git/sphinx-doc.el/"
@@ -1163,28 +1425,37 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ;; Show all arguments (except "self").
       ((sphinx-doc-all-arguments . t)
        (sphinx-doc-exclude-rtype . t)))
+
+
     (leaf python-black
       :ensure t
       :hook
-      (python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))
+      (python-mode-hook .
+                        (lambda()
+                          (setq-local whitespace-line-column 88)))
       :custom
       (python-black-macchiato-command . "~/.local/bin/black-macchiato"))
+
+
     (leaf py-isort
       :ensure t
       :after python)
+
+
     (leaf pyimport
       :ensure t
       :bind
       (python-mode-map
        ("C-c m i" . pyimport-insert-missing)
        ("C-c u r" . pyimport-remove-unused)))
+
+
     (leaf python-docstring
       :ensure t
       :hook
       (python-mode-hook . python-docstring-mode))))
 
 ;; ORG-MODE
-
 (leaf org				; FIXME: Band aid > Use :bind at some point.
   :config
   (prog1 "Setting directories without :custom"
@@ -1192,16 +1463,21 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (setq org-default-notes-file  my-notes)
     (setq org-todo-file           my-todo-file)
     (setq org-agenda-files        (list org-directory)))
+
   (leaf *org-custom
     ;; :init
     ;; (leaf org-plus-contrib
     ;;   :ensure t)
     :bind
-    (("C-c a" . org-agenda)                 ; Call org-agenda.
-     ("C-c c" . org-capture)                ; Org-capture notes.
-     ("C-c l" . org-store-link)             ; Store link.
+    (("C-c a" . org-agenda)
+                                        ; Call org-agenda.
+     ("C-c c" . org-capture)
+                                        ; Org-capture notes.
+     ("C-c l" . org-store-link)
+                                        ; Store link.
      (org-mode-map
-      ("C-c b" . crossref-add-bibtex-entry)  ; Search/add .bib entries.
+      ("C-c b" . crossref-add-bibtex-entry)
+                                        ; Search/add .bib entries.
       ("C-c i" . org-clock-in)
       ("C-c o" . org-clock-out)
       ("C-c n" . org-narrow-to-subtree)
@@ -1215,11 +1491,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;;   (global-set-key (kbd "C-c b") 'crossref-add-bibtex-entry))
     :hook
     ;; Align tags when saving.
-    (((org-mode-hook before-save-hook) . org-align-all-tags)
+    (((org-mode-hook before-save-hook)
+      . org-align-all-tags)
      ;; Switch to DONE when sub-entries are done.
      (org-after-todo-statistics-hook . org-summary-todo)
      ;; Highlight current line in agenda.
-     (org-agenda-mode-hook . (lambda () (hl-line-mode 1))))
+     (org-agenda-mode-hook .
+                           (lambda ()
+                             (hl-line-mode 1))))
     :custom
     ;; Use relative paths.
     ((org-link-file-path-type . 'relative)
@@ -1234,22 +1513,24 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (org-src-window-setup            . 'other-window)
      (org-tags-column                 . 70)
      (org-image-actual-width          . nil)
-     (org-highlight-latex-and-related . '(latex script entities))
+     (org-highlight-latex-and-related .
+                                      '(latex script entities))
      (org-catch-invisible-edits       . t)
      ;; All child tasks have to be "DONE" before the parent is "DONE."
      (org-enforce-todo-dependencies . t)
      ;; To-do settings.
      (org-hierarchical-todo-statistics . nil)
-     (org-todo-keywords                . '((sequence
-                                            "IN_PROGRESS(i)"
-                                            "TODO(t)"
-                                            "BLOCKED(k)"
-                                            "BUG(b)"
-                                            "BACKLOG(l)"
-                                            "|"
-                                            "CHANCELLED(w)"
-                                            "FORWARDED(f)"
-                                            "DONE(d)")))
+     (org-todo-keywords                .
+                                       '((sequence
+                                          "IN_PROGRESS(i)"
+                                          "TODO(t)"
+                                          "BLOCKED(k)"
+                                          "BUG(b)"
+                                          "BACKLOG(l)"
+                                          "|"
+                                          "CHANCELLED(w)"
+                                          "FORWARDED(f)"
+                                          "DONE(d)")))
      ;; Logging.
      (org-log-done-with-time . t)
      (org-log-done           . 'time)
@@ -1267,6 +1548,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (calendar-week-start-day     . 1)
      ;; (org-agenda-start-on-weekday . 1)
      (org-agenda-span             . 6)))
+
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
                                      (plain-list-item . auto)))
@@ -1274,47 +1556,67 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     (setq org-refile-targets '((nil :maxlevel              . 9)
                                (org-agenda-files :maxlevel . 9))
+
           org-refile-use-outline-path 'file
+
           org-outline-path-complete-in-steps nil
+
           org-refile-allow-creating-parent-nodes 'confirm))
+
   (leaf *org-capture-templates
     :doc "Templates for org-capture"
     :config
+
     ;; If the directory exists, load templates for work.
     (let ((templates my-org-templates))
       (if (file-exists-p templates)
           (progn
             (message "%s" "Adding templates...")
             (load templates))
+
         (message "%s" "No templates specified."))))
+
   (leaf *org-remove-tags
     :doc "Clean tags in org mode."
     :url "https://fuco1.github.io/2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling.html"
     :config
+
     (defun my-org-remove-inherited-local-tags ()
+
       "Remove local tags that can be inherited instead."
       (let* ((target-tags-local (org-get-tags nil 'local))
+
              ;; We have to remove the local tags otherwise they would not
              ;; show up as being inherited if they are present on
              ;; parents---the local tag would "override" the parent
-             (target-tags-inherited
-              (unwind-protect
-                  (progn
-                    (org-set-tags nil)
-                    (org-get-tags))
-                (org-set-tags target-tags-local))))
+             (target-tags-inherited (unwind-protect
+                                        (progn
+                                          (org-set-tags nil)
+                                          (org-get-tags))
+
+                                      (org-set-tags target-tags-local))))
         (-each target-tags-local
           (lambda (tag)
             (when (member tag target-tags-inherited)
               (org-toggle-tag tag 'off))))))
+
+
     (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags))
+
   (leaf *org-summary-todo
     :doc "Switch entry to DONE when all subentries are done, to TODO otherwise."
     :config
+
     (defun org-summary-todo (n-done n-not-done)
+
       "Switch entry to DONE when all subentries are done, to TODO otherwise."
-      (let (org-log-done-with-time org-log-states)   ; turn off logging
-        (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
+      (let (org-log-done-with-time
+            org-log-states)
+                                        ; turn off logging
+        (org-todo
+         (if (= n-not-done 0)
+             "DONE" "TODO")))))
+
   ;; Don't confirm before evaluating.
   (setq org-confirm-babel-evaluate nil)
   ;; Available languages: https://orgmode.org/org.html#Languages
@@ -1330,10 +1632,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (setq org-babel-python-command "python3")
   ;; Better source block behavior.
   (setq org-src-preserve-indentation t
+
         org-edit-src-content-indentation 0)
   ;; Highlight code in code blocks in native language, also use TAB as
   ;; in native language.
   (setq org-src-fontify-natively t
+
         org-src-tab-acts-natively t)
   ;; Change font size for LaTeX previews.
   (setq org-format-latex-options
@@ -1349,13 +1653,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;;  ("C-c i r" . crossref-lookup))
     :init
     (prog1 "Set paths to bibliography files."
-      (setq reftex-use-external-file-finders t) ; Use this to find bibliographies.
+      (setq reftex-use-external-file-finders t)
+                                        ; Use this to find bibliographies.
       (setq reftex-external-file-finders
             '(("tex" . "/usr/bin/kpsewhich -format=.tex %f")
               ("bib" . "/usr/bin/kpsewhich -format=.bib %f")))
       (setq reftex-default-bibliography '("~/gitdir/my-git/library/bibliography.bib"))
       (setq org-ref-default-bibliography '("~/gitdir/my-git/library/bibliography.bib")
+
             org-ref-bibliography-notes "~/gitdir/my-git/library/notes.org"
+
             org-ref-pdf-directory "~/gitdir/my-git/library/archive/")
       ;; Add "bibtex %b" to enable bibtex export.
       ;; Source: https://github.com/jkitchin/org-ref
@@ -1363,31 +1670,43 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f")))))
 
 ;; VIEW DOCUMENTS
-
 (leaf doc-view
   :ensure t
   :config
+
   (leaf pdf-tools
     :ensure t
     :bind
     (pdf-view-mode-map
      ("C-s" . isearch-forward))
     :init
-    (pdf-loader-install)                  ; Prepare Emacs for using PDF Tools.
+
+    (pdf-loader-install)
+                                        ; Prepare Emacs for using PDF Tools.
     :custom
+
     ((pdf-view-display-size                  . 'fit-page)
      (pdf-annot-activate-created-annotations . t))
     :config
+
     (leaf org-pdfview
       :config
+
       (add-to-list 'org-file-apps
-                   '("\\.pdf\\'" . (lambda (file link)
-                                     (org-pdfview-open link))))))
+                   '("\\.pdf\\'" .
+                     (lambda (file link)
+                       (org-pdfview-open link))))))
+
+
   (leaf nov
     :doc "For reading .epub files"
     :ensure t
     :config
-    (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+
+    (add-to-list 'auto-mode-alist
+                 '("\\.epub\\'" . nov-mode)))
+
+
 
   ;; ORG-NOTER
 
@@ -1406,13 +1725,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (org-noter-separate-notes-from-heading . t)))
 
 ;; GIT AND VERSION CONTROL
-
 (leaf *git-tools
   :config
+
   (leaf hl-todo
     :ensure t
     :config
+
     (global-hl-todo-mode t))
+
+
   (leaf magit
     :ensure t
     :after base16-theme
@@ -1429,6 +1751,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :custom
     (magit-diff-refine-hunk . 'all)
     :config
+
     ;; (set-face-attribute 'magit-diff-added
     ;;                     nil :background base0B-prop :foreground nil)
     ;; (set-face-attribute 'magit-diff-added-highlight
@@ -1442,16 +1765,25 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       :after magit
       :commands (magit-todos-mode)
       :config
+
       ;; Suppress warning: magit-todos: Not overriding bind of "jT" in
       ;; magit-status-mode-map.
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
+
+
   (leaf gitconfig-mode
     :ensure t)
+
+
   (leaf gitignore-mode
     :ensure t)
+
+
   (leaf gitattributes-mode
     :ensure t)
+
+
   (leaf git-timemachine
     :url "https://gitlab.com/pidu/git-timemachine"
     :ensure t
@@ -1460,7 +1792,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ("C-c g t" . git-timemachine-toggle)))
 
 ;; LSP
-
 (leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
   :ensure t
   :ensure projectile company yasnippet flycheck
@@ -1489,6 +1820,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (lsp-auto-guess-root            . t)
    (lsp-enable-snippet             . t))
   :config
+
   ;; Define faces for highlighting in LSP.
   (set-face-attribute 'lsp-face-highlight-write nil
                       :italic nil
@@ -1496,6 +1828,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :inherit 'unspecified
                       :background base02-prop
                       :inverse-video t)
+
   (set-face-attribute 'lsp-face-highlight-read nil
                       :italic nil
                       :underline nil
@@ -1503,40 +1836,44 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :background base02-prop))
 
 ;; COMPANY-LSP
-
 (leaf company-lsp
   :ensure t
   :after lsp company
   :commands company-lsp
   :config
+
   (push 'company-lsp company-backends)
+
   ;; Disable client-side cache because the LSP server does a better job.
   (setq company-transformers nil
+
         company-lsp-async t
+
         company-lsp-cache-candidates nil
+
         company-lsp-enable-snippet t))
 
 ;; LSP-UI
-
 (leaf lsp-ui
   :disabled t
   :commands lsp-ui-mode
   :hook
   (lsp . lsp-ui-mode)
   :config
+
   (setq lsp-ui-sideline-ignore-duplicate t
+
         lsp-ui-doc-use-childframe nil
+
         lsp-ui-sideline-mode nil))
 
 ;; HELM-LSP
-
 (leaf helm-lsp
   ;; :disabled t
   ;; :ensure nil
   :commands helm-lsp-workspace-symbol)
 
 ;; LATEX/AUCTEX
-
 (leaf auctex
   :disabled t
   :ensure t
@@ -1544,15 +1881,20 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((LaTeX-mode-hook . turn-on-reftex)
    (LaTeX-mode-hook . LaTeX-math-mode))
   :config
+
   ;; (unload-feature 'tex-site) ; Remove a preinstalled AUCTeX completely
   ;; before ; any of its modes have been used.
   (latex-preview-pane-enable)
+
   ;; Basic setup.
   (setq-default TeX-auto-save t
                 TeX-parse-self t
                 TeX-master nil)
-  (setq TeX-show-compilation nil) ; If t, automatically shows compilation log.
-  (setq TeX-save-query nil)       ; Don't prompt for saving the .tex file.
+
+  (setq TeX-show-compilation nil)
+                                        ; If t, automatically shows compilation log.
+  (setq TeX-save-query nil)
+                                        ; Don't prompt for saving the .tex file.
   ;; Misc. Latex settings.
   ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -1561,12 +1903,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (setq reftex-plug-into-AUCTeX t))
 
 ;; EMACS SPEAKS STATISTICS (ESS)
-
 (leaf ess
   :disabled t
   :ensure t
   :commands R
   :config
+
   ;; Always split window vertically.
   ;; (add-hook 'ess-mode-hook
   ;;           (lambda()
@@ -1578,13 +1920,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; (add-to-list 'auto-mode-alist '("\\.Snw\\'" . Snw-mode))
   ;; Always whitespace after comma.
   (setq ess-R-smart-operators nil)
+
   ;; Don't restore history and don't save history.
   (setq inferior-R-args "--no-restore-history --no-save")
+
   ;; Start R in the working directory by default.
   (setq ess-ask-for-ess-directory nil)
+
   ;; ESS will not print the evaluated commands, also speeds up the
   ;; evaluation.
   (setq ess-eval-visibly nil)
+
   ;; Major mode font-lock.
   (setq ess-R-font-lock-keywords
         '((ess-R-fl-keyword:modifiers . t)
@@ -1599,6 +1945,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (ess-fl-keyword:=           . t)
           (ess-R-fl-keyword:F&T       . t)
           (ess-R-fl-keyword:%op%      . nil)))
+
   ;; Inferior mode font-lock.
   (setq inferior-R-font-lock-keywords
         '((ess-R-fl-keyword:modifiers . t)
@@ -1633,7 +1980,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;;    ("\\.cppR$"       . poly-C++R-mode)))
 
 ;; MARKDOWN-MODE
-
 (leaf markdown-mode
   :ensure t
   :mode
@@ -1641,6 +1987,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode))
   :init
+
   (setq markdown-command "pandoc"))
 
 ;; GNUPG SETUP
@@ -1651,14 +1998,18 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (epa-pinentry-mode . 'loopback)
   (pinentry-start)
   :config
+
   (leaf epa-config
     :after epa
     :custom
     (epg-gpg-program . "gpg2"))
+
+
   (leaf pinentry
     :after epa
     :ensure t
     :config
+
     (pinentry-start)))
 
 ;; MU4E/MAILS
@@ -1669,41 +2020,60 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;;     (load my-mu4e-setup)))
 
 ;; OPENWITH
-
 (leaf openwith
   :disabled t
   :ensure t
   :hook
-  ((text-mode-hook     . (lambda () (openwith-mode 1)))
-   (dired-mode-hook    . (lambda () (openwith-mode 1)))
-   (message-mode-hook  . (lambda () (openwith-mode 0)))
-   (markdown-mode-hook . (lambda () (openwith-mode 1))))
+  ((text-mode-hook     .
+                       (lambda ()
+                         (openwith-mode 1)))
+   (dired-mode-hook    .
+                       (lambda ()
+                         (openwith-mode 1)))
+   (message-mode-hook  .
+                       (lambda ()
+                         (openwith-mode 0)))
+   (markdown-mode-hook .
+                       (lambda ()
+                         (openwith-mode 1))))
   :config
-  (openwith-mode 1)                     ; Activate/deactivate openwith-mode by
+
+  (openwith-mode 1)
+                                        ; Activate/deactivate openwith-mode by
                                         ; default.
   ;; Manually define file associations.
   (when (eq system-type 'gnu/linux)
     (if (string-equal
-         (substring (shell-command-to-string "lsb_release -sd") 0 3)
+         (substring
+          (shell-command-to-string "lsb_release -sd")
+          0 3)
          (substring "Arch" 0 3))
         (setq openwith-associations '(
                                       ;; ("\\.png\\'" "imv" (file))
                                       ;; ("\\.jpg\\'" "imv" (file)f)
-                                      ("\\.docx\\'" "libreoffice" (file))
-                                      ("\\.odt\\'" "libreoffice" (file))
+                                      ("\\.docx\\'" "libreoffice"
+                                       (file))
+                                      ("\\.odt\\'" "libreoffice"
+                                       (file))
                                       ;; ("\\.pdf\\'" "evince" (file))
                                       ;; ("\\.html\\'" "firefox --new-window" (file))
                                       ;; ("\\.htm\\'" "firefox --new-window" (file))
-                                      ("\\.mkv\\'" "mpv" (file))))
+                                      ("\\.mkv\\'" "mpv"
+                                       (file))))
       (setq openwith-associations '(
                                     ;; ("\\.png\\'" "imv" (file))
                                     ;; ("\\.jpg\\'" "imv" (file)f)
-                                    ("\\.docx\\'" "libreoffice" (file))
-                                    ("\\.odt\\'" "libreoffice" (file))
+                                    ("\\.docx\\'" "libreoffice"
+                                     (file))
+                                    ("\\.odt\\'" "libreoffice"
+                                     (file))
                                     ;; ("\\.pdf\\'" "evince" (file))
-                                    ("\\.html\\'" "firefox --new-window" (file))
-                                    ("\\.htm\\'" "firefox --new-window" (file))
-                                    ("\\.mkv\\'" "mpv" (file))))
+                                    ("\\.html\\'" "firefox --new-window"
+                                     (file))
+                                    ("\\.htm\\'" "firefox --new-window"
+                                     (file))
+                                    ("\\.mkv\\'" "mpv"
+                                     (file))))
       )))
 
 ;; GSCHOLAR-BIBTEX
@@ -1713,12 +2083,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :disabled t
   :ensure t
   :config
+
   ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (setq gscholar-bibtex-default-source "Google Scholar"))
+
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
 ;; TYPIT
-
 (leaf typit
   :doc " This is a typing game for Emacs. In this game, you type
 words that are picked randomly from N most frequent words in
@@ -1728,7 +2099,6 @@ minute).
   :ensure t)
 
 ;; YAML-MODE
-
 (leaf yaml-mode
   :config
   :ensure t
@@ -1737,18 +2107,20 @@ minute).
    ("\C-m" . newline-and-indent)))
 
 ;; CSV-MODE
-
 (leaf csv-mode
   :config
-  (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+
+  (add-to-list 'auto-mode-alist
+               '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+
   (autoload 'csv-mode "csv-mode"
     "Major mode for editing comma-separated value files." t))
 
 ;; EDIFF
-
 (leaf ediff
   :custom
-  ((ediff-window-setup-function . 'ediff-setup-windows-plain) ; Don't start another frame.
+  ((ediff-window-setup-function . 'ediff-setup-windows-plain)
+                                        ; Don't start another frame.
    (ediff-split-window-function . 'split-window-horizontally)) ; Put windows side by side.
   :config
   ;; Revert windows on exit - needs winner mode
@@ -1756,7 +2128,6 @@ minute).
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
 
 ;; SSH DEPLOY
-
 (leaf ssh-deploy
   ;; :disabled t
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
@@ -1768,11 +2139,12 @@ minute).
   ((after-save-hook . ssh-deploy-after-save)
    (find-file       . ssh-deploy-find-file))
   :config
+
   (ssh-deploy-line-mode)
+
   (ssh-deploy-add-menu))
 
 ;; PROJECTILE
-
 (leaf projectile
   :after helm
   :ensure helm-projectile
@@ -1783,44 +2155,48 @@ minute).
   ((projectile-mode              . t)
    (projectile-completion-system . 'helm))
   :config
+
   (helm-projectile-on))
 
 ;; CENTERED WINDOW MODE
-
 (leaf centered-window
   :ensure t)
 
 ;; WORK-RELATED SETTINGS
-
 (leaf *work-related-settings
   :doc "Load work-related settings if file exists"
   :config
+
   ;; If the directory exists, load proxy settings.
   (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
     (if (file-exists-p proxies)
         (progn
           (message "%s" "Found proxy settings for work...")
           (load proxies))
+
       (message "%s" "No proxy settings specified.")
       ))
+
   ;; If the directory exists, load templates for work.
   (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
-    (if (and (file-exists-p templates)
-             (boundp 'org-capture-templates))
+    (if (and
+         (file-exists-p templates)
+         (boundp 'org-capture-templates))
         (progn
           (message "%s" "Adding templates for work...")
           (load templates))
+
       (message "%s" "No additional templates specified.")))
+
   (let ((orgdir "~/gitdir/work-git/orgdir/"))
     (if (file-directory-p orgdir)
         (progn
           (message "%s" "Found work-related org directory...")
-          (setq org-agenda-files (append org-agenda-files (list orgdir)))))))
+          (setq org-agenda-files (append org-agenda-files
+                                         (list orgdir)))))))
 
 ;; Remove timestamp from messages after startup.
 (advice-remove 'message #'my-message-with-timestamp)
-
 ;;; Footer:
-
 (provide 'init)
 ;;; init.el ends here
