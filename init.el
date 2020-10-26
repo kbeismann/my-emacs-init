@@ -764,13 +764,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :hook
     ((after-init-hook . benchmark-init/deactivate))))
 
-;; AUTH-SOURCE
-(leaf auth-source
-  :ensure t
-  :custom
-  (auth-sources .
-                '("~/.authinfo.gpg")))
-
 ;; DIRED
 (leaf *dired-setup
   :config
@@ -1996,20 +1989,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 (leaf epa
   :custom
   (epa-pinentry-mode . 'loopback)
-  (pinentry-start)
   :config
-
   (leaf epa-config
-    :after epa
     :custom
     (epg-gpg-program . "gpg2"))
-
-
+  (leaf auth-source
+    :custom
+    (auth-sources .
+                  '("~/.authinfo.gpg")))
   (leaf pinentry
-    :after epa
-    :ensure t
     :config
-
     (pinentry-start)))
 
 ;; MU4E/MAILS
