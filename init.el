@@ -1340,7 +1340,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (leaf flycheck-pycheckers
       :ensure t
       :ensure flycheck
-      :after python flycheck
       :custom
       ((flycheck-pycheckers-multi-thread    . "true")
        (flycheck-pycheckers-max-line-length . 88)
