@@ -1995,9 +1995,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :custom
     (auth-sources .
                   '("~/.authinfo.gpg")))
-  (leaf pinentry
-    :config
-    (pinentry-start)))
+  (leaf pinentry))
 
 ;; MU4E/MAILS
 
