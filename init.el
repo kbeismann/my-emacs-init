@@ -2154,6 +2154,9 @@ minute).
   ;; (setq org-mind-map-engine "circo")  ; Circular Layout
   )
 
+(leaf org-d20
+  :ensure t)
+
 ;; WORK-RELATED SETTINGS
 (leaf *work-related-settings
   :doc "Load work-related settings if file exists"
