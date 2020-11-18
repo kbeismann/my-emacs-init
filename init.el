@@ -1347,7 +1347,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
        (flycheck-pycheckers-checkers        .
                                             '(pylint flake8 mypy3 bandit)))
       :config
-
       ;; TODO: Add this to :hook.
       (with-eval-after-load 'flycheck
         (add-hook 'flycheck-mode-hook
