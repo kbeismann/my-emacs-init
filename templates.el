@@ -1,14 +1,6 @@
-(setq org-todo-keywords ((sequence
-                          "UNCATEGORIZED(u)"
-                          "IN_PROGRESS(i)"
-                          "GET_FEEDBACK(g)"
-                          "BLOCKED(k)"
-                          "TODO(t)"
-                          "|"
-                          "DONE(d)"
-                          "FORWARDED(f)"
-                          "CHANCELLED(c)")))
-(setq org-capture-templates           ; TODO: Clean up and restructure the templates.
+
+;; TODO: Clean up and restructure the templates.
+(setq org-capture-templates
 
       ;; Basic templates for notes and URLs:
 
@@ -70,4 +62,14 @@
          (file+headline org-default-dpdhl-notes-file "Unsorted")
          "* TODO \[\#A\] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
          :empty-lines 1
-         :prepend 1)))
+         :prepend 1))
+      org-todo-keywords ((sequence
+                          "UNCATEGORIZED(u)"
+                          "IN_PROGRESS(i)"
+                          "GET_FEEDBACK(g)"
+                          "BLOCKED(k)"
+                          "TODO(t)"
+                          "|"
+                          "DONE(d)"
+                          "FORWARDED(f)"
+                          "CHANCELLED(c)")))
