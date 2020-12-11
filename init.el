@@ -1513,15 +1513,15 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (org-hierarchical-todo-statistics . nil)
      (org-todo-keywords                .
                                        '((sequence
+                                          "UNCATEGORIZED(u)"
                                           "IN_PROGRESS(i)"
-                                          "TODO(t)"
+                                          "GET_FEEDBACK(g)"
                                           "BLOCKED(k)"
-                                          "BUG(b)"
-                                          "BACKLOG(l)"
+                                          "TODO(t)"
                                           "|"
-                                          "CHANCELLED(w)"
+                                          "DONE(d)"
                                           "FORWARDED(f)"
-                                          "DONE(d)")))
+                                          "CHANCELLED(c)")))
      ;; Logging.
      (org-log-done-with-time . t)
      (org-log-done           . 'time)
