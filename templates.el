@@ -25,14 +25,14 @@
 
         ("n" "Save note" entry
          (file+headline org-default-notes-file "UNCATEGORIZED")
-         "* UNCATEGORIZED \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
+         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
         ;; Key, name, type, target, template, options.
         ("u" "Store URL" entry
          (file+headline org-default-notes-file "UNCATEGORIZED")
-         "* UNCATEGORIZED \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
+         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
