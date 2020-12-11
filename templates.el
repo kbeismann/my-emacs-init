@@ -15,13 +15,11 @@
 
         ("m" "My to-do list")
 
-        ;; Key, name, type, target, template, options.
         ("mt" "TODO" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
-
 
         ("n" "Save note" entry
          (file+headline org-default-notes-file "UNCATEGORIZED")
@@ -29,35 +27,30 @@
          :empty-lines 1
          :prepend 1)
 
-        ;; Key, name, type, target, template, options.
         ("u" "Store URL" entry
          (file+headline org-default-notes-file "UNCATEGORIZED")
          "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
-        ;; Key, name, type, target, template, options.
         ("me" "Edit/fix file" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#C\] %^{Title} %^g:code:\n:PROPERTIES:\n:Created: %U\n:LINK: %a\n:END:\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
-        ;; Key, name, type, target, template, options.
         ("mu" "Save URL and check later" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#C\] %^{Title} %^g:url:\n:PROPERTIES:\n:Created: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
-        ;; Key, name, type, target, template, options.
         ("mm" "Meeting minutes" entry
          (file+headline org-default-dpdhl-notes-file "UNCATEGORIZED")
          "* TODO \[\#A\] %^{Title} :meeting:minutes:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:Created: %U\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
          :empty-lines 1
          :prepend 1)
 
-        ;; Key, name, type, target, template, options.
         ("ms" "Stand-up" entry
          (file+headline org-default-dpdhl-notes-file "UNCATEGORIZED")
          "* TODO \[\#A\] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:Created: %U\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
