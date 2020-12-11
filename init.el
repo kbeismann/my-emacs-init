@@ -1492,53 +1492,51 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                              (hl-line-mode 1))))
     :custom
     ;; Use relative paths.
-    ((org-link-file-path-type . 'relative)
+    ((org-link-file-path-type               . 'relative)
      ;; Startup options.
-     (org-startup-indented           . nil)
-     (org-startup-with-latex-preview . t)
-     (org-startup-align-all-tables   . t)
+     (org-startup-indented                  . nil)
+     (org-startup-with-latex-preview        . t)
+     (org-startup-align-all-tables          . t)
      ;; Indentation.
      (org-indent-mode-turns-on-hiding-stars . nil)
      (org-adapt-indentation                 . nil)
      ;; Misc.
-     (org-src-window-setup            . 'other-window)
-     (org-tags-column                 . 70)
-     (org-image-actual-width          . nil)
-     (org-highlight-latex-and-related .
-                                      '(latex script entities))
-     (org-catch-invisible-edits       . t)
+     (org-src-window-setup                  . 'other-window)
+     (org-tags-column                       . 70)
+     (org-image-actual-width                . nil)
+     (org-highlight-latex-and-related       . '(latex script entities))
+     (org-catch-invisible-edits             . t)
      ;; All child tasks have to be "DONE" before the parent is "DONE."
-     (org-enforce-todo-dependencies . t)
+     (org-enforce-todo-dependencies         . t)
      ;; To-do settings.
-     (org-hierarchical-todo-statistics . nil)
-     (org-todo-keywords                .
-                                       '((sequence
-                                          "UNCATEGORIZED(u)"
-                                          "IN_PROGRESS(i)"
-                                          "GET_FEEDBACK(g)"
-                                          "BLOCKED(k)"
-                                          "TODO(t)"
-                                          "|"
-                                          "DONE(d)"
-                                          "FORWARDED(f)"
-                                          "CHANCELLED(c)")))
+     (org-hierarchical-todo-statistics      . nil)
+     (org-todo-keywords                     . ((sequence
+                                                "UNCATEGORIZED(u)"
+                                                "IN_PROGRESS(i)"
+                                                "GET_FEEDBACK(g)"
+                                                "BLOCKED(k)"
+                                                "TODO(t)"
+                                                "|"
+                                                "DONE(d)"
+                                                "FORWARDED(f)"
+                                                "CHANCELLED(c)")))
      ;; Logging.
-     (org-log-done-with-time . t)
-     (org-log-done           . 'time)
-     (org-log-repeat         . 'time)
-     (org-agenda-skip-scheduled-if-done . t)
-     (org-agenda-skip-deadline-if-done  . t)
-     (org-agenda-include-deadlines      . t)
-     (org-agenda-include-diary          . nil)
+     (org-log-done-with-time                . t)
+     (org-log-done                          . 'time)
+     (org-log-repeat                        . 'time)
+     (org-agenda-skip-scheduled-if-done     . t)
+     (org-agenda-skip-deadline-if-done      . t)
+     (org-agenda-include-deadlines          . t)
+     (org-agenda-include-diary              . nil)
      ;; (org-agenda-block-separator        . nil)
      ;; (org-agenda-compact-blocks         . nil)
-     (org-agenda-start-with-log-mode    . t)
+     (org-agenda-start-with-log-mode        . t)
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
-     ;; (org-agenda-start-day        . "-3d")
-     (calendar-week-start-day     . 1)
-     ;; (org-agenda-start-on-weekday . 1)
-     (org-agenda-span             . 6)))
+     ;;
+     (calendar-week-start-day               . 1)
+     ;;
+     (org-agenda-span                       . 6)))
 
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
