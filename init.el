@@ -1510,16 +1510,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (org-enforce-todo-dependencies         . t)
      ;; To-do settings.
      (org-hierarchical-todo-statistics      . nil)
-     (org-todo-keywords                     . ((sequence
-                                                "UNCATEGORIZED(u)"
-                                                "IN_PROGRESS(i)"
-                                                "GET_FEEDBACK(g)"
-                                                "BLOCKED(k)"
-                                                "TODO(t)"
-                                                "|"
-                                                "DONE(d)"
-                                                "FORWARDED(f)"
-                                                "CHANCELLED(c)")))
      ;; Logging.
      (org-log-done-with-time                . t)
      (org-log-done                          . 'time)
@@ -1556,7 +1546,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :doc "Templates for org-capture"
     :config
 
-    ;; If the directory exists, load templates for work.
+    ;; If the directory exists, load my templates.
     (let ((templates my-org-templates))
       (if (file-exists-p templates)
           (progn

@@ -1,3 +1,13 @@
+(setq org-todo-keywords ((sequence
+                          "UNCATEGORIZED(u)"
+                          "IN_PROGRESS(i)"
+                          "GET_FEEDBACK(g)"
+                          "BLOCKED(k)"
+                          "TODO(t)"
+                          "|"
+                          "DONE(d)"
+                          "FORWARDED(f)"
+                          "CHANCELLED(c)")))
 (setq org-capture-templates           ; TODO: Clean up and restructure the templates.
 
       ;; Basic templates for notes and URLs:
@@ -12,14 +22,14 @@
 
         ("n" "Save note" entry
          (file+headline org-default-notes-file "Unsorted")
-         "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
+         "* UNCATEGORIZED \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
         ;; Key, name, type, target, template, options.
         ("u" "Store URL" entry
          (file+headline org-default-notes-file "Unsorted")
-         "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
+         "* UNCATEGORIZED \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
          :empty-lines 1
          :prepend 1)
 
