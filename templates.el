@@ -93,3 +93,5 @@
                           "DONE(d)"
                           "FORWARDED(f)"
                           "CHANCELLED(c)")))
+(provide 'templates)
+;;; templates.el ends here
