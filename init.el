@@ -153,7 +153,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
-
   ;; Add archives and assign priorities.
   (setq package-check-signature 'allow-unsigned
                                         ; Do/don't check sig.
@@ -161,28 +160,26 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                            ("org"          . "https://orgmode.org/elpa/")
                            ("melpa"        . "https://melpa.org/packages/")
                            ("melpa-stable" . "https://stable.melpa.org/packages/"))
-
         package-archive-priorities '(("gnu"          . 2)
                                      ("org"          . 1)
                                      ("melpa"        . 3)
                                      ("melpa-stable" . 0)))
+
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize)
   ;; Install leaf if necessary.
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
+
   (leaf leaf
     :config
-
     (leaf leaf-keywords
       :ensure t
       :require t
       :init
-
       (leaf package
         :init
-
         (leaf *elpa-workaround
           :when
           (or
@@ -190,24 +187,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
            (version= "26.2" emacs-version))
           :custom
           ((gnutls-algorithm-priority . "NORMAL:-VERS-TLS1.3"))))
-
-
       (leaf el-get
         :ensure t
         :init
-
         (unless (executable-find "git")
           (warn "Git not found: el-get can't download packages."))
         :custom
         ((el-get-git-shallow-clone  . t)
          (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
-
-
       (leaf diminish
         :ensure t)
-
       :config
-
       (leaf-keywords-init))))
 
 ;; BASIC VARIABLES
@@ -216,63 +206,48 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 (leaf *basic-variables
   :doc "Basic variables"
   :config
-
   (defvar my-custom-file
     (concat user-emacs-directory ".custom.el")
     "My customization file.")
-
   (defvar my-autosave-dir
     (concat user-emacs-directory "autosave/")
     "My auto-save directory.")
-
   (defvar my-backup-dir
     (concat user-emacs-directory "backup/")
     "My backup directory.")
-
   (defvar my-cache-dir
     (concat user-emacs-directory "cache/")
     "My storage area (cache) directory.")
-
   (defvar my-abbrev-dir
     (concat user-emacs-directory "abbrev/")
     "My abbreviations directory.")
-
   (defvar my-gitdir
     "~/gitdir/my-git/"
     "My directory for git repositories.")
-
   (defvar my-library
     (concat my-gitdir "library/")
     "My library repository.")
-
   (defvar my-bibliography
     (concat my-library "bibliography.bib")
     "My bibliography.")
-
   (defvar my-readings
     (concat my-library "readings.org")
     "My list of readings.")
-
   (defvar my-init
     (concat my-gitdir "emacs-init/")
     "My Emacs initialization file repository.")
-
   (defvar my-org-templates
     (concat my-init "templates.el")
     "My Org templates.")
-
   (defvar my-orgdir
     (concat my-gitdir "orgdir/")
     "My directory for git repositories.")
-
   (defvar my-notes
     (concat my-orgdir "notes.org")
     "My notes.")
-
   (defvar my-todo-file
     (concat my-orgdir "notes.org")
     "My to-do list.")
-
   ;; (defvar my-mu4e-setup
   ;;   (concat my-gitdir "mu4e-setup/mu4e-setup.el")
   ;;   "My mu4e file.")
@@ -280,49 +255,40 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     "Dina:pixelsize=13"
     ;; "Hack:pixelsize=14"
     "My default font for Huckleberry.")
-
   (defvar my-font-family-huckleberry
     "Dina"
     ;; "Hack"
     "My default font family for Huckleberry.")
-
   (defvar my-font-arch
     ;; "DejaVu Sans Mono-10"; Arch
     ;; "Hack:pixelsize=12"
     ;; "Terminus:pixelsize=12"
     "Dina:pixelsize=13"
     "My default font for Arch Linux.")
-
   (defvar my-font-family-arch
     ;; "DejaVu"
     ;; "Hack"
     ;; "Terminus"
     "Dina"
     "My default font family for Arch Linux.")
-
   (defvar my-font-ubuntu
     ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
     "Terminus:pixelsize=14"
     ;; "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
-
   (defvar my-font-family-ubuntu
     "Terminus"
     ;; "Hack"
     "My default font family setting for Ubuntu.")
-
   (defvar my-max-columns
     78
     "My predefined characters per line (CPL) limit.")
-
   (defvar path-to-my-snippets
     (concat my-gitdir "emacs-init/snippets/")
     "Path to custom snippets.")
-
   (defvar path-to-snippets
     (concat user-emacs-directory "snippets/")
     "Path to snippets.")
-
 
   ;; YASNIPPET
   (leaf yasnippet
@@ -336,7 +302,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((yas-indent-line  . 'fixed)
      (yas-global-mode  . t))
     :config
-
     (setq yas-snippet-dirs (append yas-snippet-dirs
                                    '(path-to-my-snippets)))))
 
