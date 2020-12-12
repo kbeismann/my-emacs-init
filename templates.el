@@ -85,5 +85,13 @@
                            "DONE(d)"
                            "FORWARDED(f)"
                            "CHANCELLED(c)")))
+(setq org-todo-keyword-faces
+      '(("UNCATEGORIZED" . org-archived)
+        ("IN_PROGRESS"   . org-link)
+        ("GET_FEEDBACK"  . org-warning)
+        ("BLOCKED"       . org-archived)
+        ("TODO"          . org-warning)
+        ("FORWARDED"     . org-done)
+        ("CHANCELLED"    . org-archived)))
 (provide 'templates)
 ;;; templates.el ends here
