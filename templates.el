@@ -74,16 +74,16 @@
          (file+headline org-default-dpdhl-notes-file "UNCATEGORIZED")
          "* TODO \[\#A\] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:Created: %U\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
          :empty-lines 1
-      org-todo-keywords ((sequence
-                          "UNCATEGORIZED(u)"
-                          "IN_PROGRESS(i)"
-                          "GET_FEEDBACK(g)"
-                          "BLOCKED(k)"
-                          "TODO(t)"
-                          "|"
-                          "DONE(d)"
-                          "FORWARDED(f)"
-                          "CHANCELLED(c)")))
          :prepend 1)))
+(setq org-todo-keywords '((sequence
+                           "UNCATEGORIZED(u)"
+                           "IN_PROGRESS(i)"
+                           "GET_FEEDBACK(g)"
+                           "BLOCKED(k)"
+                           "TODO(t)"
+                           "|"
+                           "DONE(d)"
+                           "FORWARDED(f)"
+                           "CHANCELLED(c)")))
 (provide 'templates)
 ;;; templates.el ends here
