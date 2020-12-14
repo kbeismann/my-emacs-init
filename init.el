@@ -1685,14 +1685,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :after base16-theme
     ;; :diminish magit-auto-revert-mode
     :bind
-    (("C-c g s"    . magit-status)
-     ;; (magit-mode-map
-     ;; ("C-c g c a" . magit-commit-amend)
-     ;; ("C-c g c r" . magit-commit-reword))
-     (prog-mode-map
-      ("C-c g b b" . magit-blame))
-     (dired-mode-map
-      ("C-c g c c" . magit-clone)))
+    (("C-x g"               . magit-status))
     :custom
     (magit-diff-refine-hunk . 'all)
     :config
