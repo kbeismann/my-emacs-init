@@ -1725,9 +1725,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (leaf git-timemachine
     :url "https://gitlab.com/pidu/git-timemachine"
     :ensure t
-    :diminish git-timemachine-mode
-    :bind
-    ("C-c g t" . git-timemachine-toggle)))
+    :diminish git-timemachine-mode))
 
 ;; LSP
 (leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
