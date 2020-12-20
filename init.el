@@ -296,11 +296,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :ensure yasnippet-snippets
     :diminish yas-minor-mode
     :bind
-    (("C-c y i" . yas-insert-snippet)
-     ("C-c y v" . yas-visit-snippet-file))
+    (("C-c y i"       . yas-insert-snippet)
+     ("C-c y v"       . yas-visit-snippet-file))
     :custom
-    ((yas-indent-line  . 'fixed)
-     (yas-global-mode  . t))
+    ((yas-indent-line . 'fixed)
+     (yas-global-mode . t))
     :config
     (setq yas-snippet-dirs (append yas-snippet-dirs
                                    '(path-to-my-snippets)))))
@@ -308,16 +308,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; BASIC SETTINGS
 (leaf *basic-settings
   :bind
-  (("M-o"     . nil)
-                                        ; Unbind face menu.
-   ("C-x C-z" . nil)
-                                        ; Unbind suspend frame.
-   ("S-SPC"   . just-one-space))        ; Bind just-one-space.
+  (("M-o"     . nil)  ; Unbind face menu.
+   ("C-x C-z" . nil)  ; Unbind suspend frame.
+   ("S-SPC"   . just-one-space)) ; Bind just-one-space.
   :setq
   ;; Better splitting behavior.
   (split-height-threshold . 80)
-  (split-width-threshold  .
-                          '(* 2 my-max-columns))
+  (split-width-threshold  . '(* 2 my-max-columns))
   :config
 
   (defalias 'yes-or-no-p 'y-or-n-p)
