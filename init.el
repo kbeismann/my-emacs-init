@@ -149,6 +149,40 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                     unresolved noruntime
                                     lexical make-local)))
 
+;; WORK-RELATED SETTINGS
+
+(leaf *work-related-settings
+  :doc "Load work-related settings if file exists"
+  :config
+
+  ;; If the directory exists, load proxy settings.
+  (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
+    (if (file-exists-p proxies)
+        (progn
+          (message "%s" "Found proxy settings for work...")
+          (load proxies))
+
+      (message "%s" "No proxy settings specified.")
+      ))
+
+  ;; If the directory exists, load templates for work.
+  (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
+    (if (and
+         (file-exists-p templates)
+         (boundp 'org-capture-templates))
+        (progn
+          (message "%s" "Adding templates for work...")
+          (load templates))
+
+      (message "%s" "No additional templates specified.")))
+
+  (let ((orgdir "~/gitdir/work-git/orgdir/"))
+    (if (file-directory-p orgdir)
+        (progn
+          (message "%s" "Found work-related org directory...")
+          (setq org-agenda-files (append org-agenda-files
+                                         (list orgdir)))))))
+
 ;; LEAF SETUP
 
 ;; Setup up leaf and install if necessary.
@@ -2111,39 +2145,6 @@ minute).
 
 (leaf org-d20
   :ensure t)
-
-;; WORK-RELATED SETTINGS
-(leaf *work-related-settings
-  :doc "Load work-related settings if file exists"
-  :config
-
-  ;; If the directory exists, load proxy settings.
-  (let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
-    (if (file-exists-p proxies)
-        (progn
-          (message "%s" "Found proxy settings for work...")
-          (load proxies))
-
-      (message "%s" "No proxy settings specified.")
-      ))
-
-  ;; If the directory exists, load templates for work.
-  (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
-    (if (and
-         (file-exists-p templates)
-         (boundp 'org-capture-templates))
-        (progn
-          (message "%s" "Adding templates for work...")
-          (load templates))
-
-      (message "%s" "No additional templates specified.")))
-
-  (let ((orgdir "~/gitdir/work-git/orgdir/"))
-    (if (file-directory-p orgdir)
-        (progn
-          (message "%s" "Found work-related org directory...")
-          (setq org-agenda-files (append org-agenda-files
-                                         (list orgdir)))))))
 
 ;; Remove timestamp from messages after startup.
 (advice-remove 'message #'my-message-with-timestamp)
