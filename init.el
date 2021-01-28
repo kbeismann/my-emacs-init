@@ -712,6 +712,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; BENCHMARKS
 (leaf *benchmarking
+  :disabled t
   :config
 
   (leaf benchmark-init
