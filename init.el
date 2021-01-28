@@ -1311,7 +1311,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
 
     (leaf flycheck-pycheckers
-      :ensure t
+      :disabled t
       :ensure flycheck
       :custom
       ((flycheck-pycheckers-multi-thread    . "true")
