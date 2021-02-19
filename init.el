@@ -779,8 +779,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; TRAMP FOR REMOTE FILE SYSTEMS
 (leaf tramp
-  :bind
-  ("C-c t h" . helm-tramp)
   :custom
   ((tramp-debug-buffer   . t)
    (tramp-read-passwd    . t)
@@ -931,7 +929,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :require helm-config
     :leaf-defer nil
     :diminish (helm-mode helm-autoresize-mode)
-    ;; :ensure helm-R
     :bind
     (("M-x"     . helm-M-x)
      ("C-s"     . helm-occur)
@@ -939,6 +936,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      ("C-x C-f" . helm-find-files)
      ("M-y"     . helm-show-kill-ring)
      ("C-c h"   . helm-command-prefix)
+     ("C-c t h" . helm-tramp)
      (helm-command-map
       ("l"      . helm-locate)
       ("s"      . helm-surfraw)
@@ -946,22 +944,23 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ("m"      . helm-multi-files)
       ("a"      . helm-apropos)))
     :init
-
     ;; Remove old bind for helm-command-map.
     (global-unset-key
      (kbd "C-x c"))
     :custom
     ;; Splitting behavior.
-    ((helm-split-window-inside-p        . t)
-     (helm-move-to-line-cycle-in-source . nil)
-                                        ; If t breaks cycling.
-     (helm-autoresize-mode              . t)
+    ((helm-split-window-inside-p                              . t)
+     (helm-move-to-line-cycle-in-source                       . nil)
+                                        ; If t breaks cycling .
+     (helm-autoresize-mode                                    . t)
      ;; Use fuzzy matching when possible.
-     (helm-mode-fuzzy-match                 . t)
-     (helm-completion-in-region-fuzzy-match . t)
+     (helm-mode-fuzzy-match                                   . t)
+     (helm-completion-in-region-fuzzy-match                   . t)
      ;; (helm-display-function . 'helm-display-buffer-in-own-frame)
-     (helm-display-buffer-reuse-frame . nil)
-     (helm-use-undecorated-frame-option . t))
+     (helm-display-buffer-reuse-frame                         . nil)
+     (helm-use-undecorated-frame-option                       . t)
+     ;; Some helm-tramp settings.
+     (helm-tramp-control-master                               . t))
     :config
 
     ;; Turn on helm-mode.
