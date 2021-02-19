@@ -1967,13 +1967,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                   '("~/.authinfo.gpg")))
   (leaf pinentry))
 
-;; MU4E/MAILS
-
-;; Only load mu4e when path to repository exists.
-;; (prog1 "Load my mu4e setup"
-;;   (when (file-exists-p my-mu4e-setup)
-;;     (load my-mu4e-setup)))
-
 ;; OPENWITH
 (leaf openwith
   :disabled t
