@@ -1985,7 +1985,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                        (lambda ()
                          (openwith-mode 1))))
   :config
-
   (openwith-mode 1)
                                         ; Activate/deactivate openwith-mode by
                                         ; default.
@@ -2031,7 +2030,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :disabled t
   :ensure t
   :config
-
   ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (setq gscholar-bibtex-default-source "Google Scholar"))
 
@@ -2060,7 +2058,6 @@ minute).
 
   (add-to-list 'auto-mode-alist
                '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
-
   (autoload 'csv-mode "csv-mode"
     "Major mode for editing comma-separated value files." t))
 
@@ -2087,9 +2084,7 @@ minute).
   ((after-save-hook . ssh-deploy-after-save)
    (find-file       . ssh-deploy-find-file))
   :config
-
   (ssh-deploy-line-mode)
-
   (ssh-deploy-add-menu))
 
 ;; PROJECTILE
