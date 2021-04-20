@@ -1370,13 +1370,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
     (leaf pycoverage
       :disabled t
-      :config
-
-      (defun my-coverage ()
-        (interactive)
-        (when (derived-mode-p 'python-mode)
-          (progn
-            (pycoverage-mode)))))
+      :ensure t
+      :hook
+      (python-mode-hook . pycoverage-mode))
 
 
     (leaf sphinx-doc
