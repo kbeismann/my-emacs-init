@@ -41,7 +41,7 @@
         ("m" "My to-do list")
         ("mt" "TODO" entry
          (file+headline org-todo-file "To-dos")
-         "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
+         "* TODO \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("mn" "Save note" entry
          (file+headline org-default-notes-file "UNCATEGORIZED")
@@ -57,7 +57,7 @@
          :empty-lines 1)
         ("mu" "Save URL and check later" entry
          (file+headline org-todo-file "To-dos")
-         "* TODO \[\#C\] %^{Title} %^g:url:\n:PROPERTIES:\n:Created: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
+         "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n:Created: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
          :empty-lines 1)
         ("mm" "Meeting minutes" entry
          (file+headline org-default-notes-file "UNCATEGORIZED")
