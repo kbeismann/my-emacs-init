@@ -240,8 +240,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (defvar my-bibliography
     (concat my-library "bibliography.bib")
     "My bibliography.")
-  (defvar my-readings
-    (concat my-library "readings.org")
+  (defvar my-readings-file
+    (concat my-gitdir "/my-readings/readings.org")
     "My list of readings.")
   (defvar my-init
     (concat my-gitdir "emacs-init/")
@@ -258,6 +258,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (defvar my-todo-file
     (concat my-orgdir "notes.org")
     "My to-do list.")
+  (defvar my-data-science-readings-file
+    (concat my-gitdir "my-data-science-readings/readings.org"))
   ;; (defvar my-mu4e-setup
   ;;   (concat my-gitdir "mu4e-setup/mu4e-setup.el")
   ;;   "My mu4e file.")
@@ -1420,8 +1422,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (prog1 "Setting directories without :custom"
     (setq org-directory           my-orgdir)
     (setq org-default-notes-file  my-notes)
-    (setq org-todo-file           my-todo-file)
-    (setq org-agenda-files        (list org-directory)))
+    (setq org-todo-file           (list my-todo-file
+                                        my-data-science-readings-file))
+    (setq org-agenda-files        (list org-directory
+                                        my-data-science-readings-file)))
 
   ;; If the directory exists, Org files for work.
   (let ((orgdir "~/gitdir/work-git/orgdir/"))
@@ -1429,8 +1433,20 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (progn
           (message "%s" "Found work-related Org directory...")
           (setq org-agenda-files (append org-agenda-files
-                                         (list orgdir))))
+                                         (list orgdir)))
+          (setq org-todo-file (append org-todo-file
+                                      (list orgdir))))
       (message "%s" "No work-related Org directory found.")))
+  ;; If the directory exists, add readings.
+  (let ((orgdir "~/gitdir/my-git/my-readings/readings.org"))
+    (if (file-directory-p orgdir)
+        (progn
+          (message "%s" "Found reading list...")
+          (setq org-agenda-files (append org-agenda-files
+                                         (list orgdir)))
+          (setq org-todo-file (append org-todo-file
+                                      (list orgdir))))
+      (message "%s" "No reading list found.")))
 
   (leaf *org-custom
     ;; :init
