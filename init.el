@@ -1312,7 +1312,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
 
     (leaf flycheck-pycheckers
-      :disabled t
+      ;; :disabled t
       :ensure flycheck
       :custom
       ((flycheck-pycheckers-multi-thread    . "true")
@@ -1823,9 +1823,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((lsp-inhibit-message              . nil)
    (lsp-message-project-root-warning . t)
    ;; Debugging.
-   (lsp-log-io            . t)
-   (lsp-trace             . t)
-   (lsp-print-performance . t)
+   (lsp-log-io            . nil)
+   (lsp-server-trace      . nil)
    ;; Customization.
    (lsp-enable-symbol-highlighting . t)
    (lsp-prefer-flymake             . nil)
