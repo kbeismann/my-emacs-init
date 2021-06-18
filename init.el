@@ -1513,8 +1513,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      ;; always show three weeks. and always start the week on Monday.
      ;;
      (calendar-week-start-day               . 1)
-     (org-agenda-start-day                  . "-7d")
-     (org-agenda-start-on-weekday           . nil)
+     ;; (org-agenda-start-day                  . "-7d")
+     ;; (org-agenda-start-on-weekday           . nil)
      (org-agenda-span                       . 14)))
 
   ;; Always insert blank line before headings.
