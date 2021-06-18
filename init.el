@@ -1524,15 +1524,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
                                      (plain-list-item . auto)))
+
   (leaf *org-refile                     ; TODO: Use :custom.
     :config
     (setq org-refile-targets '((nil :maxlevel              . 9)
                                (org-agenda-files :maxlevel . 9))
-
           org-refile-use-outline-path 'file
-
           org-outline-path-complete-in-steps nil
-
           org-refile-allow-creating-parent-nodes 'confirm))
 
   (leaf *org-capture-templates
@@ -1580,7 +1578,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (lambda (tag)
             (when (member tag target-tags-inherited)
               (org-toggle-tag tag 'off))))))
-
 
     (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags))
 
