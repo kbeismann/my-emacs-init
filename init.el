@@ -1432,9 +1432,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (progn
           (message "%s" "Found work-related Org directory...")
           (setq org-agenda-files (append org-agenda-files
-                                         (list orgdir)))
-          (setq org-todo-file (append org-todo-file
-                                      (list orgdir))))
+                                         (list orgdir))))
       (message "%s" "No work-related Org directory found.")))
   ;; If the directory exists, add readings.
   (let ((orgdir "~/gitdir/my-git/my-readings/readings.org"))
@@ -1442,9 +1440,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (progn
           (message "%s" "Found reading list...")
           (setq org-agenda-files (append org-agenda-files
-                                         (list orgdir)))
-          (setq org-todo-file (append org-todo-file
-                                      (list orgdir))))
+                                         (list orgdir))))
       (message "%s" "No reading list found.")))
 
   (leaf *org-custom
