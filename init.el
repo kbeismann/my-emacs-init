@@ -1655,41 +1655,36 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     (org-super-agenda-mode t)
     (setq org-super-agenda-groups
-          '((:name "@DPDHL and deadline coming up"
-                   ;; Single arguments given alone
-                   :and (
-                         :tag "@work"
-                         :deadline future)
+          '(
+            (:name "@DPDHL - important"
+                   :and(
+                        :tag "@work"
+                        :priority "A"
+                        :not (:deadline future))
                    :order 0)
-            (:name "@DPDHL and priority A"
-                   ;; Single arguments given alone
-                   :and (
-                         :tag "@work"
-                         :priority "A")
-                   :order 0)
-            (:name "@DPDHL"
-                   ;; Single arguments given alone
-                   :tag "@work"
+            (:name "@DPDHL - upcoming"
+                   :and(
+                        :tag "@work"
+                        :deadline future
+                        :not (:priority "A"))
                    :order 1)
+            (:name "@DPDHL"
+                   :tag "@work"
+                   :order 2)
             (:name "READINGS"
                    :tag "reading"
-                   :order 2)
-            (:name "Bills"
-                   ;; Single arguments given alone
-                   :and (
-                         :tag "@home"
-                         :tag "bill")
                    :order 3)
-            (:name "@HOME"
-                   ;; Single arguments given alone
-                   :tag "@home"
+            (:name "Bills"
+                   :tag "bill"
                    :order 4)
+            (:name "@HOME"
+                   :tag "@home"
+                   :not (:tag "bill")
+                   :order 5)
             (:name "SHOPPING LIST"
-                   ;; Single arguments given alone
-                   :and (
-                         :tag "shoppinglist"
-                         :tag "@home")
-                   :order 5)))))
+                   :and (:tag "shoppinglist" :tag "@home")
+                   :order 6)
+            ))))
 
 ;; VIEW DOCUMENTS
 (leaf doc-view
