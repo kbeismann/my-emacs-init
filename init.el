@@ -1422,7 +1422,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (prog1 "Setting directories without :custom"
     (setq org-directory           my-orgdir)
     (setq org-default-notes-file  my-notes)
-    (setq org-todo-file           (list my-todo-file))
+    (setq org-todo-file           my-todo-file)
     (setq org-agenda-files        (list org-directory
                                         my-data-science-readings-file
                                         my-readings-file)))
