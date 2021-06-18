@@ -1649,7 +1649,54 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ;; Add "bibtex %b" to enable bibtex export.
       ;; Source: https://github.com/jkitchin/org-ref
       ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
-      (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f")))))
+      (setq org-latex-pdf-process (list "latexmk -pdflatex=lualatex -shell-escape -bibtex -f -pdf %f"))))
+
+  (leaf org-super-agenda
+    :ensure t
+    :after org
+    :custom
+    (org-agenda-include-deadlines . t)
+    ;; org-agenda-block-separator nil
+    (org-agenda-compact-blocks . t)
+    ;; org-agenda-start-with-log-mode t
+    :config
+    (org-super-agenda-mode t)
+    (setq org-super-agenda-groups
+          '((:name "@DPDHL and deadline coming up"
+                   ;; Single arguments given alone
+                   :and (
+                         :tag "@work"
+                         :deadline future)
+                   :order 0)
+            (:name "@DPDHL and priority A"
+                   ;; Single arguments given alone
+                   :and (
+                         :tag "@work"
+                         :priority "A")
+                   :order 0)
+            (:name "@DPDHL"
+                   ;; Single arguments given alone
+                   :tag "@work"
+                   :order 1)
+            (:name "READINGS"
+                   :tag "reading"
+                   :order 2)
+            (:name "Bills"
+                   ;; Single arguments given alone
+                   :and (
+                         :tag "@home"
+                         :tag "bill")
+                   :order 3)
+            (:name "@HOME"
+                   ;; Single arguments given alone
+                   :tag "@home"
+                   :order 4)
+            (:name "SHOPPING LIST"
+                   ;; Single arguments given alone
+                   :and (
+                         :tag "shoppinglist"
+                         :tag "@home")
+                   :order 5)))))
 
 ;; VIEW DOCUMENTS
 (leaf doc-view
