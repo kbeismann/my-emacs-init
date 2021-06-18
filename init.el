@@ -1424,7 +1424,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (setq org-default-notes-file  my-notes)
     (setq org-todo-file           (list my-todo-file))
     (setq org-agenda-files        (list org-directory
-                                        my-data-science-readings-file)))
+                                        my-data-science-readings-file
+                                        my-readings-file)))
 
   ;; If the directory exists, Org files for work.
   (let ((orgdir "~/gitdir/work-git/orgdir/"))
