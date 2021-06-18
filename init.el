@@ -1512,7 +1512,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (org-agenda-include-diary              . nil)
      ;; (org-agenda-block-separator        . nil)
      ;; (org-agenda-compact-blocks         . nil)
-     (org-agenda-start-with-log-mode        . t)
+     (org-agenda-start-with-log-mode        . nil)
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
      ;;
