@@ -827,8 +827,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (leaf eldoc
     :doc "Show function arglist or variable docstring in echo area"
     :diminish eldoc-mode
-    :custom
-    ((eldoc-idle-delay . 0.2))))
+    :custom ((eldoc-idle-delay . 0.2)))
+  ;; :hook (emacs-lisp-mode-hook . lispy-mode)
+  (leaf lispy
+    :ensure t
+    :hook (emacs-lisp-mode-hook . (lambda () (lispy-mode 1)))))
 
 ;; BIBTEX
 (leaf bibtex
