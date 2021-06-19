@@ -1503,12 +1503,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (org-log-done-with-time                . t)
      (org-log-done                          . 'time)
      (org-log-repeat                        . 'time)
+     ;; Agenda settings.
      (org-agenda-skip-scheduled-if-done     . t)
      (org-agenda-skip-deadline-if-done      . t)
      (org-agenda-include-deadlines          . t)
      (org-agenda-include-diary              . nil)
      ;; (org-agenda-block-separator        . nil)
-     ;; (org-agenda-compact-blocks         . nil)
+     (org-agenda-compact-blocks             . t)
      (org-agenda-start-with-log-mode        . nil)
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
@@ -1516,7 +1517,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
      (calendar-week-start-day               . 1)
      ;; (org-agenda-start-day                  . "-7d")
      ;; (org-agenda-start-on-weekday           . nil)
-     (org-agenda-span                       . 14)))
+     ;; (org-agenda-span                       . 14)
+     ))
 
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading         . auto)
