@@ -1655,34 +1655,26 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
     (org-super-agenda-mode t)
     (setq org-super-agenda-groups
-          '(
-            (:name "@DPDHL - important"
-                   :and(
-                        :tag "@work"
-                        :priority "A"
-                        :not (:deadline future))
+          '((:name "DPDHL"
+                   :and (
+                         :category "DPDHL"
+                         :not (
+                               :tag ("bill" "shoppinglist")))
                    :order 0)
-            (:name "@DPDHL - upcoming"
-                   :and(
-                        :tag "@work"
-                        :deadline future
-                        :not (:priority "A"))
-                   :order 1)
-            (:name "@DPDHL"
-                   :tag "@work"
-                   :order 2)
-            (:name "READINGS"
-                   :tag "reading"
-                   :order 3)
             (:name "Bills"
                    :tag "bill"
+                   :order 3)
+            (:name "@home"
+                   :and (
+                         :category "HOME"
+                         :not (
+                               :tag ("bill" "shoppinglist")))
                    :order 4)
-            (:name "@HOME"
-                   :tag "@home"
-                   :not (:tag "bill")
+            (:name "Shopping list"
+                   :tag "shoppinglist"
                    :order 5)
-            (:name "SHOPPING LIST"
-                   :and (:tag "shoppinglist" :tag "@home")
+            (:name "Readings"
+                   :category "READINGS"
                    :order 6)
             ))))
 
