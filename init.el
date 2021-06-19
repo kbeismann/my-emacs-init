@@ -828,11 +828,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :doc "Show function arglist or variable docstring in echo area"
     :diminish eldoc-mode
     :custom
-    ((eldoc-idle-delay . 0.2)))
-
-
-  (leaf ppp
-    :ensure t))
+    ((eldoc-idle-delay . 0.2))))
 
 ;; BIBTEX
 (leaf bibtex
