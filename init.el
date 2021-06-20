@@ -1876,65 +1876,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t))
 
-;; EMACS SPEAKS STATISTICS (ESS)
-(leaf ess
-  :disabled t
-  :ensure t
-  :commands R
-  :config
-
-  ;; Always split window vertically.
-  ;; (add-hook 'ess-mode-hook
-  ;;           (lambda()
-  ;;             (setq-local split-height-threshold nil)
-  ;;             (setq-local split-width-threshold  0)
-  ;;             ))
-  ;; Load Rnw-mode and Snw-mode first.
-  ;; (add-to-list 'auto-mode-alist '("\\.Rnw\\'" . Rnw-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\.Snw\\'" . Snw-mode))
-  ;; Always whitespace after comma.
-  (setq ess-R-smart-operators nil)
-
-  ;; Don't restore history and don't save history.
-  (setq inferior-R-args "--no-restore-history --no-save")
-
-  ;; Start R in the working directory by default.
-  (setq ess-ask-for-ess-directory nil)
-
-  ;; ESS will not print the evaluated commands, also speeds up the
-  ;; evaluation.
-  (setq ess-eval-visibly nil)
-
-  ;; Major mode font-lock.
-  (setq ess-R-font-lock-keywords
-        '((ess-R-fl-keyword:modifiers . t)
-          (ess-R-fl-keyword:fun-defs  . t)
-          (ess-R-fl-keyword:keywords  . t)
-          (ess-R-fl-keyword:assign-ops)
-          (ess-R-fl-keyword:constants . t)
-          (ess-fl-keyword:fun-calls   . t)
-          (ess-fl-keyword:numbers     . t)
-          (ess-fl-keyword:operators   . t)
-          (ess-fl-keyword:delimiters  . t)
-          (ess-fl-keyword:=           . t)
-          (ess-R-fl-keyword:F&T       . t)
-          (ess-R-fl-keyword:%op%      . nil)))
-
-  ;; Inferior mode font-lock.
-  (setq inferior-R-font-lock-keywords
-        '((ess-R-fl-keyword:modifiers . t)
-          (ess-R-fl-keyword:fun-defs  . t)
-          (ess-R-fl-keyword:keywords  . t)
-          (ess-R-fl-keyword:assign-ops)
-          (ess-R-fl-keyword:constants . t)
-          (ess-fl-keyword:fun-calls   . t)
-          (ess-fl-keyword:numbers     . t)
-          (ess-fl-keyword:operators   . t)
-          (ess-fl-keyword:delimiters  . t)
-          (ess-fl-keyword:=           . t)
-          (ess-R-fl-keyword:F&T       . t)
-          (ess-R-fl-keyword:%op%      . nil))))
-
 ;; POLY-MODE
 
 ;; (leaf poly-markdown
