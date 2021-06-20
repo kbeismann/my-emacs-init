@@ -1842,62 +1842,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                   '("~/.authinfo.gpg")))
   (leaf pinentry))
 
-;; OPENWITH
-(leaf openwith
-  :disabled t
-  :ensure t
-  :hook
-  ((text-mode-hook     .
-                       (lambda ()
-                         (openwith-mode 1)))
-   (dired-mode-hook    .
-                       (lambda ()
-                         (openwith-mode 1)))
-   (message-mode-hook  .
-                       (lambda ()
-                         (openwith-mode 0)))
-   (markdown-mode-hook .
-                       (lambda ()
-                         (openwith-mode 1))))
-  :config
-  (openwith-mode 1)
-                                        ; Activate/deactivate openwith-mode by
-                                        ; default.
-  ;; Manually define file associations.
-  (when (eq system-type 'gnu/linux)
-    (if (string-equal
-         (substring
-          (shell-command-to-string "lsb_release -sd")
-          0 3)
-         (substring "Arch" 0 3))
-        (setq openwith-associations '(
-                                      ;; ("\\.png\\'" "imv" (file))
-                                      ;; ("\\.jpg\\'" "imv" (file)f)
-                                      ("\\.docx\\'" "libreoffice"
-                                       (file))
-                                      ("\\.odt\\'" "libreoffice"
-                                       (file))
-                                      ;; ("\\.pdf\\'" "evince" (file))
-                                      ;; ("\\.html\\'" "firefox --new-window" (file))
-                                      ;; ("\\.htm\\'" "firefox --new-window" (file))
-                                      ("\\.mkv\\'" "mpv"
-                                       (file))))
-      (setq openwith-associations '(
-                                    ;; ("\\.png\\'" "imv" (file))
-                                    ;; ("\\.jpg\\'" "imv" (file)f)
-                                    ("\\.docx\\'" "libreoffice"
-                                     (file))
-                                    ("\\.odt\\'" "libreoffice"
-                                     (file))
-                                    ;; ("\\.pdf\\'" "evince" (file))
-                                    ("\\.html\\'" "firefox --new-window"
-                                     (file))
-                                    ("\\.htm\\'" "firefox --new-window"
-                                     (file))
-                                    ("\\.mkv\\'" "mpv"
-                                     (file))))
-      )))
-
 ;; YAML-MODE
 (leaf yaml-mode
   :config
