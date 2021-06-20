@@ -1864,7 +1864,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; SSH DEPLOY
 (leaf ssh-deploy
-  ;; :disabled t
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
   :doc "Effortlessly deploy local files and directories to remote hosts via Tramp."
   :ensure t
