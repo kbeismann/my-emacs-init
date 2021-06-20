@@ -944,7 +944,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ("s"      . helm-surfraw)
       ("r"      . helm-regexp)
       ("m"      . helm-multi-files)
-      ("a"      . helm-apropos)))
+      ("a"      . helm-apropos)
+      ("i"      . helm-imenu)))
     :init
     ;; Remove old bind for helm-command-map.
     (global-unset-key
@@ -1764,8 +1765,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ("C-c f r" . lsp-find-references)
     ("C-c f d" . lsp-find-definition)
     ("C-c w d" . xref-find-definitions-other-window)
-    ("C-c d p" . lsp-describe-thing-at-point)
-    ("C-c i m" . helm-imenu)))
+    ("C-c d p" . lsp-describe-thing-at-point)))
   :custom
   ((lsp-inhibit-message              . nil)
    (lsp-message-project-root-warning . t)
