@@ -1310,27 +1310,20 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
            ("\\.wsgi$" . python-mode))
     :config
 
-    (leaf flycheck-pycheckers
-      ;; :disabled t
-      :ensure flycheck
-      :custom
-      ((flycheck-pycheckers-multi-thread    . "true")
-       (flycheck-pycheckers-max-line-length . 88)
+    (leaf
+      flycheck-pycheckers
+      :ensure t
+      :after flycheck
+      :custom ((flycheck-pycheckers-multi-thread . "true")
+               (flycheck-pycheckers-max-line-length . 88)
                                         ; Follow Black guidelines.
-       (flycheck-pycheckers-checkers        .
-                                            '(pylint flake8 mypy3 bandit)))
-      :config
-      ;; TODO: Add this to :hook.
-      (with-eval-after-load 'flycheck
-        (add-hook 'flycheck-mode-hook
-                  #'flycheck-pycheckers-setup))
-
-
-      ;; (setq flycheck-pycheckers-ignore-codes (append
-      ;;                                         flycheck-pycheckers-ignore-codes
-      ;;                                         '("C0330" "W503" "E701" "B311"
-      ;;                                           "E231" "E203" "C0301")))
-      )
+               (flycheck-pycheckers-checkers . '(pylint flake8 mypy3 bandit)))
+      :config ;; TODO: Add this to :hook.
+      (with-eval-after-load
+          'flycheck
+        (add-hook
+         'flycheck-mode-hook
+         #'flycheck-pycheckers-setup)))
 
 
     (leaf pipenv
