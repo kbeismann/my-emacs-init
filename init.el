@@ -1754,8 +1754,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; LSP
 (leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
   :ensure t
-  :ensure projectile company yasnippet flycheck
-  :after flycheck
+  :ensure projectile company yasnippet flycheck which-key
   :commands (lsp lsp-deferred)
   :hook
   (python-mode-hook . lsp-deferred)
