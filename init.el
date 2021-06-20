@@ -2137,9 +2137,6 @@ minute).
   ;; (setq org-mind-map-engine "circo")  ; Circular Layout
   )
 
-(leaf org-d20
-  :ensure t)
-
 ;; Remove timestamp from messages after startup.
 (advice-remove 'message #'my-message-with-timestamp)
 ;;; Footer:
