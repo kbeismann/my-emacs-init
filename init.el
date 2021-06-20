@@ -1361,14 +1361,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
       (python-pytest-pdb-track . t))
 
-
-    (leaf pycoverage
-      :disabled t
-      :ensure t
-      :hook
-      (python-mode-hook . pycoverage-mode))
-
-
     (leaf sphinx-doc
       :ensure t
       :load-path "~/gitdir/my-git/sphinx-doc.el/"
