@@ -2048,15 +2048,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
 
-;; TYPIT
-(leaf typit
-  :doc " This is a typing game for Emacs. In this game, you type
-words that are picked randomly from N most frequent words in
-language you're practicing, until time is up (by default it's one
-minute).
-"
-  :ensure t)
-
 ;; YAML-MODE
 (leaf yaml-mode
   :config
