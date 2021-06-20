@@ -972,17 +972,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :doc "Use helm for Flyspell"
     :ensure t
     :bind
-    ("C-c f c" . helm-flyspell-correct))
-
-
-  (leaf helm-bibtex
-    :doc "Use helm for BibTeX"
-    :disabled t
-    :ensure t
-    :after helm bibtex
-    :bind
-    (helm-command-map
-     ("b". helm-bibtex))))
+    ("C-c f c" . helm-flyspell-correct)))
 
 ;; SET COLOR THEME
 (leaf base16-theme
