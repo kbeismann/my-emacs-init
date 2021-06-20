@@ -147,7 +147,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Disable certain byte compiler warnings to cut down on the noise.
   (setq byte-compile-warnings '(not free-vars
                                     unresolved noruntime
-                                    lexical make-local)))
+                                    lexical make-local))
+  (setq read-process-output-max (* 1024 1024))) ; Increase the amount of data which Emacs reads from the process (1MB).
 
 ;; WORK-RELATED PROXY SETTINGS
 
