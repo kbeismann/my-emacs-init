@@ -1776,7 +1776,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (lsp-enable-symbol-highlighting . t)
    (lsp-prefer-flymake             . nil)
    (lsp-auto-guess-root            . t)
-   (lsp-enable-snippet             . t))
+   (lsp-enable-snippet             . t)
+   (lsp-idle-delay                 . 0.500))
   :config
 
   ;; Define faces for highlighting in LSP.
