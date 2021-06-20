@@ -1752,7 +1752,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :diminish git-timemachine-mode))
 
 ;; LSP
-(leaf lsp-mode                          ; TODO: Structure > Wrap LSP-related sections.
+;; TODO: Structure > Wrap LSP-related sections.
+(leaf lsp-mode
   :ensure t
   :ensure projectile company yasnippet flycheck which-key
   :commands (lsp lsp-deferred)
