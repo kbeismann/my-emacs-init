@@ -1828,20 +1828,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :inherit 'unspecified
                       :background base02-prop))
 
-;; LSP-UI
-(leaf lsp-ui
-  :disabled t
-  :commands lsp-ui-mode
-  :hook
-  (lsp . lsp-ui-mode)
-  :config
-
-  (setq lsp-ui-sideline-ignore-duplicate t
-
-        lsp-ui-doc-use-childframe nil
-
-        lsp-ui-sideline-mode nil))
-
 ;; HELM-LSP
 (leaf helm-lsp
   :after helm lsp-mode
