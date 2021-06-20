@@ -1755,9 +1755,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :ensure t
   :ensure projectile company yasnippet flycheck
   :after flycheck
-  :commands lsp
+  :commands (lsp lsp-deferred)
   :hook
-  (python-mode-hook . lsp)
+  (python-mode-hook . lsp-deferred)
   :bind
   (lsp-mode-map
    (("C-c r p" . lsp-rename)
