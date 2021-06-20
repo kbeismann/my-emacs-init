@@ -1876,24 +1876,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t))
 
-;; POLY-MODE
-
-;; (leaf poly-markdown
-;;   ;; :disabled t
-;;   :ensure t
-;;   ;; :ensure poly-R
-;;   :mode                                 ; TODO: Cleanup > Sort this.
-;;   (("\\.md$"         . poly-markdown-mode)
-;;    ("README\\.md\\'" . gfm-mode)
-;;    ("\\.Snw$"        . poly-noweb+R-mode)
-;;    ("\\.Rnw$"        . poly-noweb+R-mode)
-;;    ("\\.Rmd$"        . poly-markdown+R-mode)
-;;    ("\\.rapport$"    . poly-rapport-mode)
-;;    ("\\.Rhtml$"      . poly-html+R-mode)
-;;    ("\\.Rbrew$"      . poly-brew+R-mode)
-;;    ("\\.Rcpp$"       . poly-R+C++-mode)
-;;    ("\\.cppR$"       . poly-C++R-mode)))
-
 ;; MARKDOWN-MODE
 (leaf markdown-mode
   :ensure t
