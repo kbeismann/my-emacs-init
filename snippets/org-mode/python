@@ -3,6 +3,6 @@
 # key: <py
 # contributor: Karsten Beismann
 # --
-#+BEGIN_SRC python :results output code
+#+BEGIN_SRC python :results output code :session session_name
 $0
 #+END_SRC

@@ -3,6 +3,6 @@
 # key: <sh
 # contributor: Karsten Beismann
 # --
-#+BEGIN_SRC sh :results output
+#+BEGIN_SRC sh :results output :session session_name
 $0
 #+END_SRC
