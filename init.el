@@ -1771,6 +1771,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    (lsp-enable-snippet             . t)
    (lsp-idle-delay                 . 0.500))
   :config
+  (prog1 "Enable which-key integration in the active major mode for lsp-mode-map."
+    (with-eval-after-load
+        'lsp-mode
+      (add-hook
+       'lsp-mode-hook
+       #'lsp-enable-which-key-integration)))
 
   ;; Define faces for highlighting in LSP.
   (set-face-attribute 'lsp-face-highlight-write nil
