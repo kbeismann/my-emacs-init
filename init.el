@@ -1707,25 +1707,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :config
 
     (add-to-list 'auto-mode-alist
-                 '("\\.epub\\'" . nov-mode)))
-
-
-
-  ;; ORG-NOTER
-
-  ;; Org-noter's purpose is to let you create notes that are kept in sync when
-  ;; you scroll through the document, but that are external to it - the notes
-  ;; themselves live in an Org-mode file.
-  ;; Sources:
-  ;; * https://github.com/weirdNox/org-noter
-  ;; * Also a more detailed setup: https://write.as/dani/notes-on-org-noter
-  (leaf org-noter
-    :ensure t
-    :bind
-    (pdf-view-mode-map
-     ("C-c o n" . org-noter))
-    :custom
-    (org-noter-separate-notes-from-heading . t)))
+                 '("\\.epub\\'" . nov-mode))))
 
 ;; GIT AND VERSION CONTROL
 (leaf *git-tools
