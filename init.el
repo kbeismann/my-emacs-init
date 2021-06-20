@@ -1050,7 +1050,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Look of the current line number.  Here, the background is the color
   ;; of the number.
   (set-face-attribute 'line-number-current-line
-                      nil :background base08-prop :foreground base00-prop)
+                      nil :foreground base08-prop :background base01-prop)
 
   ;; Look and color of the line numbers.
   (set-face-attribute 'line-number
