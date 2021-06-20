@@ -1851,8 +1851,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; HELM-LSP
 (leaf helm-lsp
-  ;; :disabled t
-  ;; :ensure nil
+  :after helm lsp-mode
   :commands helm-lsp-workspace-symbol)
 
 ;; LATEX/AUCTEX
