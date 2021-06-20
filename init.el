@@ -2036,18 +2036,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                      (file))))
       )))
 
-;; GSCHOLAR-BIBTEX
-
-;; "Google Scholar" as default source and write to bibliography.bib directly.
-(leaf gscholar-bibtex
-  :disabled t
-  :ensure t
-  :config
-  ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-  (setq gscholar-bibtex-default-source "Google Scholar"))
-
-;; gscholar-bibtex-database-file "~/gitdir/bibliography/bibliography.bib"))
-
 ;; YAML-MODE
 (leaf yaml-mode
   :config
