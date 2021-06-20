@@ -1835,24 +1835,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :inherit 'unspecified
                       :background base02-prop))
 
-;; COMPANY-LSP
-(leaf company-lsp
-  :ensure t
-  :after lsp company
-  :commands company-lsp
-  :config
-
-  (push 'company-lsp company-backends)
-
-  ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-
-        company-lsp-async t
-
-        company-lsp-cache-candidates nil
-
-        company-lsp-enable-snippet t))
-
 ;; LSP-UI
 (leaf lsp-ui
   :disabled t
