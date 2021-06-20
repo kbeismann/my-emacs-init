@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: python
+# key: <py
+# contributor: Karsten Beismann
+# --
+#+BEGIN_SRC python :results output code
+$0
+#+END_SRC
