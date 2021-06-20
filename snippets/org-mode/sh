@@ -3,6 +3,6 @@
 # key: <sh
 # contributor: Karsten Beismann
 # --
-#+BEGIN_SRC sh :results output :export both
+#+BEGIN_SRC sh :results output
 $0
 #+END_SRC
