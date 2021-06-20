@@ -1847,35 +1847,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :after helm lsp-mode
   :commands helm-lsp-workspace-symbol)
 
-;; LATEX/AUCTEX
-(leaf auctex
-  :disabled t
-  :ensure t
-  :hook
-  ((LaTeX-mode-hook . turn-on-reftex)
-   (LaTeX-mode-hook . LaTeX-math-mode))
-  :config
-
-  ;; (unload-feature 'tex-site) ; Remove a preinstalled AUCTeX completely
-  ;; before ; any of its modes have been used.
-  (latex-preview-pane-enable)
-
-  ;; Basic setup.
-  (setq-default TeX-auto-save t
-                TeX-parse-self t
-                TeX-master nil)
-
-  (setq TeX-show-compilation nil)
-                                        ; If t, automatically shows compilation log.
-  (setq TeX-save-query nil)
-                                        ; Don't prompt for saving the .tex file.
-  ;; Misc. Latex settings.
-  ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-  ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  (setq reftex-plug-into-AUCTeX t))
-
 ;; MARKDOWN-MODE
 (leaf markdown-mode
   :ensure t
