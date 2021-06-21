@@ -1300,6 +1300,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :commands python-mode
     :mode (("\\.py\\'" . python-mode)
            ("\\.wsgi$" . python-mode))
+    :custom
+    (python-indent-offset . 4)
     :config
 
     (leaf
