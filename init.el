@@ -1791,7 +1791,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                       :italic nil
                       :underline nil
                       :inherit 'unspecified
-                      :background base02-prop))
+                      :background base02-prop)
+  (lsp-register-custom-settings
+   '(("pyls.plugins.pyls_mypy.enabled" t t)
+     ("pyls.plugins.pyls_mypy.live_mode" nil t)
+     ("pyls.plugins.pyls_black.enabled" t t)
+     ("pyls.plugins.pyls_isort.enabled" t t)
+     ("pyls.plugins.flake8.enabled" t t))))
 
 ;; HELM-LSP
 (leaf helm-lsp
