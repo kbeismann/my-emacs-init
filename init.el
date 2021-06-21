@@ -1770,14 +1770,23 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ((lsp-inhibit-message              . nil)
    (lsp-message-project-root-warning . t)
    ;; Debugging.
-   (lsp-log-io            . nil)
-   (lsp-server-trace      . nil)
+   (lsp-log-io                       . nil)
+   (lsp-server-trace                 . nil)
    ;; Customization.
-   (lsp-enable-symbol-highlighting . t)
-   (lsp-prefer-flymake             . nil)
-   (lsp-auto-guess-root            . t)
-   (lsp-enable-snippet             . t)
-   (lsp-idle-delay                 . 0.500))
+   (lsp-enable-symbol-highlighting   . t)
+   (lsp-prefer-flymake               . nil)
+   (lsp-auto-guess-root              . t)
+   (lsp-enable-snippet               . t)
+   (lsp-idle-delay                   . 0.500)
+   ;; Advanced.
+   (lsp-completion-show-detail       . nil)
+   (lsp-completion-show-kind         . nil)
+   (lsp-eldoc-enable-hover           . nil)
+   (lsp-enable-indentation           . t)
+   (lsp-headerline-breadcrumb-enable . nil)
+   (lsp-enable-on-type-formatting    . nil)
+   (lsp-modeline-code-actions-enable . nil)
+   (lsp-modeline-diagnostics-enable  . nil))
   :config
   (prog1 "Enable which-key integration in the active major mode for lsp-mode-map."
     (with-eval-after-load
