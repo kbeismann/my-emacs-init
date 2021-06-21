@@ -376,7 +376,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
    ;; Clipboard behavior.
    (x-select-enable-clipboard-manager . t)
    ;; Debugging.
-   (debug-on-error  . nil)
+   (debug-on-error  . t)
    (init-file-debug . t)
    ;; Save-related settings.
    (save-place-mode   . t)
