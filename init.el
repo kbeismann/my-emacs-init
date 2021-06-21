@@ -1759,6 +1759,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   :commands (lsp lsp-deferred)
   :hook
   (python-mode-hook . lsp-deferred)
+  :bind
+  (lsp-mode-map
+   (("C-c r p" . lsp-rename)
+    ("C-c f r" . lsp-find-references)
+    ("C-c f d" . lsp-find-definition)
+    ("C-c w d" . xref-find-definitions-other-window)
+    ("C-c d p" . lsp-describe-thing-at-point)))
   :custom
   ((lsp-inhibit-message              . nil)
    (lsp-message-project-root-warning . t)
