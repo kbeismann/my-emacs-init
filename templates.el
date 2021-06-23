@@ -81,7 +81,7 @@
       '(("TODO"           . org-warning)
         ("GET_FEEDBACK"   . org-warning)
         ("DONE"           . org-done)
-        ("CHANCELLED"     . org-cone)
+        ("CHANCELLED"     . org-done)
         ("FORWARDED"      . org-done)
         ("READ"           . org-done)
         ("IN_PROGRESS"    . org-link)
