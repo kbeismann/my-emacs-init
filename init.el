@@ -242,7 +242,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (concat my-library "bibliography.bib")
     "My bibliography.")
   (defvar my-readings
-    (concat my-gitdir "/my-readings/readings.org")
+    (concat my-gitdir "my-readings/readings.org")
     "My list of readings.")
   (defvar my-init
     (concat my-gitdir "emacs-init/")
@@ -1404,7 +1404,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (setq org-agenda-files        (list org-directory
                                         my-data-science-notes
                                         my-readings)))
-  (let ((work-notes "~/gitdir/work-git/my-work-dirs/notes.el"))
+  (let ((work-notes "~/gitdir/my-git/my-work-dirs/notes.el"))
     (if (file-directory-p work-notes)
         (progn
           (message "%s" "Found work-related notes...")
