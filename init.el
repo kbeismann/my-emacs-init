@@ -39,59 +39,6 @@
 ;; Some optional settings are not part of this repository.
 
 
-;;; Installation:
-
-;; * Install fonts if necessary.
-;; * Create a symbolic link or copy this file to ~/.emacs.
-
-
-;;; Working font options:
-
-;; THESE OPTIONS ARE OUTDATED SINCE PANDOC 1.44!
-
-;; * Hack:
-;; ** "Hack-9" ; Arch
-;; ** "Hack:pixelsize=14" ; Arch
-
-;; * DejaVu Sans Mono:
-;; ** "DejaVu Sans Mono-10"; Arch
-
-;; * Inconsolata:
-;; ** "Inconsolata-11"
-;; ** "Inconsolata:pixelsize=14" ; Arch
-
-;; * Dina: Working with Pango 1.44 when using the AUR version dina-font-otb.
-;; ** "Dina-9"
-;; ** "Dina:pixelsize=12"
-;; ** "-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"
-
-;; * Terminus:
-;; ** "Terminus-12":
-;; ** "xos4 Terminus-10" ; Arch, Manjaro
-;; ** "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*"
-;; ** "-xos4-terminus-medium-r-normal-*-14-120-*-*-*-*-*-*" ; Ubuntu
-;; ** "-xos4-terminus-medium-r-normal--16.5-120-*-*-*-*-*-*" ; Ubuntu
-
-
-;;; Sources (incomplete):
-
-;; * https://github.com/rememberYou/.emacs.d/
-;; * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
-;; * https://gitlab.com/k-bps/mesk/blob/master/src/init.org
-;; * https://github.com/zamansky/using-emacs
-;; * https://ladicle.com/post/config/
-;; * https://github.com/kimim/kimim-emacs
-
-
-;;; To-do:
-
-;; * NEXT: Structure > External repository for snippets.
-;; * TODO: Fix > The org/org-ref setup is too messy.
-;; * TODO: Minor > Add global settings for Org Columns view.
-;; * TODO: Formatting > Format this file with a formatter.
-;; * TODO: Packages > Fix YASnippet.
-
-
 ;;; Code:
 
 ;; This hook returns the loading time after startup.  A hook is used so the
