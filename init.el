@@ -1404,22 +1404,20 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (setq org-agenda-files        (list org-directory
                                         my-data-science-notes
                                         my-readings)))
-
-  ;; If the directory exists, Org files for work.
-  (let ((orgdir "~/gitdir/work-git/orgdir/"))
-    (if (file-directory-p orgdir)
+  (let ((work-notes "~/gitdir/work-git/my-work-dirs/notes.el"))
+    (if (file-directory-p work-notes)
         (progn
-          (message "%s" "Found work-related Org directory...")
-          (setq org-agenda-files (append org-agenda-files
-                                         (list orgdir))))
-      (message "%s" "No work-related Org directory found.")))
+          (message "%s" "Found work-related notes...")
+          (load work-notes))
+      (message "%s" "No work-related notes found.")))
+
   ;; If the directory exists, add readings.
-  (let ((orgdir "~/gitdir/my-git/my-readings/readings.org"))
-    (if (file-directory-p orgdir)
+  (let ((readings "~/gitdir/my-git/my-readings/readings.org"))
+    (if (file-directory-p readings)
         (progn
           (message "%s" "Found reading list...")
           (setq org-agenda-files (append org-agenda-files
-                                         (list orgdir))))
+                                         (list readings))))
       (message "%s" "No reading list found.")))
 
   (leaf *org-custom
