@@ -152,13 +152,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 ;; WORK-RELATED PROXY SETTINGS
 
-;; If the directory exists, load proxy settings.
-(let ((proxies "~/gitdir/work-git/emacs-init/proxies.el"))
+(let ((proxies "~/gitdir/my-git/my-work-dirs/proxies.el"))
   (if (file-exists-p proxies)
       (progn
-        (message "%s" "Found proxy settings for work...")
+        (message "%s" "Found work-related proxy settings...")
         (load proxies))
-    (message "%s" "No proxy settings specified.")))
+    (message "%s" "No proxy settings found.")))
 
 ;; LEAF SETUP
 
