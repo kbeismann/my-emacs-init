@@ -182,7 +182,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (concat my-gitdir "my-readings/readings.org")
     "My list of readings.")
   (defvar my-init
-    (concat my-gitdir "emacs-init/")
+    (concat my-gitdir "my-emacs-init/")
     "My Emacs initialization file repository.")
   (defvar my-org-templates
     (concat my-init "templates.el")
