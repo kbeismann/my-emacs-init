@@ -241,7 +241,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (defvar my-bibliography
     (concat my-library "bibliography.bib")
     "My bibliography.")
-  (defvar my-readings-file
+  (defvar my-readings
     (concat my-gitdir "/my-readings/readings.org")
     "My list of readings.")
   (defvar my-init
@@ -256,10 +256,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (defvar my-notes
     (concat my-orgdir "notes.org")
     "My notes.")
-  (defvar my-todo-file
+  (defvar my-todos
     (concat my-orgdir "notes.org")
     "My to-do list.")
-  (defvar my-data-science-readings-file
+  (defvar my-data-science-readings
     (concat my-gitdir "my-data-science-readings/readings.org"))
   ;; (defvar my-mu4e-setup
   ;;   (concat my-gitdir "mu4e-setup/mu4e-setup.el")
@@ -1400,10 +1400,10 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (prog1 "Setting directories without :custom"
     (setq org-directory           my-orgdir)
     (setq org-default-notes-file  my-notes)
-    (setq org-todo-file           my-todo-file)
+    (setq org-todo-file           my-todos)
     (setq org-agenda-files        (list org-directory
-                                        my-data-science-readings-file
-                                        my-readings-file)))
+                                        my-data-science-notes
+                                        my-readings)))
 
   ;; If the directory exists, Org files for work.
   (let ((orgdir "~/gitdir/work-git/orgdir/"))
