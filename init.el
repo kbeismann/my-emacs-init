@@ -722,23 +722,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
   (auto-compile-on-save-mode))
 
-;; BENCHMARKS
-(leaf *benchmarking
-  :disabled t
-  :config
-
-  (leaf benchmark-init
-    :url "https://github.com/dholm/benchmark-init-el"
-    :doc "There are two ways in which benchmark-init's results
-    can be presented, as a table or in a tree. The table can be
-    displayed by
-    running: (benchmark-init/show-durations-tabulated)"
-    :leaf-defer nil
-    :ensure t
-    :require t
-    :hook
-    ((after-init-hook . benchmark-init/deactivate))))
-
 ;; DIRED
 (leaf *dired-setup
   :config
