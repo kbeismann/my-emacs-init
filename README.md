@@ -60,10 +60,10 @@ $ emacs
 
 ## Some working font options
 
-OUT OF DATE!
+Out of date!
 
 * Dina:
-  * `"Dina-9"`
+  * `"Dina-9"`-- Working with Pango 1.44 when using the AUR version dina-font-otb.
   * `"Dina:pixelsize=12"` -- Arch, Manjaro
   * `"-*-dina-medium-r-*-*-12-*-*-*-*-*-*-*"`
 
@@ -86,6 +86,15 @@ OUT OF DATE!
   * `"Inconsolata:pixelsize=14"` -- Arch
 
 
+## To-do
+
+* NEXT: Structure > External repository for snippets.
+* TODO: Fix > The org/org-ref setup is too messy.
+* TODO: Minor > Add global settings for Org Columns view.
+* TODO: Formatting > Format this file with a formatter.
+* TODO: Packages > Fix YASnippet.
+
+
 ## Sources (incomplete)
 
 * https://github.com/rememberYou/.emacs.d/blob/master/config.org/
@@ -95,3 +104,4 @@ OUT OF DATE!
 * https://github.com/zamansky/using-emacs
 * https://ladicle.com/post/config/
 * https://www.gnu.org/software/emacs/
+* https://github.com/kimim/kimim-emacs
