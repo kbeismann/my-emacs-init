@@ -1631,7 +1631,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;; org-agenda-start-with-log-mode t
     :config
     (org-super-agenda-mode t)
-    (setq org-super-agenda-groups       ; TODO: Remove explicit references.
+    (setq org-super-agenda-groups
           '((:name "Bills"
                    :tag "bill"
                    :order 3)
