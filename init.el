@@ -1634,20 +1634,29 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (setq org-super-agenda-groups
           '((:name "Bills"
                    :tag "bill"
+                   :order 2)
+            (:name "Data science"
+                   :and (
+                         :category "datascience"
+                         :not (:tag "reading"))
                    :order 3)
+            (:name "Data science readings"
+                   :and (
+                         :category "datascience"
+                         :tag "reading")
+                   :order 4)
             (:name "@home"
                    :and (
-                         :category "HOME"
+                         :category "home"
                          :not (
                                :tag ("bill" "shoppinglist")))
-                   :order 4)
-            (:name "Shopping list"
-                   :tag "shoppinglist"
                    :order 5)
             (:name "Readings"
-                   :category "READINGS"
+                   :category "readings"
                    :order 6)
-            ))
+            (:name "Shopping list"
+                   :tag "shoppinglist"
+                   :order 7)))
     (let (work-agenda "~/gitdir/my-git/my-work-dirs/agenda.el")
       (if (file_directory-p work-agenda)
           (progn
