@@ -1622,39 +1622,40 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;; org-agenda-start-with-log-mode t
     :config
     (org-super-agenda-mode t)
-    (setq org-super-agenda-groups
-          '((:name "Bills"
-                   :tag "bill"
-                   :order 2)
-            (:name "Data science"
-                   :and (
-                         :category "datascience"
-                         :not (:tag "reading"))
-                   :order 3)
-            (:name "Data science readings"
-                   :and (
-                         :category "datascience"
-                         :tag "reading")
-                   :order 4)
-            (:name "@home"
-                   :and (
-                         :category "home"
-                         :not (
-                               :tag ("bill" "shoppinglist")))
-                   :order 5)
-            (:name "Readings"
-                   :category "readings"
-                   :order 6)
-            (:name "Shopping list"
-                   :tag "shoppinglist"
-                   :order 7)))
-    (let (work-agenda "~/gitdir/my-git/my-work-dirs/agenda.el")
-      (if (file_directory-p work-agenda)
+
+    (let ((work-agenda "~/gitdir/my-git/my-work-dirs/agenda.el"))
+      (if (file-exists-p work-agenda)
           (progn
             (message "%s" "Found work-related agenda settings...")
-            (load work-agenda)))
-      (message "%s" "No work-related agenda settings found."))))
-
+            (load work-agenda))
+        (progn
+          (message "%s" "No work-related agenda settings found.")
+          (setq org-super-agenda-groups
+                '((:name "Bills"
+                         :tag "bill"
+                         :order 2)
+                  (:name "Data science"
+                         :and (
+                               :category "datascience"
+                               :not (:tag "reading"))
+                         :order 3)
+                  (:name "Data science readings"
+                         :and (
+                               :category "datascience"
+                               :tag "reading")
+                         :order 4)
+                  (:name "@home"
+                         :and (
+                               :category "home"
+                               :not (
+                                     :tag ("bill" "shoppinglist")))
+                         :order 5)
+                  (:name "Readings"
+                         :category "readings"
+                         :order 6)
+                  (:name "Shopping list"
+                         :tag "shoppinglist"
+                         :order 7))))))))
 
 ;; VIEW DOCUMENTS
 (leaf doc-view
