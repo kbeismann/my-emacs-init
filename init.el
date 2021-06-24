@@ -1404,7 +1404,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                         my-data-science-notes
                                         my-readings)))
   (let ((work-notes "~/gitdir/my-git/my-work-dirs/notes.el"))
-    (if (file-directory-p work-notes)
+    (if (file-exists-p work-notes)
         (progn
           (message "%s" "Found work-related notes...")
           (load work-notes))
