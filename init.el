@@ -1632,14 +1632,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ;; org-agenda-start-with-log-mode t
     :config
     (org-super-agenda-mode t)
-    (setq org-super-agenda-groups
-          '((:name "DPDHL"
-                   :and (
-                         :category "DPDHL"
-                         :not (
-                               :tag ("bill" "shoppinglist")))
-                   :order 0)
-            (:name "Bills"
+    (setq org-super-agenda-groups       ; TODO: Remove explicit references.
+          '((:name "Bills"
                    :tag "bill"
                    :order 3)
             (:name "@home"
@@ -1654,7 +1648,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
             (:name "Readings"
                    :category "READINGS"
                    :order 6)
-            ))))
+            ))
+    (let (work-agenda "~/gitdir/my-git/my-work-dirs/agenda.el")
+      (if (file_directory-p work-agenda)
+          (progn
+            (message "%s" "Found work-related agenda settings...")
+            (load work-agenda)))
+      (message "%s" "No work-related agenda settings found."))))
+
 
 ;; VIEW DOCUMENTS
 (leaf doc-view
