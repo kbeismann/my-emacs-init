@@ -51,6 +51,10 @@
          (file+headline org-default-notes-file "Uncategorized")
          "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
          :empty-lines 1)
+        ("mr" "Save reading" entry
+         (file+headline my-readings "Uncategorized")
+         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n:AUTHOR:\n:YEAR:\n:URL: %x\n\n%i\n\n"
+         :empty-lines 1)
         ("me" "Edit/fix file" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#C\] %^{Title} %^g:code:\n:PROPERTIES:\n:Created: %U\n:LINK: %a\n:END:\n\n%i\n\n"
