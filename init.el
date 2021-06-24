@@ -187,14 +187,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (defvar my-org-templates
     (concat my-init "templates.el")
     "My Org templates.")
-  (defvar my-orgdir
-    (concat my-gitdir "orgdir/")
+  (defvar my-notes-dir
+    (concat my-gitdir "my-notes/")
     "My directory for git repositories.")
   (defvar my-notes
-    (concat my-orgdir "notes.org")
+    (concat my-notes-dir "notes.org")
     "My notes.")
   (defvar my-todos
-    (concat my-orgdir "notes.org")
+    (concat my-notes-dir "notes.org")
     "My to-do list.")
   (defvar my-data-science-readings
     (concat my-gitdir "my-data-science-readings/readings.org"))
@@ -1260,7 +1260,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 (leaf org                         ; FIXME: Band aid > Use :bind at some point.
   :config
   (prog1 "Setting directories without :custom"
-    (setq org-directory           my-orgdir)
+    (setq org-directory           my-notes-dir)
     (setq org-default-notes-file  my-notes)
     (setq org-todo-file           my-todos)
     (setq org-agenda-files        (list org-directory
