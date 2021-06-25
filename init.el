@@ -1539,20 +1539,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                          :tag "bill"
                          :order 2)
                   (:name "Data science"
-                         :and (
-                               :category "datascience"
-                               :not (:tag "reading"))
+                         :and (:tag "datascience"
+                                    :not (:tag "reading"))
                          :order 3)
                   (:name "Data science readings"
-                         :and (
-                               :category "datascience"
-                               :tag "reading")
+                         :and (:tag "datascience"
+                                    :tag "reading")
                          :order 4)
                   (:name "@home"
-                         :and (
-                               :category "home"
-                               :not (
-                                     :tag ("bill" "shoppinglist")))
+                         :and (:tag "home"
+                                    :not (:tag ("bill" "shoppinglist")))
                          :order 5)
                   (:name "Readings"
                          :category "readings"
