@@ -640,6 +640,12 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
   (auto-compile-on-save-mode))
 
+(leaf paradox
+  :doc "Nicer package menu"
+  :ensure t
+  :config
+  (paradox-enable))
+
 (leaf *dired-setup
   :config
 
