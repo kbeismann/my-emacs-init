@@ -91,7 +91,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   (setq byte-compile-warnings '(not free-vars
                                     unresolved noruntime
                                     lexical make-local))
-  (setq read-process-output-max (* 1024 1024))) ; Increase the amount of data which Emacs reads from the process (1MB).
+  (setq read-process-output-max (* 1024 1024)) ; Increase data read from the processess (1MB).
+  )
 
 ;; Work-related proxy settings.
 (let ((proxies "~/gitdir/my-git/my-work-dirs/proxies.el"))
