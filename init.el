@@ -272,7 +272,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     78
     "My predefined characters per line (CPL) limit.")
   (defvar path-to-my-snippets
-    (concat my-gitdir "emacs-init/snippets/")
+    (concat my-gitdir "my-emacs-init/snippets/")
     "Path to custom snippets.")
   (defvar path-to-snippets
     (concat user-emacs-directory "snippets/")
