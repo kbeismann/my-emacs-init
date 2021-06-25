@@ -105,3 +105,4 @@ Out of date!
 * https://ladicle.com/post/config/
 * https://www.gnu.org/software/emacs/
 * https://github.com/kimim/kimim-emacs
+* https://github.com/MatthewZMD/.emacs.d
