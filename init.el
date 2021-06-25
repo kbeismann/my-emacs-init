@@ -280,7 +280,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
   (leaf yasnippet
     :ensure t
-    :ensure yasnippet-snippets
     :diminish yas-minor-mode
     :bind
     (("C-c y i"       . yas-insert-snippet)
@@ -289,6 +288,8 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     ((yas-indent-line . 'fixed)
      (yas-global-mode . t))
     :config
+    (leaf yasnippet-snippets
+      :ensure t)
     (setq yas-snippet-dirs (append yas-snippet-dirs
                                    '(path-to-my-snippets)))))
 
