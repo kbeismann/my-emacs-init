@@ -97,10 +97,10 @@
       #'gc-minibuffer-exit-hook)))
   ;; Let's increase the max-lisp-eval-depth and max-specpdl-size to
   ;; prevent exceeding recursion limits.
+  (setq max-lisp-eval-depth 50000)
+  (setq max-specpdl-size 10000)
   ;; Disable certain byte compiler warnings to cut down on the noise.
-  (setq max-lisp-eval-depth
-        50000)
-  (setq max-specpdl-size 10000))
+  (setq byte-compile-warnings '(not cl-functions obsolete)))
 
 ;; This hook returns the loading time after startup.  A hook is used so the
 ;; message does not get clobbered with other messages.
