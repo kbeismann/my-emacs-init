@@ -69,6 +69,9 @@
 (setq menu-bar-mode nil)
 (setq tool-bar-mode nil)
 
+(setq frame-inhibit-implied-resize t)
+(setq use-dialog-box nil)
+
 ;; Coding system.
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
