@@ -708,6 +708,14 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     :custom
     (dired-du-size-format . t))
 
+  (leaf dired-git-info
+    :ensure t
+    :hook
+    (dired-after-readin-hook . dired-git-info-auto-enable)
+    :bind
+    (dired-mode-map
+     (")" . dired-git-info-mode)))
+
   (leaf dired-subtree
     :ensure t
     :require t
