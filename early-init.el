@@ -1,4 +1,4 @@
-;;; early-init.el --- Emacs early initialiazaion file -*- lexical-binding: t; coding: utf-8 -*-
+;;; early-init.el ---  Early initialization file -*- lexical-binding: t; coding: utf-8 -*-
 
 
 ;; Copyright (C) 2019 Karsten E. Beismann
