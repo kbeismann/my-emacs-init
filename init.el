@@ -57,6 +57,7 @@
 
 (prog1
     "More generous `gc-cons-threshold' value."
+  (setq garbage-collection-messages t)
   (defvar better-gc-cons-threshold 134217728
     "The default value to use for `gc-cons-threshold'.  Currently
 128MB.  If you experience stuttering, increase this.")
