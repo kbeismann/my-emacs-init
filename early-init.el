@@ -47,7 +47,8 @@
 (setq read-process-output-max (* 1024 1024))
 
 ;; Defer GC.
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 
 ;; Unset PES
 (setq package-enable-at-startup nil)
