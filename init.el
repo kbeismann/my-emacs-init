@@ -311,18 +311,13 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
   ((user-full-name . "Karsten Beismann")
    ;; Misc. settings.
-   (ring-bell-function           . 'ignore)
-                                        ; No annoying bell.
-   (inhibit-startup-screen       . t)
-                                        ; No starting screen.
-   (mouse-yank-at-point          . t)
-                                        ; Paste at cursor, not at mouse.
-   (vc-follow-symlinks           . t)
-                                        ; Always follow symbolic links.
-   (large-file-warning-threshold . 100000000)
-                                        ; Prevent large file warnings.
+   (ring-bell-function . 'ignore)  ; No annoying bell.
+   (inhibit-startup-screen . t)  ; No starting screen.
+   (mouse-yank-at-point . t)  ; Paste at cursor, not at mouse.
+   (vc-follow-symlinks . t)  ; Always follow symbolic links.
+   (large-file-warning-threshold . 100000000) ; Prevent large file warnings.
    ;; Editing and indentation.
-   (tab-width              . 4)
+   (tab-width . 4)
                                         ; Default tab width.
    (indent-tabs-mode       . nil)
                                         ; Always indent with spaces.
