@@ -48,6 +48,12 @@
         (setq comp-deferred-compilation t))
     (message "Native complation is *not* available.")))
 
+(prog1
+    "Check if fast JSON is available."
+  (if (functionp 'json-serialize)
+      (message "Native JSON is available.")
+    (message "Native JSON is *not* available.")))
+
 ;; Increase data read from the processess (1MB).
 (setq read-process-output-max (* 1024 1024))
 
