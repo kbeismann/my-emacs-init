@@ -269,7 +269,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 
 (leaf yasnippet
   :ensure t
-  :straight t
   :diminish yas-minor-mode
   :bind
   (("C-c y i"       . yas-insert-snippet)
