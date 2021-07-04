@@ -366,7 +366,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 (leaf *cus-edit
   :doc "Use an external customization file to avoid cluttering this file."
   :config
-
   (prog1 (message "%s"
                   (concat
                    "Looking for a customization file: "
@@ -382,13 +381,11 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
           (message "%s" "Customization file found")
           (setq custom-file my-custom-file)
           (load custom-file))
-
       (message "%s" "ERROR: Cannot find customization file"))))
 
 (leaf warnings
   :doc "Deal with warnings"
   :config
-
   (setq warning-suppress-types '((yasnippet backquote-change))))
 
 (leaf *file-settings
