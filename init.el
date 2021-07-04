@@ -363,7 +363,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; The following snippet checks if a file specified in my-custom-file exists.
 ;; If it does, set it as custom-file and load it.  If it does not, create the
 ;; file with "touch", set it as custom-file, and load it.
-(leaf cus-edit
+(leaf *cus-edit
   :doc "Use an external customization file to avoid cluttering this file."
   :config
 
