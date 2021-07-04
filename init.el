@@ -158,11 +158,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize)
   ;; Install leaf if necessary.
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (straight-use-package 'leaf)
-    (straight-use-package 'leaf-keywords)
-    (straight-use-package 'diminish))
+  (if (not (and (package-installed-p 'leaf)
+		(package-installed-p 'leaf-keywords)
+		(package-installed-p 'diminish)))
+    (progn "Package leaf not installed"
+	   (message "Package manager not installed, installing leaf/leaf-keywords/diminish...")
+	   (package-refresh-contents)
+	   (package-install 'leaf)
+	   (package-install 'leaf-keywords)
+	   (package-install 'diminish))
+    (message "Package manager already installed."))
 
   (leaf leaf
     :config
