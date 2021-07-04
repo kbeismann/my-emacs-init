@@ -143,16 +143,16 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf and straight to simplify package management"
   ;; Add archives and assign priorities.
-  (setq package-check-signature 'allow-unsigned
-                                        ; Do/don't check sig.
-        package-archives '(("gnu"          . "https://elpa.gnu.org/packages/")
-                           ("org"          . "https://orgmode.org/elpa/")
-                           ("melpa"        . "https://melpa.org/packages/")
-                           ("melpa-stable" . "https://stable.melpa.org/packages/"))
-        package-archive-priorities '(("gnu"          . 2)
+  (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
+  (setq package-archives '(
+			               ("gnu"          . "https://elpa.gnu.org/packages/")
+			               ("org"          . "https://orgmode.org/elpa/")
+			               ("melpa"        . "https://melpa.org/packages/")
+			               ("melpa-stable" . "https://stable.melpa.org/packages/")))
+  (setq package-archive-priorities '(
+                                     ("gnu"          . 2)
                                      ("org"          . 1)
                                      ("melpa"        . 3)
-                                     ("melpa-stable" . 0)))
 
   (prog1 "Set up straight."
     (defvar bootstrap-version)
@@ -170,6 +170,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (setq straight-use-package-by-default t)
     (setq straight-vc-git-default-protocol 'https)
     (setq straight-vc-git-force-protocol nil))
+				                     ("melpa-stable" . 0)))
 
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize)
