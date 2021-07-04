@@ -276,22 +276,23 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     "Path to custom snippets.")
   (defvar path-to-snippets
     (concat user-emacs-directory "snippets/")
-    "Path to snippets.")
+    "Path to snippets."))
 
-  (leaf yasnippet
-    :ensure t
-    :diminish yas-minor-mode
-    :bind
-    (("C-c y i"       . yas-insert-snippet)
-     ("C-c y v"       . yas-visit-snippet-file))
-    :custom
-    ((yas-indent-line . 'fixed)
-     (yas-global-mode . t))
-    :config
-    (leaf yasnippet-snippets
-      :ensure t)
-    (setq yas-snippet-dirs (append yas-snippet-dirs
-                                   (list path-to-my-snippets)))))
+(leaf yasnippet
+  :ensure t
+  :straight t
+  :diminish yas-minor-mode
+  :bind
+  (("C-c y i"       . yas-insert-snippet)
+   ("C-c y v"       . yas-visit-snippet-file))
+  :custom
+  ((yas-indent-line . 'fixed)
+   (yas-global-mode . t))
+  :config
+  (leaf yasnippet-snippets
+    :ensure t)
+  (setq yas-snippet-dirs (append yas-snippet-dirs
+                                 (list path-to-my-snippets))))
 
 (leaf *basic-settings
   :bind
