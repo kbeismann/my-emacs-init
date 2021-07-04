@@ -141,7 +141,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (message "%s" "No proxy settings found.")))
 
 ;; Setup up leaf and install if necessary.
-(prog1 "Use leaf and straight to simplify package management"
+(prog1 "Use leaf to simplify package management"
   ;; Add archives and assign priorities.
   (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
   (setq package-archives '(
@@ -153,23 +153,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
                                      ("gnu"          . 2)
                                      ("org"          . 1)
                                      ("melpa"        . 3)
-
-  (prog1 "Set up straight."
-    (defvar bootstrap-version)
-    (let ((bootstrap-file
-           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-          (bootstrap-version 5))
-      (unless (file-exists-p bootstrap-file)
-        (with-current-buffer
-            (url-retrieve-synchronously
-             "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-             'silent 'inhibit-cookies)
-          (goto-char (point-max))
-          (eval-print-last-sexp)))
-      (load bootstrap-file nil 'nomessage))
-    (setq straight-use-package-by-default t)
-    (setq straight-vc-git-default-protocol 'https)
-    (setq straight-vc-git-force-protocol nil))
 				                     ("melpa-stable" . 0)))
 
   ;; Initialize package BEFORE installing/loading leaf.
