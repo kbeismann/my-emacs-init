@@ -88,11 +88,13 @@ Out of date!
 
 ## To-do
 
-* NEXT: Structure > External repository for snippets.
+* TODO: Structure > External repository for snippets.
 * TODO: Fix > The org/org-ref setup is too messy.
 * TODO: Minor > Add global settings for Org Columns view.
 * TODO: Formatting > Format this file with a formatter.
 * TODO: Packages > Fix YASnippet.
+* TODO: Use straight.el.
+* TODO: Optimize startup time.
 
 
 ## Sources (incomplete)
@@ -106,3 +108,4 @@ Out of date!
 * https://www.gnu.org/software/emacs/
 * https://github.com/kimim/kimim-emacs
 * https://github.com/MatthewZMD/.emacs.d
+* https://github.com/progfolio/.emacs.d
