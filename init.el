@@ -176,18 +176,17 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
   ;; Install leaf if necessary.
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
-    (package-install 'leaf))
+    (straight-use-package 'leaf)
+    (straight-use-package 'leaf-keywords)
+    (straight-use-package 'diminish))
 
   (leaf leaf
     :config
     (leaf leaf-keywords
-      :ensure t
-      :require t
-      :init
-      (leaf diminish
-        :ensure t)
-      :config
-      (leaf-keywords-init))))
+      :require t)
+    (leaf diminish
+      :require t)
+    (leaf-keywords-init)))
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
 (leaf *basic-variables
