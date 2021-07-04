@@ -40,8 +40,13 @@
     have-native-compilation
     (and (fboundp 'native-comp-available-p)
          (native-comp-available-p)))
-  (when have-native-compilation
-    (setq comp-async-jobs-number 4)))
+  (if have-native-compilation
+      (prog1
+          "Native compilation available."
+        (message "Native compilation is available.")
+        (setq native-comp-async-jobs-number 4)
+        (setq comp-deferred-compilation t))
+    (message "Native complation is *not* available.")))
 
 ;; Increase data read from the processess (1MB).
 (setq read-process-output-max (* 1024 1024))
