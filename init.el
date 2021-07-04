@@ -184,23 +184,6 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
       :ensure t
       :require t
       :init
-      (leaf package
-        :init
-        (leaf *elpa-workaround
-          :when
-          (or
-           (version= "26.1" emacs-version)
-           (version= "26.2" emacs-version))
-          :custom
-          ((gnutls-algorithm-priority . "NORMAL:-VERS-TLS1.3"))))
-      (leaf el-get
-        :ensure t
-        :init
-        (unless (executable-find "git")
-          (warn "Git not found: el-get can't download packages."))
-        :custom
-        ((el-get-git-shallow-clone  . t)
-         (el-get-emacswiki-base-url . "http://www.emacswiki.org/emacs/download/")))
       (leaf diminish
         :ensure t)
       :config
