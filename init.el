@@ -1611,11 +1611,9 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
     (leaf magit-todos
       :ensure t
       :after magit
-      :commands (magit-todos-mode)
-      :config
-
-      ;; Suppress warning: magit-todos: Not overriding bind of "jT" in
-      ;; magit-status-mode-map.
+      :commands (magit-todos-mode))
+    (prog1 "Suppress warning: magit-todos: Not overriding bind of
+    'jT' in magit-status-mode-map."
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
 
