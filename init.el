@@ -1401,7 +1401,7 @@ https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-e
         (message "%s" "No templates specified.")))
 
     ;; If the directory exists, load templates for work.
-    (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
+    (let ((templates "~/gitdir/my-git/my-work-emacs-init/templates.el"))
       (if (and (file-exists-p templates)
 		       (boundp 'org-capture-templates))
           (progn
