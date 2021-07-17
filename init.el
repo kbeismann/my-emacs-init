@@ -1384,7 +1384,7 @@
         (message "%s" "No templates specified.")))
 
     ;; If the directory exists, load templates for work.
-    (let ((templates "~/gitdir/work-git/emacs-init/templates.el"))
+    (let ((templates "~/gitdir/my-git/my-work-emacs-init/templates.el"))
       (if (and (file-exists-p templates)
 		       (boundp 'org-capture-templates))
           (progn
@@ -1594,11 +1594,9 @@
     (leaf magit-todos
       :ensure t
       :after magit
-      :commands (magit-todos-mode)
-      :config
-
-      ;; Suppress warning: magit-todos: Not overriding bind of "jT" in
-      ;; magit-status-mode-map.
+      :commands (magit-todos-mode))
+    (prog1 "Suppress warning: magit-todos: Not overriding bind of
+    'jT' in magit-status-mode-map."
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
 
