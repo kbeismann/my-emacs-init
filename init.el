@@ -1770,18 +1770,8 @@
   graphs from the headings of an org file"
   :require ox-org
   :ensure t
-  ;; Uncomment the below if 'ensure-system-packages` is installed
-  ;; :ensure-system-package (gvgen . graphviz)
   :custom
-  (org-mind-map-include-text . t)
-  ;; (org-mind-map-engine . "dot")  ; Default. Directed Graph
-  ;; (setq org-mind-map-engine "neato")  ; Undirected Spring Graph
-  ;; (setq org-mind-map-engine "twopi")  ; Radial Layout
-  ;; (setq org-mind-map-engine "fdp")    ; Undirected Spring Force-Directed
-  ;; (org-mind-map-engine . "sfdp")   ; Multiscale version of fdp for the layout of large graphs
-  ;; (setq org-mind-map-engine "twopi")  ; Radial layouts
-  ;; (setq org-mind-map-engine "circo")  ; Circular Layout
-  )
+  (org-mind-map-include-text . t))
 
 ;;; Footer:
 (provide 'init)
