@@ -1527,7 +1527,15 @@
                          :order 6)
                   (:name "Shopping list"
                          :tag "shoppinglist"
-                         :order 7))))))))
+                         :order 7)))))))
+
+  (leaf org-mind-map
+    :doc "This is an Emacs package that creates graphviz directed
+  graphs from the headings of an org file"
+    :require ox-org
+    :ensure t
+    :custom
+    (org-mind-map-include-text . t)))
 
 (leaf doc-view
   :ensure t
@@ -1764,14 +1772,6 @@
 
 (leaf centered-window
   :ensure t)
-
-(leaf org-mind-map
-  :doc "This is an Emacs package that creates graphviz directed
-  graphs from the headings of an org file"
-  :require ox-org
-  :ensure t
-  :custom
-  (org-mind-map-include-text . t))
 
 ;;; Footer:
 (provide 'init)
