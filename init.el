@@ -1489,8 +1489,8 @@
     :after org
     :custom
     (org-agenda-include-deadlines . t)
-    ;; org-agenda-block-separator nil
-    (org-agenda-compact-blocks . t)
+    (org-agenda-block-separator . 61)
+    (org-agenda-compact-blocks . nil)
     ;; org-agenda-start-with-log-mode t
     :config
     (org-super-agenda-mode t)
