@@ -114,7 +114,6 @@
                                                before-init-time)))
                        gcs-done))))
 
-
 ;; Work-related proxy settings.
 (let ((proxies "~/gitdir/my-git/my-work-dirs/proxies.el"))
   (if (file-exists-p proxies)
@@ -648,22 +647,17 @@
 
 (leaf *dired-setup
   :config
-
   (leaf dired
     :commands dired
     :hook
     (dired-mode-hook . dired-hide-details-mode)
     :custom
-    ((dired-dwim-target                       . t)
-                                        ; Better target.
-     (dired-recursive-copies                  . 'always)
-                                        ; Copy recursively.
-     (dired-recursive-deletes                 . 'always)
-                                        ; Delete recursively.
-     (dired-hide-details-hide-symlink-targets . nil)
-                                        ; Show symlinks.
-     (dired-listing-switches                  . "-lahgF --group-directories-first")
-     (delete-by-moving-to-trash               . t)))
+    ((dired-dwim-target . t) ; Better target.
+     (dired-recursive-copies . 'always) ; Copy recursively.
+     (dired-recursive-deletes . 'always) ; Delete recursively.
+     (dired-hide-details-hide-symlink-targets . nil) ; Show symlinks.
+     (dired-listing-switches . "-lahgF --group-directories-first")
+     (delete-by-moving-to-trash . t)))
 
   (leaf dired-du
     :ensure t
@@ -706,12 +700,8 @@
   :ensure t
   :diminish dired-async-mode
   :config
-
   (dired-async-mode 1)
-
-  (async-bytecomp-package-mode 0))
-
-                                        ; Not sure if this creates issues.
+  (async-bytecomp-package-mode 0)) ; Not sure if this creates issues.
 
 ;; Check out https://github.com/jcf/emacs.d/blob/master/init-packages.org.
 (leaf eshell
@@ -721,7 +711,6 @@
   :hook
   (eshell-mode-hook . my-eshell-remove-pcomplete)
   :config
-
   ;; Fixes weird issues in eshell.
   ;; TODO: Eshell is still using autocomplete.
   (defun my-eshell-remove-pcomplete ()
@@ -1517,35 +1506,27 @@
 (leaf doc-view
   :ensure t
   :config
-
   (leaf pdf-tools
     :ensure t
     :bind
     (pdf-view-mode-map
      ("C-s" . isearch-forward))
     :init
-
-    (pdf-loader-install)
-                                        ; Prepare Emacs for using PDF Tools.
+    (pdf-loader-install) ; Prepare Emacs for using PDF Tools.
     :custom
-
     ((pdf-view-display-size                  . 'fit-page)
      (pdf-annot-activate-created-annotations . t))
     :config
-
     (leaf org-pdfview
       :config
-
       (add-to-list 'org-file-apps
                    '("\\.pdf\\'" .
                      (lambda (file link)
                        (org-pdfview-open link))))))
-
   (leaf nov
     :doc "For reading .epub files"
     :ensure t
     :config
-
     (add-to-list 'auto-mode-alist
                  '("\\.epub\\'" . nov-mode))))
 
@@ -1576,7 +1557,6 @@
     :custom
     (magit-diff-refine-hunk . 'all)
     :config
-
     ;; (set-face-attribute 'magit-diff-added
     ;;                     nil :background base0B-prop :foreground nil)
     ;; (set-face-attribute 'magit-diff-added-highlight
@@ -1650,13 +1630,13 @@
    (lsp-modeline-code-actions-enable . nil)
    (lsp-modeline-diagnostics-enable  . nil))
   :config
-  (prog1 "Enable which-key integration in the active major mode for lsp-mode-map."
+  (prog1 "Enable which-key integration in the active major mode for
+lsp-mode-map."
     (with-eval-after-load
         'lsp-mode
       (add-hook
        'lsp-mode-hook
        #'lsp-enable-which-key-integration)))
-
   ;; Define faces for highlighting in LSP.
   (set-face-attribute 'lsp-face-highlight-write nil
                       :italic nil
@@ -1688,7 +1668,6 @@
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode))
   :init
-
   (setq markdown-command "pandoc"))
 
 ;; Always use GPG2 and use loopback option for better compatibility.
@@ -1714,7 +1693,6 @@
 
 (leaf csv-mode
   :config
-
   (add-to-list 'auto-mode-alist
                '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
   (autoload 'csv-mode "csv-mode"
@@ -1743,7 +1721,6 @@
   ((projectile-mode              . t)
    (projectile-completion-system . 'helm))
   :config
-
   (helm-projectile-on))
 
 (leaf centered-window
