@@ -1558,6 +1558,15 @@
 
     (global-hl-todo-mode t))
 
+  (leaf ediff
+    :custom
+    ((ediff-window-setup-function . 'ediff-setup-windows-plain) ; Don't start another frame.
+     (ediff-split-window-function . 'split-window-horizontally)) ; Put windows side by side.
+    :config
+    ;; Revert windows on exit - needs winner mode
+    (winner-mode)
+    (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
+
   (leaf magit
     :ensure t
     :after base16-theme
@@ -1710,16 +1719,6 @@
                '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
   (autoload 'csv-mode "csv-mode"
     "Major mode for editing comma-separated value files." t))
-
-(leaf ediff
-  :custom
-  ((ediff-window-setup-function . 'ediff-setup-windows-plain)
-                                        ; Don't start another frame.
-   (ediff-split-window-function . 'split-window-horizontally)) ; Put windows side by side.
-  :config
-  ;; Revert windows on exit - needs winner mode
-  (winner-mode)
-  (add-hook 'ediff-after-quit-hook-internal 'winner-undo))
 
 (leaf ssh-deploy
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
