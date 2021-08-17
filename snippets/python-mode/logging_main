@@ -1,7 +1,5 @@
 # -*- mode: snippet -*-
 # name: logging_main
-# key: <log_ma
-# contributor: Karsten Beismann
 # --
 # Set up logging in main().
 import logging
