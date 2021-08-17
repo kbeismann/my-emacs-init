@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# name: icecream pdb trace
+# --
+import icecream; import pdb; pdb.set_trace()
