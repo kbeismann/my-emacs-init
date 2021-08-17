@@ -2,6 +2,6 @@
 # name: function_any
 # group: definitions
 # --
-def ${1:fun}(${2:args}) -> typing.Any:
+def ${1:fun}(${2:args}) -> Any:
     pass
     $0

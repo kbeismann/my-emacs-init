@@ -2,6 +2,6 @@
 # name: method_any
 # group: object oriented
 # --
-def ${1:name}(self$2) -> typing.Any:
+def ${1:name}(self$2) -> Any:
     pass
     $0
