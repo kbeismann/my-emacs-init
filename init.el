@@ -1503,6 +1503,21 @@
                          :tag "shoppinglist"
                          :order 7)))))))
 
+  (leaf org-roam
+    :ensure t
+    :after org
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n g" . org-roam-graph)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture))
+    :init
+    (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory . my-roam-notes)
+    :config
+    (org-roam-setup))
+
   (leaf org-mind-map
     :doc "This is an Emacs package that creates graphviz directed
   graphs from the headings of an org file"
