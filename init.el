@@ -202,6 +202,9 @@
   (defvar my-notes
     (concat my-notes-dir "notes.org")
     "My notes.")
+  (defvar my-roam-notes
+    (concat my-gitdir "my-roam-notes/nodes/")
+    "My Roam notes.")
   (defvar my-todos
     (concat my-notes-dir "notes.org")
     "My to-do list.")
