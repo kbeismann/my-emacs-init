@@ -179,7 +179,7 @@
     (concat user-emacs-directory "abbrev/")
     "My abbreviations directory.")
   (defvar my-gitdir
-    "~/gitdir/my-git/"
+    (file-truename "~/gitdir/my-git/")
     "My directory for git repositories.")
   (defvar my-library
     (concat my-gitdir "library/")
