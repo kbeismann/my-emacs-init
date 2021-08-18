@@ -1515,8 +1515,15 @@
     (setq org-roam-v2-ack t)
     :custom
     (org-roam-directory . my-roam-notes)
+    (org-roam-completion-everywhere . t)
+    (org-roam-capture-templates .
+                                '(("d" "default" plain
+                                   "%?"
+                                   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U")
+                                   :unnarrowed t)))
     :config
-    (org-roam-setup))
+    (org-roam-setup)
+    (org-roam-db-autosync-mode))
 
   (leaf org-mind-map
     :doc "This is an Emacs package that creates graphviz directed
