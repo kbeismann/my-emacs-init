@@ -1525,6 +1525,16 @@
     (org-roam-setup)
     (org-roam-db-autosync-mode))
 
+  (leaf deft
+    :after org
+    :bind
+    ("C-c n d" . deft)
+    :custom
+    (deft-recursive . t)
+    (deft-use-filter-string-for-filename . t)
+    (deft-default-extension . "org")
+    (deft-directory . org-roam-directory))
+
   (leaf org-mind-map
     :doc "This is an Emacs package that creates graphviz directed
   graphs from the headings of an org file"
