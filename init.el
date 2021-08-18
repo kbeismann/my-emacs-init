@@ -1522,8 +1522,7 @@
                                    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U")
                                    :unnarrowed t)))
     :config
-    (org-roam-setup)
-    (org-roam-db-autosync-mode))
+    (org-roam-setup))
 
   (leaf deft
     :after org
