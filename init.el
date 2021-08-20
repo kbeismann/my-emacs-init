@@ -208,11 +208,6 @@
   (defvar my-todos
     (concat my-notes-dir "notes.org")
     "My to-do list.")
-  (defvar my-data-science-readings
-    (concat my-gitdir "my-data-science-readings/readings.org"))
-  ;; (defvar my-mu4e-setup
-  ;;   (concat my-gitdir "mu4e-setup/mu4e-setup.el")
-  ;;   "My mu4e file.")
   (defvar my-font-huckleberry
     "Dina:pixelsize=13"
     ;; "Hack:pixelsize=14"
@@ -1266,8 +1261,7 @@
     (setq org-default-notes-file  my-notes)
     (setq org-todo-file           my-todos)
     (setq org-agenda-files        (list org-directory
-                                        my-data-science-readings
-                                        my-readings)))
+                                        my-roam-notes)))
   (let ((work-notes "~/gitdir/my-git/my-work-dirs/notes.el"))
     (if (file-exists-p work-notes)
         (progn
