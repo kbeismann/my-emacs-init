@@ -1270,30 +1270,15 @@
       (message "%s" "No work-related notes found.")))
 
   (leaf *org-custom
-    ;; :init
-    ;; (leaf org-plus-contrib
-    ;;   :ensure t)
     :bind
-    (("C-c a" . org-agenda)
-                                        ; Call org-agenda.
-     ("C-c c" . org-capture)
-                                        ; Org-capture notes.
-     ("C-c l" . org-store-link)
-                                        ; Store link.
+    (("C-c a" . org-agenda) ; Call org-agenda.
+     ("C-c c" . org-capture) ; Org-capture notes.
+     ("C-c l" . org-store-link) ; Store link.
      (org-mode-map
-      ("C-c b" . crossref-add-bibtex-entry)
-                                        ; Search/add .bib entries.
       ("C-c i" . org-clock-in)
       ("C-c o" . org-clock-out)
       ("C-c n" . org-narrow-to-subtree)
-      ;; ("C-c b" . org-narrow-to-block)
       ("C-c e" . org-set-effort)))
-    ;; :preface
-    ;; (prog1 "Key bindings for org"
-    ;;   (global-set-key (kbd "C-c a") 'org-agenda)
-    ;;   (global-set-key (kbd "C-c c") 'org-capture)
-    ;;   (global-set-key (kbd "C-c l") 'org-store-link)
-    ;;   (global-set-key (kbd "C-c b") 'crossref-add-bibtex-entry))
     :hook
     ;; Align tags when saving.
     (((org-mode-hook before-save-hook)
