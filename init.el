@@ -1509,6 +1509,10 @@
                                            :if-new (file+head "%<%Y-%m-%d>.org"
                                                               "#+title: %<%Y-%m-%d>\n#+date: %U"))))
     :config
+    (setq org-roam-mode-section-functions
+          (list #'org-roam-backlinks-section
+                #'org-roam-reflinks-section
+                #'org-roam-unlinked-references-section))
     (org-roam-setup))
 
   (leaf deft
