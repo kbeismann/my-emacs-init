@@ -1294,7 +1294,7 @@
     ((org-link-file-path-type               . 'relative)
      ;; Startup options.
      (org-startup-indented                  . nil)
-     (org-startup-with-latex-preview        . t)
+     (org-startup-with-latex-preview        . nil)
      (org-startup-align-all-tables          . t)
      ;; Indentation.
      (org-indent-mode-turns-on-hiding-stars . nil)
