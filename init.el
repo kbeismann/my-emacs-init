@@ -1489,6 +1489,8 @@
            ("C-c n f" . org-roam-node-find)
            ("C-c n g" . org-roam-graph)
            ("C-c n i" . org-roam-node-insert)
+           ("C-c n r" . org-roam-ref-add)
+           ("C-c n t" . org-roam-tag-add)
            ("C-c n c" . org-roam-capture))
     :init
     (setq org-roam-v2-ack t)
