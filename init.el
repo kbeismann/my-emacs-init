@@ -1500,7 +1500,8 @@
     (org-roam-capture-templates .
                                 '(("d" "default" plain
                                    "%?"
-                                   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U")
+                                   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                                      "#+title: ${title}\n#+date: %U")
                                    :unnarrowed t)))
     :config
     (org-roam-setup))
