@@ -1503,6 +1503,11 @@
                                    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                       "#+title: ${title}\n#+date: %U")
                                    :unnarrowed t)))
+    (org-roam-dailies-capture-templates .
+                                        '(("d" "default" entry
+                                           "* %?"
+                                           :if-new (file+head "%<%Y-%m-%d>.org"
+                                                              "#+title: %<%Y-%m-%d>\n#+date: %U"))))
     :config
     (org-roam-setup))
 
