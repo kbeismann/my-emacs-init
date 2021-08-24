@@ -1286,9 +1286,10 @@
      ;; Switch to DONE when sub-entries are done.
      (org-after-todo-statistics-hook . org-summary-todo)
      ;; Highlight current line in agenda.
-     (org-agenda-mode-hook .
-                           (lambda ()
-                             (hl-line-mode 1))))
+     ;; (org-agenda-mode-hook .
+     ;;                       (lambda ()
+     ;;                         (hl-line-mode 1)))
+     )
     :custom
     ;; Use relative paths.
     ((org-link-file-path-type               . 'relative)
