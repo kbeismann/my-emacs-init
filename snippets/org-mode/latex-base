@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: latex-base
 # key: <la
-# contributor: Karsten Beismann
 # --
 #+BEGIN_SRC latex
 $0

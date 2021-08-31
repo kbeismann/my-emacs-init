@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: sh
 # key: <sh
-# contributor: Karsten Beismann
 # --
 #+BEGIN_SRC sh :results output :session session_name
 $0

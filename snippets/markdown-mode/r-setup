@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: r-setup
 # key: <rse
-# contributor: Karsten Beismann
 # --
 \`\`\`\{r packages, include=FALSE\}
 

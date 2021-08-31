@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: r-chunk
 # key: <rch
-# contributor: Karsten Beismann
 # --
 \`\`\`\{r ${1:R-chunk name}, include=TRUE, eval=TRUE, cache=FALSE\}
 

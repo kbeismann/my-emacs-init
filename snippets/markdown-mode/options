@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: options
 # key: <opt
-# contributor: Karsten Beismann
 # --
 `(insert "\n")`---
 title: ${1:TITLE}

@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: latex-equation
 # key: <eq
-# contributor: Karsten Beismannk
 # --
 #+BEGIN_SRC latex
 \begin{equation*}
