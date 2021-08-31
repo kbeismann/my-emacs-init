@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: header
 # key: <he
-# contributor: Karsten Beismann
 # --
 ### ${1:TITLE}
 
