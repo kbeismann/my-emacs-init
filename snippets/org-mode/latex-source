@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: latex-source
+# key: <ls
+# --
+#+BEGIN_LaTeX
+$0
+#+END_LaTeX
