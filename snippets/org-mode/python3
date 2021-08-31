@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: python3
 # key: <py3
-# contributor: Karsten Beismann
 # --
 #+BEGIN_SRC python3 :results output code :session session_name
 $0
