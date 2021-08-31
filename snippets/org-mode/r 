@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: r
 # key: <r
-# contributor: Karsten Beismann
 # --
 #+BEGIN_SRC R :colnames yes :results code output :session session_name
 $0

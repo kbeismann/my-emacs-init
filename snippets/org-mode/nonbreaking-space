@@ -1,6 +1,5 @@
 # -*- mode: snippet -*-
 # name: nonbreaking-space
 # key: <nbsp
-# contributor: Karsten Beismann
 # --
 \nbsp{}

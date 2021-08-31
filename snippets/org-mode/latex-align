@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: latex-align
 # key: <al
-# contributor: Karsten Beismann
 # --
 #+BEGIN_SRC latex
 \begin{align*}
