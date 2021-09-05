@@ -87,12 +87,8 @@
         ("DONE"           . org-done)
         ("CHANCELLED"     . org-done)
         ("FORWARDED"      . org-done)
-        ("READ"           . org-done)
         ("IN_PROGRESS"    . org-link)
         ("UNCATEGORIZED"  . org-archived)
-        ("BLOCKED"        . org-archived)
-        ("URL"            . org-archived)
-        ("IN_LIBRARY"     . org-archived)
-        ("NOT_IN_LIBRARY" . org-archived)))
+        ("BLOCKED"        . org-archived)))
 (provide 'templates)
 ;;; templates.el ends here
