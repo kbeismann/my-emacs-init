@@ -1524,7 +1524,15 @@
     :require ox-org
     :ensure t
     :custom
-    (org-mind-map-include-text . t)))
+    (org-mind-map-include-text . t))
+
+  (leaf org-download
+    :ensure t
+    :after org
+    :bind
+    (org-mode-map
+     (("C-c i s" . org-download-screenshot)
+      ("C-c i y" . org-download-yank)))))
 
 (leaf doc-view
   :ensure t
