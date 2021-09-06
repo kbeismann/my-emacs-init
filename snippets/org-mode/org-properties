@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: org-properties
+# key: <prop
+# --
+:PROPERTIES:
+:Created: `(let ((x (org-insert-time-stamp nil t t ))))`
+:URL:
+:Author:
+:Year:
+:END:
