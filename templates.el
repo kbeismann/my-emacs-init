@@ -53,7 +53,7 @@
          :empty-lines 1)
         ("mr" "Save reading" entry
          (file buffer-file-name)
-         "* TODO \[\#C\] %^{Title} %^g:reading:url:\n:PROPERTIES:\n:Created: %U\n:URL: %x\n:END:\n\n%i\n\n"
+         "* TODO \[\#C\] \"%^{Title}\" %^g:reading:url:\n:PROPERTIES:\n:Created: %U\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("me" "Edit/fix file" entry
          (file+headline org-todo-file "To-dos")
