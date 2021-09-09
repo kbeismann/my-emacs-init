@@ -1484,7 +1484,9 @@
            ("C-c n i" . org-roam-node-insert)
            ("C-c n r" . org-roam-ref-add)
            ("C-c n t" . org-roam-tag-add)
-           ("C-c n c" . org-roam-capture))
+           ("C-c n c" . org-roam-capture)
+           ("C-c n d c" . org-roam-dailies-capture-today)
+           ("C-c n d t" . org-roam-dailies-goto-today))
     :init
     (setq org-roam-v2-ack t)
     :custom
@@ -1511,7 +1513,7 @@
   (leaf deft
     :after org
     :bind
-    ("C-c n d" . deft)
+    ("C-c n s" . deft)
     :custom
     (deft-recursive . t)
     (deft-use-filter-string-for-filename . t)
