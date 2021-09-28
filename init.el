@@ -1425,11 +1425,6 @@
         (plist-put org-format-latex-options :html-scale 1.5))
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
-  (leaf org-bullets
-    :ensure t
-    :after org
-    :hook (org-mode-hook . (lambda () (org-bullets-mode 1))))
-
   (leaf org-super-agenda
     :ensure t
     :after org
@@ -1688,7 +1683,13 @@ lsp-mode-map."
      ("pyls.plugins.pyls_mypy.live_mode" nil t)
      ("pyls.plugins.pyls_black.enabled" t t)
      ("pyls.plugins.pyls_isort.enabled" t t)
-     ("pyls.plugins.flake8.enabled" t t))))
+     ("pyls.plugins.flake8.enabled" t t)))
+  (leaf lsp-python-ms
+    :ensure t
+    :hook
+    (python-mode . (lambda () (require 'lsp-pyright)
+                     (lsp))))
+  )
 
 (leaf helm-lsp
   :after helm lsp-mode
