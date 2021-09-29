@@ -1683,13 +1683,14 @@ lsp-mode-map."
      ("pyls.plugins.pyls_mypy.live_mode" nil t)
      ("pyls.plugins.pyls_black.enabled" t t)
      ("pyls.plugins.pyls_isort.enabled" t t)
-     ("pyls.plugins.flake8.enabled" t t)))
-  (leaf lsp-python-ms
-    :ensure t
-    :hook
-    (python-mode . (lambda () (require 'lsp-pyright)
-                     (lsp))))
-  )
+     ("pyls.plugins.flake8.enabled" t t))))
+
+(leaf lsp-python-ms
+  :ensure t
+  :init
+  (setq lsp-python-ms-auto-install-server t)
+  :hook
+  (python-mode-hook . (lambda () (require 'lsp-python-ms) (lsp-deferred))))
 
 (leaf helm-lsp
   :after helm lsp-mode
