@@ -1685,13 +1685,6 @@ lsp-mode-map."
      ("pyls.plugins.pyls_isort.enabled" t t)
      ("pyls.plugins.flake8.enabled" t t))))
 
-(leaf lsp-python-ms
-  :ensure t
-  :init
-  (setq lsp-python-ms-auto-install-server t)
-  :hook
-  (python-mode-hook . (lambda () (require 'lsp-python-ms) (lsp-deferred))))
-
 (leaf helm-lsp
   :after helm lsp-mode
   :commands helm-lsp-workspace-symbol)
