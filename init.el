@@ -851,7 +851,11 @@
     :doc "Use helm for Flyspell"
     :ensure t
     :bind
-    ("C-c f c" . helm-flyspell-correct)))
+    ("C-c f c" . helm-flyspell-correct))
+
+  (leaf helm-ag
+    :ensure t
+    :after helm))
 
 (leaf base16-theme
   :ensure t
