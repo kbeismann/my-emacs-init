@@ -830,7 +830,7 @@
      (kbd "C-x c"))
     :custom
     ;; Splitting behavior.
-    ((helm-split-window-inside-p                              . t)
+    ((helm-split-window-inside-p                              . nil)
      (helm-move-to-line-cycle-in-source                       . nil)
                                         ; If t breaks cycling .
      (helm-autoresize-mode                                    . t)
