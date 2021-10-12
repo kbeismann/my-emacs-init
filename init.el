@@ -849,6 +849,7 @@
 
   (leaf helm-flyspell
     :doc "Use helm for Flyspell"
+    :after helm flyspell
     :ensure t
     :bind
     ("C-c f c" . helm-flyspell-correct))
