@@ -1324,8 +1324,8 @@
      ;;
      (calendar-week-start-day               . 1)
      ;; (org-agenda-start-day                  . "-7d")
-     ;; (org-agenda-span                       . 14)
      (org-agenda-start-on-weekday           . 1)
+     (org-agenda-span                       . 14)
      ))
 
   ;; Always insert blank line before headings.
