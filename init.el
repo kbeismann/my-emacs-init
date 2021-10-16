@@ -122,6 +122,22 @@
         (load proxies))
     (message "%s" "No proxy settings found.")))
 
+(prog1 "Add archives and assign priorities"
+  (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
+  (setq package-archives '(
+			               ("gnu"          . "https://elpa.gnu.org/packages/")
+			               ("org"          . "https://orgmode.org/elpa/")
+			               ("melpa"        . "https://melpa.org/packages/")
+			               ("melpa-stable" . "https://stable.melpa.org/packages/")))
+  (setq package-archive-priorities '(
+                                     ("gnu"          . 2)
+                                     ("org"          . 1)
+                                     ("melpa"        . 3)
+				                     ("melpa-stable" . 0)))
+
+  ;; Initialize package BEFORE installing/loading leaf.
+  (package-initialize))
+
 (prog1 "Setting up straight.el"
   (defvar bootstrap-version)
   (let ((bootstrap-file
@@ -138,21 +154,6 @@
 
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
-  ;; Add archives and assign priorities.
-  (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
-  (setq package-archives '(
-			               ("gnu"          . "https://elpa.gnu.org/packages/")
-			               ("org"          . "https://orgmode.org/elpa/")
-			               ("melpa"        . "https://melpa.org/packages/")
-			               ("melpa-stable" . "https://stable.melpa.org/packages/")))
-  (setq package-archive-priorities '(
-                                     ("gnu"          . 2)
-                                     ("org"          . 1)
-                                     ("melpa"        . 3)
-				                     ("melpa-stable" . 0)))
-
-  ;; Initialize package BEFORE installing/loading leaf.
-  (package-initialize)
   ;; Install leaf if necessary.
   (if (not (and (package-installed-p 'leaf)
 		        (package-installed-p 'leaf-keywords)
