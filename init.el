@@ -154,8 +154,10 @@
   (leaf leaf
     :config
     (leaf leaf-keywords
+      :ensure t
       :require t)
     (leaf diminish
+      :ensure t
       :require t)
     (leaf-keywords-init)))
 
