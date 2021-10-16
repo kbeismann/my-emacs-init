@@ -1587,6 +1587,7 @@
 
   (leaf magit
     :ensure t
+    :straight t
     :after base16-theme
     ;; :diminish magit-auto-revert-mode
     :bind
@@ -1605,6 +1606,7 @@
     (leaf magit-todos
       :ensure t
       :after magit
+      :straight t
       :commands (magit-todos-mode))
     (prog1 "Suppress warning: magit-todos: Not overriding bind of
     'jT' in magit-status-mode-map."
