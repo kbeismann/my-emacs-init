@@ -1595,14 +1595,6 @@
     :custom
     (magit-diff-refine-hunk . 'all)
     :config
-    ;; (set-face-attribute 'magit-diff-added
-    ;;                     nil :background base0B-prop :foreground nil)
-    ;; (set-face-attribute 'magit-diff-added-highlight
-    ;;                     nil :background base0B-prop :foreground nil)
-    ;; (set-face-attribute 'magit-diff-removed
-    ;;                     nil :background base09-prop :foreground nil)
-    ;; (set-face-attribute 'magit-diff-removed-highlight
-    ;;                     nil :background base09-prop :foreground nil)
     (leaf magit-todos
       :ensure t
       :after magit
