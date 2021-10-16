@@ -1529,6 +1529,8 @@
       ("C-c i y" . org-download-yank)))))
 
 (leaf deft
+  :ensure t
+  :straight t
   :bind
   ("C-c n s" . deft)
   :custom
