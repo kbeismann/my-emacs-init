@@ -1480,6 +1480,7 @@
   (leaf org-roam
     :ensure t
     :after org
+    :straight t
     :bind (("C-c n l" . org-roam-buffer-toggle)
            ("C-c n f" . org-roam-node-find)
            ("C-c n g" . org-roam-graph)
