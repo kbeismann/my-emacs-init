@@ -141,14 +141,14 @@
   (package-initialize)
   ;; Install leaf if necessary.
   (if (not (and (package-installed-p 'leaf)
-		(package-installed-p 'leaf-keywords)
-		(package-installed-p 'diminish)))
-    (progn "Package leaf not installed"
-	   (message "Package manager not installed, installing leaf/leaf-keywords/diminish...")
-	   (package-refresh-contents)
-	   (package-install 'leaf)
-	   (package-install 'leaf-keywords)
-	   (package-install 'diminish))
+		        (package-installed-p 'leaf-keywords)
+		        (package-installed-p 'diminish)))
+      (progn "Package leaf not installed"
+	         (message "Package manager not installed, installing leaf/leaf-keywords/diminish...")
+	         (package-refresh-contents)
+	         (package-install 'leaf)
+	         (package-install 'leaf-keywords)
+	         (package-install 'diminish))
     (message "Package manager already installed."))
 
   (leaf leaf
@@ -285,16 +285,11 @@
    (vc-follow-symlinks . t)  ; Always follow symbolic links.
    (large-file-warning-threshold . 100000000) ; Prevent large file warnings.
    ;; Editing and indentation.
-   (tab-width . 4)
-                                        ; Default tab width.
-   (indent-tabs-mode       . nil)
-                                        ; Always indent with spaces.
-   (tab-always-indent      . 'complete)
-                                        ; Tab indents before completion .
-   (next-line-add-newlines . t)
-                                        ; New line when C-n.
-   (fill-column            . my-max-columns)
-                                        ; Set M-q columns.
+   (tab-width . 4)  ; Default tab width.
+   (indent-tabs-mode . nil)  ; Always indent with spaces.
+   (tab-always-indent . 'complete)  ; Tab indents before completion .
+   (next-line-add-newlines . t)  ; New line when C-n.
+   (fill-column . my-max-columns)  ; Set M-q columns.
    ;; Better scrolling behavior.
    (scroll-margin                   . 0)
    (scroll-conservatively           . 10000)
