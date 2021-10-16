@@ -154,18 +154,9 @@
 
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
-  ;; Install leaf if necessary.
-  (if (not (and (package-installed-p 'leaf)
-		        (package-installed-p 'leaf-keywords)
-		        (package-installed-p 'diminish)))
-      (progn "Package leaf not installed"
-	         (message "Package manager not installed, installing leaf/leaf-keywords/diminish...")
-	         (package-refresh-contents)
-	         (package-install 'leaf)
-	         (package-install 'leaf-keywords)
-	         (package-install 'diminish))
-    (message "Package manager already installed."))
-
+  (straight-use-package 'leaf)
+  (straight-use-package 'leaf-keywords)
+  (straight-use-package 'diminish)
   (leaf leaf
     :config
     (leaf leaf-keywords
