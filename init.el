@@ -1630,6 +1630,16 @@
     :custom
     (gac-automatically-push-p . t)))
 
+(leaf tree-sitter
+  :ensure t
+  :straight t
+  :config
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  (leaf tree-sitter-langs
+    :straight t
+    :require t))
+
 ;; TODO: Structure > Wrap LSP-related sections.
 (leaf lsp-mode
   :ensure t
