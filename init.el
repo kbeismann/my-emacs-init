@@ -1589,7 +1589,7 @@
     :ensure t
     :straight t
     :after base16-theme
-    ;; :diminish magit-auto-revert-mode
+    :diminish magit-auto-revert-mode
     :bind
     (("C-x g"               . magit-status))
     :custom
