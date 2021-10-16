@@ -122,6 +122,20 @@
         (load proxies))
     (message "%s" "No proxy settings found.")))
 
+(prog1 "Setting up straight.el"
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage)))
+
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
   ;; Add archives and assign priorities.
