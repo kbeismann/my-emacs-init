@@ -79,6 +79,7 @@
 (setq scroll-bar-mode nil)
 (setq menu-bar-mode nil)
 (setq tool-bar-mode nil)
+(setq cursor-type 'bar)
 
 (setq frame-inhibit-implied-resize t)
 (setq use-dialog-box t)
