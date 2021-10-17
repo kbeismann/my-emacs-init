@@ -300,8 +300,9 @@
    (next-line-add-newlines . t)  ; New line when C-n.
    (fill-column . my-max-columns)  ; Set M-q columns.
    ;; Better scrolling behavior.
-   (scroll-margin                   . 0)
-   (scroll-conservatively           . 10000)
+   (scroll-step                     . 1)
+   (scroll-margin                   . 3)
+   (scroll-conservatively           . 100)
    (scroll-preserve-screen-position . nil)
    (auto-window-vscroll             . nil)
    ;; Cleaner visuals, max. decoration.
