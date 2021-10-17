@@ -257,6 +257,7 @@
 
 (leaf yasnippet
   :ensure t
+  :straight t
   :diminish yas-minor-mode
   :bind
   (("C-c y i"       . yas-insert-snippet)
