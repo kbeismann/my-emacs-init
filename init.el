@@ -301,7 +301,7 @@
    (fill-column . my-max-columns)  ; Set M-q columns.
    ;; Better scrolling behavior.
    (scroll-step                     . 1)
-   (scroll-margin                   . 3)
+   (scroll-margin                   . 5)
    (scroll-conservatively           . 100)
    (scroll-preserve-screen-position . nil)
    (auto-window-vscroll             . nil)
