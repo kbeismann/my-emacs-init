@@ -305,6 +305,7 @@
    (scroll-conservatively           . 100)
    (scroll-preserve-screen-position . nil)
    (auto-window-vscroll             . nil)
+   (next-screen-context-lines . 40)
    ;; Cleaner visuals, max. decoration.
    (line-spacing                 . nil)
    (truncate-lines               . t)
