@@ -1701,6 +1701,7 @@ lsp-mode-map."
      ("pyls.plugins.flake8.enabled" t t))))
 
 (leaf helm-lsp
+  :ensure t
   :after helm lsp-mode
   :commands helm-lsp-workspace-symbol)
 
