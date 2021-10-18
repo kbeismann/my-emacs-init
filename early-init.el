@@ -44,6 +44,7 @@
       (prog1
           "Native compilation available."
         (message "Native compilation is available.")
+        (setq native-comp-async-report-warnings-errors nil)
         (setq native-comp-async-jobs-number 4)
         (setq comp-deferred-compilation t))
     (message "Native complation is *not* available.")))
