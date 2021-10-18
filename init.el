@@ -660,6 +660,7 @@
      (dired-recursive-deletes . 'always) ; Delete recursively.
      (dired-hide-details-hide-symlink-targets . nil) ; Show symlinks.
      (dired-listing-switches . "-lahgF --group-directories-first")
+     (dired-kill-when-opening-new-dired-buffer . nil)
      (delete-by-moving-to-trash . t)))
 
   (leaf dired-du
