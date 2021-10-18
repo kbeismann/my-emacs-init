@@ -125,14 +125,14 @@
 (prog1 "Add archives and assign priorities"
   (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
   (setq package-archives '(
-			               ("gnu"          . "https://elpa.gnu.org/packages/")
-			               ("org"          . "https://orgmode.org/elpa/")
-			               ("melpa"        . "https://melpa.org/packages/")
+			               ("gnu" . "https://elpa.gnu.org/packages/")
+			               ("org" . "https://orgmode.org/elpa/")
+			               ("melpa" . "https://melpa.org/packages/")
 			               ("melpa-stable" . "https://stable.melpa.org/packages/")))
   (setq package-archive-priorities '(
-                                     ("gnu"          . 2)
-                                     ("org"          . 1)
-                                     ("melpa"        . 3)
+                                     ("gnu" . 2)
+                                     ("org" . 1)
+                                     ("melpa" . 3)
 				                     ("melpa-stable" . 0)))
 
   ;; Initialize package BEFORE installing/loading leaf.
@@ -260,8 +260,8 @@
   :straight t
   :diminish yas-minor-mode
   :bind
-  (("C-c y i"       . yas-insert-snippet)
-   ("C-c y v"       . yas-visit-snippet-file))
+  (("C-c y i" . yas-insert-snippet)
+   ("C-c y v" . yas-visit-snippet-file))
   :custom
   ((yas-indent-line . 'fixed)
    (yas-global-mode . t))
@@ -273,13 +273,13 @@
 
 (leaf *basic-settings
   :bind
-  (("M-o"     . nil)                    ; Unbind face menu.
+  (("M-o" . nil)                    ; Unbind face menu.
    ("C-x C-z" . nil)                    ; Unbind suspend frame.
-   ("S-SPC"   . just-one-space))        ; Bind just-one-space.
+   ("S-SPC" . just-one-space))        ; Bind just-one-space.
   :setq
   ;; Better splitting behavior.
   (split-height-threshold . 80)
-  (split-width-threshold  . '(* 2 my-max-columns))
+  (split-width-threshold . '(* 2 my-max-columns))
   :config
 
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -300,36 +300,36 @@
    (next-line-add-newlines . t)  ; New line when C-n.
    (fill-column . my-max-columns)  ; Set M-q columns.
    ;; Better scrolling behavior.
-   (scroll-step                     . 1)
-   (scroll-margin                   . 5)
-   (scroll-conservatively           . 100)
+   (scroll-step . 1)
+   (scroll-margin . 5)
+   (scroll-conservatively . 100)
    (scroll-preserve-screen-position . nil)
-   (auto-window-vscroll             . nil)
+   (auto-window-vscroll . nil)
    (next-screen-context-lines . 40)
    ;; Cleaner visuals, max. decoration.
-   (line-spacing                 . nil)
-   (truncate-lines               . t)
+   (line-spacing . nil)
+   (truncate-lines . t)
    (font-lock-maximum-decoration . t)
-   (diff-font-lock-syntax        . t)
-   (fringe-mode                  . 1)
+   (diff-font-lock-syntax . t)
+   (fringe-mode . 1)
                                         ; This is the value for "minimal".
-   (global-hl-line-mode          . 1)
+   (global-hl-line-mode . 1)
    ;; Clipboard behavior.
    (x-select-enable-clipboard-manager . t)
    ;; Debugging.
-   (debug-on-error  . t)
+   (debug-on-error . t)
    (init-file-debug . t)
    ;; Save-related settings.
-   (save-place-mode   . t)
+   (save-place-mode . t)
    (desktop-save-mode . nil)
    (blink-cursor-mode . t)
    ;; History.
-   (history-length            . 1000)
+   (history-length . 1000)
    (history-delete-duplicates . t)
    ;; Better interpreter settings: scroll down with input/output.
-   (comint-scroll-to-bottom-on-input  . t)
+   (comint-scroll-to-bottom-on-input . t)
    (comint-scroll-to-bottom-on-output . t)
-   (comint-move-point-for-output      . t)))
+   (comint-move-point-for-output . t)))
 
                                         ; Not sure what this does.
 
@@ -368,13 +368,13 @@
   (leaf autorevert
     :doc "Revert buffers when files change on disk"
     :custom
-    ((auto-revert-interval    . 5)
+    ((auto-revert-interval . 5)
      (global-auto-revert-mode . t)))
 
   (leaf abbrev
     :diminish abbrev-mode
     :custom
-    ((save-abbrevs     . 'silently)
+    ((save-abbrevs . 'silently)
      (abbrev-file-name . my-abbrev-dir)))
 
   (leaf *lock-files
@@ -383,24 +383,24 @@
 
   (leaf files
     :custom
-    ((require-final-newline  . t)
-     (make-backup-files      . t)
-     (backup-by-copying      . t)
+    ((require-final-newline . t)
+     (make-backup-files . t)
+     (backup-by-copying . t)
                                         ; Don't clobber symlinks.
-     (kept-new-versions      . 2)
-     (kept-old-versions      . 2)
-     (version-control        . t)
-     (delete-old-versions    . t)
+     (kept-new-versions . 2)
+     (kept-old-versions . 2)
+     (version-control . t)
+     (delete-old-versions . t)
      (backup-directory-alist .
-                             `(("."                     . ,my-backup-dir)
+                             `(("." . ,my-backup-dir)
                                (,tramp-file-name-regexp . nil)))))
 
   (leaf *auto-save-files
     :custom
-    ((auto-save-default              . t)
-     (auto-save-timeout              . 15)
-     (auto-save-interval             . 60)
-     (auto-save-list-file-prefix     . my-autosave-dir)
+    ((auto-save-default . t)
+     (auto-save-timeout . 15)
+     (auto-save-interval . 60)
+     (auto-save-list-file-prefix . my-autosave-dir)
      (auto-save-file-name-transforms .
                                      `((".*" ,(file-name-as-directory
                                                my-autosave-dir)
@@ -412,8 +412,8 @@
   :doc "Check OS and set appropriate font and frame size"
   :custom
   ((checkos0 . "Checking OS and hostname...")
-   (font0    . "Looking for font family...")
-   (font1    . "Setting font..."))
+   (font0 . "Looking for font family...")
+   (font1 . "Setting font..."))
   :config
 
   (progn
@@ -524,7 +524,7 @@
                     (add-to-list 'default-frame-alist
                                  '(height . 50))
                     (add-to-list 'default-frame-alist
-                                 '(width  . 180))
+                                 '(width . 180))
                     (message "Adjusting frame parameters...done"))
 
                 (message "No predefined font settings found")))))
@@ -534,7 +534,7 @@
 (leaf *line-numbering
   :doc "The display-line-numbers colors can be changed by editing base16.el"
   :custom
-  ((display-line-numbers       . nil)
+  ((display-line-numbers . nil)
                                         ; No line numbers (prog-mode only).
    (display-line-numbers-width . 4)
                                         ; Default width.
@@ -606,7 +606,7 @@
     :bind
     ("C-c u t" . undo-tree-visualize)
     :custom
-    ((global-undo-tree-mode     . t)
+    ((global-undo-tree-mode . t)
      (undo-tree-visualizer-diff . t))))
 
 (leaf *mode-line-settings
@@ -679,14 +679,14 @@
      ("'" . dired-subtree-remove))
     :custom
     ((dired-subtree-use-backgrounds . nil)
-     (dired-subtree-line-prefix     . "   |-"))))
+     (dired-subtree-line-prefix . "   |-"))))
 
 (leaf tramp
   :custom
-  ((tramp-debug-buffer   . t)
-   (tramp-read-passwd    . t)
+  ((tramp-debug-buffer . t)
+   (tramp-read-passwd . t)
    (tramp-default-method . "ssh")
-   (tramp-verbose        . 10))
+   (tramp-verbose . 10))
   :config
 
   (leaf tramp-term
@@ -727,21 +727,21 @@
   :bind
   (bibtex-mode-map
    ("C-c C-c" . org-ref-clean-bibtex-entry)
-   ("C-c ["   . crossref-lookup)
-   ("C-c ]"   . gscholar-bibtex))
+   ("C-c [" . crossref-lookup)
+   ("C-c ]" . gscholar-bibtex))
   :custom
-  ((bibtex-autokey-additional-names     . "_etal")
-   (bibtex-autokey-name-separator       . "_")
-   (bibtex-autokey-names                . 1)
-   (bibtex-autokey-names-stretch        . 1)
-   (bibtex-autokey-name-length          . 10)
-   (bibtex-autokey-name-year-separator  . "-")
-   (bibtex-autokey-year-length          . 4)
+  ((bibtex-autokey-additional-names . "_etal")
+   (bibtex-autokey-name-separator . "_")
+   (bibtex-autokey-names . 1)
+   (bibtex-autokey-names-stretch . 1)
+   (bibtex-autokey-name-length . 10)
+   (bibtex-autokey-name-year-separator . "-")
+   (bibtex-autokey-year-length . 4)
    (bibtex-autokey-year-title-separator . "-")
-   (bibtex-autokey-titleword-separator  . "_")
-   (bibtex-autokey-titlewords           . 3)
-   (bibtex-autokey-titlewords-stretch   . 1)
-   (bibtex-autokey-titleword-length     . 5))
+   (bibtex-autokey-titleword-separator . "_")
+   (bibtex-autokey-titlewords . 3)
+   (bibtex-autokey-titlewords-stretch . 1)
+   (bibtex-autokey-titleword-length . 5))
   :config
 
   (setq bibtex-dialect 'biblatex)
@@ -816,38 +816,38 @@
     :leaf-defer nil
     :diminish (helm-mode helm-autoresize-mode)
     :bind
-    (("M-x"     . helm-M-x)
-     ("C-s"     . helm-occur)
-     ("C-x b"   . helm-mini)
+    (("M-x" . helm-M-x)
+     ("C-s" . helm-occur)
+     ("C-x b" . helm-mini)
      ("C-x C-f" . helm-find-files)
-     ("M-y"     . helm-show-kill-ring)
-     ("C-c h"   . helm-command-prefix)
+     ("M-y" . helm-show-kill-ring)
+     ("C-c h" . helm-command-prefix)
      ("C-c t h" . helm-tramp)
      (helm-command-map
-      ("l"      . helm-locate)
-      ("s"      . helm-surfraw)
-      ("r"      . helm-regexp)
-      ("m"      . helm-multi-files)
-      ("a"      . helm-apropos)
-      ("i"      . helm-imenu)))
+      ("l" . helm-locate)
+      ("s" . helm-surfraw)
+      ("r" . helm-regexp)
+      ("m" . helm-multi-files)
+      ("a" . helm-apropos)
+      ("i" . helm-imenu)))
     :init
     ;; Remove old bind for helm-command-map.
     (global-unset-key
      (kbd "C-x c"))
     :custom
     ;; Splitting behavior.
-    ((helm-split-window-inside-p                              . nil)
-     (helm-move-to-line-cycle-in-source                       . nil)
+    ((helm-split-window-inside-p . nil)
+     (helm-move-to-line-cycle-in-source . nil)
                                         ; If t breaks cycling .
-     (helm-autoresize-mode                                    . t)
+     (helm-autoresize-mode . t)
      ;; Use fuzzy matching when possible.
-     (helm-mode-fuzzy-match                                   . t)
-     (helm-completion-in-region-fuzzy-match                   . t)
+     (helm-mode-fuzzy-match . t)
+     (helm-completion-in-region-fuzzy-match . t)
      ;; (helm-display-function . 'helm-display-buffer-in-own-frame)
-     (helm-display-buffer-reuse-frame                         . nil)
-     (helm-use-undecorated-frame-option                       . t)
+     (helm-display-buffer-reuse-frame . nil)
+     (helm-use-undecorated-frame-option . t)
      ;; Some helm-tramp settings.
-     (helm-tramp-control-master                               . t))
+     (helm-tramp-control-master . t))
     :config
 
     ;; Turn on helm-mode.
@@ -960,10 +960,10 @@
   :ensure t
   :after base16-theme
   :bind
-  (( "M-SPC"   . avy-goto-char)
+  (( "M-SPC" . avy-goto-char)
    ( "M-S-SPC" . avy-goto-char-2))
   :custom
-  ((avy-background  . t)
+  ((avy-background . t)
    (avy-all-windows . t)
    ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision
    ;; char with avy-lead-face-0.  Do this even when the char is terminating.
@@ -1016,7 +1016,7 @@
   :ensure t
   :diminish which-key-mode
   :custom
-  ((which-key-idle-delay           . 1)
+  ((which-key-idle-delay . 1)
    (which-key-idle-secondary-delay . 0))
   :config
 
@@ -1026,7 +1026,7 @@
 (leaf parens
   :custom
   ((show-paren-delay . 0.0)
-   (show-paren-mode  . t))
+   (show-paren-mode . t))
   :config
 
   (leaf smartparens
@@ -1038,7 +1038,7 @@
     ("C-c u s" . sp-unwrap-sexp)
     :custom
     ((sp-highlight-pair-overlay . nil)
-     (smartparens-global-mode   . t))))
+     (smartparens-global-mode . t))))
 
 (leaf highlight-indent-guides
   :url "https://github.com/DarthFennec/highlight-indent-guides"
@@ -1046,9 +1046,9 @@
   :hook
   (prog-mode-hook . highlight-indent-guides-mode)
   :custom
-  ((highlight-indent-guides-method     . 'column)
+  ((highlight-indent-guides-method . 'column)
    (highlight-indent-guides-responsive . 'stack)
-   (highlight-indent-guides-delay      . 0)))
+   (highlight-indent-guides-delay . 0)))
 
 (leaf *company-setup
   :config
@@ -1058,11 +1058,11 @@
     :ensure company-math
     :diminish company-mode
     :custom
-    ((company-dabbrev-downcase          . nil)
-     (company-idle-delay                . 0)
+    ((company-dabbrev-downcase . nil)
+     (company-idle-delay . 0)
      (company-tooltip-align-annotations . t)
-     (company-show-numbers              . nil)
-     (company-minimum-prefix-length     . 1))
+     (company-show-numbers . nil)
+     (company-minimum-prefix-length . 1))
     :config
 
     (global-company-mode 1)
@@ -1097,14 +1097,14 @@
   :after base16-theme
   :diminish whitespace-mode
   :hook
-  ((before-save-hook  . delete-trailing-whitespace)
-   (prog-mode-hook    .
+  ((before-save-hook . delete-trailing-whitespace)
+   (prog-mode-hook .
                       (lambda ()
                         (whitespace-mode 1)))
-   (text-mode-hook    .
+   (text-mode-hook .
                       (lambda ()
                         (whitespace-mode 1)))
-   (org-mode-hook     .
+   (org-mode-hook .
                       (lambda ()
                         (whitespace-mode 0)))
    (message-mode-hook .
@@ -1131,10 +1131,10 @@
   :ensure t
   :bind
   (("C-S-c C-S-c" . mc/edit-lines)
-   ("C->"         . mc/mark-next-like-this)
-   ("C-<"         . mc/mark-previous-like-this)
-   ("C-c C-<"     . mc/mark-all-like-this)
-   ("C-c C->"     . mc/mark-all-like-this)))
+   ("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)
+   ("C-c C->" . mc/mark-all-like-this)))
 
 (leaf flycheck               ; TODO: Structure > Move up to Flyspell and wrap.
   :ensure t
@@ -1154,7 +1154,7 @@
     :bind
     ("C-c $" . conda-env-activate)
     :custom
-    ((conda-anaconda-home       . "~/miniconda3/")
+    ((conda-anaconda-home . "~/miniconda3/")
      (conda-env-executables-dir . "condabin"))
     :config
 
@@ -1285,7 +1285,7 @@
     :hook
     ;; Align tags when saving.
     (((org-mode-hook before-save-hook)
-      . org-align-all-tags)
+ . org-align-all-tags)
      ;; Switch to DONE when sub-entries are done.
      (org-after-todo-statistics-hook . org-summary-todo)
      ;; Highlight current line in agenda.
@@ -1295,46 +1295,46 @@
      )
     :custom
     ;; Use relative paths.
-    ((org-link-file-path-type               . 'relative)
+    ((org-link-file-path-type . 'relative)
      ;; Startup options.
-     (org-startup-indented                  . nil)
-     (org-startup-with-latex-preview        . nil)
-     (org-startup-align-all-tables          . t)
+     (org-startup-indented . nil)
+     (org-startup-with-latex-preview . nil)
+     (org-startup-align-all-tables . t)
      ;; Indentation.
      (org-indent-mode-turns-on-hiding-stars . nil)
-     (org-adapt-indentation                 . nil)
+     (org-adapt-indentation . nil)
      ;; Misc.
-     (org-src-window-setup                  . 'other-window)
-     (org-tags-column                       . 70)
-     (org-image-actual-width                . nil)
-     (org-highlight-latex-and-related       . '(latex script entities))
-     (org-catch-invisible-edits             . t)
+     (org-src-window-setup . 'other-window)
+     (org-tags-column . 70)
+     (org-image-actual-width . nil)
+     (org-highlight-latex-and-related . '(latex script entities))
+     (org-catch-invisible-edits . t)
      ;; All child tasks have to be "DONE" before the parent is "DONE."
-     (org-enforce-todo-dependencies         . t)
+     (org-enforce-todo-dependencies . t)
      ;; To-do settings.
-     (org-hierarchical-todo-statistics      . nil)
+     (org-hierarchical-todo-statistics . nil)
      ;; Logging.
-     (org-log-done-with-time                . t)
-     (org-log-done                          . 'time)
-     (org-log-repeat                        . 'time)
+     (org-log-done-with-time . t)
+     (org-log-done . 'time)
+     (org-log-repeat . 'time)
      ;; Agenda settings.
-     (org-agenda-skip-scheduled-if-done     . t)
-     (org-agenda-skip-deadline-if-done      . t)
-     (org-agenda-include-deadlines          . t)
-     (org-agenda-include-diary              . nil)
-     ;; (org-agenda-block-separator        . nil)
-     (org-agenda-compact-blocks             . t)
-     (org-agenda-start-with-log-mode        . nil)
+     (org-agenda-skip-scheduled-if-done . t)
+     (org-agenda-skip-deadline-if-done . t)
+     (org-agenda-include-deadlines . t)
+     (org-agenda-include-diary . nil)
+     ;; (org-agenda-block-separator . nil)
+     (org-agenda-compact-blocks . t)
+     (org-agenda-start-with-log-mode . nil)
      ;; Better calendar settings: Include last week only if today is Monday,
      ;; always show three weeks. and always start the week on Monday.
      ;;
-     (calendar-week-start-day               . 1)
-     ;; (org-agenda-start-day                  . "-7d")
-     (org-agenda-start-on-weekday           . 1)
-     (org-agenda-span                       . 14)))
+     (calendar-week-start-day . 1)
+     ;; (org-agenda-start-day . "-7d")
+     (org-agenda-start-on-weekday . 1)
+     (org-agenda-span . 14)))
 
   ;; Always insert blank line before headings.
-  (setq org-blank-before-new-entry '((heading         . auto)
+  (setq org-blank-before-new-entry '((heading . auto)
                                      (plain-list-item . auto)))
 
   (leaf *org-refile
@@ -1342,7 +1342,7 @@
     (org-refile-use-outline-path . 'full-file-path)
     (org-outline-path-complete-in-steps . nil)
     (org-refile-allow-creating-parent-nodes . 'confirm)
-    (org-refile-targets . '((nil :maxlevel              . 9)
+    (org-refile-targets . '((nil :maxlevel . 9)
                             (org-agenda-files :maxlevel . 9))))
 
   (leaf *org-capture-templates
@@ -1411,12 +1411,12 @@
   ;; Available languages: https://orgmode.org/org.html#Languages
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((shell      . t)
+   '((shell . t)
      (emacs-lisp . t)
-     (org        . t)
-     (python     . t)
-     (R          . t)
-     (latex      . t)))
+     (org . t)
+     (python . t)
+     (R . t)
+     (latex . t)))
   ;; Use Python 3
   (setq org-babel-python-command "python3")
   ;; Better source block behavior.
@@ -1554,7 +1554,7 @@
     :init
     (pdf-loader-install) ; Prepare Emacs for using PDF Tools.
     :custom
-    ((pdf-view-display-size                  . 'fit-page)
+    ((pdf-view-display-size . 'fit-page)
      (pdf-annot-activate-created-annotations . t))
     :config
     (leaf org-pdfview
@@ -1594,7 +1594,7 @@
     :after base16-theme
     :diminish magit-auto-revert-mode
     :bind
-    (("C-x g"               . magit-status))
+    (("C-x g" . magit-status))
     :custom
     (magit-diff-refine-hunk . 'all)
     :config
@@ -1653,26 +1653,26 @@
     ("C-c w d" . xref-find-definitions-other-window)
     ("C-c d p" . lsp-describe-thing-at-point)))
   :custom
-  ((lsp-inhibit-message              . nil)
+  ((lsp-inhibit-message . nil)
    (lsp-message-project-root-warning . t)
    ;; Debugging.
-   (lsp-log-io                       . nil)
-   (lsp-server-trace                 . nil)
+   (lsp-log-io . nil)
+   (lsp-server-trace . nil)
    ;; Customization.
-   (lsp-enable-symbol-highlighting   . t)
-   (lsp-prefer-flymake               . nil)
-   (lsp-auto-guess-root              . t)
-   (lsp-enable-snippet               . t)
-   (lsp-idle-delay                   . 0.1)
+   (lsp-enable-symbol-highlighting . t)
+   (lsp-prefer-flymake . nil)
+   (lsp-auto-guess-root . t)
+   (lsp-enable-snippet . t)
+   (lsp-idle-delay . 0.1)
    ;; Advanced.
-   (lsp-completion-show-detail       . nil)
-   (lsp-completion-show-kind         . nil)
-   (lsp-eldoc-enable-hover           . nil)
-   (lsp-enable-indentation           . t)
+   (lsp-completion-show-detail . nil)
+   (lsp-completion-show-kind . nil)
+   (lsp-eldoc-enable-hover . nil)
+   (lsp-enable-indentation . t)
    (lsp-headerline-breadcrumb-enable . nil)
-   (lsp-enable-on-type-formatting    . nil)
+   (lsp-enable-on-type-formatting . nil)
    (lsp-modeline-code-actions-enable . nil)
-   (lsp-modeline-diagnostics-enable  . nil))
+   (lsp-modeline-diagnostics-enable . nil))
   :config
   (prog1 "Enable which-key integration in the active major mode for
 lsp-mode-map."
@@ -1751,7 +1751,7 @@ lsp-mode-map."
   ("C-c z d" . ssh-deploy-prefix-map)
   :hook
   ((after-save-hook . ssh-deploy-after-save)
-   (find-file       . ssh-deploy-find-file))
+   (find-file . ssh-deploy-find-file))
   :config
   (ssh-deploy-line-mode)
   (ssh-deploy-add-menu))
@@ -1763,7 +1763,7 @@ lsp-mode-map."
   :bind
   ("C-c p" . projectile-command-map)
   :custom
-  ((projectile-mode              . t)
+  ((projectile-mode . t)
    (projectile-completion-system . 'helm))
   :config
   (helm-projectile-on))
