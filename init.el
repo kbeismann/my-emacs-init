@@ -328,8 +328,7 @@
    ;; Better interpreter settings: scroll down with input/output.
    (comint-scroll-to-bottom-on-input  . t)
    (comint-scroll-to-bottom-on-output . t)
-   (comint-move-point-for-output      . t)
-   (scroll-down-aggressively          . 0.5)))
+   (comint-move-point-for-output      . t)))
 
                                         ; Not sure what this does.
 
