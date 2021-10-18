@@ -50,6 +50,13 @@
    early-init-f)
   (require 'early-init))
 
+(prog1 "Show startup time."
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs loaded in %s seconds with %d garbage collections."
+                       (emacs-init-time "%.2f")
+                       gcs-done))))
+
 ;; This block effectively disables garbage collection for the initialization
 ;; time and re-enables it after.  If the machine has enough RAM, at most 64MB
 ;; every time you start up a new Emacs, this will reduce package-initialize
@@ -103,16 +110,6 @@
   ;; Disable certain byte compiler warnings to cut down on the noise.
   ;; (setq byte-compile-warnings '(not cl-functions obsolete))
   )
-
-(prog1 "Show startup time"
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (message "Emacs ready in %s with %d garbage collections."
-                       (format "%.2f seconds"
-                               (float-time
-                                (time-subtract after-init-time
-                                               before-init-time)))
-                       gcs-done))))
 
 ;; Work-related proxy settings.
 (let ((proxies "~/gitdir/my-git/my-work-dirs/proxies.el"))
