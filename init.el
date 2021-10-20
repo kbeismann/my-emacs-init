@@ -1623,7 +1623,23 @@
     :ensure t
     :diminish git-auto-commit-mode
     :custom
-    (gac-automatically-push-p . t)))
+    (gac-automatically-push-p . t))
+
+  (leaf blamer
+    :straight (blamer :host github :repo "artawower/blamer.el")
+    :after base16-theme
+    :custom
+    ((blamer-idle-time . 0.5)
+     (blamer-min-offset . 60)
+     (blamer-commit-formatter . "-- %s")
+     (blamer-max-commit-message-length . 50))
+    :config
+    (global-blamer-mode 1)
+    (set-face-attribute 'blamer-face nil
+                        :foreground base04-prop
+                        :background nil
+                        :italic t)
+    (global-blamer-mode 0)))
 
 (leaf tree-sitter
   :ensure t
