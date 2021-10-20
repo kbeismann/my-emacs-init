@@ -1044,7 +1044,7 @@
   (prog-mode-hook . highlight-indent-guides-mode)
   :custom
   ((highlight-indent-guides-method . 'column)
-   (highlight-indent-guides-responsive . 'stack)
+   (highlight-indent-guides-responsive . 'top)
    (highlight-indent-guides-delay . 0)))
 
 (leaf *company-setup
