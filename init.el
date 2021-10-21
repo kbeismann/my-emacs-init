@@ -1281,8 +1281,7 @@
       ("C-c e" . org-set-effort)))
     :hook
     ;; Align tags when saving.
-    (((org-mode-hook before-save-hook)
- . org-align-all-tags)
+    (((org-mode-hook before-save-hook) . org-align-all-tags)
      ;; Switch to DONE when sub-entries are done.
      (org-after-todo-statistics-hook . org-summary-todo)
      ;; Highlight current line in agenda.
