@@ -1515,10 +1515,10 @@
   (leaf org-mind-map
     :doc "This is an Emacs package that creates graphviz directed
   graphs from the headings of an org file"
-    :require ox-org
+    :require ox-org cl
     :ensure t
     :custom
-    (org-mind-map-include-text . t))
+    (org-mind-map-include-text . nil))
 
   (leaf org-download
     :ensure t
