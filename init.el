@@ -1723,9 +1723,7 @@ lsp-mode-map."
 (leaf helm-lsp
   :ensure t
   :after helm lsp-mode
-  :commands helm-lsp-workspace-symbol
-  :bind
-  (("C-c h c a" . helm-lsp-code-actions)))
+  :commands helm-lsp-workspace-symbol)
 
 (leaf markdown-mode
   :ensure t
