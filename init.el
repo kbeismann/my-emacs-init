@@ -1455,18 +1455,18 @@
                          :order 2)
                   (:name "@home"
                          :and (:tag "@home"
-                                    :not (:tag "bill"
-                                               :tag "shoppinglist"
-                                               :tag "reading"
-                                               :tag "datascience"
-                                               :tag "work"))
+                                    :not (:tag ("bill"
+                                                "shoppinglist"
+                                                "reading"
+                                                "datascience"
+                                                "work")))
                          :order 3)
                   (:name "Data science"
                          :and (:tag "datascience"
                                     :not (:tag "reading"))
                          :order 4)
                   (:name "Data science readings"
-                         :and (:tag "datascience"
+                         :and (:tag ("datascience" "towardsdatascience")
                                     :tag "reading")
                          :order 5)
                   (:name "Readings"
