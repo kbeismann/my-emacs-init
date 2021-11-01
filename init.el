@@ -50,13 +50,6 @@
    early-init-f)
   (require 'early-init))
 
-(prog1 "Show startup time."
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (message "Emacs loaded in %s seconds with %d garbage collections."
-                       (emacs-init-time "%.2f")
-                       gcs-done))))
-
 ;; Work-related proxy settings.
 (let ((proxies "~/gitdir/my-git/my-work-dirs/proxies.el"))
   (if (file-exists-p proxies)
