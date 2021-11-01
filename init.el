@@ -1604,15 +1604,6 @@
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
 
-  (leaf gitconfig-mode
-    :ensure t)
-
-  (leaf gitignore-mode
-    :ensure t)
-
-  (leaf gitattributes-mode
-    :ensure t)
-
   (leaf git-timemachine
     :url "https://gitlab.com/pidu/git-timemachine"
     :ensure t
