@@ -58,7 +58,50 @@
 ;; Increase data read from the processess (4MB).
 (setq read-process-output-max (* 1024 1024 4))
 
-;; Defer GC.
+
+;; This block effectively disables garbage collection for the initialization
+;; time and re-enables it after.  If the machine has enough RAM, at most 64MB
+;; every time you start up a new Emacs, this will reduce package-initialize
+;; time to about half.
+
+(prog1 "More generous `gc-cons-threshold' value."
+  (setq garbage-collection-messages t)
+  (defvar better-gc-cons-threshold most-positive-fixnum)
+  (add-hook
+   'emacs-startup-hook
+   (lambda ()
+     (setq gc-cons-threshold better-gc-cons-threshold)
+     (setq file-name-handler-alist file-name-handler-alist-original)
+     (makunbound 'file-name-handler-alist-original)))
+  ;; Auto GC.
+  (add-hook
+   'emacs-startup-hook
+   (lambda ()
+     (if (boundp 'after-focus-change-function)
+         (add-function
+          :after after-focus-change-function
+          (lambda ()
+            (unless (frame-focus-state)
+              (garbage-collect))))
+       (add-hook
+        'after-focus-change-function
+        'garbage-collect))
+     (defun gc-minibuffer-setup-hook ()
+       (setq gc-cons-threshold
+             (* better-gc-cons-threshold 2)))
+     (defun gc-minibuffer-exit-hook ()
+       (garbage-collect)
+       (setq gc-cons-threshold (* 800000 4)))
+     (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
+     (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook))))
+
+;; Let's increase the max-lisp-eval-depth and max-specpdl-size to
+;; prevent exceeding recursion limits.
+(setq max-lisp-eval-depth 50000)
+(setq max-specpdl-size 10000)
+
+;; Disable certain byte compiler warnings to cut down on the noise.
+(setq byte-compile-warnings '(not cl-functions obsolete));; Defer GC.
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
@@ -83,6 +126,7 @@
 (setq cursor-type 'bar)
 
 (setq frame-inhibit-implied-resize t)
+(setq inhibit-compacting-font-caches t)
 (setq use-dialog-box t)
 
 ;; Coding system.
