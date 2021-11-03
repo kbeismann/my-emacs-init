@@ -2,8 +2,8 @@
 # name: latex-align
 # key: <al
 # --
-#+BEGIN_SRC latex
+#+BEGIN_LATEX
 \begin{align*}
 $0
 \end{align*}
-#+END_SRC
+#+END_LATEX
