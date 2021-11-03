@@ -2,6 +2,6 @@
 # name: latex-base
 # key: <la
 # --
-#+BEGIN_SRC latex
+#+BEGIN_LATEX
 $0
-#+END_SRC
+#+END_LATEX
