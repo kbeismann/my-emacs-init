@@ -99,7 +99,7 @@
              (* better-gc-cons-threshold 2)))
      (defun gc-minibuffer-exit-hook ()
        (garbage-collect)
-       (setq gc-cons-threshold original-gc-cons-threshold))
+       (setq gc-cons-threshold (* 16 original-gc-cons-threshold)))
      (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook))))
 
