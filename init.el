@@ -1112,7 +1112,7 @@
      (calendar-week-start-day . 1)
      ;; (org-agenda-start-day . "-7d")
      (org-agenda-start-on-weekday . 1)
-     (org-agenda-span . 'week)))
+     (org-agenda-span . 9)))
 
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading . auto)
