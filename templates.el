@@ -49,7 +49,7 @@
          :empty-lines 1)
         ("mu" "Store URL" entry
          (file+headline org-default-notes-file "Uncategorized")
-         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n:URL: %x\n\n%i\n\n"
+         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("mr" "Save reading" entry
          (file buffer-file-name)
