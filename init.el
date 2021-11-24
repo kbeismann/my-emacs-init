@@ -424,12 +424,6 @@
   (setq yas-snippet-dirs (append yas-snippet-dirs
                                  (list path-to-my-snippets))))
 
-(leaf paradox
-  :doc "Nicer package menu"
-  :ensure t
-  :config
-  (paradox-enable))
-
 (leaf *dired-setup
   :config
   (leaf dired
