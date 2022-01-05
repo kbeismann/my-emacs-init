@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: pytest_parametrize_error
+# --
+@pytest.mark.parametrize("$2", ((${2:EXAMPLES}), ($2), ($2)))
+def test_${3:ERROR_TYPE}errors_${1:FUNCTION_NAME}(${2:ARGUMENTS}) -> None:
+    with pytest.raises($3:ERROR_TYPE):
+         pytest.fail()
+$0

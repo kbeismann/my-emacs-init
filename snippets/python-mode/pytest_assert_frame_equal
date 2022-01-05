@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: pytest_assert_frame_equal
+# --
+@pytest.mark.parametrize(
+    "df0, df1",
+    (
+        pd.DataFrame.from_dict({"A": [1, 2], "B": [3, 4]}),
+        pd.DataFrame.from_dict({"a": [1, 2], "b": [3, 4]}),
+    ),
+)
+def test_frame_equal(df0: pd.DataFrame, df1: pd.DataFrame) -> None:
+    pd.testing.assert_frame_equal(df0, df1)

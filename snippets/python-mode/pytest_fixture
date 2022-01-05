@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: pytest_fixture
+# --
+@pytest.fixture(scope=${1:SCOPE})
+def ${2:FIXTURE_NAME}() -> None:
+    return None
+$0
