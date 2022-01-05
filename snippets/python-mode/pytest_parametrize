@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pytest_parametrize
+# --
+@pytest.mark.parametrize("${1:ARGUMENTS}", ((${2:EXAMPLES}), ($2), ($2)))
+$0
