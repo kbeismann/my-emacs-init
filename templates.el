@@ -75,6 +75,7 @@
                            "TODO(t)"
                            "UNCATEGORIZED(u)"
                            "IN_PROGRESS(i)"
+                           "IN_REVIEW(r)"
                            "GET_FEEDBACK(g)"
                            "BLOCKED(k)"
                            "|"
@@ -88,6 +89,7 @@
         ("CHANCELLED"     . org-done)
         ("FORWARDED"      . org-done)
         ("IN_PROGRESS"    . org-link)
+        ("IN_REVIEW"    . org-archived)
         ("UNCATEGORIZED"  . org-archived)
         ("BLOCKED"        . org-archived)))
 (provide 'templates)
