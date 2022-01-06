@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pytest_xfail
+# --
+@pytest.mark.xfail(sys.platform == "win32", reason="bug in a 3rd party library")
+$0
