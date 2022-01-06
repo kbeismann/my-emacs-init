@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pytest_skip
+# --
+@pytest.mark.skip(reason="no way of currently testing this")
+$0
