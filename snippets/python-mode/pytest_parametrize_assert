@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: pytest_parametrize_assert
 # --
-@pytest.mark.parametrize("$2", ((${2:EXAMPLES}), ($2), ($2)))
+@pytest.mark.parametrize("$2", ((${3:EXAMPLES}), ($3), ($3)))
 def test_${1:FUNCTION_NAME}(${2:ARGUMENTS}) -> None:
     x, y = True, False
     assert x == y
