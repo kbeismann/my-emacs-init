@@ -1371,7 +1371,8 @@
     :bind
     (("C-x g" . magit-status))
     :custom
-    (magit-diff-refine-hunk . 'all)
+    ((magit-diff-refine-hunk . 'all)
+     (magit-log-auto-more . t))
     :config
     (leaf magit-todos
       :ensure t
