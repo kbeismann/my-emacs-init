@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: pytest_assert
+# --
+def test_${1:FUNCTION_NAME}(${2:ARGUMENTS}) -> None:
+    x, y = True, False
+    assert x == y
+$0
