@@ -19,12 +19,12 @@ $1.
 Examples
 --------
 
-    $ python3 `(buffer-name)`
+$ python3 `(buffer-name)`
 
 Environment
 -----------
 
-    $ conda activate ${3:ENV}
+$ conda activate ${3:ENV}
 
 To-do
 -----
