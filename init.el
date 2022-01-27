@@ -1561,6 +1561,9 @@ lsp-mode-map."
 (leaf centered-window
   :ensure t)
 
+(leaf json-mode
+  :ensure t)
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
