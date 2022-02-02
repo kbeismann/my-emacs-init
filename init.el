@@ -820,7 +820,8 @@
   :url "https://github.com/DarthFennec/highlight-indent-guides"
   :ensure t
   :hook
-  (prog-mode-hook . highlight-indent-guides-mode)
+  ((prog-mode-hook . highlight-indent-guides-mode)
+   (yaml-mode-hook . highlight-indent-guides-mode))
   :custom
   ((highlight-indent-guides-method . 'column)
    (highlight-indent-guides-responsive . 'top)
