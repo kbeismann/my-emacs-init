@@ -1479,8 +1479,12 @@ lsp-mode-map."
                       :inherit 'unspecified
                       :background base02-prop)
   (lsp-register-custom-settings
-   '(("pylsp.plugins.pyls_mypy.enabled" t t)
-     ("pylsp.plugins.pyls_mypy.live_mode" nil t)
+   '(("pylsp.plugins.pylsp_mypy.enabled" t t)
+     ("pylsp.plugins.pylsp_mypy.live_mode" t t)
+     ("pylsp.plugins.pylsp_rope.enabled" t t)
+     ("pylsp.plugins.pyls_isort.enabled" t t)
+     ("pylsp.plugins.pyls_memestra.enabled" t t)
+     ("pylsp.plugins.pyls_flake8.enabled" t t)
      ("pylsp.plugins.jedi_rename.enabled" t t)
      ("pylsp.plugins.rope_rename.enabled" nil nil)
      ("pylsp.plugins.rope_completion.enabled" nil nil)
@@ -1488,9 +1492,9 @@ lsp-mode-map."
      ("pylsp.plugins.jedi_completion.fuzzy" t t)
      ("pylsp.plugins.pyls_black.enabled" t t)
      ("pylsp.plugins.yapf.enabled" nil nil)
-     ("pylsp.plugins.pyls_isort.enabled" t t)
      ("pylsp.plugins.pylint.enabled" t t)
-     ("pylsp.plugins.flake8.enabled" t t))))
+     ("pylsp.plugins.flake8.enabled" t t)
+     ("pylsp.plugins.pydocstyle.enabled" t t))))
 
 (leaf helm-lsp
   :ensure t
