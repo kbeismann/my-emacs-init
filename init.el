@@ -1496,6 +1496,12 @@ lsp-mode-map."
      ("pylsp.plugins.flake8.enabled" t t)
      ("pylsp.plugins.pydocstyle.enabled" t t))))
 
+(leaf lsp-ui
+  :ensure t
+  :after lsp-mode
+  :custom
+  (lsp-ui-imenu-auto-refresh . t))
+
 (leaf helm-lsp
   :ensure t
   :after helm lsp-mode
