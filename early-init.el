@@ -74,7 +74,7 @@
 (prog1 "More generous `gc-cons-threshold' value."
   (setq garbage-collection-messages t)
   (defvar original-gc-cons-threshold gc-cons-threshold)
-  (defvar better-gc-cons-threshold (* 2 1024 1024 562))
+  (defvar better-gc-cons-threshold (* 5 1024 1024 562))
   (add-hook
    'emacs-startup-hook
    (lambda ()
