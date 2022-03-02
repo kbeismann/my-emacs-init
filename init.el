@@ -1307,7 +1307,18 @@
           (list #'org-roam-backlinks-section
                 #'org-roam-reflinks-section
                 #'org-roam-unlinked-references-section))
-    (org-roam-setup))
+    (org-roam-setup)
+
+    (leaf deft
+      :ensure t
+      :straight t
+      :bind
+      ("C-c n s" . deft)
+      :custom
+      (deft-recursive . t)
+      (deft-use-filter-string-for-filename . t)
+      (deft-default-extension . "org")
+      (deft-directory . org-roam-directory)))
 
   (leaf org-mind-map
     :doc "This is an Emacs package that creates graphviz directed
@@ -1326,17 +1337,6 @@
     (org-mode-map
      (("C-c i s" . org-download-screenshot)
       ("C-c i y" . org-download-yank)))))
-
-(leaf deft
-  :ensure t
-  :straight t
-  :bind
-  ("C-c n s" . deft)
-  :custom
-  (deft-recursive . t)
-  (deft-use-filter-string-for-filename . t)
-  (deft-default-extension . "org")
-  (deft-directory . org-roam-directory))
 
 (leaf doc-view
   :ensure t
