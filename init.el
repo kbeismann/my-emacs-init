@@ -599,7 +599,7 @@
     :straight t
     :require helm-config
     :leaf-defer nil
-    :diminish (helm-mode helm-autoresize-mode)
+    :diminish (helm-mode helm-autoresize-mode helm-minibuffer-history-mode)
     :bind
     (("M-x" . helm-M-x)
      ("C-s" . helm-occur)
@@ -836,6 +836,7 @@
   :url "https://github.com/DarthFennec/highlight-indent-guides"
   :ensure t
   :straight t
+  :diminish highlight-indent-guides-mode
   :hook
   ((prog-mode-hook . highlight-indent-guides-mode)
    (yaml-mode-hook . highlight-indent-guides-mode))
@@ -992,6 +993,7 @@
     (leaf pipenv
       :ensure t
       :straight t
+      :diminish pipenv-mode
       :hook
       (python-mode-hook . pipenv-mode)
       :init
@@ -1029,6 +1031,7 @@
     (leaf sphinx-doc
       :ensure t
       :load-path "~/gitdir/my-git/sphinx-doc.el/"
+      :diminish sphinx-doc-mode
       :hook
       (python-mode-hook . sphinx-doc-mode)
       :custom
@@ -1456,6 +1459,7 @@
 (leaf tree-sitter
   :ensure t
   :straight t
+  :diminish tree-sitter-mode
   :config
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
@@ -1468,6 +1472,7 @@
   :ensure t
   :ensure projectile company yasnippet flycheck which-key
   :straight t
+  :diminish lsp-lens-mode
   :commands (lsp lsp-deferred)
   :hook
   (python-mode-hook . lsp-deferred)
