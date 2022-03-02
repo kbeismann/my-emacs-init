@@ -989,7 +989,7 @@
     (leaf python-pytest
       :doc "Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/"
       :ensure t
-      :ensure projectile
+      :after projectile
       :straight t
       :after python
       :bind
