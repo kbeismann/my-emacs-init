@@ -1375,7 +1375,6 @@
     :ensure t
     :straight t
     :config
-
     (global-hl-todo-mode t))
 
   (leaf ediff
