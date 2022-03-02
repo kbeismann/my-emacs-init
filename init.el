@@ -368,6 +368,7 @@
 
   (leaf undo-tree
     :ensure t
+    :straight t
     :diminish undo-tree-mode
     :bind
     ("C-c u t" . undo-tree-visualize)
@@ -442,6 +443,7 @@
   (leaf dired-du
     :ensure t
     :require t
+    :straight t
     :diminish dired-du-mode
     :custom
     (dired-du-size-format . t))
@@ -449,6 +451,7 @@
   (leaf dired-subtree
     :ensure t
     :require t
+    :straight t
     :bind
     (dired-mode-map
      (";" . dired-subtree-toggle)
@@ -466,7 +469,8 @@
   :config
 
   (leaf tramp-term
-    :ensure t))
+    :ensure t
+    :straight t))
 
 (leaf async
   :ensure t
@@ -538,6 +542,7 @@
 
 (leaf flyspell
   :ensure t
+  :straight t
   :diminish flyspell-mode
   :hook
   ((prog-mode-hook .
@@ -588,6 +593,7 @@
   (leaf helm
     :ensure t
     :ensure helm-tramp
+    :straight t
     :require helm-config
     :leaf-defer nil
     :diminish (helm-mode helm-autoresize-mode)
@@ -633,15 +639,18 @@
     :doc "Use helm for Flyspell"
     :after helm flyspell
     :ensure t
+    :straight t
     :bind
     ("C-c f c" . helm-flyspell-correct))
 
   (leaf helm-ag
     :ensure t
+    :straight t
     :after helm))
 
 (leaf base16-theme
   :ensure t
+  :straight t
   :custom
   ;; Change the terminal colors.  Not sure if it works.
   (base16-theme-256-color-source . "colors")
@@ -734,6 +743,7 @@
   :doc "Move with the power of your mind and jump to things in
   Emacs tree-style"
   :ensure t
+  :straight t
   :after base16-theme
   :bind
   (( "M-SPC" . avy-goto-char)
@@ -927,6 +937,7 @@
 
   (leaf conda
     :ensure t
+    :straight t
     :after dired
     :bind
     ("C-c $" . conda-env-activate)
@@ -952,6 +963,7 @@
     (leaf
       flycheck-pycheckers
       :ensure t
+      :straight t
       :after flycheck
       :custom ((flycheck-pycheckers-multi-thread . "true")
                (flycheck-pycheckers-max-line-length . 88)
@@ -978,6 +990,7 @@
       :doc "Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/"
       :ensure t
       :ensure projectile
+      :straight t
       :after python
       :bind
       (python-mode-map
@@ -1011,6 +1024,7 @@
 
     (leaf python-black
       :ensure t
+      :straight t
       :hook
       (python-mode-hook .
                         (lambda()
@@ -1020,10 +1034,12 @@
 
     (leaf py-isort
       :ensure t
+      :straight t
       :after python)
 
     (leaf pyimport
       :ensure t
+      :straight t
       :bind
       (python-mode-map
        ("C-c m i" . pyimport-insert-missing)
@@ -1213,6 +1229,7 @@
 
   (leaf org-super-agenda
     :ensure t
+    :straight t
     :after org
     :custom
     (org-agenda-include-deadlines . t)
@@ -1297,11 +1314,13 @@
   graphs from the headings of an org file"
     :require ox-org cl
     :ensure t
+    :straight t
     :custom
     (org-mind-map-include-text . nil))
 
   (leaf org-download
     :ensure t
+    :straight t
     :after org
     :bind
     (org-mode-map
@@ -1321,9 +1340,11 @@
 
 (leaf doc-view
   :ensure t
+  :straight t
   :config
   (leaf pdf-tools
     :ensure t
+    :straight t
     :bind
     (pdf-view-mode-map
      ("C-s" . isearch-forward))
@@ -1342,6 +1363,7 @@
   (leaf nov
     :doc "For reading .epub files"
     :ensure t
+    :straight t
     :config
     (add-to-list 'auto-mode-alist
                  '("\\.epub\\'" . nov-mode))))
@@ -1351,6 +1373,7 @@
 
   (leaf hl-todo
     :ensure t
+    :straight t
     :config
 
     (global-hl-todo-mode t))
@@ -1388,10 +1411,12 @@
   (leaf git-timemachine
     :url "https://gitlab.com/pidu/git-timemachine"
     :ensure t
+    :straight t
     :diminish git-timemachine-mode)
 
   (leaf git-auto-commit-mode
     :ensure t
+    :straight t
     :diminish git-auto-commit-mode
     :custom
     (gac-automatically-push-p . t))
@@ -1426,6 +1451,7 @@
 (leaf lsp-mode
   :ensure t
   :ensure projectile company yasnippet flycheck which-key
+  :straight t
   :commands (lsp lsp-deferred)
   :hook
   (python-mode-hook . lsp-deferred)
@@ -1504,6 +1530,7 @@ lsp-mode-map."
 
 (leaf helm-lsp
   :ensure t
+  :straight t
   :after helm lsp-mode
   :commands helm-lsp-workspace-symbol
   :bind
@@ -1513,6 +1540,7 @@ lsp-mode-map."
 
 (leaf markdown-mode
   :ensure t
+  :straight t
   :mode
   (("README\\.md\\'" . gfm-mode)
    ("\\.md\\'" . markdown-mode)
@@ -1537,6 +1565,7 @@ lsp-mode-map."
 (leaf yaml-mode
   :config
   :ensure t
+  :straight t
   :bind
   (yaml-mode-map
    ("\C-m" . newline-and-indent)))
@@ -1552,6 +1581,7 @@ lsp-mode-map."
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
   :doc "Effortlessly deploy local files and directories to remote hosts via Tramp."
   :ensure t
+  :straight t
   :bind
   ("C-c z d" . ssh-deploy-prefix-map)
   :hook
@@ -1566,6 +1596,7 @@ lsp-mode-map."
 (leaf projectile
   :after helm
   :ensure helm-projectile
+  :straight t
   :diminish projectile-mode
   :bind
   ("C-c p" . projectile-command-map)
@@ -1576,10 +1607,12 @@ lsp-mode-map."
   (helm-projectile-on))
 
 (leaf centered-window
-  :ensure t)
+  :ensure t
+  :straight t)
 
 (leaf json-mode
-  :ensure t)
+  :ensure t
+  :straight t)
 
 ;;; Footer:
 (provide 'init)
