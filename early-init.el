@@ -54,7 +54,7 @@
         (setq native-comp-async-report-warnings-errors nil)
         (setq native-comp-async-jobs-number 4)
         (setq comp-deferred-compilation t))
-    (message "Native complation is *not* available.")))
+    (message "Native compilation is *not* available.")))
 
 (prog1
     "Check if fast JSON is available."
