@@ -1557,6 +1557,8 @@ lsp-mode-map."
   :hook
   ((after-save-hook . ssh-deploy-after-save)
    (find-file . ssh-deploy-find-file))
+  :custom
+  ((ange-ftp-netrc-filename . "~/.authinfo.gpg"))
   :config
   (ssh-deploy-line-mode)
   (ssh-deploy-add-menu))
