@@ -401,6 +401,7 @@
 
 (leaf auto-compile
   :ensure t
+  :straight t
   :custom
   (load-prefer-newer . t)
   :config
@@ -421,6 +422,7 @@
    (yas-global-mode . t))
   :config
   (leaf yasnippet-snippets
+    :straight t
     :ensure t)
   (setq yas-snippet-dirs (append yas-snippet-dirs
                                  (list path-to-my-snippets))))
@@ -474,6 +476,7 @@
 
 (leaf async
   :ensure t
+  :straight t
   :diminish dired-async-mode
   :config
   (dired-async-mode 1)
@@ -790,6 +793,7 @@
 ;; automatically if there is no region.
 (leaf whole-line-or-region
   :ensure t
+  :straight t
   :diminish (whole-line-or-region-global-mode
              whole-line-or-region-local-mode)
   :config
@@ -800,6 +804,7 @@
 ;; your currently entered incomplete command (a prefix) in a popup.
 (leaf which-key
   :ensure t
+  :straight t
   :diminish which-key-mode
   :custom
   ((which-key-idle-delay . 1)
@@ -818,6 +823,7 @@
   (leaf smartparens
     :url "https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3"
     :ensure t
+    :straight t
     :diminish (smartparens-mode smartparens-global-mode)
     :require smartparens-config
     :bind
@@ -829,6 +835,7 @@
 (leaf highlight-indent-guides
   :url "https://github.com/DarthFennec/highlight-indent-guides"
   :ensure t
+  :straight t
   :hook
   ((prog-mode-hook . highlight-indent-guides-mode)
    (yaml-mode-hook . highlight-indent-guides-mode))
@@ -843,6 +850,7 @@
   (leaf company
     :ensure t
     :ensure company-math
+    :straight t
     :diminish company-mode
     :custom
     ((company-dabbrev-downcase . nil)
@@ -859,6 +867,7 @@
 
   (leaf company-bibtex
     :ensure t
+    :straight t
     :after bibtex
     :custom
     ;; The regular expression matching key names alphanumeric characters,
@@ -873,6 +882,7 @@
   :url "https://github.com/Malabarba/aggressive-indent-mode"
   :doc "aggressive-indent-mode is a minor mode that keeps your code always indented"
   :ensure t
+  :straight t
   :config
 
   (global-aggressive-indent-mode 1))
@@ -881,6 +891,7 @@
 ;; while saving, also removes all white space at the end of lines.
 (leaf whitespace
   :ensure t
+  :straight t
   :after base16-theme
   :diminish whitespace-mode
   :hook
@@ -916,6 +927,7 @@
 ;; Basic bindings for multiple-cursors.
 (leaf multiple-cursors
   :ensure t
+  :straight t
   :bind
   (("C-S-c C-S-c" . mc/edit-lines)
    ("C->" . mc/mark-next-like-this)
@@ -925,6 +937,7 @@
 
 (leaf flycheck               ; TODO: Structure > Move up to Flyspell and wrap.
   :ensure t
+  :straight t
   :diminish (global-flycheck-mode flycheck-mode)
   :bind
   (("M-n" . flycheck-next-error)
@@ -978,6 +991,7 @@
 
     (leaf pipenv
       :ensure t
+      :straight t
       :hook
       (python-mode-hook . pipenv-mode)
       :init
@@ -989,8 +1003,8 @@
     (leaf python-pytest
       :doc "Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/"
       :ensure t
-      :after projectile
       :straight t
+      :after projectile
       :after python
       :bind
       (python-mode-map
@@ -1047,6 +1061,7 @@
 
     (leaf python-docstring
       :ensure t
+      :straight t
       :hook
       (python-mode-hook . python-docstring-mode))))
 
