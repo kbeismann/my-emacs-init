@@ -1051,6 +1051,7 @@
       (python-mode-hook . python-docstring-mode))))
 
 (leaf org                         ; FIXME: Band aid > Use :bind at some point.
+  :ensure t
   :straight t
   :config
   (prog1 "Setting directories without :custom"
