@@ -1049,7 +1049,7 @@
       :custom
       (python-black-macchiato-command . "~/.local/bin/black-macchiato"))
 
-    (leaf py-isort
+    (leaf python-isort
       :ensure t
       :straight t
       :after python)
@@ -1458,7 +1458,6 @@
 
 (leaf tree-sitter
   :ensure t
-  :straight t
   :diminish tree-sitter-mode
   :config
   (global-tree-sitter-mode)
