@@ -508,7 +508,6 @@
     :custom ((eldoc-idle-delay . 0.2))))
 
 (leaf bibtex
-  :ensure org-ref
   :ensure gscholar-bibtex
   :bind
   (bibtex-mode-map
@@ -529,6 +528,9 @@
    (bibtex-autokey-titlewords-stretch . 1)
    (bibtex-autokey-titleword-length . 5))
   :config
+  (leaf org-ref
+	:ensure t
+	:straight t)
 
   (setq bibtex-dialect 'biblatex)
 
