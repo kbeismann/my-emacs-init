@@ -789,17 +789,6 @@
   ;; Face for foreground/font during selection: base03.
   (set-face-foreground 'avy-background-face base03-prop))
 
-;; Convenience: Instead of marking the line, M-x and C-x remove the whole line
-;; automatically if there is no region.
-(leaf whole-line-or-region
-  :ensure t
-  :straight t
-  :diminish (whole-line-or-region-global-mode
-             whole-line-or-region-local-mode)
-  :config
-
-  (whole-line-or-region-global-mode 1))
-
 ;; Provides a minor mode for Emacs that displays the key bindings following
 ;; your currently entered incomplete command (a prefix) in a popup.
 (leaf which-key
