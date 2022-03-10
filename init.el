@@ -645,18 +645,19 @@
     ;; Turn on helm-mode.
     (helm-mode 1))
 
-  (leaf helm-flyspell
-    :doc "Use helm for Flyspell"
-    :after helm flyspell
-    :ensure t
-    :straight t
-    :bind
-    ("C-c f c" . helm-flyspell-correct))
-
   (leaf helm-ag
     :ensure t
     :straight t
-    :after helm))
+    :after helm)
+  
+(leaf helm-flyspell
+  :doc "Use helm for Flyspell"
+  :after helm flyspell
+  :ensure t
+  :straight t
+  :bind
+  ("C-c f c" . helm-flyspell-correct)))
+
 
 (leaf base16-theme
   :ensure t
