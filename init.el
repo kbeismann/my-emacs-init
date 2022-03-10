@@ -842,7 +842,6 @@
 
   (leaf company
     :ensure t
-    :ensure company-math
     :straight t
     :diminish company-mode
     :custom
@@ -852,6 +851,9 @@
      (company-show-numbers . nil)
      (company-minimum-prefix-length . 1))
     :config
+    (leaf company-math
+	  :ensure t
+	  :straight t)
 
     (global-company-mode 1)
 
