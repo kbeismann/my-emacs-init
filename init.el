@@ -446,6 +446,7 @@
     :ensure t
     :require t
     :straight t
+    :after dired
     :diminish dired-du-mode
     :custom
     (dired-du-size-format . t))
@@ -454,6 +455,7 @@
     :ensure t
     :require t
     :straight t
+    :after dired
     :bind
     (dired-mode-map
      (";" . dired-subtree-toggle)
@@ -472,7 +474,8 @@
 
   (leaf tramp-term
     :ensure t
-    :straight t))
+    :straight t
+    :after tramp))
 
 (leaf async
   :ensure t
@@ -1458,7 +1461,7 @@
 ;; TODO: Structure > Wrap LSP-related sections.
 (leaf lsp-mode
   :ensure t
-  :ensure projectile company yasnippet flycheck which-key
+  :after projectile company yasnippet flycheck which-key
   :straight t
   :diminish lsp-lens-mode
   :commands (lsp lsp-deferred)
