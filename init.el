@@ -598,7 +598,6 @@
 
   (leaf helm
     :ensure t
-    :ensure helm-tramp
     :straight t
     :require helm-config
     :leaf-defer nil
@@ -637,6 +636,10 @@
      ;; Some helm-tramp settings.
      (helm-tramp-control-master . t))
     :config
+    (leaf helm-tramp
+	  :ensure t
+	  :straight t
+	  :after helm tramp)
 
     ;; Turn on helm-mode.
     (helm-mode 1))
