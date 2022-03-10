@@ -508,7 +508,6 @@
     :custom ((eldoc-idle-delay . 0.2))))
 
 (leaf bibtex
-  :ensure gscholar-bibtex
   :bind
   (bibtex-mode-map
    ("C-c C-c" . org-ref-clean-bibtex-entry)
