@@ -1609,10 +1609,6 @@ lsp-mode-map."
   :config
   (helm-projectile-on))
 
-(leaf centered-window
-  :ensure t
-  :straight t)
-
 (leaf json-mode
   :ensure t
   :straight t)
