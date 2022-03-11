@@ -649,14 +649,14 @@
     :ensure t
     :straight t
     :after helm)
-  
-(leaf helm-flyspell
-  :doc "Use helm for Flyspell"
-  :after helm flyspell
-  :ensure t
-  :straight t
-  :bind
-  ("C-c f c" . helm-flyspell-correct)))
+
+  (leaf helm-flyspell
+    :doc "Use helm for Flyspell"
+    :after helm flyspell
+    :ensure t
+    :straight t
+    :bind
+    ("C-c f c" . helm-flyspell-correct)))
 
 
 (leaf base16-theme
