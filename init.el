@@ -1608,6 +1608,7 @@ lsp-mode-map."
 
 (leaf projectile
   :after helm
+  :ensure helm-projectile
   :straight t
   :diminish projectile-mode
   :bind
@@ -1616,11 +1617,7 @@ lsp-mode-map."
   ((projectile-mode . t)
    (projectile-completion-system . 'helm))
   :config
-  (leaf helm-projectile
-	:ensure t
-	:straight t
-	:config
-	(helm-projectile-on)))
+  (helm-projectile-on))
 
 (leaf json-mode
   :ensure t
