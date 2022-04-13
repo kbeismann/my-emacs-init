@@ -86,7 +86,8 @@
            'silent 'inhibit-cookies)
         (goto-char (point-max))
         (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage)))
+    (load bootstrap-file nil 'nomessage))
+  (setq straight-check-for-modifications nil))
 
 ;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management"
