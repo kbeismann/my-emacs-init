@@ -1630,6 +1630,11 @@ lsp-mode-map."
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
+(leaf kubernetes
+  :ensure t
+  :straight t
+  :commands (kubernetes-overview))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
