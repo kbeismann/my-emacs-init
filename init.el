@@ -1624,6 +1624,12 @@ lsp-mode-map."
   :ensure t
   :straight t)
 
+(leaf dockerfile-mode
+  :ensure t
+  :straight t
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
