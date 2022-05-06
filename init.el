@@ -1466,91 +1466,17 @@
     :straight t
     :require t))
 
-;; TODO: Structure > Wrap LSP-related sections.
-(leaf lsp-mode
+(leaf eglot
   :ensure t
+  :straight t
   :after projectile company yasnippet flycheck which-key
-  :straight t
-  :diminish lsp-lens-mode
-  :commands (lsp lsp-deferred)
   :hook
-  (python-mode-hook . lsp-deferred)
+  ((python-mode-hook . eglot))
   :bind
-  (lsp-mode-map
-   (("C-c r p" . lsp-rename)
-    ("C-c f r" . lsp-find-references)
-    ("C-c f d" . lsp-find-definition)
-    ("C-c w d" . xref-find-definitions-other-window)
-    ("C-c d p" . lsp-describe-thing-at-point)))
-  :custom
-  ((lsp-inhibit-message . nil)
-   (lsp-message-project-root-warning . t)
-   ;; Debugging.
-   (lsp-log-io . nil)
-   (lsp-server-trace . nil)
-   ;; Customization.
-   (lsp-enable-symbol-highlighting . t)
-   (lsp-prefer-flymake . nil)
-   (lsp-auto-guess-root . t)
-   (lsp-enable-snippet . t)
-   (lsp-idle-delay . 0.1)
-   ;; Advanced.
-   (lsp-completion-show-detail . nil)
-   (lsp-completion-show-kind . nil)
-   (lsp-eldoc-enable-hover . nil)
-   (lsp-enable-indentation . t)
-   (lsp-headerline-breadcrumb-enable . nil)
-   (lsp-enable-on-type-formatting . nil)
-   (lsp-modeline-code-actions-enable . nil)
-   (lsp-modeline-diagnostics-enable . nil))
-  :config
-  (prog1 "Enable which-key integration in the active major mode for
-lsp-mode-map."
-    (with-eval-after-load
-        'lsp-mode
-      (add-hook
-       'lsp-mode-hook
-       #'lsp-enable-which-key-integration)))
-  ;; Define faces for highlighting in LSP.
-  (set-face-attribute 'lsp-face-highlight-write nil
-                      :italic nil
-                      :underline nil
-                      :inherit 'unspecified
-                      :background base02-prop
-                      :inverse-video t)
-
-  (set-face-attribute 'lsp-face-highlight-read nil
-                      :italic nil
-                      :underline nil
-                      :inherit 'unspecified
-                      :background base02-prop)
-  (lsp-register-custom-settings
-   '(("pylsp.plugins.pylsp_mypy.enabled" t t)
-     ("pylsp.plugins.pylsp_mypy.live_mode" t t)
-     ("pylsp.plugins.pylsp_rope.enabled" t t)
-     ("pylsp.plugins.pyls_isort.enabled" t t)
-     ("pylsp.plugins.pyls_memestra.enabled" t t)
-     ("pylsp.plugins.pyls_flake8.enabled" t t)
-     ("pylsp.plugins.jedi_rename.enabled" t t)
-     ("pylsp.plugins.rope_rename.enabled" nil nil)
-     ("pylsp.plugins.rope_completion.enabled" nil nil)
-     ("pylsp.plugins.jedi_completion.enabled" t t)
-     ("pylsp.plugins.jedi_completion.fuzzy" t t)
-     ("pylsp.plugins.pyls_black.enabled" t t)
-     ("pylsp.plugins.yapf.enabled" nil nil)
-     ("pylsp.plugins.pylint.enabled" t t)
-     ("pylsp.plugins.flake8.enabled" t t)
-     ("pylsp.plugins.pydocstyle.enabled" t t))))
-
-(leaf helm-lsp
-  :ensure t
-  :straight t
-  :after helm lsp-mode
-  :commands helm-lsp-workspace-symbol
-  :bind
-  :bind
-  (lsp-mode-map
-   (("C-c h c a" . helm-lsp-code-actions))))
+  (eglot-mode-map
+   (("C-c e r" . eglot-rename)
+    ("C-c e c a" . eglot-code-actions)
+    ("C-c d o c" . eldoc))))
 
 (leaf markdown-mode
   :ensure t
