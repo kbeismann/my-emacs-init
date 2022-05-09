@@ -1471,7 +1471,7 @@
   :straight t
   :after projectile company yasnippet flycheck which-key
   :hook
-  ((python-mode-hook . eglot))
+  (python-mode-hook . eglot-ensure)
   :bind
   (eglot-mode-map
    (("C-c e r" . eglot-rename)
