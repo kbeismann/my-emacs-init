@@ -50,12 +50,13 @@
    early-init-f)
   (require 'early-init))
 
-;; Work-related proxy settings.
-(let ((proxies "~/gitdir/my-git/my-work-dirs/proxies.el"))
-  (if (file-exists-p proxies)
-      (progn
-        (message "%s" "Found work-related proxy settings...")
-        (load proxies))
+;; Work-related settings.
+(let ((work-dir "~/gitdir/my-git/my-work-dirs"))
+  (if (file-exists-p work-dir)
+      (prog1 "Load work-related settings."
+        (message "%s" "Found work-related settings...")
+        (add-to-list 'load-path work-dir)
+        (require 'proxies))
     (message "%s" "No proxy settings found.")))
 
 (prog1 "Add archives and assign priorities"
