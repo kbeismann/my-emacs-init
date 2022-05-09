@@ -175,6 +175,7 @@
   :config
 
   (defalias 'yes-or-no-p 'y-or-n-p)
+  (setenv "BASH_ENV" "~/.bashrc")
                                         ; y/n instead of yes/no.
   :custom
 
