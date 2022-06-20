@@ -1399,13 +1399,15 @@
 
 (leaf tree-sitter
   :ensure t
+  :straight t
   :diminish tree-sitter-mode
   :config
   (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-  (leaf tree-sitter-langs
-    :straight t
-    :require t))
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+(leaf tree-sitter-langs
+  :after tree-sitter
+  :ensure t
+  :straight t)
 
 (leaf eglot
   :ensure t
