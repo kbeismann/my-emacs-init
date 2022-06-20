@@ -632,7 +632,7 @@
 
 (leaf base16-theme
   :ensure t
-  :straight t
+  :straight (base-16-emacs :host github :repo "base16-project/base16-emacs")
   :custom
   ;; Change the terminal colors.  Not sure if it works.
   (base16-theme-256-color-source . "colors")
