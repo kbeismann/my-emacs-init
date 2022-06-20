@@ -644,42 +644,42 @@
   ;; Replace the name of the theme if necessary.
   (prog1 "Create a variable for each color"
     (defvar base00-prop
-      (nth 01 base16-zenburn-colors))
+      (nth 01 base16-zenburn-theme-colors))
     (defvar base01-prop
-      (nth 03 base16-zenburn-colors))
+      (nth 03 base16-zenburn-theme-colors))
     (defvar base02-prop
-      (nth 05 base16-zenburn-colors))
+      (nth 05 base16-zenburn-theme-colors))
     (defvar base03-prop
-      (nth 07 base16-zenburn-colors))
+      (nth 07 base16-zenburn-theme-colors))
     (defvar base04-prop
-      (nth 09 base16-zenburn-colors))
+      (nth 09 base16-zenburn-theme-colors))
     (defvar base05-prop
-      (nth 11 base16-zenburn-colors))
+      (nth 11 base16-zenburn-theme-colors))
     (defvar base06-prop
-      (nth 13 base16-zenburn-colors))
+      (nth 13 base16-zenburn-theme-colors))
     (defvar base07-prop
-      (nth 15 base16-zenburn-colors))
+      (nth 15 base16-zenburn-theme-colors))
                                         ; White.
     (defvar base08-prop
-      (nth 17 base16-zenburn-colors))
+      (nth 17 base16-zenburn-theme-colors))
                                         ; Pink.
     (defvar base09-prop
-      (nth 19 base16-zenburn-colors))
+      (nth 19 base16-zenburn-theme-colors))
                                         ; Orange.
     (defvar base0A-prop
-      (nth 21 base16-zenburn-colors))
+      (nth 21 base16-zenburn-theme-colors))
                                         ; Yellow.
     (defvar base0B-prop
-      (nth 23 base16-zenburn-colors))
+      (nth 23 base16-zenburn-theme-colors))
                                         ; Green.
     (defvar base0C-prop
-      (nth 25 base16-zenburn-colors))
+      (nth 25 base16-zenburn-theme-colors))
     (defvar base0D-prop
-      (nth 27 base16-zenburn-colors))
+      (nth 27 base16-zenburn-theme-colors))
     (defvar base0E-prop
-      (nth 29 base16-zenburn-colors))
+      (nth 29 base16-zenburn-theme-colors))
     (defvar base0F-prop
-      (nth 31 base16-zenburn-colors)))
+      (nth 31 base16-zenburn-theme-colors)))
 
   ;; Remove the vertical line between windows:
   (set-face-background 'vertical-border base00-prop)
