@@ -518,46 +518,6 @@
     :diminish eldoc-mode
     :custom ((eldoc-idle-delay . 0.2))))
 
-(leaf bibtex
-  :bind
-  (bibtex-mode-map
-   ("C-c C-c" . org-ref-clean-bibtex-entry)
-   ("C-c [" . crossref-lookup)
-   ("C-c ]" . gscholar-bibtex))
-  :custom
-  ((bibtex-autokey-additional-names . "_etal")
-   (bibtex-autokey-name-separator . "_")
-   (bibtex-autokey-names . 1)
-   (bibtex-autokey-names-stretch . 1)
-   (bibtex-autokey-name-length . 10)
-   (bibtex-autokey-name-year-separator . "-")
-   (bibtex-autokey-year-length . 4)
-   (bibtex-autokey-year-title-separator . "-")
-   (bibtex-autokey-titleword-separator . "_")
-   (bibtex-autokey-titlewords . 3)
-   (bibtex-autokey-titlewords-stretch . 1)
-   (bibtex-autokey-titleword-length . 5))
-  :config
-  (leaf org-ref
-	:ensure t
-	:straight t)
-
-  (setq bibtex-dialect 'biblatex)
-
-  ;; A good summary: http://www.jonathanleroux.org/bibtex-mode.html.
-  (setq bibtex-additional-formatting '(page-dashes whitespace sort-fields))
-
-  (setq bibtex-entry-format (append bibtex-entry-format bibtex-additional-formatting))
-
-  ;; Path to library only set when directory exists.
-  (prog1 "Set bibliography and library paths."
-    (let ((path-to-library my-library))
-      (when (file-exists-p path-to-library)
-        (setq bibtex-completion-library-path path-to-library)))
-    (let ((path-to-bib my-bibliography))
-      (when (file-exists-p path-to-bib)
-        (setq bibtex-completion-bibliography path-to-bib)))))
-
 (leaf flyspell
   :ensure t
   :straight t
@@ -874,20 +834,7 @@
     (global-company-mode 1)
 
     ;; Global activation of the Unicode symbol completion.
-    (add-to-list 'company-backends 'company-math-symbols-unicode))
-
-  (leaf company-bibtex
-    :ensure t
-    :straight t
-    :after bibtex
-    :custom
-    ;; The regular expression matching key names alphanumeric characters,
-    ;; dashes (-), and underscores (_). This is customizable via:
-    (company-bibtex-key-regex . "[[:alnum:]+_]*")
-    :config
-
-    ;; Add backend for company-bibtex.
-    (add-to-list 'company-backends 'company-bibtex)))
+    (add-to-list 'company-backends 'company-math-symbols-unicode)))
 
 (leaf aggressive-indent
   :url "https://github.com/Malabarba/aggressive-indent-mode"
