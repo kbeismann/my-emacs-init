@@ -1,15 +1,9 @@
 # -*- mode: snippet -*-
 # name: header
 # --
-#!/usr/bin/env python3 > REMOVE IF UNNECESSARY.
+#!/usr/bin/env python3 > REMOVE IF NOT A RUN SCRIPT!
 # -*- coding: utf-8 -*-
 """${1:TITLE}.
-
-:project: ${2:PROJECT}
-:author: `(insert user-full-name)`
-:contributors: `(insert user-full-name)`
-:filename: `(buffer-name)`
-:created: `(format-time-string "%Y-%m-%dT%T")`
 
 Commentary
 ----------
@@ -26,15 +20,7 @@ Environment
 
 $ conda activate ${3:ENV}
 
-To-do
------
-
-* ---
-
 """
-
-# PACKAGES
-
 
 import datetime
 import itertools
@@ -66,8 +52,5 @@ import pandas as pd  # type: ignore
 import seaborn as sns  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
-
-# CODE
-
 
 $0
