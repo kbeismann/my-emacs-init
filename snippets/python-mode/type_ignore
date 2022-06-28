@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# name: type_ignore
+# --
+  # type: ignore$0
