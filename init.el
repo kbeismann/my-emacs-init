@@ -374,6 +374,19 @@
    (kbd "C-S-s")
    'find-first-non-ascii-char))
 
+(leaf *misc-tools
+  :config
+
+  (leaf undo-tree
+    :ensure t
+    :straight t
+    :diminish undo-tree-mode
+    :bind
+    ("C-c u t" . undo-tree-visualize)
+    :custom
+    ((global-undo-tree-mode . t)
+     (undo-tree-visualizer-diff . t))))
+
 (leaf *mode-line-settings
   :config
 
