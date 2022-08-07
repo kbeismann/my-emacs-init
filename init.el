@@ -1475,7 +1475,6 @@
 
 (leaf projectile
   :after helm
-  :ensure helm-projectile
   :straight t
   :diminish projectile-mode
   :bind
@@ -1484,7 +1483,13 @@
   ((projectile-mode . t)
    (projectile-completion-system . 'helm))
   :config
+  (leaf helm-projectile
+    :ensure t
+    :straight t
+    :require t
+    :after projectile)
   (helm-projectile-on))
+
 
 (leaf json-mode
   :ensure t
