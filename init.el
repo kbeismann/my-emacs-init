@@ -1465,20 +1465,20 @@
   (ssh-deploy-add-menu))
 
 (leaf projectile
-  :after helm
   :straight t
   :diminish projectile-mode
   :bind
   ("C-c p" . projectile-command-map)
   :custom
   ((projectile-mode . t)
-   (projectile-completion-system . 'helm))
+   (projectile-completion-system . 'helm)))
+
+(leaf helm-projectile
+  :ensure t
+  :straight t
+  :require t
+  :after projectile helm
   :config
-  (leaf helm-projectile
-    :ensure t
-    :straight t
-    :require t
-    :after projectile)
   (helm-projectile-on))
 
 
