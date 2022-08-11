@@ -1238,52 +1238,6 @@
                          :tag "shoppinglist"
                          :order 7)))))))
 
-  (leaf org-roam
-    :ensure t
-    :after org
-    :straight t
-    :bind (("C-c n l" . org-roam-buffer-toggle)
-           ("C-c n f" . org-roam-node-find)
-           ("C-c n g" . org-roam-graph)
-           ("C-c n i" . org-roam-node-insert)
-           ("C-c n r" . org-roam-ref-add)
-           ("C-c n t" . org-roam-tag-add)
-           ("C-c n c" . org-roam-capture)
-           ("C-c n d c" . org-roam-dailies-capture-today)
-           ("C-c n d t" . org-roam-dailies-goto-today))
-    :init
-    (setq org-roam-v2-ack t)
-    :custom
-    (org-roam-directory . my-roam-notes)
-    (org-roam-completion-everywhere . t)
-    (org-roam-capture-templates .
-                                '(("d" "default" plain
-                                   "%?"
-                                   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                                      "#+title: ${title}\n#+date: %U")
-                                   :unnarrowed t)))
-    (org-roam-dailies-capture-templates .
-                                        '(("d" "default" entry
-                                           "* %?"
-                                           :if-new (file+head "%<%Y-%m-%d>.org"
-                                                              "#+title: %<%Y-%m-%d>\n#+date: %U"))))
-    :config
-    (setq org-roam-mode-section-functions
-          (list #'org-roam-backlinks-section
-                #'org-roam-reflinks-section
-                #'org-roam-unlinked-references-section))
-    (org-roam-setup)
-
-    (leaf deft
-      :ensure t
-      :straight t
-      :bind
-      ("C-c n s" . deft)
-      :custom
-      (deft-recursive . t)
-      (deft-use-filter-string-for-filename . t)
-      (deft-default-extension . "org")
-      (deft-directory . org-roam-directory)))
 
   (leaf org-mind-map
     :doc "This is an Emacs package that creates graphviz directed
@@ -1302,6 +1256,53 @@
     (org-mode-map
      (("C-c i s" . org-download-screenshot)
       ("C-c i y" . org-download-yank)))))
+
+(leaf org-roam
+  :ensure t
+  :straight t
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n r" . org-roam-ref-add)
+         ("C-c n t" . org-roam-tag-add)
+         ("C-c n c" . org-roam-capture)
+         ("C-c n d c" . org-roam-dailies-capture-today)
+         ("C-c n d t" . org-roam-dailies-goto-today))
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory . my-roam-notes)
+  (org-roam-completion-everywhere . t)
+  (org-roam-capture-templates .
+                              '(("d" "default" plain
+                                 "%?"
+                                 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                                    "#+title: ${title}\n#+date: %U")
+                                 :unnarrowed t)))
+  (org-roam-dailies-capture-templates .
+                                      '(("d" "default" entry
+                                         "* %?"
+                                         :if-new (file+head "%<%Y-%m-%d>.org"
+                                                            "#+title: %<%Y-%m-%d>\n#+date: %U"))))
+  :config
+  (setq org-roam-mode-section-functions
+        (list #'org-roam-backlinks-section
+              #'org-roam-reflinks-section
+              #'org-roam-unlinked-references-section))
+  (org-roam-setup))
+
+  (leaf deft
+    :ensure t
+    :straight t
+    :after org-roam
+    :bind
+    ("C-c n s" . deft)
+    :custom
+    (deft-recursive . t)
+    (deft-use-filter-string-for-filename . t)
+    (deft-default-extension . "org")
+    (deft-directory . org-roam-directory))
 
 (leaf doc-view
   :ensure t
