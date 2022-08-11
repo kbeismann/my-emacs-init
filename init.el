@@ -1361,15 +1361,16 @@
     ((magit-diff-refine-hunk . 'all)
      (magit-log-auto-more . t))
     :config
-    (leaf magit-todos
-      :ensure t
-      :after magit
-      :straight t
-      :commands (magit-todos-mode))
     (prog1 "Suppress warning: magit-todos: Not overriding bind of
     'jT' in magit-status-mode-map."
       (let ((inhibit-message t))
         (magit-todos-mode 1))))
+
+  (leaf magit-todos
+    :ensure t
+    :after magit
+    :straight t
+    :commands (magit-todos-mode))
 
   (leaf git-timemachine
     :url "https://gitlab.com/pidu/git-timemachine"
