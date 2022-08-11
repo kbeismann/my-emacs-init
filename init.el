@@ -596,13 +596,13 @@
      ;; Some helm-tramp settings.
      (helm-tramp-control-master . t))
     :config
-    (leaf helm-tramp
-	  :ensure t
-	  :straight t
-	  :after helm tramp)
-
     ;; Turn on helm-mode.
     (helm-mode 1))
+
+  (leaf helm-tramp
+	:ensure t
+	:straight t
+	:after helm tramp)
 
   (leaf helm-ag
     :ensure t
