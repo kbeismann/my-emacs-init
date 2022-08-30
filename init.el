@@ -1389,6 +1389,7 @@
 (leaf tree-sitter
   :ensure t
   :straight t
+  :disabled t
   :diminish tree-sitter-mode
   :config
   (global-tree-sitter-mode)
