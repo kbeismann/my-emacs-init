@@ -74,7 +74,7 @@
 (prog1 "More generous `gc-cons-threshold' value."
   (setq garbage-collection-messages t)
   (defvar original-gc-cons-threshold gc-cons-threshold)
-  (defvar better-gc-cons-threshold (* 5 1024 1024 562))
+  (defvar better-gc-cons-threshold (* 128 12 original-gc-cons-threshold))
   (add-hook
    'emacs-startup-hook
    (lambda ()
@@ -95,11 +95,10 @@
         'after-focus-change-function
         'garbage-collect))
      (defun gc-minibuffer-setup-hook ()
-       (setq gc-cons-threshold
-             (* better-gc-cons-threshold 2)))
+       (setq gc-cons-threshold most-positive-fixnum))
      (defun gc-minibuffer-exit-hook ()
        (garbage-collect)
-       (setq gc-cons-threshold (* 512 original-gc-cons-threshold)))
+       (setq gc-cons-threshold better-gc-cons-threshold))
      (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook))))
 
