@@ -3,7 +3,6 @@
 # key: <prop
 # --
 :PROPERTIES:
-:Created: `(let ((x (org-insert-time-stamp nil t t ))))`
 :URL:
 :Author:
 :Year:

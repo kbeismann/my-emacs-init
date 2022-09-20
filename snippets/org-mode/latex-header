@@ -2,4 +2,4 @@
 # name: latex-header
 # key: <lh
 # --
-#+LATEX_HEADER: $0
+#+latex_header: $0

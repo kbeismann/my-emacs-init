@@ -2,5 +2,5 @@
 # name: latex-beamer-wrapper
 # key: <lawr
 # --
-#+LATEX: \resizebox{\textwidth}{\texthight}{!}{
-#+LATEX: }
+#+latex: \resizebox{\textwidth}{\texthight}{!}{
+#+latex: }

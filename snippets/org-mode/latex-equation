@@ -2,8 +2,8 @@
 # name: latex-equation
 # key: <eq
 # --
-#+BEGIN_LATEX
+#+begin_latex
 \begin{equation*}
 $0
 \end{equation*}
-#+END_LATEX
+#+end_latex
