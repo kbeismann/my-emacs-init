@@ -1278,13 +1278,13 @@
                               '(("d" "default" plain
                                  "%?"
                                  :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                                    "#+title: ${title}\n#+date: %U")
+                                                    "#+title: ${title}\n")
                                  :unnarrowed t)))
   (org-roam-dailies-capture-templates .
                                       '(("d" "default" entry
                                          "* %?"
                                          :if-new (file+head "%<%Y-%m-%d>.org"
-                                                            "#+title: %<%Y-%m-%d>\n#+date: %U"))))
+                                                            "#+title: %<%Y-%m-%d>\n"))))
   :config
   (setq org-roam-mode-section-functions
         (list #'org-roam-backlinks-section
