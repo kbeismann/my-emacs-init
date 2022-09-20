@@ -2,6 +2,6 @@
 # name: sh
 # key: <sh
 # --
-#+BEGIN_SRC sh :results output :session session_name
+#+begin_src sh :results output :session session_name
 $0
-#+END_SRC
+#+end_src

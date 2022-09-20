@@ -2,4 +2,4 @@
 # name: latex-beamer-settings
 # key: <lase
 # --
-#+BEAMER_THEME: default default serif [height=20pt]
+#+beamer_theme: default default serif [height=20pt]

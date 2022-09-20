@@ -2,6 +2,6 @@
 # name: latex-source
 # key: <ls
 # --
-#+BEGIN_LATEX
+#+begin_latex
 $0
-#+END_LATEX
+#+end_latex
