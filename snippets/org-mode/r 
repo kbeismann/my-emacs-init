@@ -2,6 +2,6 @@
 # name: r
 # key: <r
 # --
-#+BEGIN_SRC R :colnames yes :results code output :session session_name
+#+begin_src r :colnames yes :results code output :session session_name
 $0
-#+END_SRC
+#+end_src
