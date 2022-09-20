@@ -1088,7 +1088,42 @@
      (calendar-week-start-day . 1)
      ;; (org-agenda-start-day . "-7d")
      (org-agenda-start-on-weekday . 1)
-     (org-agenda-span . 9)))
+     (org-agenda-span . 9))
+    :config
+
+    (defun org-syntax-convert-keyword-case-to-lower ()
+      "Convert all #+KEYWORDS to #+keywords."
+      (interactive)
+      (save-excursion
+        (goto-char (point-min))
+        (let ((count 0)
+              (case-fold-search nil))
+          (while (re-search-forward "^[ \t]*#\\+[A-Z_]+" nil t)
+            (unless (s-matches-p "RESULTS" (match-string 0))
+              (replace-match (downcase (match-string 0)) t)
+              (setq count (1+ count))))
+          (message "Replaced %d occurances" count))))
+
+    (defun modi/lower-case-org-keywords ()
+      "Lower case Org keywords and block identifiers.
+
+Example: \"#+TITLE\" -> \"#+title\"
+         \"#+BEGIN_EXAMPLE\" -> \"#+begin_example\"
+
+Inspiration:
+https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c1210daf0."
+      (interactive)
+      (save-excursion
+        (goto-char (point-min))
+        (let ((case-fold-search nil)
+              (count 0))
+          ;; Match examples: "#+FOO bar", "#+FOO:", "=#+FOO=", "~#+FOO~",
+          ;;                 "‘#+FOO’", "“#+FOO”", ",#+FOO bar",
+          ;;                 "#+FOO_bar<eol>", "#+FOO<eol>".
+          (while (re-search-forward "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)" nil :noerror)
+            (setq count (1+ count))
+            (replace-match (downcase (match-string-no-properties 1)) :fixedcase nil nil 1))
+          (message "Lower-cased %d matches" count)))))
 
   ;; Always insert blank line before headings.
   (setq org-blank-before-new-entry '((heading . auto)
