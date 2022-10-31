@@ -108,21 +108,6 @@
 (leaf *basic-variables
   :doc "Basic variables"
   :config
-  (defvar my-custom-file
-    (concat user-emacs-directory ".custom.el")
-    "My customization file.")
-  (defvar my-autosave-dir
-    (concat user-emacs-directory "autosave/")
-    "My auto-save directory.")
-  (defvar my-backup-dir
-    (concat user-emacs-directory "backup/")
-    "My backup directory.")
-  (defvar my-cache-dir
-    (concat user-emacs-directory "cache/")
-    "My storage area (cache) directory.")
-  (defvar my-abbrev-dir
-    (concat user-emacs-directory "abbrev/")
-    "My abbreviations directory.")
   (defvar my-gitdir
     (file-truename "~/gitdir/my-git/")
     "My directory for git repositories.")
@@ -226,29 +211,6 @@
 
                                         ; Not sure what this does.
 
-;; The following snippet checks if a file specified in my-custom-file exists.
-;; If it does, set it as custom-file and load it.  If it does not, create the
-;; file with "touch", set it as custom-file, and load it.
-(leaf cus-edit
-  :doc "Use an external customization file to avoid cluttering this file."
-  :config
-  (prog1 (message "%s"
-                  (concat
-                   "Looking for a customization file: "
-                   my-custom-file))
-    (when (not (file-exists-p my-custom-file))
-      (progn
-        (message "%s" "No customization file found, creating empty file...")
-        (eshell-command
-         (concat "touch " my-custom-file))
-        (message "%s" "No customization file found, creating empty file...done")))
-    (if (file-exists-p my-custom-file)
-        (progn
-          (message "%s" "Customization file found")
-          (setq custom-file my-custom-file)
-          (load custom-file))
-      (message "%s" "ERROR: Cannot find customization file"))))
-
 (leaf warnings
   :doc "Deal with warnings"
   :config
@@ -258,46 +220,60 @@
   :doc "Backups and more"
   :config
 
-  (leaf autorevert
-    :doc "Revert buffers when files change on disk"
-    :custom
-    ((auto-revert-interval . 5)
-     (global-auto-revert-mode . t)))
+  (leaf no-littering
+    :ensure t
+    :require t
+    :straight t
+    :setq
+    `((custom-file . ,(no-littering-expand-etc-file-name "custom.el"))
+      (no-littering-var-directory . ,(expand-file-name "var/" user-emacs-directory))
+      (no-littering-autosave-directory . ,(expand-file-name "autosave/" no-littering-var-directory))
+      (no-littering-backup-directory . ,(expand-file-name "backup/" no-littering-var-directory))
+      (no-littering-abbrev-directory . ,(expand-file-name "abbrev/" no-littering-var-directory)))
+    :config
 
-  (leaf abbrev
-    :diminish abbrev-mode
-    :custom
-    ((save-abbrevs . 'silently)
-     (abbrev-file-name . my-abbrev-dir)))
+    (leaf recentf
+      :require t
+      :config
+      (add-to-list 'recentf-exclude no-littering-var-directory)
+      (add-to-list 'recentf-exclude no-littering-etc-directory))
+
+    (leaf *auto-save-files
+      :custom
+      ((auto-save-default . t)
+       (auto-save-timeout . 15)
+       (auto-save-interval . 60)
+       (auto-save-list-file-prefix . no-littering-autosave-directory)
+       (auto-save-file-name-transforms . `((".*"
+                                            ,no-littering-autosave-directory
+                                            t)))))
+    (leaf abbrev
+      :diminish abbrev-mode
+      :custom
+      ((save-abbrevs . 'silently)
+       (abbrev-file-name . no-littering-abbrev-directory)))
+
+    (leaf files
+      :custom
+      ((require-final-newline . t)
+       (make-backup-files . t)
+       (backup-by-copying . t)
+       (kept-new-versions . 2)
+       (kept-old-versions . 2)
+       (version-control . t)
+       (delete-old-versions . t)
+       (backup-directory-alist . `(("." . ,no-littering-backup-directory)
+                                   (,tramp-file-name-regexp . nil))))))
 
   (leaf *lock-files
     :custom
     (create-lockfiles . nil))
 
-  (leaf files
+  (leaf autorevert
+    :doc "Revert buffers when files change on disk"
     :custom
-    ((require-final-newline . t)
-     (make-backup-files . t)
-     (backup-by-copying . t)
-                                        ; Don't clobber symlinks.
-     (kept-new-versions . 2)
-     (kept-old-versions . 2)
-     (version-control . t)
-     (delete-old-versions . t)
-     (backup-directory-alist .
-                             `(("." . ,my-backup-dir)
-                               (,tramp-file-name-regexp . nil)))))
-
-  (leaf *auto-save-files
-    :custom
-    ((auto-save-default . t)
-     (auto-save-timeout . 15)
-     (auto-save-interval . 60)
-     (auto-save-list-file-prefix . my-autosave-dir)
-     (auto-save-file-name-transforms .
-                                     `((".*" ,(file-name-as-directory
-                                               my-autosave-dir)
-                                        t))))))
+    ((auto-revert-interval . 5)
+     (global-auto-revert-mode . t))))
 
 (leaf *line-numbering
   :doc "The display-line-numbers colors can be changed by editing base16.el"
@@ -366,6 +342,7 @@
    'find-first-non-ascii-char))
 
 (leaf undo-tree
+  :after no-littering
   :ensure t
   :straight t
   :diminish undo-tree-mode
