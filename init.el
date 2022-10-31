@@ -1411,6 +1411,12 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
   :ensure t
   :straight t)
 
+(leaf emr
+  :ensure t
+  :straight t
+  :config
+  (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
+
 (leaf eglot
   :ensure t
   :straight t
