@@ -692,7 +692,7 @@
   :ensure t
   :straight t
   :after base16-theme
-  :bind
+  :bind* ; :bind* overwrites any key-bind map.
   (("S-SPC" . avy-goto-char)
    ("M-S-SPC" . avy-goto-char-2))
   :custom
