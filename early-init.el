@@ -122,6 +122,17 @@
 ;; Unset SRF
 (setq site-run-file nil)
 
+
+;; When using Emacs 29, the location of the native compilation cache
+;; can be changed using a function, preferably in early-init.el.  The
+;; path is related to the default directory structure of the package
+;; no-littering.  The respective settings are in init.el.  Source:
+;; https://github.com/emacscollective/no-littering#native-compilation-cache
+(when (boundp 'native-comp-eln-load-path)
+  (startup-redirect-eln-cache
+   (convert-standard-filename
+	(expand-file-name  "var/eln-cache/" user-emacs-directory))))
+
 ;; Some visual simplifications.
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
