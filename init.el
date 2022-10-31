@@ -151,8 +151,7 @@
 (leaf *basic-settings
   :bind
   (("M-o" . nil)                    ; Unbind face menu.
-   ("C-x C-z" . nil)                    ; Unbind suspend frame.
-   ("S-SPC" . just-one-space))        ; Bind just-one-space.
+   ("C-x C-z" . nil))               ; Unbind suspend frame.
   :setq
   ;; Better splitting behavior.
   (split-height-threshold . 80)
@@ -693,8 +692,8 @@
   :straight t
   :after base16-theme
   :bind
-  (( "M-SPC" . avy-goto-char)
-   ( "M-S-SPC" . avy-goto-char-2))
+  (("S-SPC" . avy-goto-char)
+   ("M-S-SPC" . avy-goto-char-2))
   :custom
   ((avy-background . t)
    (avy-all-windows . t)
