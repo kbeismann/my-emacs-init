@@ -151,7 +151,8 @@
 (leaf *basic-settings
   :bind
   (("M-o" . nil)                    ; Unbind face menu.
-   ("C-x C-z" . nil))               ; Unbind suspend frame.
+   ("C-x C-z" . nil)               ; Unbind suspend frame.
+   ("M-SPC" . cycle-spacing)) ; Richer alternative to just-one-space.
   :setq
   ;; Better splitting behavior.
   (split-height-threshold . 80)
