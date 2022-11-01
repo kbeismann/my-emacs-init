@@ -774,7 +774,7 @@
   ((prog-mode-hook . highlight-indent-guides-mode)
    (yaml-mode-hook . highlight-indent-guides-mode))
   :custom
-  ((highlight-indent-guides-method . 'column)
+  ((highlight-indent-guides-method . 'character)
    (highlight-indent-guides-responsive . 'top)
    (highlight-indent-guides-delay . 0)))
 
