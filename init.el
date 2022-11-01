@@ -951,6 +951,7 @@
       (python-pytest-pdb-track . t))
 
     (leaf sphinx-doc
+      :disabled t
       :ensure t
       :load-path "~/gitdir/my-git/sphinx-doc.el/"
       :diminish sphinx-doc-mode
@@ -1252,6 +1253,7 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
 
 
   (leaf org-mind-map
+    :disabled t
     :doc "This is an Emacs package that creates graphviz directed
   graphs from the headings of an org file"
     :require ox-org cl
@@ -1261,6 +1263,7 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
     (org-mind-map-include-text . nil))
 
   (leaf org-download
+    :disabled t
     :ensure t
     :straight t
     :after org
@@ -1469,6 +1472,7 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
     "Major mode for editing comma-separated value files." t))
 
 (leaf ssh-deploy
+  :disabled t
   :url "https://github.com/cjohansson/emacs-ssh-deploy"
   :doc "Effortlessly deploy local files and directories to remote hosts via Tramp."
   :ensure t
