@@ -1340,14 +1340,15 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
       (add-to-list 'org-file-apps
                    '("\\.pdf\\'" .
                      (lambda (file link)
-                       (org-pdfview-open link))))))
-  (leaf nov
-    :doc "For reading .epub files"
-    :ensure t
-    :straight t
-    :config
-    (add-to-list 'auto-mode-alist
-                 '("\\.epub\\'" . nov-mode))))
+                       (org-pdfview-open link)))))))
+
+(leaf nov
+  :doc "For reading .epub files"
+  :ensure t
+  :straight t
+  :config
+  (add-to-list 'auto-mode-alist
+               '("\\.epub\\'" . nov-mode)))
 
 (leaf *git-tools
   :config
