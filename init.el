@@ -213,8 +213,8 @@
 
 (leaf warnings
   :doc "Deal with warnings"
-  :config
-  (setq warning-suppress-types '((yasnippet backquote-change))))
+  :setq
+  (warning-suppress-types . '((yasnippet backquote-change))))
 
 (leaf *file-settings
   :doc "Backups and more"
@@ -1439,8 +1439,8 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
   (("README\\.md\\'" . gfm-mode)
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode))
-  :init
-  (setq markdown-command "pandoc"))
+  :pre-setq
+  (markdown-command . "pandoc"))
 
 ;; Always use GPG2 and use loopback option for better compatibility.
 (leaf epa
