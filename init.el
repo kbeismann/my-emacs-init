@@ -272,7 +272,7 @@
   (leaf autorevert
     :doc "Revert buffers when files change on disk"
     :custom
-    ((auto-revert-interval . 5)
+    ((auto-revert-interval . 1)
      (global-auto-revert-mode . t))))
 
 (leaf *line-numbering
