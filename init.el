@@ -1350,6 +1350,9 @@ https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c121
                '("\\.epub\\'" . nov-mode)))
 
 (leaf *git-tools
+  :setq
+  ;; Fixes temporary issues with vc-mode.
+  (vc-handled-backends . ())
   :config
 
   (leaf hl-todo
