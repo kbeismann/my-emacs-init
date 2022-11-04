@@ -231,6 +231,24 @@
       (no-littering-backup-directory . ,(expand-file-name "backup/" no-littering-var-directory))
       (no-littering-abbrev-directory . ,(expand-file-name "abbrev/" no-littering-var-directory)))
     :config
+    ;; The following snippet checks if a file specified in my-custom-file exists.
+    ;; If it does, set it as custom-file and load it.  If it does not, create the
+    ;; file with "touch", set it as custom-file, and load it.
+    (prog1 (message "%s"
+                    (concat
+                     "Looking for a customization file: "
+                     custom-file))
+      (when (not (file-exists-p custom-file))
+        (progn
+          (message "%s" "No customization file found, creating empty file.")
+          (eshell-command
+           (concat "touch " custom-file))
+          (message "%s" "Created empty file.")))
+      (if (file-exists-p custom-file)
+          (progn
+            (message "%s" "Customization file found.")
+            (load custom-file))
+        (message "%s" "ERROR: Cannot find customization file.")))
 
     (leaf recentf
       :require t
