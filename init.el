@@ -711,8 +711,9 @@
   :straight t
   :after base16-theme
   :bind* ; :bind* overwrites any key-bind map.
-  (("S-SPC" . avy-goto-char)
-   ("M-S-SPC" . avy-goto-char-2))
+  (
+   ;; ("S-SPC" . avy-goto-char)
+   ("M-S-SPC" . avy-goto-char))
   :custom
   ((avy-background . t)
    (avy-all-windows . t)
