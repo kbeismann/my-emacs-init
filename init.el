@@ -366,11 +366,12 @@
   :bind (("C-c y i" . yas-insert-snippet)
          ("C-c y v" . yas-visit-snippet-file))
   :config
+  (use-package yasnippet-snippets)
   (setq yas-indent-line 'fixed)
   (setq yas-global-mode t)
-  (use-package yasnippet-snippets)
   (setq yas-snippet-dirs (append yas-snippet-dirs
-                                 (list path-to-my-snippets))))
+                                 (list path-to-my-snippets)))
+  (yas-reload-all))
 
 (prog1 "Dired setup."
   (prog1 "Dired."
