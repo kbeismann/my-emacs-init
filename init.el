@@ -775,7 +775,6 @@
     (setq pipenv-projectile-after-switch-function
           #'pipenv-projectile-after-switch-extended))
 
-
   (use-package python-pytest
     ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
     :after projectile
@@ -1218,7 +1217,6 @@
   (use-package tree-sitter-langs)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
 
 (use-package emr
   :disabled t
