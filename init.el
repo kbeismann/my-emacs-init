@@ -432,10 +432,6 @@
     (remove-hook 'completion-at-point-functions
                  #'pcomplete-completions-at-point t)))
 
-(prog1 "Eldoc"
-  (diminish 'eldoc-mode)
-  (setq eldoc-idle-delay 0.2))
-
 (use-package flyspell
   :diminish flyspell-mode
   :hook
