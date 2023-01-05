@@ -253,10 +253,15 @@
                                               ,no-littering-autosave-directory
                                               t))))
 
-    (prog1 "abbrev"
-      (diminish 'abbrev-mode)
+    (use-package abbrev
+      :ensure nil
+      :straight nil
+      :diminish abbrev-mode
+      :config
       (setq save-abbrevs 'silently)
-      (setq abbrev-file-name no-littering-abbrev-directory))
+      (setq abbrev-file-name no-littering-abbrev-directory)
+      (if (file-exists-p abbrev-file-name)
+	  (quietly-read-abbrev-file)))
 
     (prog1 "files"
       (setq require-final-newline t)
