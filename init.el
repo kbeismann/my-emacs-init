@@ -373,10 +373,10 @@
   :config
   (use-package yasnippet-snippets)
   (setq yas-indent-line 'fixed)
-  (setq yas-global-mode t)
   (setq yas-snippet-dirs (append yas-snippet-dirs
                                  (list path-to-my-snippets)))
-  (yas-reload-all))
+  (yas-reload-all)
+  (yas-global-mode))
 
 (prog1 "Dired setup."
   (prog1 "Dired."
