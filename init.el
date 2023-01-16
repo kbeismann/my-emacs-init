@@ -473,6 +473,7 @@
   (use-package helm
     :defer nil
     :diminish (helm-mode helm-autoresize-mode helm-minibuffer-history-mode)
+    :requires helm-autoloads
     :bind*
     (("M-x" . helm-M-x)
      ("C-s" . helm-occur)
@@ -494,7 +495,6 @@
     (global-unset-key
      (kbd "C-x c"))
     :config
-    (require 'helm-config)
     ;; Splitting behavior.
     (setq helm-split-window-inside-p nil)
     (setq helm-move-to-line-cycle-in-source nil) ; If t breaks cycling.
