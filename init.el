@@ -1263,11 +1263,7 @@
     :commands helm-lsp-workspace-symbol)
   (use-package lsp-pyright
     :hook
-    (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))
-    :custom
-    (lsp-pyright-auto-import-completions . t)
-    (lsp-pyright-use-library-code-for-types . t)
-    (lsp-completion-enable . t)))
+    (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
 
 (use-package markdown-mode
   :mode
