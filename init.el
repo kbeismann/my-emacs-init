@@ -731,13 +731,13 @@
    ("C-c C-<" . mc/mark-all-like-this)
    ("C-c C->" . mc/mark-all-like-this)))
 
-(use-package flycheck ; TODO: Structure > Move up to Flyspell and wrap.
-                      :diminish (global-flycheck-mode flycheck-mode)
-             :bind
-             (("M-n" . flycheck-next-error)
-              ("M-p" . flycheck-previous-error))
-             :config
-             (setq global-flycheck-mode t))
+(use-package flycheck
+  :diminish (global-flycheck-mode flycheck-mode)
+  :bind
+  (("M-n" . flycheck-next-error)
+   ("M-p" . flycheck-previous-error))
+  :config
+  (setq global-flycheck-mode t))
 
 (prog1 "*python-setup"
   (setq python-indent-offset 4)
