@@ -724,6 +724,11 @@
   (setq delete-trailing-lines t)
   (setq show-trailing-whitespace t))
 
+(use-package ws-butler
+  :diminish ws-butler-mode
+  :config
+  (add-to-list 'ws-butler-global-exempt-modes '(magit-mode org-mode-hook))
+  (ws-butler-global-mode))
 
 ;; Basic bindings for multiple-cursors.
 (use-package multiple-cursors
