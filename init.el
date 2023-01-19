@@ -435,8 +435,8 @@
 (use-package flyspell
   :diminish flyspell-mode
   :hook
-  ((prog-mode-hook . (lambda() (flyspell-prog-mode)))
-   (text-mode-hook . (lambda() (flyspell-mode))))
+  ((prog-mode . (lambda() (flyspell-prog-mode)))
+   (text-mode . (lambda() (flyspell-mode))))
   ;; Deactivate for logs and log editing.
   ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
   ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
@@ -672,8 +672,8 @@
   ;; From https://github.com/DarthFennec/highlight-indent-guides
   :diminish highlight-indent-guides-mode
   :hook
-  ((prog-mode-hook . highlight-indent-guides-mode)
-   (yaml-mode-hook . highlight-indent-guides-mode))
+  ((prog-mode . highlight-indent-guides-mode)
+   (yaml-mode . highlight-indent-guides-mode))
   :config
   (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-responsive 'top)
@@ -769,7 +769,7 @@
   (use-package pipenv
     :diminish pipenv-mode
     :hook
-    (python-mode-hook . pipenv-mode)
+    (python-mode . pipenv-mode)
     :init
 
     (setq pipenv-projectile-after-switch-function
@@ -803,18 +803,19 @@
     :load-path "~/gitdir/my-git/sphinx-doc.el/"
     :diminish sphinx-doc-mode
     :hook
-    (python-mode-hook . sphinx-doc-mode)
+    (python-mode . sphinx-doc-mode)
     :config
     ;; Show all arguments (except "self").
     (setq sphinx-doc-all-arguments t)
     (setq sphinx-doc-exclude-rtype t))
 
   (use-package python-black
+    :after python
     :hook
-    ((python-mode-hook . (lambda() (setq-local whitespace-line-column 88)))
-     (python-mode-hook . (lambda() (setq fill-column 88))))
+    ((python-mode . (lambda() (setq-local whitespace-line-column 88)))
+     (python-mode . (lambda() (setq fill-column 88)))
+     (python-mode . python-black-on-save-mode-enable-dwim))
     :config
-
     (setq python-black-macchiato-command "~/.local/bin/black-macchiato"))
 
   (use-package python-isort)
@@ -828,7 +829,7 @@
 
   (use-package python-docstring
     :hook
-    (python-mode-hook . python-docstring-mode)))
+    (python-mode . python-docstring-mode)))
 
 (use-package org ; FIXME: Band aid > Use :bind at some point.
   :straight
@@ -1224,6 +1225,7 @@
   (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
 
 (use-package eglot
+  :disabled
   :hook
   (python-mode-hook . eglot-ensure)
   :bind
