@@ -703,23 +703,27 @@
 (use-package whitespace
   :after base16-theme
   :diminish whitespace-mode
-  :hook
-  ((before-save-hook . delete-trailing-whitespace)
-   (prog-mode-hook . (lambda () (whitespace-mode 1)))
-   (text-mode-hook .(lambda () (whitespace-mode 1)))
-   (org-mode-hook . (lambda () (whitespace-mode 0)))
-   (message-mode-hook . (lambda () (whitespace-mode 0))))
+  :hook prog-mode
   :config
   ;; Set the max. column as defined above and delete trailing lines.
-  (setq whitespace-line-column my-max-columns
-        delete-trailing-lines t)
-  ;; Define whitespace stylization.
-  (setq whitespace-style '(face newline lines-tail trailing))
-  ;; Change colors of text that exceeds 78 columns.
-  (set-face-attribute 'whitespace-line nil
-                      :foreground base08-prop
-                      :background base00-prop
-                      :underline nil))
+  (setq whitespace-line-column my-max-columns)
+  (setq whitespace-style '(face
+			   tabs
+			   spaces
+			   trailing
+			   ;; lines
+			   space-before-tab
+			   newline
+			   indentation
+			   empty
+			   space-after-tab
+			   space-mark
+			   tab-mark
+			   newline-mark
+			   missing-newline-at-eof))
+  (setq delete-trailing-lines t)
+  (setq show-trailing-whitespace t))
+
 
 ;; Basic bindings for multiple-cursors.
 (use-package multiple-cursors
