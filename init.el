@@ -822,8 +822,8 @@
     :after python
     :hook
     ((python-mode . (lambda() (setq-local whitespace-line-column 88)))
-     (python-mode . (lambda() (setq fill-column 88)))
-     (python-mode . python-black-on-save-mode-enable-dwim))
+     (python-mode . (lambda() (setq-local fill-column 88)))
+     (python-mode . python-black-on-save-mode))
     :config
     (setq python-black-macchiato-command "~/.local/bin/black-macchiato"))
 
