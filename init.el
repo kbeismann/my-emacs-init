@@ -1265,6 +1265,10 @@
    '(("pylsp.plugins.pylsp_mypy.enabled" t t)
      ("pylsp.plugins.pylsp_mypy.live_mode" t t)
      ("pylsp.plugins.pylsp_rope.enabled" t t)
+     ("pylsp.plugins.rope_rename.enabled" t t) ; Seems to work better than Jedi.
+     ("pylsp.plugins.jedi_rename.enabled" nil nil)
+     ("pylsp.plugins.rope_completion.enabled" t t) ; Seems to work better than Jedi.
+     ("pylsp.plugins.jedi_completion.enabled" nil nil)
      ("pylsp.plugins.pyls_isort.enabled" t t)
      ("pylsp.plugins.pyls_memestra.enabled" t t)
      ("pylsp.plugins.pyls_flake8.enabled" t t)
