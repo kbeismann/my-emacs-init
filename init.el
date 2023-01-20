@@ -1256,6 +1256,7 @@
 	("M-." . lsp-find-definition))
   :init
   (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-diagnostics-provider :none)
   :config
   (setq lsp-restart 'auto-restart)
   (setq lsp-pyls-rope-extension-modules t)
