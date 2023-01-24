@@ -1,4 +1,4 @@
 # -*- mode: snippet -*-
-# name: type_ignore
+# name: mypy_type_ignore
 # --
   # type: ignore$0
