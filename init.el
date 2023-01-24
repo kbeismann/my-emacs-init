@@ -166,7 +166,7 @@
 
   ;; Editing and indentation.
   (setq tab-width 4)  ; Default tab width.
-  (setq indent-tabs-mode nil)  ; Always indent with spaces.
+  (setq-default indent-tabs-mode nil)  ; Always indent with spaces.
   (setq tab-always-indent 'complete)  ; Tab indents before completion .
   (setq next-line-add-newlines t)  ; New line when C-n.
   (setq fill-column my-max-columns)  ; Set M-q columns.
