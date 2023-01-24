@@ -747,8 +747,8 @@
   :bind
   (("M-n" . flycheck-next-error)
    ("M-p" . flycheck-previous-error))
-  :config
-  (setq global-flycheck-mode t))
+  :hook
+  (after-init . global-flycheck-mode))
 
 (prog1 "*python-setup"
   (setq python-indent-offset 4)
@@ -769,7 +769,6 @@
   (use-package flycheck-pycheckers
     :after (flycheck python)
     :config
-    (global-flycheck-mode)
     (setq flycheck-pycheckers-multi-thread "true")
     (setq flycheck-pycheckers-max-line-length 88) ; Follow Black guidelines.
     ;; (setq flycheck-pycheckers-checkers '(pylint flake8 mypy3 bandit))
