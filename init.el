@@ -708,19 +708,21 @@
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns)
   (setq whitespace-style '(face
-			   tabs
-			   spaces
-			   trailing
-			   ;; lines
-			   space-before-tab
-			   newline
-			   indentation
-			   empty
-			   space-after-tab
-			   space-mark
-			   tab-mark
-			   newline-mark
-			   missing-newline-at-eof))
+	                   tabs
+	                   spaces
+	                   trailing
+	                   ;; lines
+                           lines-tail
+                           lines-char
+	                   space-before-tab
+	                   newline
+	                   indentation
+	                   empty
+	                   space-after-tab
+	                   space-mark
+	                   tab-mark
+	                   ;; newline-mark
+	                   missing-newline-at-eof))
   (setq delete-trailing-lines t)
   (setq show-trailing-whitespace t))
 
