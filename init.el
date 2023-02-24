@@ -704,27 +704,30 @@
   :after base16-theme
   :diminish whitespace-mode
   :hook prog-mode
+  :init
+  (setq delete-trailing-lines t)
+  ;; (setq show-trailing-whitespace t)
   :config
+  (add-hook 'minibuffer-setup-hook
+            (lambda () (setq-local whitespace-mode 1)))
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns)
   (setq whitespace-style '(face
-	                   tabs
-	                   spaces
+	                   ;; tabs
+	                   ;; spaces
 	                   trailing
 	                   ;; lines
                            lines-tail
-                           lines-char
-	                   space-before-tab
-	                   newline
-	                   indentation
+                           ;; lines-char
+	                   ;; newline
 	                   empty
+	                   space-before-tab
 	                   space-after-tab
-	                   space-mark
+	                   ;; indentation
+	                   ;; space-mark
 	                   tab-mark
 	                   ;; newline-mark
-	                   missing-newline-at-eof))
-  (setq delete-trailing-lines t)
-  (setq show-trailing-whitespace t))
+	                   missing-newline-at-eof)))
 
 (use-package ws-butler
   :diminish ws-butler-mode
