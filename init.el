@@ -601,7 +601,6 @@
 
 (use-package avy
   :defer nil
-  :ensure t
   :after base16-theme
   :bind*
   ("S-SPC" . avy-goto-char)
