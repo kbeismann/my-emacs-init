@@ -147,7 +147,6 @@
 (prog1 "Basic configurations."
   (global-unset-key (kbd "M-o")) ; Unbind face menu.
   (global-unset-key (kbd "C-x C-z")) ; Unbind suspend frame.
-  (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
   (global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
 
   ;; Better splitting behavior.
@@ -604,6 +603,8 @@
   :after base16-theme
   :bind*
   ("S-SPC" . avy-goto-char)
+  :init
+  (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
   :config
   ;; (define-key global-map (kbd "M-S-SPC") nil)
   ;; (global-set-key (kbd "M-S-SPC") 'avy-goto-char)
