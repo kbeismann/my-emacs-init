@@ -616,6 +616,9 @@
   ;; decision chars.
   (setq avy-highlight-first t)
 
+  ;; Using any command makes the face attributes accessible.
+  (avy-setup-default)
+
   ;; ;; Face used for first non-terminating leading chars.
   ;; (set-face-attribute 'avy-lead-face-0 nil
   ;;                     :foreground base0A-prop
