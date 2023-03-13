@@ -95,6 +95,8 @@
   (setq straight-use-package-by-default t)
   
   (straight-use-package 'use-package)
+
+  (require 'use-package-ensure)
   (setq use-package-always-ensure t)
   
   (use-package diminish
