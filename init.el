@@ -619,34 +619,34 @@
   ;; Using any command makes the face attributes accessible.
   (avy-setup-default)
 
-  ;; ;; Face used for first non-terminating leading chars.
-  ;; (set-face-attribute 'avy-lead-face-0 nil
-  ;;                     :foreground base0A-prop
-  ;;                     :background base00-prop
-  ;;                     :weight 'bold)
+  ;; Face used for first non-terminating leading chars.
+  (set-face-attribute 'avy-lead-face-0 nil
+                      :foreground base0A-prop
+                      :background base00-prop
+                      :weight 'bold)
 
-  ;; ;; Face used for matched leading chars.  Not sure what this does.
-  ;; (set-face-attribute 'avy-lead-face-1 nil
-  ;;                     :foreground base09-prop
-  ;;                     :background base00-prop
-  ;;                     :weight 'bold)
+  ;; Face used for matched leading chars.  Not sure what this does.
+  (set-face-attribute 'avy-lead-face-1 nil
+                      :foreground base09-prop
+                      :background base00-prop
+                      :weight 'bold)
 
-  ;; ;; Face used for leading chars.
-  ;; (set-face-attribute 'avy-lead-face-2 nil
-  ;;                     :foreground base0C-prop
-  ;;                     :background base00-prop
-  ;;                     :weight 'bold)
+  ;; Face used for leading chars.
+  (set-face-attribute 'avy-lead-face-2 nil
+                      :foreground base0C-prop
+                      :background base00-prop
+                      :weight 'bold)
 
-  ;; ;; Face used for the leading chars.
-  ;; (set-face-attribute 'avy-lead-face nil
-  ;;                     :foreground base0E-prop
-  ;;                     :background base00-prop
-  ;;                     :weight 'bold
-  ;;                     :underline t)
+  ;; Face used for the leading chars.
+  (set-face-attribute 'avy-lead-face nil
+                      :foreground base00-prop
+                      :background base0E-prop
+                      :weight 'bold)
 
-  ;; ;; Face for foreground/font during selection: base03.
-  ;; (set-face-foreground 'avy-background-face base03-prop)
-  )
+  ;; Face for foreground/font during selection: base03.
+  (set-face-attribute 'avy-background-face nil
+                      :foreground base03-prop
+                      :background base00-prop))
 
 ;; Provides a minor mode for Emacs that displays the key bindings following
 ;; your currently entered incomplete command (a prefix) in a popup.
