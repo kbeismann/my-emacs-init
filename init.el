@@ -1121,7 +1121,7 @@
 
 (use-package org-roam
   :bind
-  ("C-c n f" . org-roam-node-find)		    
+  ("C-c n f" . org-roam-node-find)
   ("C-c n i" . org-roam-node-insert)
   ("C-c n c" . org-roam-capture)
   ("C-c n l" . org-roam-buffer-toggle)
