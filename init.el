@@ -714,7 +714,7 @@
   ;; (setq show-trailing-whitespace t)
   :config
   (add-hook 'minibuffer-setup-hook
-            (lambda () (setq-local whitespace-mode 1)))
+            (lambda () (setq-local whitespace-mode 0)))
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns)
   (setq whitespace-style '(face
