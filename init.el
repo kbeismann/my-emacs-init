@@ -709,7 +709,6 @@
 (use-package whitespace
   :after base16-theme
   :diminish whitespace-mode
-  :hook prog-mode
   :init
   (setq delete-trailing-lines t)
   ;; (setq show-trailing-whitespace t)
