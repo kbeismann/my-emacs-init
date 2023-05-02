@@ -1287,8 +1287,10 @@
      ("pylsp.plugins.pylint.enabled" t t)
      ("pylsp.plugins.flake8.enabled" t t)))
   (use-package helm-lsp
+    :after (helm lsp)
     :commands helm-lsp-workspace-symbol)
   (use-package lsp-pyright
+    :after (python lsp)
     :hook
     (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
 
