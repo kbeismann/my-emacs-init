@@ -1231,13 +1231,6 @@
     :config
     (setq gac-automatically-push-p t)))
 
-(use-package tree-sitter
-  :diminish tree-sitter-mode
-  :config
-  (use-package tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
 (use-package emr
   :disabled t
   :config
