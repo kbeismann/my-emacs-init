@@ -886,6 +886,17 @@
     :hook
     (python-mode . python-docstring-mode)))
 
+(prog1 "Setting up Rust..."
+  (use-package rust-mode
+    :config
+    (add-hook 'rust-mode-hook
+              (lambda () (setq indent-tabs-mode nil)))
+    (setq rust-format-on-save t)
+    (add-hook 'rust-mode-hook
+              (lambda () (prettify-symbols-mode)))
+    ;; Activate tree-sitter for Rust.
+    (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))))
+
 (use-package org ; FIXME: Band aid > Use :bind at some point.
   :straight
   (:package org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :local-repo "org" :depth 1)
@@ -1287,6 +1298,7 @@
   :commands (lsp lsp-deferred)
   :hook
   ((python-mode . lsp-deferred)
+   (rust-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :bind
   (:map lsp-mode-map
