@@ -903,7 +903,7 @@
   :mode "//.org$"
   :bind*
   ("C-c a" . org-agenda)
-  ("C-c c" . org-capture) 
+  ("C-c c" . org-capture)
   ;; ("C-c l" . org-store-link) ; Store link.
   (:map
    org-mode-map (("C-c i" . org-clock-in)
