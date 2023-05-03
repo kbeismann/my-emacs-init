@@ -1284,7 +1284,7 @@
   (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
 
 (use-package eglot
-  :disabled
+  :disabled t
   :hook
   (python-base-mode . eglot-ensure)
   :bind
@@ -1331,6 +1331,7 @@
     :commands helm-lsp-workspace-symbol)
   (use-package lsp-pyright
     :after (python lsp)
+    :disabled t
     :hook
     (python-base-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
 
