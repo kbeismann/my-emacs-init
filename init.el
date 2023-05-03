@@ -824,7 +824,7 @@
   (use-package pipenv
     :diminish pipenv-mode
     :hook
-    (python-mode . pipenv-mode)
+    (python-base-mode . pipenv-mode)
     :init
 
     (setq pipenv-projectile-after-switch-function
@@ -858,7 +858,7 @@
     :load-path "~/gitdir/my-git/sphinx-doc.el/"
     :diminish sphinx-doc-mode
     :hook
-    (python-mode . sphinx-doc-mode)
+    (python-base-mode . sphinx-doc-mode)
     :config
     ;; Show all arguments (except "self").
     (setq sphinx-doc-all-arguments t)
@@ -867,9 +867,9 @@
   (use-package python-black
     :after python
     :hook
-    ((python-mode . (lambda() (setq-local whitespace-line-column 88)))
-     (python-mode . (lambda() (setq-local fill-column 88)))
-     (python-mode . python-black-on-save-mode))
+    ((python-base-mode . (lambda() (setq-local whitespace-line-column 88)))
+     (python-base-mode . (lambda() (setq-local fill-column 88)))
+     (python-base-mode . python-black-on-save-mode))
     :config
     (setq python-black-macchiato-command "~/.local/bin/black-macchiato"))
 
@@ -884,7 +884,7 @@
 
   (use-package python-docstring
     :hook
-    (python-mode . python-docstring-mode)))
+    (python-base-mode . python-docstring-mode)))
 
 (prog1 "Setting up Rust..."
   (use-package rust-mode
@@ -1286,7 +1286,7 @@
 (use-package eglot
   :disabled
   :hook
-  (python-mode-hook . eglot-ensure)
+  (python-base-mode . eglot-ensure)
   :bind
   (:map
    eglot-mode-map
@@ -1297,8 +1297,8 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :hook
-  ((python-mode . lsp-deferred)
-   (rust-mode . lsp-deferred)
+  ((python-base-mode . lsp-deferred)
+   (rust-ts-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :bind
   (:map lsp-mode-map
@@ -1332,7 +1332,7 @@
   (use-package lsp-pyright
     :after (python lsp)
     :hook
-    (python-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
+    (python-base-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
 
 (use-package markdown-mode
   :mode
