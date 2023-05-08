@@ -868,8 +868,7 @@
     :after python
     :hook
     ((python-base-mode . (lambda() (setq-local whitespace-line-column 88)))
-     (python-base-mode . (lambda() (setq-local fill-column 88)))
-     (python-base-mode . python-black-on-save-mode))
+     (python-base-mode . (lambda() (setq-local fill-column 88))))
     :config
     (setq python-black-macchiato-command "~/.local/bin/black-macchiato"))
 
