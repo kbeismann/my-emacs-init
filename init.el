@@ -734,8 +734,8 @@
 
 (use-package aggressive-indent
   ;; From https://github.com/Malabarba/aggressive-indent-mode
-  :config
-  (global-aggressive-indent-mode 1))
+  :hook
+  (emacs-lisp-mode . aggressive-indent-mode))
 
 ;; Make sure that there is a single additional line at the end of the file
 ;; while saving, also removes all white space at the end of lines.
