@@ -1251,7 +1251,7 @@
 
   (use-package magit
     :diminish magit-auto-revert-mode
-    :bind
+    :bind*
     (("C-x g" . magit-status))
     :config
     (magit-auto-revert-mode t)
