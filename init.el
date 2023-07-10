@@ -1418,6 +1418,10 @@
   (setq chatgpt-repo-path "~/.emacs.d/straight/repos/ChatGPT.el/")
   :bind ("C-c q" . chatgpt-query))
 
+(use-package epresent
+  :straight t)
+
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
