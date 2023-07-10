@@ -1392,7 +1392,8 @@
   (projectile-mode t)
   :config
   (setq projectile-completion-system 'helm)
-  (add-to-list 'projectile-globally-ignored-files '"*#%2Aediff-merge%2A#*#"))
+  (setq projectile-indexing-method 'alien)
+  (add-to-list 'projectile-globally-ignored-files '"*ediff-merge*"))
 
 (use-package helm-projectile
   :after (projectile helm)
