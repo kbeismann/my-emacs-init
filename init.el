@@ -406,6 +406,7 @@
   :bind (("C-c y i" . yas-insert-snippet)
          ("C-c y v" . yas-visit-snippet-file))
   :config
+  (add-hook 'python-ts-mode-hook #'(lambda () (yas-activate-extra-mode 'python-mode)))
   (use-package yasnippet-snippets)
   (setq yas-indent-line 'fixed)
   (setq yas-snippet-dirs (append yas-snippet-dirs
