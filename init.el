@@ -369,7 +369,8 @@
   :defer nil
   :after no-littering
   :diminish undo-tree-mode
-  :bind ("C-c u t" . undo-tree-visualize)
+  :bind
+  (("C-c u t" . undo-tree-visualize))
   :config
   (setq undo-tree-visualizer-diff t)
   (global-undo-tree-mode t))
@@ -403,8 +404,9 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :bind (("C-c y i" . yas-insert-snippet)
-         ("C-c y v" . yas-visit-snippet-file))
+  :bind
+  (("C-c y i" . yas-insert-snippet)
+   ("C-c y v" . yas-visit-snippet-file))
   :config
   (add-hook 'python-ts-mode-hook #'(lambda () (yas-activate-extra-mode 'python-mode)))
   (use-package yasnippet-snippets)
@@ -557,7 +559,8 @@
   (use-package helm-flyspell
     :defer nil
     :after helm flyspell
-    :bind ("C-c f c" . helm-flyspell-correct)))
+    :bind
+    (("C-c f c" . helm-flyspell-correct))))
 
 (use-package base16-theme
   :defer nil
@@ -636,7 +639,7 @@
   :defer nil
   :after base16-theme
   :bind*
-  ("S-SPC" . avy-goto-char)
+  (("S-SPC" . avy-goto-char))
   :init
   (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
   :config
@@ -701,7 +704,7 @@
     :defer nil
     :diminish (smartparens-mode smartparens-global-mode)
     :bind*
-    ("C-c u s" . sp-unwrap-sexp)
+    (("C-c u s" . sp-unwrap-sexp))
     :config
     (require 'smartparens-config)
     (smartparens-global-mode t)
@@ -802,7 +805,7 @@
     :disabled t
     :after dired
     :bind
-    ("C-c $" . conda-env-activate)
+    (("C-c $" . conda-env-activate))
     :config
     (setq conda-anaconda-home "~/miniconda3/")
     (setq conda-env-executables-dir "condabin")
@@ -902,8 +905,8 @@
   (:package org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :local-repo "org" :depth 1)
   :mode "//.org$"
   :bind*
-  ("C-c a" . org-agenda)
-  ("C-c c" . org-capture)
+  (("C-c a" . org-agenda)
+   ("C-c c" . org-capture))
   ;; ("C-c l" . org-store-link) ; Store link.
   (:map
    org-mode-map (("C-c i" . org-clock-in)
@@ -1161,7 +1164,8 @@
   :disabled t
   :after org
   :bind
-  (org-mode-map
+  (:map
+   org-mode-map
    (("C-c i s" . org-download-screenshot)
     ("C-c i y" . org-download-yank))))
 
@@ -1201,7 +1205,7 @@
 (use-package deft
   :after org
   :bind*
-  ("C-c n d" . deft)
+  (("C-c n d" . deft))
   :config
   (setq deft-recursive t)
   (setq deft-use-filter-string-for-filename t)
@@ -1213,7 +1217,8 @@
   :config
   (use-package pdf-tools
     :bind
-    (pdf-view-mode-map
+    (:map
+     pdf-view-mode-map
      ("C-s" . isearch-forward))
     :init
     (pdf-loader-install) ; Prepare Emacs for using PDF Tools.
@@ -1301,9 +1306,10 @@
    (rust-ts-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :bind
-  (:map lsp-mode-map
-	("M-?" . lsp-find-references)
-	("M-." . lsp-find-definition))
+  (:map
+   lsp-mode-map
+   ("M-?" . lsp-find-references)
+   ("M-." . lsp-find-definition))
   :init
   (setq lsp-keymap-prefix "C-c l")
   (setq lsp-diagnostics-provider :none)
@@ -1375,7 +1381,7 @@
   ;; https://github.com/cjohansson/emacs-ssh-deploy
   :disabled t
   :bind
-  ("C-c z d" . ssh-deploy-prefix-map)
+  (("C-c z d" . ssh-deploy-prefix-map))
   :hook
   ((after-save-hook . ssh-deploy-after-save)
    (find-file . ssh-deploy-find-file))
@@ -1387,7 +1393,7 @@
 (use-package projectile
   :diminish projectile-mode
   :bind
-  ("C-c p" . projectile-command-map)
+  (("C-c p" . projectile-command-map))
   :init
   (projectile-mode t)
   :config
@@ -1416,7 +1422,8 @@
   :init
   (require 'python)
   (setq chatgpt-repo-path "~/.emacs.d/straight/repos/ChatGPT.el/")
-  :bind ("C-c q" . chatgpt-query))
+  :bind
+  (("C-c q" . chatgpt-query)))
 
 (use-package epresent
   :straight t)
