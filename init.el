@@ -1166,16 +1166,16 @@
     ("C-c i y" . org-download-yank))))
 
 (use-package org-roam
-  :bind
-  ("C-c n f" . org-roam-node-find)
-  ("C-c n i" . org-roam-node-insert)
-  ("C-c n c" . org-roam-capture)
-  ("C-c n l" . org-roam-buffer-toggle)
-  ("C-c n t c" . org-roam-dailies-capture-today)
-  ("C-c n t g" . org-roam-dailies-goto-today)
-  ("C-c n g" . org-roam-graph)
-  ("C-c n a r" . org-roam-ref-add)
-  ("C-c n a t" . org-roam-tag-add)
+  :bind*
+  (("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)
+   ("C-c n c" . org-roam-capture)
+   ("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n t c" . org-roam-dailies-capture-today)
+   ("C-c n t g" . org-roam-dailies-goto-today)
+   ("C-c n g" . org-roam-graph)
+   ("C-c n a r" . org-roam-ref-add)
+   ("C-c n a t" . org-roam-tag-add))
   :custom
   (org-roam-directory my-roam-notes)
   :config
