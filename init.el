@@ -69,7 +69,7 @@
                                      ("gnu" . 2)
                                      ("org" . 1)
                                      ("melpa" . 3)
-				                     ("melpa-stable" . 0)))
+				     ("melpa-stable" . 0)))
 
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize))
