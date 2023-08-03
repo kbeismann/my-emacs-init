@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: pytest_parametrize_assert
+# --
+import pytest  # type: ignore
+
+@pytest.mark.parametrize("x, y, expected_result", (1, 2, 3), (2, 1, 3), (2, 2, 4)))
+def test_function(x: int, y: int, expected_result: int) -> None:
+    """Test a function."""
+    result = function(x=x, y=y)
+
+    assert expected_result == result
+
+
+def function(x: int, y: int) -> int:
+    """A function."""
+    return x + y
