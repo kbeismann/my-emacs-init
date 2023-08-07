@@ -366,6 +366,7 @@
    'find-first-non-ascii-char))
 
 (use-package undo-tree
+  :disabled t
   :defer nil
   :after no-littering
   :diminish undo-tree-mode
