@@ -1343,6 +1343,7 @@
     (python-base-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
 
 (use-package markdown-mode
+  :disabled t
   :mode
   (("README\\.md\\'" . gfm-mode)
    ("\\.md\\'" . markdown-mode)
