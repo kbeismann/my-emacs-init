@@ -1319,8 +1319,8 @@
   (setq lsp-pyls-rope-extension-modules t)
   (setq lsp-pylsp-rope-extension-modules t)
   (lsp-register-custom-settings
-   '(("pylsp.plugins.pylsp_mypy.enabled" t t)
-     ("pylsp.plugins.pylsp_mypy.live_mode" t t)
+   '(("pylsp.plugins.pylsp_mypy.enabled" nil nil)
+     ("pylsp.plugins.pylsp_mypy.live_mode" nil nil)
      ("pylsp.plugins.pylsp_rope.enabled" t t)
      ("pylsp.plugins.rope_rename.enabled" t t)
      ("pylsp.plugins.jedi_rename.enabled" nil nil)
