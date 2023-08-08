@@ -1343,13 +1343,9 @@
     (python-base-mode . (lambda () (require 'lsp-pyright) (lsp-deferred)))))
 
 (use-package markdown-mode
-  :disabled t
-  :mode
-  (("README\\.md\\'" . gfm-mode)
-   ("\\.md\\'" . markdown-mode)
-   ("\\.markdown\\'" . markdown-mode))
-  :config
-  (setq markdown-command "pandoc"))
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map ("C-c C-e" . markdown-do)))
 
 ;; Always use GPG2 and use loopback option for better compatibility.
 (use-package epa
