@@ -820,7 +820,7 @@
     :config
     (setq flycheck-pycheckers-multi-thread "true")
     (setq flycheck-pycheckers-max-line-length 88) ; Follow Black guidelines.
-    ;; (setq flycheck-pycheckers-checkers '(pylint flake8 mypy3 bandit))
+    (setq flycheck-pycheckers-checkers '(pylint flake8))
 
     ;; TODO: Add this to :hook.
     (with-eval-after-load
