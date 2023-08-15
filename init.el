@@ -1316,8 +1316,6 @@
   (setq lsp-diagnostics-provider :none)
   :config
   (setq lsp-restart 'auto-restart)
-  (setq lsp-pyls-rope-extension-modules t)
-  (setq lsp-pylsp-rope-extension-modules t)
   (lsp-register-custom-settings
    '(("pylsp.plugins.pylsp_mypy.enabled" nil nil)
      ("pylsp.plugins.pylsp_mypy.live_mode" nil nil)
