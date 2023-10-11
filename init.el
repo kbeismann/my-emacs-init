@@ -460,17 +460,6 @@
   (setq dired-async-mode 1)
   (setq async-bytecomp-package-mode 0)) ; Not sure if this creates issues.
 
-;; Check out https://github.com/jcf/emacs.d/blob/master/init-packages.org.
-(prog1 "eshell"
-  (global-set-key (kbd "C-z") 'eshell)
-  (add-hook 'eshell-mode-hook 'my-eshell-remove-pcomplete)
-
-  ;; Fixes weird issues in eshell.
-  ;; TODO: Eshell is still using autocomplete.
-  (defun my-eshell-remove-pcomplete ()
-    (remove-hook 'completion-at-point-functions
-                 #'pcomplete-completions-at-point t)))
-
 (use-package flyspell
   :diminish flyspell-mode
   :hook
