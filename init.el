@@ -905,7 +905,8 @@
                  ("C-c e" . org-set-effort)))
   :hook
   ;; Align tags when saving.
-  (org-mode-hook . (lambda() (add-hook 'before-save-hook org-align-tags)))
+  (org-mode-hook . (lambda ()
+                     (add-hook 'before-save-hook 'org-align-tags nil 'local)))
   ;; Switch to DONE when sub-entries are done.
   (org-after-todo-statistics-hook . org-summary-todo)
   ;; ;; Highlight current line in agenda.
