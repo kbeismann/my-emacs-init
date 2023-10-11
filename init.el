@@ -922,6 +922,7 @@
   ;; ;; Highlight current line in agenda.
   (org-agenda-mode-hook . (lambda () (hl-line-mode 1)))
   :config
+  (setq org-hide-emphasis-markers t)
   (prog1 "Setting directories without :custom"
     (setq org-directory my-notes-dir)
     (setq org-default-notes-file my-notes)
