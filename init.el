@@ -970,6 +970,11 @@
   (setq org-agenda-start-on-weekday 1)
   (setq org-agenda-span 9)
 
+  ;; Style-related.
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
   (defun org-syntax-convert-keyword-case-to-lower ()
     "Convert all #+KEYWORDS to #+keywords."
     (interactive)
