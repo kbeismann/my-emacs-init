@@ -1408,10 +1408,6 @@
 (use-package kubernetes
   :commands (kubernetes-overview))
 
-(use-package epresent
-  :straight t)
-
-
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
