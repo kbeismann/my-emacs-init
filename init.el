@@ -892,7 +892,13 @@
 
 (use-package org ; FIXME: Band aid > Use :bind at some point.
   :straight
-  (:package org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :local-repo "org" :depth 1)
+  (
+   :package org
+   :type git
+   :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git"
+   :local-repo "org"
+   :depth 1
+   )
   :mode "//.org$"
   :bind*
   (("C-c a" . org-agenda)
