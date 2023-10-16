@@ -1187,9 +1187,8 @@
    ("C-c n g" . org-roam-graph)
    ("C-c n a r" . org-roam-ref-add)
    ("C-c n a t" . org-roam-tag-add))
-  :custom
-  (org-roam-directory my-roam-notes)
   :config
+  (setq org-roam-directory my-roam-notes)
   (setq org-roam-db-gc-threshold most-positive-fixnum)
   (setq org-roam-completion-everywhere t)
   (setq org-roam-capture-templates
