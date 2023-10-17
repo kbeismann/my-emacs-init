@@ -907,7 +907,7 @@
   (:map
    org-mode-map (("C-c o c i" . org-clock-in)
                  ("C-c o c o" . org-clock-out)
-                 ("C-c o s n" . org-narrow-to-subtree)
+                 ("C-c o s n" . org-toogle-narrow-to-subtree)
                  ("C-c o i" . org-id-get-create)))
   :hook
   ;; Align tags when saving.
