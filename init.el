@@ -1046,30 +1046,6 @@
             (load templates))
         (message "%s" "No work-related templates specified."))))
 
-  (prog1 "*org-remove-tags"
-    ;; Clean tags in org mode:
-    ;; https://fuco1.github.io/2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling.html
-    (defun my-org-remove-inherited-local-tags ()
-
-      "Remove local tags that can be inherited instead."
-      (let* ((target-tags-local (org-get-tags nil 'local))
-
-             ;; We have to remove the local tags otherwise they would not
-             ;; show up as being inherited if they are present on
-             ;; parents---the local tag would "override" the parent
-             (target-tags-inherited (unwind-protect
-                                        (progn
-                                          (org-set-tags nil)
-                                          (org-get-tags))
-
-                                      (org-set-tags target-tags-local))))
-        (-each target-tags-local
-          (lambda (tag)
-            (when (member tag target-tags-inherited)
-              (org-toggle-tag tag 'off))))))
-
-    (add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags))
-
   (prog1 "*org-summary-todo"
     ;; Switch entry to DONE when all subentries are done, to TODO
     ;; otherwise.
