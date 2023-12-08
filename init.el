@@ -936,7 +936,7 @@
 
   ;; Startup options.
   (setq org-startup-indented nil)
-  (setq org-startup-with-latex-preview t)
+  (setq org-startup-with-latex-preview nil)
   (setq org-startup-align-all-tables t)
 
   ;; Indentation.
