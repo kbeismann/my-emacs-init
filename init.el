@@ -1246,15 +1246,7 @@
     (setq magit-log-auto-more t)
     (prog1 "autorevert"
       (setq auto-revert-interval 1)
-      (setq global-auto-revert-mode nil))
-    (prog1 "Suppress warning: magit-todos: Not overriding bind of
-    'jT' in magit-status-mode-map."
-      (let ((inhibit-message t))
-        (magit-todos-mode 1))))
-
-  (use-package magit-todos
-    :after magit
-    :commands (magit-todos-mode))
+      (setq global-auto-revert-mode nil)))
 
   (use-package git-timemachine
     ;; https://gitlab.com/pidu/git-timemachine
