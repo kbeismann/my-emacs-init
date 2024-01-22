@@ -1059,10 +1059,6 @@
         (plist-put org-format-latex-options :html-scale 1.5))
   (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode))
-
   (use-package org-super-agenda
     :after org
     :config
