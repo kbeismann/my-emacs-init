@@ -53,7 +53,7 @@
          :empty-lines 1)
         ("mr" "Save reading" entry
          (file buffer-file-name)
-         "* TODO \[\#C\] \"%^{Title}\" %^g:reading:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
+         "* TODO \[\#C\] \"%^{Title}\" %^g:reading:\n:PROPERTIES:\n:URL: %^{URL}\n:Author: %^{Author}\n:Year: %^{Year}\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("me" "Edit/fix file" entry
          (file+headline org-todo-file "To-dos")
@@ -61,7 +61,7 @@
          :empty-lines 1)
         ("mu" "Save URL and check later" entry
          (file+headline org-todo-file "To-dos")
-         "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n::URL: %x\n:END:\n\n%i\n\n"
+         "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("mm" "Meeting minutes" entry
          (file+headline org-default-notes-file "Uncategorized")
