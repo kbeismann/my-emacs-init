@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Polars to Markdown
+# --
+with pl.Config(
+    tbl_formatting="ASCII_MARKDOWN",
+    tbl_hide_column_data_types=False,
+    tbl_hide_dataframe_shape=False,
+):
+    $0
