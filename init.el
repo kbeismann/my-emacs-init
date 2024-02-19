@@ -1085,7 +1085,7 @@
                                                 "shoppinglist"
                                                 "reading"
                                                 "datascience"
-                                                "work")))
+                                                "@work")))
                          :order 3)
                   (:name "Data science"
                          :and (:tag "datascience"
