@@ -38,36 +38,36 @@
         ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
         ;;  :empty-lines 1)
         ;; Templates for my personal to-do list:
-        ("m" "My to-do list")
-        ("mt" "TODO" entry
+        ("h" "@home")
+        ("ht" "TODO" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#A\] %^{Title} %^g\n\n%i\n\n"
          :empty-lines 1)
-        ("mn" "Save note" entry
+        ("hn" "Save note" entry
          (file+headline org-default-notes-file "Uncategorized")
          "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n\n\n%i\n\n"
          :empty-lines 1)
-        ("mu" "Store URL" entry
+        ("hu" "Store URL" entry
          (file+headline org-default-notes-file "Uncategorized")
          "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("mr" "Save reading" entry
+        ("hr" "Save reading" entry
          (file buffer-file-name)
          "* TODO \[\#C\] \"%^{Title}\" %^g:reading:\n:PROPERTIES:\n:URL:\n:Author:\n:Year:\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("me" "Edit/fix file" entry
+        ("he" "Edit/fix file" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#C\] %^{Title} %^g:code:\n:PROPERTIES:\n:LINK: %a\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("mu" "Save URL and check later" entry
+        ("hu" "Save URL and check later" entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("mm" "Meeting minutes" entry
+        ("hm" "Meeting minutes" entry
          (file+headline org-default-notes-file "Uncategorized")
          "* TODO \[\#A\] %^{Title} :meeting:minutes:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
          :empty-lines 1)
-        ("ms" "Stand-up" entry
+        ("hs" "Stand-up" entry
          (file+headline org-default-notes-file "Uncategorized")
          "* TODO \[\#A\] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
          :empty-lines 1)))
