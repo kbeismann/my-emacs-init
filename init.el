@@ -1185,7 +1185,9 @@
                        (org-pdfview-open link)))))))
 
 (use-package nov
+  :disabled t
   ;; Reading .epub files.
+  :straight (nov :type git :repo "https://depp.brause.cc/nov.el/")
   :config
   (add-to-list 'auto-mode-alist
                '("\\.epub\\'" . nov-mode)))
