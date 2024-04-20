@@ -1102,16 +1102,6 @@
                          :tag "shoppinglist"
                          :order 7))))))))
 
-(use-package org-mind-map
-  ;; This is an Emacs package that creates graphviz
-  ;; directed graphs from the headings of an org file
-  :disabled t
-  :ensure (ox-org cl)
-  :config
-  (require ox-org)
-  (require cl)
-  (setq org-mind-map-include-text nil))
-
 (use-package org-download
   :disabled t
   :after org
