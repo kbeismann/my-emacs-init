@@ -891,7 +891,6 @@
   ;; ;; Highlight current line in agenda.
   (org-agenda-mode-hook . (lambda () (hl-line-mode 1)))
   :config
-  (setq org-hide-emphasis-markers t)
   (prog1 "Setting directories without :custom"
     (setq org-directory my-notes-dir)
     (setq org-default-notes-file my-notes)
@@ -1101,6 +1100,12 @@
                   (:name "Shopping list"
                          :tag "shoppinglist"
                          :order 7))))))))
+
+(use-package org-appear
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-hide-emphasis-markers t))
 
 (use-package org-download
   :disabled t
