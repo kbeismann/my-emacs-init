@@ -788,6 +788,9 @@
     (with-eval-after-load
         'flycheck (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)))
 
+  (use-package flymake-ruff
+    :hook (python-mode . flymake-ruff-load))
+
   (use-package pipenv
     :diminish pipenv-mode
     :hook
