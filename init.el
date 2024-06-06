@@ -788,6 +788,20 @@
     (with-eval-after-load
         'flycheck (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)))
 
+  (use-package reformatter
+    :config
+    (use-package ruff-format
+      ;; Usage:
+      ;; ((python-base-mode . ((eval . (progn
+      ;;                                 (ruff-format-on-save-mode)
+      ;;                                 (flymake-ruff-load)
+      ;;                                 )
+      ;;                             ))
+      ;;                    )
+      ;; (nil . ((eval . (add-hook 'after-save-hook 'push-ior-via-kubectl))))
+      ))
+
+
   (use-package flymake-ruff
     :hook (python-mode . flymake-ruff-load))
 
