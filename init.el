@@ -712,6 +712,9 @@
   :init
   (setq delete-trailing-lines t)
   ;; (setq show-trailing-whitespace t)
+  :hook
+  ((prog-mode . whitespace-mode)
+   (markdown-mode . whitespace-mode))
   :config
   (add-hook 'minibuffer-setup-hook
             (lambda () (setq-local whitespace-mode 0)))
