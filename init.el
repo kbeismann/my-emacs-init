@@ -61,10 +61,10 @@
 (prog1 "Add archives and assign priorities."
   (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
   (setq package-archives '(
-			               ("gnu" . "https://elpa.gnu.org/packages/")
-			               ("org" . "https://orgmode.org/elpa/")
-			               ("melpa" . "https://melpa.org/packages/")
-			               ("melpa-stable" . "https://stable.melpa.org/packages/")))
+                                       ("gnu" . "https://elpa.gnu.org/packages/")
+                                       ("org" . "https://orgmode.org/elpa/")
+                                       ("melpa" . "https://melpa.org/packages/")
+                                       ("melpa-stable" . "https://stable.melpa.org/packages/")))
   (setq package-archive-priorities '(
                                      ("gnu" . 2)
                                      ("org" . 1)
@@ -93,12 +93,12 @@
 (prog1 "Use leaf to simplify package management."
   (setq straight-vc-git-default-clone-depth 1)
   (setq straight-use-package-by-default t)
-  
+
   (straight-use-package 'use-package)
 
   (require 'use-package-ensure)
   (setq use-package-always-ensure t)
-  
+
   (use-package diminish
     :defer nil))
 
@@ -406,7 +406,7 @@
     :diminish dired-du-mode
     :config
     (setq dired-du-size-format t))
-  
+
   (use-package dired-subtree
     :after dired
     :bind
@@ -718,21 +718,21 @@
   ;; Set the max. column as defined above and delete trailing lines.
   (setq whitespace-line-column my-max-columns)
   (setq whitespace-style '(face
-	                   ;; tabs
-	                   ;; spaces
-	                   trailing
-	                   ;; lines
+                           ;; tabs
+                           ;; spaces
+                           trailing
+                           ;; lines
                            lines-tail
                            ;; lines-char
-	                   ;; newline
-	                   empty
-	                   space-before-tab
-	                   space-after-tab
-	                   ;; indentation
-	                   ;; space-mark
-	                   tab-mark
-	                   ;; newline-mark
-	                   missing-newline-at-eof)))
+                           ;; newline
+                           empty
+                           space-before-tab
+                           space-after-tab
+                           ;; indentation
+                           ;; space-mark
+                           tab-mark
+                           ;; newline-mark
+                           missing-newline-at-eof)))
 
 (use-package ws-butler
   :diminish ws-butler-mode
@@ -1194,7 +1194,7 @@
   :config
   ;; Fixes temporary issues with vc-mode.
   (setq vc-handled-backends ())
-  
+
   (use-package hl-todo
     :config
     (global-hl-todo-mode t))
