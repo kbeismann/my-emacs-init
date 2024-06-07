@@ -287,7 +287,8 @@
   ;; Only enable line numbers in prog-mode.
   (progn
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-    (add-hook 'conf-mode-hook #'display-line-numbers-mode)))
+    (add-hook 'conf-mode-hook #'display-line-numbers-mode)
+    (add-hook 'yaml-mode-hook #'display-line-numbers-mode)))
 
 (prog1 "Misc. functions."
 
