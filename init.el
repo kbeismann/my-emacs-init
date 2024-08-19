@@ -1375,6 +1375,8 @@
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 (use-package kubernetes
+  :bind
+  (("C-c k o" . kubernetes-overview))
   :commands (kubernetes-overview))
 
 ;;; From https://www.emacswiki.org/emacs/UnfillParagraph.
