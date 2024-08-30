@@ -81,12 +81,12 @@
                            "|"
                            "DONE(d)"
                            "FORWARDED(f)"
-                           "CHANCELLED(c)")))
+                           "CANCELLED(c)")))
 (setq org-todo-keyword-faces
       '(("TODO"           . org-warning)
         ("GET_FEEDBACK"   . org-warning)
         ("DONE"           . org-done)
-        ("CHANCELLED"     . org-done)
+        ("CANCELLED"     . org-done)
         ("FORWARDED"      . org-done)
         ("IN_PROGRESS"    . org-link)
         ("IN_REVIEW"    . org-archived)
