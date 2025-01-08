@@ -818,29 +818,6 @@
     (setq pipenv-projectile-after-switch-function
           #'pipenv-projectile-after-switch-extended))
 
-  (use-package python-pytest
-    ;; Great defaults: https://shahinism.com/en/posts/emacs-python-pytest/
-    :after projectile
-    :bind
-    (:map
-     python-mode-map
-     ("C-c t p t" . python-pytest)
-     ("C-c t p r" . python-repeat)
-     ("C-c t p p" . python-pytest-popup)
-     ("C-c t p d" . python-pytest-file)
-     ("C-c t p D" . python-pytest-file-dwim)
-     ("C-c t p f" . python-pytest-function)
-     ("C-c t p F" . python-pytest-function-dwim)
-     ("C-c t p l" . python-pytest-last-failed))
-    :config
-    (setq python-pytest-arguments '("--color"     ; Colored output in the buffer.
-                                    "--pdb"       ; Run pdb on failure.
-                                    "--verbose")) ; More verbose output.
-    ;; "--failed-first"                 ; Run the previous failed tests first.
-    ;; "--exitfirst"                    ; Exit after first failure.
-    ;; "--maxfail=5"; Exit in 5 continuous failures in a run.
-    (setq python-pytest-pdb-track t))
-
   (use-package sphinx-doc
     :disabled t
     :load-path "~/gitdir/my-git/sphinx-doc.el/"
