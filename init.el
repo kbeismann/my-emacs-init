@@ -826,14 +826,6 @@
     (setq sphinx-doc-all-arguments t)
     (setq sphinx-doc-exclude-rtype t))
 
-  (use-package python-black
-    :after python
-    :hook
-    ((python-base-mode . (lambda() (setq-local whitespace-line-column 88)))
-     (python-base-mode . (lambda() (setq-local fill-column 88))))
-    :config
-    (setq python-black-macchiato-command "~/.local/bin/black-macchiato"))
-
   (use-package python-isort)
 
   (use-package pyimport
