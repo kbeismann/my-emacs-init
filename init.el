@@ -97,10 +97,7 @@
   (straight-use-package 'use-package)
 
   (require 'use-package-ensure)
-  (setq use-package-always-ensure t)
-
-  (use-package diminish
-    :defer nil))
+  (setq use-package-always-ensure t))
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
 (prog1 "Setting basic variables."
