@@ -677,8 +677,8 @@
   ;; From https://github.com/DarthFennec/highlight-indent-guides
   :diminish highlight-indent-guides-mode
   :hook
-  ((prog-mode . highlight-indent-guides-mode)
-   (yaml-mode . highlight-indent-guides-mode))
+  ((python-base-mode . highlight-indent-guides-mode)
+   (yaml-ts-mode . highlight-indent-guides-mode))
   :config
   (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-responsive 'top)
