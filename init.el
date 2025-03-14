@@ -332,9 +332,11 @@
    'find-first-non-ascii-char))
 
 (use-package treesit-auto
-  :diminish global-treesit-auto-mode
+  :disabled t
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (setq treesit-auto-install t)
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 (use-package undo-tree
