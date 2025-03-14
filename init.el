@@ -1359,6 +1359,15 @@
 ;; Handy key definition
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
+(defun copy-git-current-sha ()
+  "Copy the current Git commit SHA to the clipboard."
+  (interactive)
+  (let ((sha (string-trim (shell-command-to-string "git rev-parse HEAD"))))
+    (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
+      (kill-new sha)
+      (message "Copied SHA: %s" sha))))
+(define-key global-map (kbd "C-c g s") 'copy-git-current-sha)
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
