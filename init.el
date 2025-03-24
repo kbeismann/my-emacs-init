@@ -1370,6 +1370,16 @@
       (message "Copied SHA: %s" sha))))
 (define-key global-map (kbd "C-c g s") 'copy-git-current-sha)
 
+(defun copy-current-path-to-file ()
+  "Copies the path of the current file to the clipboard."
+  (interactive)
+  (if buffer-file-name
+      (progn
+        (kill-new buffer-file-name)
+        (message "Copied file path: %s" buffer-file-name))
+    (message "No file is currently visiting.")))
+(define-key global-map (kbd "C-c f p") 'copy-current-path-to-file)
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
