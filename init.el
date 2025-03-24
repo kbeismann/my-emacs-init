@@ -1288,13 +1288,10 @@
     (setq auth-sources '("~/.authinfo.gpg")))
   (use-package pinentry))
 
-(use-package yaml-mode
-  :bind
-  (:map
-   yaml-mode-map
-   ("C-m" . newline-and-indent))
+(use-package yaml-ts-mode
+  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
   :config
-  (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode)))
+  (define-key yaml-ts-mode-map (kbd "C-m") 'newline-and-indent))
 
 (use-package csv-mode
   :disabled t
