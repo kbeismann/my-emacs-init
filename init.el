@@ -807,16 +807,8 @@
 
 
   (use-package flymake-ruff
-    :hook (python-mode . flymake-ruff-load))
-
-  (use-package pipenv
-    :diminish pipenv-mode
-    :hook
-    (python-base-mode . pipenv-mode)
-    :init
-
-    (setq pipenv-projectile-after-switch-function
-          #'pipenv-projectile-after-switch-extended))
+    :disabled t
+    :hook (python-ts-mode . flymake-ruff-load))
 
   (use-package sphinx-doc
     :disabled t
