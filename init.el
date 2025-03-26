@@ -1205,6 +1205,8 @@
     :config
     (setq gac-automatically-push-p t)))
 
+;; Emacs Refactor (EMR) is a framework for providing language-specific
+;; refactoring in Emacs.
 (use-package emr
   :disabled t
   :config
