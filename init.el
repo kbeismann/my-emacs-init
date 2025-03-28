@@ -383,7 +383,7 @@
   (("C-c y i" . yas-insert-snippet)
    ("C-c y v" . yas-visit-snippet-file))
   :config
-  (add-hook 'python-ts-mode-hook #'(lambda () (yas-activate-extra-mode 'python-mode)))
+  (add-hook 'python-base-mode-hook #'(lambda () (yas-activate-extra-mode 'python-mode)))
   (use-package yasnippet-snippets)
   (setq yas-indent-line 'fixed)
   (setq yas-snippet-dirs (append yas-snippet-dirs
@@ -808,7 +808,7 @@
 
   (use-package flymake-ruff
     :disabled t
-    :hook (python-ts-mode . flymake-ruff-load))
+    :hook (python-base-mode . flymake-ruff-load))
 
   (use-package sphinx-doc
     :disabled t
