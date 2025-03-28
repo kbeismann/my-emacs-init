@@ -33,20 +33,12 @@
             (message "Emacs loaded in %s seconds with %d garbage collections."
                      (emacs-init-time) gcs-done)))
 
-(prog1
-    "Make use of the native compilation system introduced in emacs 28."
-  (defconst
-    have-native-compilation
-    (and (fboundp 'native-comp-available-p)
-         (native-comp-available-p)))
-  (if have-native-compilation
-      (prog1
-          "Native compilation available."
-        (message "Native compilation is available.")
-        (setq native-comp-async-report-warnings-errors nil)
-        (setq native-comp-async-jobs-number 4)
-        (setq comp-deferred-compilation t))
-    (message "Native compilation is *not* available.")))
+;; Native compilation settings (available from Emacs 28)
+(when (and (fboundp 'native-comp-available-p) (native-comp-available-p))
+  (message "Native compilation is available.")
+  (setq native-comp-async-report-warnings-errors nil
+        native-comp-async-jobs-number 4
+        comp-deferred-compilation t))
 
 ;; Check for native JSON support and report availability
 (message "Native JSON is %savailable."
