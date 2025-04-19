@@ -856,7 +856,7 @@
    )
   :mode "//.org$"
   :bind*
-  (("C-c o a" . org-agenda)
+  (("C-c o a" . (lambda () (interactive) (org-agenda nil "a")))
    ("C-c o c" . org-capture))
   ;; ("C-c l" . org-store-link) ; Store link.
   (:map
