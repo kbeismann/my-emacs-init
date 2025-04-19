@@ -1361,7 +1361,7 @@
     (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
       (kill-new sha)
       (message "Copied SHA: %s" sha))))
-(define-key global-map (kbd "C-c g s") 'copy-git-current-sha)
+(define-key global-map (kbd "C-c c s") 'copy-git-current-sha)
 
 (defun copy-current-path-to-file ()
   "Copies the path of the current file to the clipboard."
