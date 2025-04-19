@@ -1178,7 +1178,7 @@
   (use-package magit
     :diminish magit-auto-revert-mode
     :bind*
-    (("C-x g" . magit-status))
+    (("C-c m" . magit-status))
     :config
     (magit-auto-revert-mode t)
     (setq magit-diff-refine-hunk 'all)
