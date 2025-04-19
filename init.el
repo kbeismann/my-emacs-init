@@ -1199,7 +1199,7 @@
   (use-package git-timemachine
     ;; https://codeberg.org/pidu/git-timemachine
     :diminish git-timemachine-mode
-    :bind (("C-c g t" . git-timemachine)))
+    :bind (("C-c t m" . git-timemachine)))
 
   (use-package git-auto-commit-mode
     :diminish git-auto-commit-mode
