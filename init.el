@@ -1364,6 +1364,25 @@
     (message "No file is currently visiting.")))
 (define-key global-map (kbd "C-c c p") 'copy-current-path-to-file)
 
+(use-package gptel
+  :straight t
+  :bind (("C-c g c" . gptel)
+         ("C-c g r" . gptel-rewrite)
+         ("C-c g m" . gptel-menu)
+         ("C-c g a" . gptel-abort))
+  :config
+  ;; Configure OpenAI API key (if used).
+  (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
+
+  ;; Configure and set Gemini as the default backend.
+  (let ((gemini-key (auth-source-pick-first-password :host "generativelanguage.googleapis.com")))
+    (when gemini-key
+      (let ((gemini-backend (gptel-make-gemini "Gemini"
+                              :key gemini-key
+                              :stream t)))
+        (setq gptel-model 'gemini-2.5-flash-preview-04-17
+              gptel-backend gemini-backend)))))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
