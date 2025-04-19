@@ -821,15 +821,6 @@
     (setq sphinx-doc-all-arguments t)
     (setq sphinx-doc-exclude-rtype t))
 
-  (use-package python-isort)
-
-  (use-package pyimport
-    :bind
-    (:map
-     python-mode-map
-     ("C-c m i" . pyimport-insert-missing)
-     ("C-c u r" . pyimport-remove-unused)))
-
   (use-package python-docstring
     :hook
     (python-base-mode . python-docstring-mode)))
