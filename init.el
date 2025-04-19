@@ -1371,7 +1371,7 @@
         (kill-new buffer-file-name)
         (message "Copied file path: %s" buffer-file-name))
     (message "No file is currently visiting.")))
-(define-key global-map (kbd "C-c f p") 'copy-current-path-to-file)
+(define-key global-map (kbd "C-c c p") 'copy-current-path-to-file)
 
 ;;; Footer:
 (provide 'init)
