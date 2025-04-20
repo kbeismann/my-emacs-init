@@ -1132,7 +1132,7 @@
   (setq deft-directory my-roam-notes))
 
 (use-package doc-view
-  :disabled t
+  :disabled nil
   :config
   (use-package pdf-tools
     :bind
@@ -1153,7 +1153,7 @@
                        (org-pdfview-open link)))))))
 
 (use-package nov
-  :disabled t
+  :disabled nil
   ;; Reading .epub files.
   :straight (nov :type git :repo "https://depp.brause.cc/nov.el/")
   :config
