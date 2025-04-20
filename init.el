@@ -50,13 +50,12 @@
    early-init-f)
   (require 'early-init))
 
-(let ((work-emacs-dir "~/gitdir/my-git/my-work-emacs-init"))
-  (if (file-exists-p work-emacs-dir)
-      (prog1 "Load project-related settings."
-        (message "%s" "Found project-related settings...")
-        (add-to-list 'load-path work-emacs-dir)
-        (require 'projects))
-    (message "%s" "No project-related settings found.")))
+(let ((work-projects (expand-file-name "projects.el" user-emacs-directory)))
+  (if (file-exists-p work-projects)
+      (progn
+        (message "Found project-related settings...")
+        (load-file work-projects))
+    (message "No project-related settings found.")))
 
 (prog1 "Add archives and assign priorities."
   (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
@@ -869,7 +868,7 @@
     (setq org-default-notes-file my-notes)
     (setq org-todo-file my-todos)
     (setq org-agenda-files (list org-directory my-roam-notes)))
-  (let ((work-notes "~/gitdir/my-git/my-work-dirs/notes.el"))
+  (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
     (if (file-exists-p work-notes)
         (progn
           (message "%s" "Found work-related notes...")
@@ -983,7 +982,7 @@
         (message "%s" "No templates specified.")))
 
     ;; If the directory exists, load templates for work.
-    (let ((templates "~/gitdir/my-git/my-work-emacs-init/templates.el"))
+    (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
       (if (and (file-exists-p templates)
                (boundp 'org-capture-templates))
           (progn
@@ -1040,7 +1039,7 @@
     ;; org-agenda-start-with-log-mode t
     (org-super-agenda-mode t)
 
-    (let ((work-agenda "~/gitdir/my-git/my-work-dirs/agenda.el"))
+    (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
       (if (file-exists-p work-agenda)
           (progn
             (message "%s" "Found work-related agenda settings...")
