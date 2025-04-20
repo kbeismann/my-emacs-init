@@ -983,7 +983,7 @@
         (message "%s" "No templates specified.")))
 
     ;; If the directory exists, load templates for work.
-    (let ((templates "~/gitdir/my-git/my-work-emacs-init/templates.el"))
+    (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
       (if (and (file-exists-p templates)
                (boundp 'org-capture-templates))
           (progn
