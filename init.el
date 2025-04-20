@@ -869,7 +869,7 @@
     (setq org-default-notes-file my-notes)
     (setq org-todo-file my-todos)
     (setq org-agenda-files (list org-directory my-roam-notes)))
-  (let ((work-notes "~/gitdir/my-git/my-work-dirs/notes.el"))
+  (let ((work-notes "~/gitdir/my-git/my-work-emacs-init/notes.el"))
     (if (file-exists-p work-notes)
         (progn
           (message "%s" "Found work-related notes...")
@@ -1040,7 +1040,7 @@
     ;; org-agenda-start-with-log-mode t
     (org-super-agenda-mode t)
 
-    (let ((work-agenda "~/gitdir/my-git/my-work-dirs/agenda.el"))
+    (let ((work-agenda "~/gitdir/my-git/my-work-emacs-init/agenda.el"))
       (if (file-exists-p work-agenda)
           (progn
             (message "%s" "Found work-related agenda settings...")
