@@ -52,11 +52,10 @@
 
 (let ((work-projects (expand-file-name "projects.el" user-emacs-directory)))
   (if (file-exists-p work-projects)
-      (prog1 "Load project-related settings."
-        (message "%s" "Found project-related settings...")
-        (add-to-list 'load-path work-projects)
-        (require 'projects))
-    (message "%s" "No project-related settings found.")))
+      (progn
+        (message "Found project-related settings...")
+        (load-file work-projects))
+    (message "No project-related settings found.")))
 
 (prog1 "Add archives and assign priorities."
   (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
