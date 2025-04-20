@@ -1040,7 +1040,7 @@
     ;; org-agenda-start-with-log-mode t
     (org-super-agenda-mode t)
 
-    (let ((work-agenda "~/gitdir/my-git/my-work-emacs-init/agenda.el"))
+    (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
       (if (file-exists-p work-agenda)
           (progn
             (message "%s" "Found work-related agenda settings...")
