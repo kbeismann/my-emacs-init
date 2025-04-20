@@ -50,13 +50,12 @@
    early-init-f)
   (require 'early-init))
 
-(let ((work-emacs-dir "~/gitdir/my-git/my-work-emacs-init"))
-  (if (file-exists-p work-emacs-dir)
-      (prog1 "Load project-related settings."
-        (message "%s" "Found project-related settings...")
-        (add-to-list 'load-path work-emacs-dir)
-        (require 'projects))
-    (message "%s" "No project-related settings found.")))
+(if (file-exists-p (expand-file-name "projects.el" user-emacs-directory))
+    (prog1 "Load project-related settings."
+      (message "%s" "Found project-related settings...")
+      (add-to-list 'load-path user-emacs-directory)
+      (require 'projects))
+  (message "%s" "No project-related settings found."))
 
 (prog1 "Add archives and assign priorities."
   (setq package-check-signature 'allow-unsigned) ; Do/don't check sig.
