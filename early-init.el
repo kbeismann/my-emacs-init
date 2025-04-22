@@ -28,21 +28,26 @@
 ;;; Code:
 
 ;; Show startup time after initialization
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs loaded in %s seconds with %d garbage collections."
-                     (emacs-init-time) gcs-done)))
+(add-hook
+ 'emacs-startup-hook
+ (lambda ()
+   (message "Emacs loaded in %s seconds with %d garbage collections."
+            (emacs-init-time)
+            gcs-done)))
 
 ;; Native compilation settings (available from Emacs 28)
 (when (and (fboundp 'native-comp-available-p) (native-comp-available-p))
   (message "Native compilation is available.")
-  (setq native-comp-async-report-warnings-errors nil
-        native-comp-async-jobs-number 4
-        comp-deferred-compilation t))
+  (setq
+   native-comp-async-report-warnings-errors nil
+   native-comp-async-jobs-number 4
+   comp-deferred-compilation t))
 
 ;; Check for native JSON support and report availability
 (message "Native JSON is %savailable."
-         (if (functionp 'json-serialize) "" "not "))
+         (if (functionp 'json-serialize)
+             ""
+           "not "))
 
 ;; Increase the maximum data read from processes to optimize performance
 (setq read-process-output-max (* 1024 1024 4))
@@ -65,14 +70,11 @@
    'emacs-startup-hook
    (lambda ()
      (if (boundp 'after-focus-change-function)
-         (add-function
-          :after after-focus-change-function
-          (lambda ()
-            (unless (frame-focus-state)
-              (garbage-collect))))
-       (add-hook
-        'after-focus-change-function
-        'garbage-collect))
+         (add-function :after after-focus-change-function
+                       (lambda ()
+                         (unless (frame-focus-state)
+                           (garbage-collect))))
+       (add-hook 'after-focus-change-function 'garbage-collect))
 
      ;; Setup hooks for GC during minibuffer interaction
      (defun gc-minibuffer-setup-hook ()
@@ -92,8 +94,9 @@
 (setq byte-compile-warnings '(not cl-functions obsolete))
 
 ;; Defer garbage collection during initialization
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+(setq
+ gc-cons-threshold most-positive-fixnum
+ gc-cons-percentage 0.6)
 
 ;; Disable package loading at startup
 (setq package-enable-at-startup nil)
@@ -112,13 +115,14 @@
    (expand-file-name "var/eln-cache/" user-emacs-directory)))
 
 ;; UI optimizations: hide unnecessary UI elements for a cleaner experience
-(setq-default menu-bar-mode nil
-              tool-bar-mode nil
-              scroll-bar-mode nil
-              cursor-type 'bar
-              frame-inhibit-implied-resize t
-              inhibit-compacting-font-caches t
-              use-dialog-box nil)
+(setq-default
+ menu-bar-mode nil
+ tool-bar-mode nil
+ scroll-bar-mode nil
+ cursor-type 'bar
+ frame-inhibit-implied-resize t
+ inhibit-compacting-font-caches t
+ use-dialog-box nil)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -130,15 +134,13 @@
 
 ;; OS and font-related settings based on the system type
 (prog1 "OS- and font-related settings."
-  (defvar checkos0  "Checking OS and hostname...")
+  (defvar checkos0 "Checking OS and hostname...")
   (defvar font0 "Looking for font family...")
   (defvar font1 "Setting font...")
-  (defvar my-font-huckleberry
-    "Dina:pixelsize=13"
+  (defvar my-font-huckleberry "Dina:pixelsize=13"
     ;; "Hack:pixelsize=14"
     "My default font for Huckleberry.")
-  (defvar my-font-family-huckleberry
-    "Dina"
+  (defvar my-font-family-huckleberry "Dina"
     ;; "Hack"
     "My default font family for Huckleberry.")
   (defvar my-font-arch
@@ -169,14 +171,10 @@
         (progn
           (message (concat checkos0 "done"))
           (defvar my-os
-            (substring
-             (shell-command-to-string "lsb_release -sd")
-             0 -1))
+            (substring (shell-command-to-string "lsb_release -sd") 0 -1))
           (message "Found GNU/Linux distribution: %s" my-os)
           (defvar my-hostname
-            (substring
-             (shell-command-to-string "hostname")
-             0 -1))
+            (substring (shell-command-to-string "hostname") 0 -1))
           (message "Found hostname: %s" my-hostname)
 
           ;; Font setup for Huckleberry
@@ -185,38 +183,58 @@
                 (message "Current font settings for Huckleberry: %s"
                          my-font-huckleberry)
                 (message font0)
-                (if (and
-                     (null (string= "" (shell-command-to-string "which fc-list")))
-                     (null (string= "" (shell-command-to-string (concat "fc-list " my-font-family-huckleberry)))))
+                (if (and (null
+                          (string=
+                           "" (shell-command-to-string "which fc-list")))
+                         (null
+                          (string=
+                           ""
+                           (shell-command-to-string
+                            (concat "fc-list " my-font-family-huckleberry)))))
                     (progn
                       (message (concat font0 "done"))
                       (message "Font installed: %s" my-font-family-huckleberry)
-                      (add-to-list 'default-frame-alist `(font . ,my-font-huckleberry)))))
+                      (add-to-list
+                       'default-frame-alist `(font . ,my-font-huckleberry)))))
             ;; Font setup for Arch
             (if (string-equal "Arch" (substring my-os 1 5))
                 (progn
-                  (message "Current font settings for Arch Linux: %s" my-font-arch)
+                  (message "Current font settings for Arch Linux: %s"
+                           my-font-arch)
                   (message font0)
-                  (if (and
-                       (null (string= "" (shell-command-to-string "which fc-list")))
-                       (null (string= "" (shell-command-to-string (concat "fc-list " my-font-family-arch)))))
+                  (if (and (null
+                            (string=
+                             "" (shell-command-to-string "which fc-list")))
+                           (null
+                            (string=
+                             ""
+                             (shell-command-to-string
+                              (concat "fc-list " my-font-family-arch)))))
                       (progn
                         (message (concat font0 "done"))
                         (message "Font installed: %s" my-font-family-arch)
                         (message font1)
-                        (add-to-list 'default-frame-alist `(font . ,my-font-arch)))))
+                        (add-to-list
+                         'default-frame-alist `(font . ,my-font-arch)))))
               ;; Font setup for Ubuntu
               (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
                   (progn
-                    (message "Current font settings for Ubuntu: %s" my-font-ubuntu)
+                    (message "Current font settings for Ubuntu: %s"
+                             my-font-ubuntu)
                     (message font1)
-                    (if (and
-                         (null (string= "" (shell-command-to-string "which fc-list")))
-                         (null (string= "" (shell-command-to-string (concat "fc-list " my-font-family-ubuntu)))))
+                    (if (and (null
+                              (string=
+                               "" (shell-command-to-string "which fc-list")))
+                             (null
+                              (string=
+                               ""
+                               (shell-command-to-string
+                                (concat "fc-list " my-font-family-ubuntu)))))
                         (progn
                           (message "Font installed: %s" my-font-family-ubuntu)
                           (message font1)
-                          (add-to-list 'default-frame-alist `(font . ,my-font-ubuntu)))))
+                          (add-to-list
+                           'default-frame-alist `(font . ,my-font-ubuntu)))))
                 (message "Adjusting frame parameters...")
                 (add-to-list 'default-frame-alist '(height . 50))
                 (add-to-list 'default-frame-alist '(width . 180))
