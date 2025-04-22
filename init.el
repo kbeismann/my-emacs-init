@@ -285,7 +285,46 @@
     (add-hook 'conf-mode-hook #'display-line-numbers-mode)
     (add-hook 'yaml-mode-hook #'display-line-numbers-mode)))
 
-(prog1 "Misc. functions."
+(prog1 "Custom functions."
+  ;;; From https://www.emacswiki.org/emacs/UnfillParagraph.
+  ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+  (defun unfill-paragraph (&optional region)
+    "Takes a multi-line paragraph and makes it into a single line of text."
+    (interactive (progn
+                   (barf-if-buffer-read-only)
+                   '(t)))
+    (let ((fill-column (point-max))
+          ;; This would override `fill-column' if it's an integer.
+          (emacs-lisp-docstring-fill-column t))
+      (fill-paragraph nil region)))
+
+  ;; Handy key definition
+  (define-key global-map "\M-Q" 'unfill-paragraph)
+
+  (defun copy-git-current-sha ()
+    "Copy the current Git commit SHA to the clipboard."
+    (interactive)
+    (let ((sha (string-trim (shell-command-to-string "git rev-parse HEAD"))))
+      (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
+        (kill-new sha)
+        (message "Copied SHA: %s" sha))))
+  (define-key global-map (kbd "C-c c s") 'copy-git-current-sha)
+
+  (defun copy-current-path-to-file ()
+    "Copies the path of the current file to the clipboard."
+    (interactive)
+    (if buffer-file-name
+        (progn
+          (kill-new buffer-file-name)
+          (message "Copied file path: %s" buffer-file-name))
+      (message "No file is currently visiting.")))
+  (define-key global-map (kbd "C-c c p") 'copy-current-path-to-file)
+
+  (defun go-to-chezmoi-directory ()
+    (interactive)
+    (let ((chezmoi-dir (expand-file-name "~/.local/share/chezmoi/")))
+      (find-file chezmoi-dir)))
+  (define-key global-map (kbd "C-c c c") 'go-to-chezmoi-directory)
 
   (defun insert-current-date-time ()
     "Insert the current date and time in a standard Emacs format."
@@ -1244,46 +1283,6 @@
  kubernetes
  :bind (("C-c k o" . kubernetes-overview))
  :commands (kubernetes-overview))
-
-;;; From https://www.emacswiki.org/emacs/UnfillParagraph.
-;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
-(defun unfill-paragraph (&optional region)
-  "Takes a multi-line paragraph and makes it into a single line of text."
-  (interactive (progn
-                 (barf-if-buffer-read-only)
-                 '(t)))
-  (let ((fill-column (point-max))
-        ;; This would override `fill-column' if it's an integer.
-        (emacs-lisp-docstring-fill-column t))
-    (fill-paragraph nil region)))
-
-;; Handy key definition
-(define-key global-map "\M-Q" 'unfill-paragraph)
-
-(defun copy-git-current-sha ()
-  "Copy the current Git commit SHA to the clipboard."
-  (interactive)
-  (let ((sha (string-trim (shell-command-to-string "git rev-parse HEAD"))))
-    (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
-      (kill-new sha)
-      (message "Copied SHA: %s" sha))))
-(define-key global-map (kbd "C-c c s") 'copy-git-current-sha)
-
-(defun copy-current-path-to-file ()
-  "Copies the path of the current file to the clipboard."
-  (interactive)
-  (if buffer-file-name
-      (progn
-        (kill-new buffer-file-name)
-        (message "Copied file path: %s" buffer-file-name))
-    (message "No file is currently visiting.")))
-(define-key global-map (kbd "C-c c p") 'copy-current-path-to-file)
-
-(defun go-to-chezmoi-directory ()
-  (interactive)
-  (let ((chezmoi-dir (expand-file-name "~/.local/share/chezmoi/")))
-    (find-file chezmoi-dir)))
-(define-key global-map (kbd "C-c c c") 'go-to-chezmoi-directory)
 
 (use-package
  gptel
