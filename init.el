@@ -98,6 +98,10 @@
   (require 'use-package-ensure)
   (setq use-package-always-ensure t))
 
+(use-package benchmark-init
+  :init (benchmark-init/activate)
+  :hook (after-init . benchmark-init/deactivate))
+
 ;; Defines a number of directories and files in ~/.emacs.d/.
 (prog1 "Setting basic variables."
   (defvar my-gitdir
