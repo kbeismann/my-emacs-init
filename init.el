@@ -1354,6 +1354,12 @@
     (message "No file is currently visiting.")))
 (define-key global-map (kbd "C-c c p") 'copy-current-path-to-file)
 
+(defun go-to-chezmoi-directory ()
+  (interactive)
+  (let ((chezmoi-dir (expand-file-name "~/.local/share/chezmoi/")))
+    (find-file chezmoi-dir)))
+(define-key global-map (kbd "C-c c c") 'go-to-chezmoi-directory)
+
 (use-package gptel
   :straight t
   :bind (("C-c g c" . gptel)
