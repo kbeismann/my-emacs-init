@@ -83,7 +83,6 @@
     (load bootstrap-file nil 'nomessage))
   (setq straight-check-for-modifications nil))
 
-;; Setup up leaf and install if necessary.
 (prog1 "Use leaf to simplify package management."
   (setq straight-vc-git-default-clone-depth 1)
   (setq straight-use-package-by-default t)
