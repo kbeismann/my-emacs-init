@@ -1132,7 +1132,6 @@
   (setq deft-directory my-roam-notes))
 
 (use-package doc-view
-  :disabled nil
   :config
   (use-package pdf-tools
     :bind
