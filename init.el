@@ -475,6 +475,19 @@
                    iso-8859-1))))
 
 (prog1 "Helm setup"
+  (use-package image-dired
+    ;; Prevent `image-dired` from being autoloaded by Helm or other
+    ;; packages (e.g., when browsing images with helm-find-files and
+    ;; native image preview).  Emacs 27+ uses native image-mode
+    ;; rendering, and loading image-dired adds unnecessary delay
+    ;; (~450ms+). Providing the feature here fakes it as loaded, so it
+    ;; won't be triggered via autoload or :require from other
+    ;; packages.  NOTE: This also prevents image-dired submodules
+    ;; (tags, external) from loading.
+    :init
+    (eval-when-compile (provide 'image-dired))
+    ;; Unbind image-dired to ensure it's not loaded.
+    (fmakunbound 'image-dired))
   (use-package helm
     :defer nil
     :diminish (helm-mode helm-autoresize-mode helm-minibuffer-history-mode)
