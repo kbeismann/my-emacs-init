@@ -3,16 +3,6 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
-
-## Commentary
-
-Currently, this Emacs setup uses `leaf` to create a modular system.  Dependent
-on the system, the bitmap fonts have to be installed and configured upfront.
-Note that Pango removed support for bitmap fonts with version 1.33.
-
-Some optional settings, e.g. my `mu4e` setup, are not part of this repository.
-
-
 ## Installation (UNIX-based)
 
 This setup is currently tested with GNU Emacs 28.0.50.
