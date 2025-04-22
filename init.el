@@ -777,48 +777,6 @@
 
   (setq python-indent-offset 4)
 
-  (use-package conda
-    :disabled t
-    :after dired
-    :bind
-    (("C-c $" . conda-env-activate))
-    :config
-    (setq conda-anaconda-home "~/miniconda3/")
-    (setq conda-env-executables-dir "condabin")
-    ;; Interactive shell support, include.
-    (conda-env-initialize-interactive-shells)
-    ;; Eshell support.
-    (conda-env-initialize-eshell))
-
-  (use-package flycheck-pycheckers
-    :after (flycheck python)
-    :config
-    (setq flycheck-pycheckers-multi-thread "true")
-    (setq flycheck-pycheckers-max-line-length 88) ; Follow Black guidelines.
-    (setq flycheck-pycheckers-checkers '(python-ruff pylint mypy3))
-
-    ;; TODO: Add this to :hook.
-    (with-eval-after-load
-        'flycheck (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)))
-
-  (use-package reformatter
-    :config
-    (use-package ruff-format
-      ;; Usage:
-      ;; ((python-base-mode . ((eval . (progn
-      ;;                                 (ruff-format-on-save-mode)
-      ;;                                 (flymake-ruff-load)
-      ;;                                 )
-      ;;                             ))
-      ;;                    )
-      ;; (nil . ((eval . (add-hook 'after-save-hook 'push-ior-via-kubectl))))
-      ))
-
-
-  (use-package flymake-ruff
-    :disabled t
-    :hook (python-base-mode . flymake-ruff-load))
-
   (use-package sphinx-doc
     :disabled t
     :load-path "~/gitdir/my-git/sphinx-doc.el/"
