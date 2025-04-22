@@ -92,6 +92,7 @@
 (prog1 "Use leaf to simplify package management."
   (setq straight-vc-git-default-clone-depth 1)
   (setq straight-use-package-by-default t)
+  (setq use-package-always-defer t)
 
   (straight-use-package 'use-package)
 
@@ -681,7 +682,6 @@
   ;; From
   ;; https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3
   (use-package smartparens
-    :defer nil
     :diminish (smartparens-mode smartparens-global-mode)
     :bind*
     (("C-c u s" . sp-unwrap-sexp))
