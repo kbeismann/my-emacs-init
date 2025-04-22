@@ -165,7 +165,7 @@
   (setq inhibit-startup-screen t)  ; No starting screen.
   (setq mouse-yank-at-point t)  ; Paste at cursor, not at mouse.
   (setq vc-follow-symlinks t)  ; Always follow symbolic links.
-  (setq large-file-warning-threshold 100000000) ; Prevent large file warnings.
+  (setq large-file-warning-threshold (* 10 1024 1024)) ; Adjust file size to 10MB.
 
   ;; Editing and indentation.
   (setq tab-width 4)  ; Default tab width.
