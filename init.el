@@ -48,7 +48,7 @@
 
 (let ((work-projects (expand-file-name "projects.el" user-emacs-directory)))
   (if (file-exists-p work-projects)
-      (progn
+      (prog1 "Load work projects."
         (message "Found project-related settings...")
         (load-file work-projects))
     (message "No project-related settings found.")))
@@ -66,7 +66,7 @@
   ;; Initialize package BEFORE installing/loading leaf.
   (package-initialize))
 
-(prog1 "Setting up straight.el."
+(prog1 "Configure straight.el."
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name "straight/repos/straight.el/bootstrap.el"
@@ -110,7 +110,7 @@
 (use-package elisp-autofmt :commands (elisp-autofmt-mode elisp-autofmt-buffer))
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
-(prog1 "Setting basic variables."
+(prog1 "Configure basic variables."
   (defvar my-gitdir (file-truename "~/gitdir/my-git/")
     "My directory for git repositories.")
   (defvar my-library (concat my-gitdir "library/")
@@ -204,7 +204,7 @@
   (setq comint-scroll-to-bottom-on-output t)
   (setq comint-move-point-for-output t)) ; Not sure what this does.
 
-(prog1 "Warnings."
+(prog1 "Configure warnings."
   (setq warning-suppress-types '((yasnippet backquote-change))))
 
 (prog1 "File-related settings."
@@ -221,28 +221,28 @@
    (setq no-littering-abbrev-directory
          (expand-file-name "abbrev/" no-littering-var-directory))
 
-   (prog1 "recentf"
+   (prog1 "Configure recentf."
      (setq recentf-exclude '(no-littering-var-directory))
      (setq recentf-exclude '(no-littering-etc-directory)))
 
    ;; The following snippet checks if a file specified in my-custom-file exists.
    ;; If it does, set it as custom-file and load it.  If it does not, create the
    ;; file with "touch", set it as custom-file, and load it.
-   (prog1 (message "%s"
-                   (concat "Looking for a customization file: " custom-file))
+   (prog1 "Configure custom-file handling."
+     (message "%s" (concat "Looking for a customization file: " custom-file))
      (when (not (file-exists-p custom-file))
-       (progn
+       (prog1 "Create an empty customization file."
          (message "%s" "No customization file found, creating empty file.")
          (eshell-command (concat "touch " custom-file))
          (message "%s" "Created empty file.")))
      (if (file-exists-p custom-file)
-         (progn
+         (prog1 "Load customization file."
            (message "%s" "Customization file found.")
            (load custom-file))
        (message "%s" "ERROR: Cannot find customization file.")))
 
 
-   (prog1 "auto-save-files"
+   (prog1 "Configure auto-save settings."
      (setq auto-save-default t)
      (setq auto-save-timeout 15)
      (setq auto-save-interval 60)
@@ -261,7 +261,7 @@
     (if (file-exists-p abbrev-file-name)
         (quietly-read-abbrev-file)))
 
-   (prog1 "files"
+   (prog1 "Configure file handling."
      (setq require-final-newline t)
      (setq make-backup-files t)
      (setq backup-by-copying t)
@@ -273,16 +273,15 @@
            `(("." . ,no-littering-backup-directory)
              (,tramp-file-name-regexp . nil))))
 
-   (prog1 "*lock-files"
+   (prog1 "Configure lockfiles."
      (setq create-lockfiles nil))))
 
-(prog1 "Line-numbering."
+(prog1 "Configure line-numbering."
   (setq display-line-numbers nil) ; No line numbers (prog-mode only).
   (setq display-line-numbers-width 4) ; Default width.
   (setq display-line-numbers-widen t) ; Don't disregard narrowing.
 
-  ;; Only enable line numbers in prog-mode.
-  (progn
+  (prog1 "Only enable line numbers in prog-mode"
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
     (add-hook 'conf-mode-hook #'display-line-numbers-mode)
     (add-hook 'yaml-mode-hook #'display-line-numbers-mode)))
@@ -334,7 +333,7 @@
  (setq undo-tree-visualizer-diff t)
  (global-undo-tree-mode t))
 
-(prog1 "Mode-line-settings."
+(prog1 "Configure mode-line."
   ;; These options have to be included in mode-line-format as well.
   (column-number-mode 1) ; Show column number.
   (line-number-mode 1) ; Show line number in mode line.
@@ -366,8 +365,8 @@
  (yas-reload-all)
  (yas-global-mode))
 
-(prog1 "Dired setup."
-  (prog1 "Dired."
+(prog1 "Configure Dired."
+  (prog1 "Core Dired."
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (setq dired-dwim-target t) ; Better target.
     (setq dired-recursive-copies 'always) ; Copy recursively.
@@ -393,7 +392,7 @@
    (setq dired-subtree-use-backgrounds nil)
    (setq dired-subtree-line-prefix "   |-")))
 
-(prog1 "tramp"
+(prog1 "Configure Tramp."
   (setq tramp-debug-buffer t)
   (setq tramp-read-passwd t)
   (setq tramp-default-method "ssh")
@@ -447,7 +446,7 @@
       nil
       iso-8859-1))))
 
-(prog1 "Helm setup"
+(prog1 "Configure Helm."
   (use-package
    image-dired
    ;; Prevent `image-dired` from being autoloaded by Helm or other
@@ -638,7 +637,7 @@
  (which-key-mode 1))
 
 ;; Sources: https://github.com/rejeep/emacs/blob/master/init.el
-(prog1 "parens"
+(prog1 "Configure handling parens."
   (setq show-paren-delay 0.0)
   (setq show-paren-mode t)
   ;; From
@@ -665,20 +664,19 @@
  (setq highlight-indent-guides-responsive 'top)
  (setq highlight-indent-guides-delay 0))
 
-(prog1 "company-setup"
-  (use-package
-   company
-   :diminish company-mode
-   :config
-   (setq company-dabbrev-downcase nil)
-   (setq company-idle-delay 0)
-   (setq company-tooltip-align-annotations t)
-   (setq company-show-numbers nil)
-   (setq company-minimum-prefix-length 1)
-   (use-package company-math)
-   (global-company-mode 1)
-   ;; Global activation of the Unicode symbol completion.
-   (add-to-list 'company-backends 'company-math-symbols-unicode)))
+(use-package
+ company
+ :diminish company-mode
+ :config
+ (setq company-dabbrev-downcase nil)
+ (setq company-idle-delay 0)
+ (setq company-tooltip-align-annotations t)
+ (setq company-show-numbers nil)
+ (setq company-minimum-prefix-length 1)
+ (use-package company-math)
+ (global-company-mode 1)
+ ;; Global activation of the Unicode symbol completion.
+ (add-to-list 'company-backends 'company-math-symbols-unicode))
 
 ;; Make sure that there is a single additional line at the end of the file
 ;; while saving, also removes all white space at the end of lines.
@@ -731,7 +729,7 @@
  :bind (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
  :hook (after-init . global-flycheck-mode))
 
-(prog1 "*python-setup"
+(prog1 "Configure Python."
   ;; Activate tree-sitter for Python.
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
@@ -751,7 +749,7 @@
    python-docstring
    :hook (python-base-mode . python-docstring-mode)))
 
-(prog1 "Setting up Rust..."
+(prog1 "Configure Rust tooling."
   (use-package
    rust-mode
    :config
@@ -793,14 +791,14 @@
  ;; ;; Highlight current line in agenda.
  (org-agenda-mode-hook . (lambda () (hl-line-mode 1)))
  :config
- (prog1 "Setting directories without :custom"
+ (prog1 "Set up directory handling without :custom"
    (setq org-directory my-notes-dir)
    (setq org-default-notes-file my-notes)
    (setq org-todo-file my-todos)
    (setq org-agenda-files (list org-directory my-roam-notes)))
  (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
    (if (file-exists-p work-notes)
-       (progn
+       (prog1 "Load work-related notes."
          (message "%s" "Found work-related notes...")
          (load work-notes))
      (message "%s" "No work-related notes found.")))
@@ -901,19 +899,19 @@
  ;; Always insert blank line before headings.
  (setq org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
 
- (prog1 "*org-refile"
+ (prog1 "Configure Org refiling."
    (setq org-refile-use-outline-path 'full-file-path)
    (setq org-outline-path-complete-in-steps nil)
    (setq org-refile-allow-creating-parent-nodes 'confirm)
    (setq org-refile-targets
          '((nil :maxlevel . 9) (org-agenda-files :maxlevel . 9))))
 
- (prog1 "*org-capture-templates"
+ (prog1 "Configure Org-capture templates."
    ;; Templates for org-capture
    ;; If the directory exists, load my templates.
    (let ((templates my-org-templates))
      (if (file-exists-p templates)
-         (progn
+         (prog1 "Add templates."
            (message "%s" "Adding templates...")
            (load templates))
        (message "%s" "No templates specified.")))
@@ -921,7 +919,7 @@
    ;; If the directory exists, load templates for work.
    (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
      (if (and (file-exists-p templates) (boundp 'org-capture-templates))
-         (progn
+         (prog1 "Add templates for work."
            (message "%s" "Adding templates for work...")
            (load templates))
        (message "%s" "No work-related templates specified."))))
@@ -975,10 +973,10 @@
 
   (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
     (if (file-exists-p work-agenda)
-        (progn
+        (prog1 "Load work-related agenda settings."
           (message "%s" "Found work-related agenda settings...")
           (load work-agenda))
-      (progn
+      (prog1 "Load private agenda settings."
         (message "%s" "No work-related agenda settings found.")
         (setq org-super-agenda-groups
               '((:name "Bills" :tag "bill" :order 2)
@@ -1081,14 +1079,14 @@
     'org-file-apps
     '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))))
 
-(prog1 "*git-tools"
+(prog1 "Set up Git tooling."
   :config
   ;; Fixes temporary issues with vc-mode.
   (setq vc-handled-backends ())
 
   (use-package hl-todo :config (global-hl-todo-mode t))
 
-  (prog1 "ediff"
+  (prog1 "Configure Ediff."
     (setq ediff-window-setup-function 'ediff-setup-windows-plain) ; Don't start another frame.
     ;; Revert windows on exit - needs winner mode
     (winner-mode)
@@ -1186,9 +1184,9 @@
 (use-package
  epa
  :config (setq epa-pinentry-mode 'loopback)
- (prog1 "epa-config"
+ (prog1 "Configure epa-config."
    (setq epg-gpg-program "gpg2"))
- (prog1 "auth-source"
+ (prog1 "Configure auth-source."
    (setq auth-sources '("~/.authinfo.gpg")))
  (use-package pinentry))
 
