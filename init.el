@@ -193,7 +193,7 @@
   (setq x-select-enable-clipboard-manager t)
 
   ;; Debugging.
-  (setq debug-on-error t)
+  (setq debug-on-error nil)
   (setq init-file-debug t)
 
   ;; Save-related settings.
