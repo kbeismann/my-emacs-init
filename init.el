@@ -1177,8 +1177,8 @@
 
   (use-package magit
     :diminish magit-auto-revert-mode
-    :bind*
-    (("C-c m" . magit-status))
+    :init
+    (require 'helm)
     :config
     (magit-auto-revert-mode t)
     (setq magit-diff-refine-hunk 'all)
