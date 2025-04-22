@@ -63,10 +63,10 @@
   (setq package-archive-priorities
         '(("gnu" . 2) ("org" . 1) ("melpa" . 3) ("melpa-stable" . 0)))
 
-  ;; Initialize package BEFORE installing/loading leaf.
+  ;; Initialize package BEFORE loading use-package and straight.
   (package-initialize))
 
-(prog1 "Configure straight.el."
+(prog1 "Configure straight and use-package."
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name "straight/repos/straight.el/bootstrap.el"
@@ -81,9 +81,9 @@
         (goto-char (point-max))
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
-  (setq straight-check-for-modifications nil))
+  (setq straight-check-for-modifications nil)
 
-(prog1 "Use leaf to simplify package management."
+
   (setq straight-vc-git-default-clone-depth 1)
   (setq straight-use-package-by-default t)
   (setq use-package-always-defer t)
