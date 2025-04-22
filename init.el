@@ -345,7 +345,6 @@
 
 (use-package undo-tree
   :disabled t
-  :defer nil
   :after no-littering
   :diminish undo-tree-mode
   :bind
@@ -375,7 +374,6 @@
             (column-number-mode ":%c"))))))
 
 (use-package auto-compile
-  :defer nil
   :config
   (setq load-prefer-newer t)
   (auto-compile-on-load-mode)
@@ -432,7 +430,6 @@
     :after tramp))
 
 (use-package async
-  :defer nil
   :diminish dired-async-mode
   :config
   (setq dired-async-mode 1)
@@ -530,15 +527,12 @@
     (helm-mode 1))
 
   (use-package helm-tramp
-    :defer nil
     :after helm tramp)
 
   (use-package helm-ag
-    :defer nil
     :after helm)
 
   (use-package helm-flyspell
-    :defer nil
     :after helm flyspell
     :bind
     (("C-c f c" . helm-flyspell-correct))))
@@ -617,7 +611,6 @@
 ;; '(font-lock-comment-face ((t (:slant italic))))
 
 (use-package avy
-  :defer nil
   :after base16-theme
   :bind*
   (("C-z" . avy-goto-char))
@@ -669,6 +662,7 @@
 ;; Provides a minor mode for Emacs that displays the key bindings following
 ;; your currently entered incomplete command (a prefix) in a popup.
 (use-package which-key
+  :defer nil
   :diminish which-key-mode
   :config
   (setq which-key-idle-delay 1)
@@ -762,7 +756,6 @@
 
 ;; Basic bindings for multiple-cursors.
 (use-package multiple-cursors
-  :defer nil
   :bind*
   (("C-S-c C-S-c" . mc/edit-lines)
    ("C->" . mc/mark-next-like-this)
@@ -1322,6 +1315,7 @@
   (add-to-list 'projectile-globally-ignored-files '"*ediff-merge*"))
 
 (use-package helm-projectile
+  :defer nil
   :after (projectile helm)
   :config
   (helm-projectile-on))
