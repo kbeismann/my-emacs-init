@@ -1178,6 +1178,7 @@
     :diminish magit-auto-revert-mode
     :init
     (require 'helm)
+    (require 'smartparens)
     :config
     (magit-auto-revert-mode t)
     (setq magit-diff-refine-hunk 'all)
