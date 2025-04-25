@@ -684,6 +684,7 @@
 ;; your currently entered incomplete command (a prefix) in a popup.
 (use-package
  which-key
+ :defer nil
  :diminish which-key-mode
  :config
  (setq which-key-idle-delay 1)
