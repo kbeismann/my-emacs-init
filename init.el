@@ -1036,6 +1036,7 @@
 
  (use-package
   org-super-agenda
+  :defer nil
   :after org
   :config
   (setq org-agenda-include-deadlines t)
