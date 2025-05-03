@@ -92,9 +92,7 @@
       '((sequence
          "TODO(t)"
          "UNCATEGORIZED(u)"
-         "IN_PROGRESS(i)"
-         "IN_REVIEW(r)"
-         "GET_FEEDBACK(g)"
+         "INPROGRESS(i)"
          "BLOCKED(k)"
          "|"
          "DONE(d)"
@@ -102,12 +100,10 @@
          "CANCELLED(c)")))
 (setq org-todo-keyword-faces
       '(("TODO" . org-warning)
-        ("GET_FEEDBACK" . org-warning)
         ("DONE" . org-done)
         ("CANCELLED" . org-done)
         ("FORWARDED" . org-done)
-        ("IN_PROGRESS" . org-link)
-        ("IN_REVIEW" . org-archived)
+        ("INPROGRESS" . org-link)
         ("UNCATEGORIZED" . org-archived)
         ("BLOCKED" . org-archived)))
 (provide 'templates)
