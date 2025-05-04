@@ -1225,8 +1225,6 @@
  :config (setq epa-pinentry-mode 'loopback)
  (prog1 "Configure epa-config."
    (setq epg-gpg-program "gpg2"))
- (prog1 "Configure auth-source."
-   (setq auth-sources '("~/.authinfo.gpg")))
  (use-package pinentry))
 
 (use-package
