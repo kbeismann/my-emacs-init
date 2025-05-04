@@ -1071,11 +1071,14 @@
  (setq org-roam-directory my-roam-notes)
  (setq org-roam-db-gc-threshold most-positive-fixnum)
  (setq org-roam-completion-everywhere t)
- (setq org-roam-capture-templates
-       '(("d" "default" plain "%?"
-          :if-new
-          (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-          :unnarrowed t)))
+ (setq
+  org-roam-capture-templates
+  '(("d"
+     "default"
+     plain
+     "%?"
+     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+     :unnarrowed t)))
  (setq org-roam-dailies-capture-templates
        '(("d"
           "default"
@@ -1087,7 +1090,65 @@
         #'org-roam-backlinks-section
         #'org-roam-reflinks-section
         #'org-roam-unlinked-references-section))
- (org-roam-db-autosync-mode))
+ (org-roam-db-autosync-mode)
+
+ (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise ()
+   "Delete an Org-roam node and interactively replace each link to it with plain text."
+   (interactive)
+   (require 'org-roam)
+   (require 'org-id)
+
+   ;; Step 1: Choose the node to delete
+   (let* ((node-to-delete (org-roam-node-read))
+          (id (org-roam-node-id node-to-delete))
+          (title (org-roam-node-title node-to-delete))
+          (file (org-roam-node-file node-to-delete))
+          (link (concat "id:" id)) ;; Link in the form of "id:<ID>"
+          (link-regex
+           (format "\\[\\[\\(%s\\)\\(?:\\[.*?\\]\\)?\\]\\]"
+                   (regexp-quote link)))
+          (org-files (org-roam-list-files)))
+
+     ;; Step 2: Search and replace links in all Org-roam files
+     (dolist (f org-files)
+       ;; Open file in visible buffer
+       (let ((buf (find-file-noselect f)))
+         (with-current-buffer buf
+           (goto-char (point-min))
+           ;; Step through each matching link
+           (while (re-search-forward link-regex nil t)
+             (let* ((match-start (match-beginning 0))
+                    (match-end (match-end 0))
+                    (match-str (match-string 0))
+                    (replacement (or title "UNKNOWN"))
+                    (ov (make-overlay match-start match-end)))
+               (overlay-put ov 'face 'highlight)
+               (goto-char match-start)
+               (switch-to-buffer buf)
+               (recenter)
+               (redisplay)
+
+               (if (yes-or-no-p
+                    (format "Replace link '%s' with '%s'? "
+                            match-str
+                            replacement))
+                   (progn
+                     (delete-region match-start match-end)
+                     (goto-char match-start)
+                     (insert replacement))
+                 (message "Skipped."))
+
+               (delete-overlay ov)))
+           (save-buffer))))
+
+     ;; Step 3: Ask to delete the original node's file after processing all links
+     (when (and file (file-exists-p file))
+       (if (yes-or-no-p (format "Delete file '%s'? " file))
+           (progn
+             (delete-file file)
+             (message "Deleted: %s" file))
+         (message "File not deleted."))))))
+
 
 (use-package
  deft
