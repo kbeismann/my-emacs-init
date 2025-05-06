@@ -165,7 +165,7 @@
   (setq-default indent-tabs-mode nil) ; Always indent with spaces.
   (setq tab-always-indent t) ; Tab indents before completion.
   (setq next-line-add-newlines t) ; New line when C-n.
-  (setq fill-column my-max-columns) ; Set M-q columns.
+  (setq-default fill-column my-max-columns) ; Set M-q columns.
 
   ;; Better scrolling behavior.
   (setq scroll-step 1)
