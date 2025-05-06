@@ -353,7 +353,23 @@
       (if point
           (goto-char point)
         (message "No non-ASCII characters."))))
-  (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char))
+  (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char)
+
+  (defun my/align-tags-in-all-org-files (directory)
+    "Align tags in all Org files in the specified DIRECTORY."
+    (interactive "DSelect directory: ")
+    (let ((files (directory-files-recursively directory "\\.org$")))
+      (if (not files)
+          (message "No Org files found in %s" directory)
+        (dolist (file files)
+          (message "Processing file: %s" file)
+          (with-temp-buffer
+            (insert-file-contents file)
+            (org-mode)
+            (ignore-errors ;; Ignore errors in case of no headlines
+              (org-align-tags)) ;; Align tags in the entire buffer
+            (write-file file)
+            (message "Aligned tags in %s" file)))))))
 
 (use-package
  treesit-auto
