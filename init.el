@@ -183,7 +183,6 @@
   (setq font-lock-maximum-decoration t)
   (setq diff-font-lock-syntax t)
   (setq fringe-mode 1) ; This is the value for "minimal".
-  (setq global-hl-line-mode t)
 
   ;; Clipboard behavior.
   (setq x-select-enable-clipboard-manager t)
@@ -287,6 +286,8 @@
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
     (add-hook 'conf-mode-hook #'display-line-numbers-mode)
     (add-hook 'yaml-mode-hook #'display-line-numbers-mode)))
+
+(use-package hl-line :init (global-hl-line-mode 1))
 
 (prog1 "Custom functions."
   ;;; From https://www.emacswiki.org/emacs/UnfillParagraph.
@@ -829,8 +830,6 @@
   . (lambda () (add-hook 'before-save-hook 'org-align-tags nil 'local)))
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
- ;; ;; Highlight current line in agenda.
- (org-agenda-mode-hook . (lambda () (hl-line-mode 1)))
  :config
  (prog1 "Set up directory handling without :custom"
    (setq org-directory my-notes-dir)
