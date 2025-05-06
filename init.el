@@ -822,9 +822,11 @@
    ("C-c o s n" . org-toogle-narrow-to-subtree)
    ("C-c o i" . org-id-get-create)))
  :hook
- ;; Align tags when saving.
- (org-mode-hook
-  . (lambda () (add-hook 'before-save-hook 'org-align-tags nil 'local)))
+ (org-mode
+  .
+  (lambda ()
+    (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
+              nil 'local)))
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
  :config
