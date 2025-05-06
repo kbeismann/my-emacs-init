@@ -289,7 +289,7 @@
 (prog1 "Custom functions."
   ;;; From https://www.emacswiki.org/emacs/UnfillParagraph.
   ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
-  (defun unfill-paragraph (&optional region)
+  (defun my/unfill-paragraph (&optional region)
     "Takes a multi-line paragraph and makes it into a single line of text."
     (interactive (progn
                    (barf-if-buffer-read-only)
@@ -298,20 +298,18 @@
           ;; This would override `fill-column' if it's an integer.
           (emacs-lisp-docstring-fill-column t))
       (fill-paragraph nil region)))
+  (define-key global-map "\M-Q" 'my/unfill-paragraph)
 
-  ;; Handy key definition
-  (define-key global-map "\M-Q" 'unfill-paragraph)
-
-  (defun copy-git-current-sha ()
+  (defun my/copy-git-current-sha ()
     "Copy the current Git commit SHA to the clipboard."
     (interactive)
     (let ((sha (string-trim (shell-command-to-string "git rev-parse HEAD"))))
       (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
         (kill-new sha)
         (message "Copied SHA: %s" sha))))
-  (define-key global-map (kbd "C-c c s") 'copy-git-current-sha)
+  (define-key global-map (kbd "C-c c s") 'my/copy-git-current-sha)
 
-  (defun copy-current-path-to-file ()
+  (defun my/copy-current-path-to-file ()
     "Copies the path of the current file to the clipboard."
     (interactive)
     (if buffer-file-name
@@ -319,27 +317,27 @@
           (kill-new buffer-file-name)
           (message "Copied file path: %s" buffer-file-name))
       (message "No file is currently visiting.")))
-  (define-key global-map (kbd "C-c c p") 'copy-current-path-to-file)
+  (define-key global-map (kbd "C-c c p") 'my/copy-current-path-to-file)
 
-  (defun go-to-chezmoi-directory ()
+  (defun my/go-to-chezmoi-directory ()
     (interactive)
     (let ((chezmoi-dir (expand-file-name "~/.local/share/chezmoi/")))
       (find-file chezmoi-dir)))
-  (define-key global-map (kbd "C-c c c") 'go-to-chezmoi-directory)
+  (define-key global-map (kbd "C-c c d") 'my/go-to-chezmoi-directory)
 
-  (defun insert-current-date-time ()
+  (defun my/insert-current-date-time ()
     "Insert the current date and time in a standard Emacs format."
     (interactive)
     (insert (format-time-string "<%Y-%m-%d %a %H:%M>")))
-  (global-set-key (kbd "C-c d t i") 'insert-current-date-time)
+  (global-set-key (kbd "C-c d t i") 'my/insert-current-date-time)
 
-  (defun insert-current-date ()
+  (defun my/insert-current-date ()
     "Insert the current date in a standard Emacs format."
     (interactive)
     (insert (format-time-string "<%Y-%m-%d %a>")))
-  (global-set-key (kbd "C-c d i") 'insert-current-date)
+  (global-set-key (kbd "C-c d i") 'my/insert-current-date)
 
-  (defun find-first-non-ascii-char ()
+  (defun my/find-first-non-ascii-char ()
     "Find the first non-ASCII character from point onward."
     (interactive)
     (let (point)
@@ -353,7 +351,7 @@
       (if point
           (goto-char point)
         (message "No non-ASCII characters."))))
-  (global-set-key (kbd "C-S-s") 'find-first-non-ascii-char)
+  (global-set-key (kbd "C-S-s") 'my/find-first-non-ascii-char)
 
   (defun my/align-tags-in-all-org-files (directory)
     "Align tags in all Org files in the specified DIRECTORY."
@@ -909,7 +907,7 @@
   '(("^ *\\([-]\\) " (0 (prog1 ()
           (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
- (defun org-syntax-convert-keyword-case-to-lower ()
+ (defun my/org-syntax-convert-keyword-case-to-lower ()
    "Convert all #+KEYWORDS to #+keywords."
    (interactive)
    (save-excursion
@@ -922,7 +920,7 @@
            (setq count (1+ count))))
        (message "Replaced %d occurances" count))))
 
- (defun modi/lower-case-org-keywords ()
+ (defun my/modi/lower-case-org-keywords ()
    "Lower case Org keywords and block identifiers.
 
              Example: \"#+TITLE\" -> \"#+title\"
@@ -982,7 +980,7 @@
  (prog1 "*org-summary-todo"
    ;; Switch entry to DONE when all subentries are done, to TODO
    ;; otherwise.
-   (defun org-summary-todo (n-done n-not-done)
+   (defun my/org-summary-todo (n-done n-not-done)
      "Switch entry to DONE when all subentries are done, to TODO otherwise."
      (let (org-log-done-with-time
            org-log-states) ; turn off logging
