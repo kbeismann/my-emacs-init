@@ -42,13 +42,11 @@
 ;;; Code:
 
 ;; Require early-init.el.
-(let ((early-init-f
-       (expand-file-name "early-init.el" user-emacs-directory)))
+(let ((early-init-f (expand-file-name "early-init.el" user-emacs-directory)))
   (add-to-list 'load-path early-init-f)
   (require 'early-init))
 
-(let ((work-projects
-       (expand-file-name "projects.el" user-emacs-directory)))
+(let ((work-projects (expand-file-name "projects.el" user-emacs-directory)))
   (if (file-exists-p work-projects)
       (prog1 "Load work projects."
         (message "Found project-related settings...")
@@ -135,10 +133,9 @@
     "My Roam notes.")
   (defvar my-todos (concat my-notes-dir "notes.org")
     "My to-do list.")
-  (defvar my-default-line-width 78
+  (defvar my-default-line-width 80
     "My predefined characters per line (CPL) limit.")
-  (defvar path-to-my-snippets
-    (concat my-gitdir "my-emacs-init/snippets/")
+  (defvar path-to-my-snippets (concat my-gitdir "my-emacs-init/snippets/")
     "Path to custom snippets.")
   (defvar path-to-snippets (concat user-emacs-directory "snippets/")
     "Path to snippets."))
@@ -150,7 +147,7 @@
   (global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
 
   ;; Better splitting behavior.
-  (setq split-height-threshold 80)
+  (setq split-height-threshold my-default-line-width)
   (setq split-width-threshold (* 2 my-default-line-width))
 
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -215,8 +212,7 @@
   (use-package
    no-littering
    :defer nil
-   :config
-   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+   :config (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
    (setq no-littering-var-directory
          (expand-file-name "var/" user-emacs-directory))
    (setq no-littering-autosave-directory
@@ -234,13 +230,10 @@
    ;; If it does, set it as custom-file and load it.  If it does not, create the
    ;; file with "touch", set it as custom-file, and load it.
    (prog1 "Configure custom-file handling."
-     (message "%s"
-              (concat
-               "Looking for a customization file: " custom-file))
+     (message "%s" (concat "Looking for a customization file: " custom-file))
      (when (not (file-exists-p custom-file))
        (prog1 "Create an empty customization file."
-         (message "%s"
-                  "No customization file found, creating empty file.")
+         (message "%s" "No customization file found, creating empty file.")
          (eshell-command (concat "touch " custom-file))
          (message "%s" "Created empty file.")))
      (if (file-exists-p custom-file)
@@ -315,9 +308,7 @@
   (defun copy-git-current-sha ()
     "Copy the current Git commit SHA to the clipboard."
     (interactive)
-    (let ((sha
-           (string-trim
-            (shell-command-to-string "git rev-parse HEAD"))))
+    (let ((sha (string-trim (shell-command-to-string "git rev-parse HEAD"))))
       (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
         (kill-new sha)
         (message "Copied SHA: %s" sha))))
@@ -392,31 +383,29 @@
   ;; Simplify the cursor position: No proportional position (percentage) nor
   ;; texts like "Bot", "Top" or "All".  Source:
   ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
-  (setq
-   mode-line-position
-   '( ;; %p print percent of buffer above top of window, o Top, Bot or All.
-     ;; (-3 "%p")
-     ;; %I print the size of the buffer, with kmG etc.
-     ;; (size-indication-mode ("/" (-4 "%I")))
-     ;; " "
-     ;; %l print the current line number.
-     ;; %c print the current column.
-     (line-number-mode ("%l" (column-number-mode ":%c"))))))
+  (setq mode-line-position
+        '( ;; %p print percent of buffer above top of window, o Top, Bot or All.
+          ;; (-3 "%p")
+          ;; %I print the size of the buffer, with kmG etc.
+          ;; (size-indication-mode ("/" (-4 "%I")))
+          ;; " "
+          ;; %l print the current line number.
+          ;; %c print the current column.
+          (line-number-mode ("%l" (column-number-mode ":%c"))))))
 
 (use-package
  yasnippet
  :diminish yas-minor-mode
  :bind
- (("C-c y i" . yas-insert-snippet)
-  ("C-c y v" . yas-visit-snippet-file))
+ (("C-c y i" . yas-insert-snippet) ("C-c y v" . yas-visit-snippet-file))
  :config
  (add-hook
-  'python-base-mode-hook
-  #'(lambda () (yas-activate-extra-mode 'python-mode)))
- (use-package yasnippet-snippets) (setq yas-indent-line 'fixed)
- (setq yas-snippet-dirs
-       (append yas-snippet-dirs (list path-to-my-snippets)))
- (yas-reload-all) (yas-global-mode))
+  'python-base-mode-hook #'(lambda () (yas-activate-extra-mode 'python-mode)))
+ (use-package yasnippet-snippets)
+ (setq yas-indent-line 'fixed)
+ (setq yas-snippet-dirs (append yas-snippet-dirs (list path-to-my-snippets)))
+ (yas-reload-all)
+ (yas-global-mode))
 
 (prog1 "Configure Dired."
   (prog1 "Core Dired."
@@ -440,9 +429,7 @@
    :after dired
    :bind
    (:map
-    dired-mode-map
-    (";" . dired-subtree-toggle)
-    ("'" . dired-subtree-remove))
+    dired-mode-map (";" . dired-subtree-toggle) ("'" . dired-subtree-remove))
    :config
    (setq dired-subtree-use-backgrounds nil)
    (setq dired-subtree-line-prefix "   |-")))
@@ -602,8 +589,7 @@
 
  ;; Remove the vertical line between windows:
  (set-face-background 'vertical-border base00-prop)
- (set-face-foreground
-  'vertical-border (face-background 'vertical-border))
+ (set-face-foreground 'vertical-border (face-background 'vertical-border))
 
  ;; Adjust mode line colors.
  (set-face-background 'mode-line base02-prop)
@@ -743,9 +729,7 @@
  :init (setq delete-trailing-lines t)
  ;; (setq show-trailing-whitespace t)
  :hook ((prog-mode . whitespace-mode) (markdown-mode . whitespace-mode))
- :config
- (add-hook
-  'minibuffer-setup-hook (lambda () (setq-local whitespace-mode 0)))
+ :config (add-hook 'minibuffer-setup-hook (lambda () (setq-local whitespace-mode 0)))
  ;; Set the max. column as defined above and delete trailing lines.
  (setq whitespace-line-column my-default-line-width)
  (setq whitespace-style
@@ -768,8 +752,7 @@
  ws-butler
  :diminish ws-butler-mode
  :config
- (add-to-list
-  'ws-butler-global-exempt-modes '(magit-mode))
+ (add-to-list 'ws-butler-global-exempt-modes '(magit-mode))
  (ws-butler-global-mode t))
 
 ;; Basic bindings for multiple-cursors.
@@ -785,14 +768,12 @@
 (use-package
  flycheck
  :diminish (global-flycheck-mode flycheck-mode)
- :bind
- (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
+ :bind (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
  :hook (after-init . global-flycheck-mode))
 
 (prog1 "Configure Python."
   ;; Activate tree-sitter for Python.
-  (add-to-list
-   'major-mode-remap-alist '(python-mode . python-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
   (setq python-indent-offset 4)
 
@@ -804,8 +785,7 @@
    :hook (python-base-mode . sphinx-doc-mode)
    :config
    ;; Show all arguments (except "self").
-   (setq sphinx-doc-all-arguments t)
-   (setq sphinx-doc-exclude-rtype t))
+   (setq sphinx-doc-all-arguments t) (setq sphinx-doc-exclude-rtype t))
 
   (use-package
    python-docstring
@@ -848,9 +828,8 @@
  (org-mode
   .
   (lambda ()
-    (add-hook
-     'before-save-hook (lambda () (save-excursion (org-align-tags t)))
-     nil 'local)))
+    (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
+              nil 'local)))
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
  :config
@@ -859,8 +838,7 @@
    (setq org-default-notes-file my-notes)
    (setq org-todo-file my-todos)
    (setq org-agenda-files (list org-directory my-roam-notes)))
- (let ((work-notes
-        (expand-file-name "notes.el" user-emacs-directory)))
+ (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
    (if (file-exists-p work-notes)
        (prog1 "Load work-related notes."
          (message "%s" "Found work-related notes...")
@@ -947,11 +925,10 @@
        ;; Match examples: "#+FOO bar", "#+FOO:", "=#+FOO=", "~#+FOO~",
        ;;                 "‘#+FOO’", "“#+FOO”", ",#+FOO bar",
        ;;                 "#+FOO_bar<eol>", "#+FOO<eol>".
-       (while
-           (re-search-forward
-            "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
-            nil
-            :noerror)
+       (while (re-search-forward
+               "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
+               nil
+               :noerror)
          (setq count (1+ count))
          (replace-match (downcase (match-string-no-properties 1))
                         :fixedcase
@@ -962,8 +939,7 @@
 
 
  ;; Always insert blank line before headings.
- (setq org-blank-before-new-entry
-       '((heading . auto) (plain-list-item . auto)))
+ (setq org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
 
  (prog1 "Configure Org refiling."
    (setq org-refile-use-outline-path 'full-file-path)
@@ -983,10 +959,8 @@
        (message "%s" "No templates specified.")))
 
    ;; If the directory exists, load templates for work.
-   (let ((templates
-          (expand-file-name "templates.el" user-emacs-directory)))
-     (if (and (file-exists-p templates)
-              (boundp 'org-capture-templates))
+   (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
+     (if (and (file-exists-p templates) (boundp 'org-capture-templates))
          (prog1 "Add templates for work."
            (message "%s" "Adding templates for work...")
            (load templates))
@@ -1009,12 +983,7 @@
  ;; Available languages: https://orgmode.org/org.html#Languages
  (org-babel-do-load-languages
   'org-babel-load-languages
-  '((shell . t)
-    (emacs-lisp . t)
-    (org . t)
-    (python . t)
-    (R . t)
-    (latex . t)))
+  '((shell . t) (emacs-lisp . t) (org . t) (python . t) (R . t) (latex . t)))
  ;; Use Python 3
  (setq org-babel-python-command "python3")
  ;; Better source block behavior.
@@ -1029,8 +998,7 @@
 
   org-src-tab-acts-natively t)
  ;; Change font size for LaTeX previews.
- (setq org-format-latex-options
-       (plist-put org-format-latex-options :scale 1.5))
+ (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
  (setq org-format-latex-options
        (plist-put org-format-latex-options :html-scale 1.5))
  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
@@ -1046,8 +1014,7 @@
   ;; org-agenda-start-with-log-mode t
   (org-super-agenda-mode t)
 
-  (let ((work-agenda
-         (expand-file-name "agenda.el" user-emacs-directory)))
+  (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
     (if (file-exists-p work-agenda)
         (prog1 "Load work-related agenda settings."
           (message "%s" "Found work-related agenda settings...")
@@ -1063,11 +1030,7 @@
                   "@home"
                   :not
                   (:tag
-                   ("bill"
-                    "shoppinglist"
-                    "reading"
-                    "datascience"
-                    "@work")))
+                   ("bill" "shoppinglist" "reading" "datascience" "@work")))
                  :order 3)
                 (:name
                  "Data science"
@@ -1076,15 +1039,10 @@
                 (:name
                  "Data science readings"
                  :and
-                 (:tag
-                  ("datascience" "towardsdatascience")
-                  :tag "reading")
+                 (:tag ("datascience" "towardsdatascience") :tag "reading")
                  :order 5)
                 (:name "Readings" :category "readings" :order 6)
-                (:name
-                 "Shopping list"
-                 :tag "shoppinglist"
-                 :order 7))))))))
+                (:name "Shopping list" :tag "shoppinglist" :order 7))))))))
 
 (use-package
  org-appear
@@ -1099,8 +1057,7 @@
  :bind
  (:map
   org-mode-map
-  (("C-c i s" . org-download-screenshot)
-   ("C-c i y" . org-download-yank))))
+  (("C-c i s" . org-download-screenshot) ("C-c i y" . org-download-yank))))
 
 (use-package
  org-roam
@@ -1118,19 +1075,20 @@
  (setq org-roam-directory my-roam-notes)
  (setq org-roam-db-gc-threshold most-positive-fixnum)
  (setq org-roam-completion-everywhere t)
- (setq org-roam-capture-templates
-       '(("d" "default" plain "%?"
-          :if-new
-          (file+head
-           "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-          :unnarrowed t)))
  (setq
-  org-roam-dailies-capture-templates
+  org-roam-capture-templates
   '(("d"
      "default"
-     entry
-     "* %?"
-     :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+     plain
+     "%?"
+     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+     :unnarrowed t)))
+ (setq org-roam-dailies-capture-templates
+       '(("d"
+          "default"
+          entry
+          "* %?"
+          :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
  (setq org-roam-mode-section-functions
        (list
         #'org-roam-backlinks-section
@@ -1138,8 +1096,7 @@
         #'org-roam-unlinked-references-section))
  (org-roam-db-autosync-mode)
 
- (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise
-     ()
+ (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise ()
    "Delete an Org-roam node and interactively replace each link to it with plain text."
    (interactive)
    (require 'org-roam)
@@ -1177,7 +1134,8 @@
 
                (if (yes-or-no-p
                     (format "Replace link '%s' with '%s'? "
-                            match-str replacement))
+                            match-str
+                            replacement))
                    (progn
                      (delete-region match-start match-end)
                      (goto-char match-start)
@@ -1268,8 +1226,7 @@
 (use-package
  emr
  :disabled t
- :config
- (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
+ :config (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
 
 (use-package
  eglot
@@ -1289,17 +1246,9 @@
  ((python-base-mode . lsp-deferred)
   (rust-ts-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration))
- :bind
- (:map
-  lsp-mode-map
-  ("M-?" . lsp-find-references)
-  ("M-." . lsp-find-definition))
- :init
- (setq lsp-keymap-prefix "C-c l")
- (setq lsp-diagnostics-provider :none)
- :config
- (setq lsp-file-watch-threshold 10000)
- (setq lsp-restart 'auto-restart)
+ :bind (:map lsp-mode-map ("M-?" . lsp-find-references) ("M-." . lsp-find-definition))
+ :init (setq lsp-keymap-prefix "C-c l") (setq lsp-diagnostics-provider :none)
+ :config (setq lsp-file-watch-threshold 10000) (setq lsp-restart 'auto-restart)
  (lsp-register-custom-settings
   '(("pylsp.plugins.pylsp_mypy.enabled" nil nil)
     ("pylsp.plugins.pylsp_mypy.live_mode" nil nil)
@@ -1317,10 +1266,7 @@
     ("pylsp.plugins.yapf.enabled" nil nil)
     ("pylsp.plugins.pylint.enabled" nil nil)
     ("pylsp.plugins.flake8.enabled" nil nil)))
- (use-package
-  helm-lsp
-  :after (helm lsp)
-  :commands helm-lsp-workspace-symbol)
+ (use-package helm-lsp :after (helm lsp) :commands helm-lsp-workspace-symbol)
  (use-package
   lsp-pyright
   :after (python lsp)
@@ -1349,14 +1295,12 @@
 (use-package
  yaml-ts-mode
  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
- :config
- (define-key yaml-ts-mode-map (kbd "C-m") 'newline-and-indent))
+ :config (define-key yaml-ts-mode-map (kbd "C-m") 'newline-and-indent))
 
 (use-package
  csv-mode
  :disabled t
- :config
- (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+ :config (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
  (autoload 'csv-mode "csv-mode"
    "Major mode for editing comma-separated value files."
    t))
@@ -1368,9 +1312,7 @@
  ;; https://github.com/cjohansson/emacs-ssh-deploy
  :disabled t
  :bind (("C-c z d" . ssh-deploy-prefix-map))
- :hook
- ((after-save-hook . ssh-deploy-after-save)
-  (find-file . ssh-deploy-find-file))
+ :hook ((after-save-hook . ssh-deploy-after-save) (find-file . ssh-deploy-find-file))
  :config
  (setq ange-ftp-netrc-filename "~/.authinfo.gpg")
  (ssh-deploy-line-mode)
@@ -1394,8 +1336,7 @@
 
 (use-package
  json-mode
- :config
- (add-to-list 'major-mode-remap-alist '(json-mode . json-ts-mode)))
+ :config (add-to-list 'major-mode-remap-alist '(json-mode . json-ts-mode)))
 
 (use-package
  dockerfile-mode
@@ -1417,8 +1358,7 @@
   ("C-c g a" . gptel-abort))
  :config
  ;; Configure OpenAI API key (if used).
- (setq gptel-api-key
-       (auth-source-pick-first-password :host "api.openai.com"))
+ (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
 
  ;; Configure and set Gemini as the default backend.
  (let ((gemini-key
