@@ -130,7 +130,7 @@
     "My Roam notes.")
   (defvar my-todos (concat my-notes-dir "notes.org")
     "My to-do list.")
-  (defvar my-max-columns 78
+  (defvar my-default-line-width 78
     "My predefined characters per line (CPL) limit.")
   (defvar path-to-my-snippets (concat my-gitdir "my-emacs-init/snippets/")
     "Path to custom snippets.")
@@ -145,7 +145,7 @@
 
   ;; Better splitting behavior.
   (setq split-height-threshold 80)
-  (setq split-width-threshold (* 2 my-max-columns))
+  (setq split-width-threshold (* 2 my-default-line-width))
 
   (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -165,7 +165,7 @@
   (setq-default indent-tabs-mode nil) ; Always indent with spaces.
   (setq tab-always-indent t) ; Tab indents before completion.
   (setq next-line-add-newlines t) ; New line when C-n.
-  (setq-default fill-column my-max-columns) ; Set M-q columns.
+  (setq-default fill-column my-default-line-width) ; Set M-q columns.
 
   ;; Better scrolling behavior.
   (setq scroll-step 1)
@@ -728,7 +728,7 @@
  :hook ((prog-mode . whitespace-mode) (markdown-mode . whitespace-mode))
  :config (add-hook 'minibuffer-setup-hook (lambda () (setq-local whitespace-mode 0)))
  ;; Set the max. column as defined above and delete trailing lines.
- (setq whitespace-line-column my-max-columns)
+ (setq whitespace-line-column my-default-line-width)
  (setq whitespace-style
        '(face
          ;; tabs
@@ -856,7 +856,7 @@
 
  ;; Misc.
  (setq org-src-window-setup 'other-window)
- (setq org-tags-column (- my-max-columns))
+ (setq org-tags-column (- my-default-line-width))
  (setq org-image-actual-width nil)
  (setq org-highlight-latex-and-related '(latex script entities))
  (setq org-catch-invisible-edits t)
