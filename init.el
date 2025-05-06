@@ -130,7 +130,7 @@
     "My Roam notes.")
   (defvar my-todos (concat my-notes-dir "notes.org")
     "My to-do list.")
-  (defvar my-default-line-width 78
+  (defvar my-default-line-width 80
     "My predefined characters per line (CPL) limit.")
   (defvar path-to-my-snippets (concat my-gitdir "my-emacs-init/snippets/")
     "Path to custom snippets.")
@@ -144,7 +144,7 @@
   (global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
 
   ;; Better splitting behavior.
-  (setq split-height-threshold 80)
+  (setq split-height-threshold my-default-line-width)
   (setq split-width-threshold (* 2 my-default-line-width))
 
   (defalias 'yes-or-no-p 'y-or-n-p)
