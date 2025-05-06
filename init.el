@@ -856,7 +856,7 @@
 
  ;; Misc.
  (setq org-src-window-setup 'other-window)
- (setq org-tags-column 70)
+ (setq org-tags-column (- my-max-columns))
  (setq org-image-actual-width nil)
  (setq org-highlight-latex-and-related '(latex script entities))
  (setq org-catch-invisible-edits t)
