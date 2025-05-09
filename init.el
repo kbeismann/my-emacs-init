@@ -769,6 +769,7 @@
 ;; Basic bindings for multiple-cursors.
 (use-package
  multiple-cursors
+ :init (setq warning-suppress-types '((files)))
  :bind*
  (("C-S-c C-S-c" . mc/edit-lines)
   ("C->" . mc/mark-next-like-this)
