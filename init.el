@@ -1360,28 +1360,157 @@
  :bind (("C-c k o" . kubernetes-overview))
  :commands (kubernetes-overview))
 
-(use-package
- gptel
- :straight t
- :bind
- (("C-c g c" . gptel)
-  ("C-c g r" . gptel-rewrite)
-  ("C-c g m" . gptel-menu)
-  ("C-c g a" . gptel-abort))
- :config
- ;; Configure OpenAI API key (if used).
- (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
+(prog1 "LLM-related tooling."
+  (use-package
+   gptel
+   :bind
+   (("C-c g c" . gptel)
+    ("C-c g r" . gptel-rewrite)
+    ("C-c g m" . gptel-menu)
+    ("C-c g a" . gptel-abort))
+   :config
+   ;; Configure OpenAI API key (if used).
+   (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
 
- ;; Configure and set Gemini as the default backend.
- (let ((gemini-key
-        (auth-source-pick-first-password
-         :host "generativelanguage.googleapis.com")))
-   (when gemini-key
-     (let ((gemini-backend
-            (gptel-make-gemini "Gemini" :key gemini-key :stream t)))
-       (setq
-        gptel-model 'gemini-2.5-flash-preview-04-17
-        gptel-backend gemini-backend)))))
+   ;; Configure and set Gemini as the default backend.
+   (let ((gemini-key
+          (auth-source-pick-first-password
+           :host "generativelanguage.googleapis.com")))
+     (when gemini-key
+       (let ((gemini-backend
+              (gptel-make-gemini "Gemini" :key gemini-key :stream t)))
+         (setq
+          gptel-model 'gemini-2.5-flash-preview-04-17
+          gptel-backend gemini-backend)))))
+
+  ;; Define custom functions outside use-package so they are available immediately
+  (defun my/gptel-strip-markdown-code-block (text)
+    "Remove leading/trailing triple backticks and optional language hints from TEXT."
+    (let ((stripped text))
+      (setq stripped
+            (replace-regexp-in-string
+             "\\`\\s-*```[a-zA-Z]*\\s-*\n" "" stripped))
+      (setq stripped (replace-regexp-in-string "\\s-*```\\s-*\\'" "" stripped))
+      stripped))
+
+  (defconst my/gptel-commit-system-prompt
+    "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 72 characters. If needed, add a body after a blank line. Use ASCII only. Use double spacing after periods. Do not include code blocks. Refer to functions, commands, files, or package names using backticks, for example, `use-package`, `gptel`, or `magit`."
+    "System prompt used for GPT-based commit message generation and rewriting.")
+
+  (defun my/gptel-generate-commit-message ()
+    "Generate a commit message using gptel based on the diff in the current commit buffer."
+    (interactive)
+    (unless (bound-and-true-p git-commit-mode)
+      (user-error "This command must be run in a git-commit buffer"))
+    (let ((diff (buffer-string)))
+      (require 'gptel)
+      (gptel-request
+       (concat
+        "Write a conventional Git commit message for the following diff:\n\n"
+        diff)
+       :system my/gptel-commit-system-prompt
+       :callback
+       (lambda (response _buffer)
+         (when (buffer-live-p (current-buffer))
+           (with-current-buffer (current-buffer)
+             (save-excursion
+               (goto-char (point-min))
+               (let* ((msg
+                       (string-trim
+                        (my/gptel-strip-markdown-code-block response)))
+                      (lines (split-string msg "\n" t))
+                      (title (car lines))
+                      (body (string-join (cdr lines) "\n"))
+                      (start (point)))
+                 (insert title "\n\n" body "\n\n")
+                 (when (not (string-empty-p body))
+                   (let ((body-start (point)))
+                     (goto-char start)
+                     (forward-line 2)
+                     (setq body-start (point))
+                     (fill-region
+                      body-start (+ body-start (length body)))))))))))))
+
+  (defun my/gptel-rewrite-commit-message ()
+    "Rewrite the current commit message using gptel with a user-defined prompt.
+Inserts the rewritten commit message at the top of the buffer, separated by a line."
+    (interactive)
+    (unless (bound-and-true-p git-commit-mode)
+      (user-error "This command must be run in a git-commit buffer"))
+    (let*
+        ((buffer-contents (buffer-string))
+         (split (split-string buffer-contents "^#.*$" t))
+         (message-part (string-trim (car split)))
+         (diff-part (string-trim (string-join (cdr split) "\n")))
+         (user-prompt
+          (read-string
+           "Rewrite prompt: "
+           "Rewrite this commit message. Only return the new commit message.")))
+      (require 'gptel)
+      (gptel-request
+       (concat
+        user-prompt
+        "\n\nOriginal message:\n\n"
+        message-part
+        "\n\nHere is the diff context:\n\n"
+        diff-part)
+       :system my/gptel-commit-system-prompt
+       :callback
+       (lambda (response _buffer)
+         (when (buffer-live-p (current-buffer))
+           (with-current-buffer (current-buffer)
+             (save-excursion
+               (goto-char (point-min))
+               ;; Insert rewritten commit message at the top with a separator
+               (let* ((msg
+                       (string-trim
+                        (my/gptel-strip-markdown-code-block response)))
+                      (lines (split-string msg "\n" t))
+                      (title (car lines))
+                      (body (string-join (cdr lines) "\n")))
+                 (insert title "\n\n" body "\n\n---\n\n")))))))))
+
+  (eval-after-load "git-commit"
+    '(progn
+       (when (boundp 'git-commit-mode-map)
+         (define-prefix-command 'my/gptel-commit-map)
+         (define-key git-commit-mode-map (kbd "C-c g g") 'my/gptel-commit-map)
+         (define-key
+          my/gptel-commit-map (kbd "c") #'my/gptel-generate-commit-message)
+         (define-key
+          my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
+
+  (defun my/gptel-replace-with-docstring ()
+    "Generate and replace the selected function with the same function plus a minimalist docstring."
+    (interactive)
+    (unless (use-region-p)
+      (user-error "Please select a region containing the function code"))
+    (let*
+        ((code
+          (buffer-substring-no-properties (region-beginning) (region-end)))
+         (prompt
+          "Insert a minimalist one-line docstring string in an imperative tone into this function. Only return the updated function, without backticks or markdown formatting.")
+         (system
+          "You are an coding expert. Use double spacing after dots. Return only ASCII.")
+         (beg (region-beginning))
+         (end (region-end)))
+      (require 'gptel)
+      (gptel-request
+       (concat prompt "\n\n" code)
+       :system system
+       :callback
+       (lambda (response _buffer)
+         (let ((doced-fn
+                (string-trim (my/gptel-strip-markdown-code-block response))))
+           (when (buffer-live-p (current-buffer))
+             (with-current-buffer (current-buffer)
+               (save-excursion
+                 (delete-region beg end)
+                 (goto-char beg)
+                 (insert doced-fn)))))))))
+
+  (define-key prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring))
+
 
 ;;; Footer:
 (provide 'init)
