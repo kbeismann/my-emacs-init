@@ -69,17 +69,7 @@
                        (lambda ()
                          (unless (frame-focus-state)
                            (garbage-collect))))
-       (add-hook 'after-focus-change-function 'garbage-collect))
-
-     ;; Setup hooks for GC during minibuffer interaction
-     (defun my/gc-minibuffer-setup-hook ()
-       (setq gc-cons-threshold most-positive-fixnum))
-     (defun my/gc-minibuffer-exit-hook ()
-       (garbage-collect)
-       (setq gc-cons-threshold better-gc-cons-threshold))
-
-     (add-hook 'minibuffer-setup-hook #'my/gc-minibuffer-setup-hook)
-     (add-hook 'minibuffer-exit-hook #'my/gc-minibuffer-exit-hook))))
+       (add-hook 'after-focus-change-function 'garbage-collect)))))
 
 ;; Increase recursion limits to avoid exceeding maximum recursion depth
 (setq max-lisp-eval-depth 50000)
