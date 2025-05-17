@@ -193,6 +193,17 @@
   (setq comint-scroll-to-bottom-on-output t)
   (setq comint-move-point-for-output t)) ; Not sure what this does.
 
+(prog1 "GC tuning for minibuffer interaction"
+  (defun my/gc-minibuffer-setup-hook ()
+    (setq gc-cons-threshold most-positive-fixnum))
+
+  (defun my/gc-minibuffer-exit-hook ()
+    (garbage-collect)
+    (setq gc-cons-threshold better-gc-cons-threshold))
+
+  (add-hook 'minibuffer-setup-hook #'my/gc-minibuffer-setup-hook)
+  (add-hook 'minibuffer-exit-hook #'my/gc-minibuffer-exit-hook))
+
 (prog1 "Configure warnings."
   (setq warning-suppress-types '((yasnippet backquote-change))))
 
