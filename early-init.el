@@ -22,7 +22,9 @@
 
 ;;; Commentary:
 
-;; This file handles early initialization settings for Emacs, introduced in Emacs 27.
+;; Early initialization file for Emacs.  This is loaded before the package
+;; system and UI is set up, and is useful for disabling GUI elements and
+;; speeding up startup.
 
 ;;; Code:
 
