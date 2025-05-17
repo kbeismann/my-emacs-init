@@ -6,8 +6,6 @@
 ;; Author: Karsten Beismann
 ;; Homepage: https://github.com/kbeismann/emacs-init
 ;; Created: Tue Sep 24 21:43:39 2019 +0200
-;; Package-Requires: ((emacs "26.3"))
-;; Keywords: init emacs
 
 
 ;; This file is not part of GNU Emacs.
