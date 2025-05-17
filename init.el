@@ -363,7 +363,14 @@
             (ignore-errors ;; Ignore errors in case of no headlines
               (org-align-tags)) ;; Align tags in the entire buffer
             (write-file file)
-            (message "Aligned tags in %s" file)))))))
+            (message "Aligned tags in %s" file))))))
+
+  (defun my/collapse-multiple-blank-lines ()
+    "Collapse multiple blank lines into a single blank line."
+    (interactive)
+    (goto-char (point-min))
+    (while (re-search-forward "^[[:space:]]*\n\\(?:[[:space:]]*\n\\)+" nil t)
+      (replace-match "\n"))))
 
 (use-package
  treesit-auto
