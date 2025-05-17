@@ -50,27 +50,26 @@
 
 ;; Disable garbage collection during initialization for faster startup
 ;; Re-enable it after startup when Emacs is ready
-(prog1 "More generous `gc-cons-threshold' value."
-  (setq garbage-collection-messages t)
-  (defvar original-gc-cons-threshold gc-cons-threshold)
-  (defvar better-gc-cons-threshold (* 128 12 original-gc-cons-threshold))
-  (add-hook
-   'emacs-startup-hook
-   (lambda ()
-     (setq gc-cons-threshold better-gc-cons-threshold)
-     (setq file-name-handler-alist file-name-handler-alist-original)
-     (makunbound 'file-name-handler-alist-original)))
+(setq garbage-collection-messages t)
+(defvar original-gc-cons-threshold gc-cons-threshold)
+(defvar better-gc-cons-threshold (* 128 12 original-gc-cons-threshold))
+(add-hook
+ 'emacs-startup-hook
+ (lambda ()
+   (setq gc-cons-threshold better-gc-cons-threshold)
+   (setq file-name-handler-alist file-name-handler-alist-original)
+   (makunbound 'file-name-handler-alist-original)))
 
-  ;; Auto-trigger garbage collection after focus change
-  (add-hook
-   'emacs-startup-hook
-   (lambda ()
-     (if (boundp 'after-focus-change-function)
-         (add-function :after after-focus-change-function
-                       (lambda ()
-                         (unless (frame-focus-state)
-                           (garbage-collect))))
-       (add-hook 'after-focus-change-function 'garbage-collect)))))
+;; Auto-trigger garbage collection after focus change
+(add-hook
+ 'emacs-startup-hook
+ (lambda ()
+   (if (boundp 'after-focus-change-function)
+       (add-function :after after-focus-change-function
+                     (lambda ()
+                       (unless (frame-focus-state)
+                         (garbage-collect))))
+     (add-hook 'after-focus-change-function 'garbage-collect))))
 
 ;; Increase recursion limits to avoid exceeding maximum recursion depth
 (setq max-lisp-eval-depth 50000)
