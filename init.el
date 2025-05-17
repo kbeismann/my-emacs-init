@@ -1,12 +1,10 @@
 ;;; init.el --- Personal Emacs configuration -*- lexical-binding: t; coding: utf-8 -*-
 
-
 ;; Copyright (C) 2019 Karsten E. Beismann
 
 ;; Author: Karsten Beismann
 ;; Homepage: https://github.com/kbeismann/emacs-init
 ;; Created: Tue Sep 24 21:43:39 2019 +0200
-
 
 ;; This file is not part of GNU Emacs.
 
@@ -22,7 +20,6 @@
 
 ;; For a full copy of the GNU General Public License see
 ;; <http://www.gnu.org/licenses/>.
-
 
 ;;; Commentary:
 
@@ -75,7 +72,6 @@
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
   (setq straight-check-for-modifications nil)
-
 
   (setq straight-vc-git-default-clone-depth 1)
   (setq straight-use-package-by-default t)
@@ -232,7 +228,6 @@
            (load custom-file))
        (message "%s" "ERROR: Cannot find customization file.")))
 
-
    (prog1 "Configure auto-save settings."
      (setq auto-save-default t)
      (setq auto-save-timeout 15)
@@ -360,7 +355,27 @@
             (ignore-errors ;; Ignore errors in case of no headlines
               (org-align-tags)) ;; Align tags in the entire buffer
             (write-file file)
-            (message "Aligned tags in %s" file)))))))
+            (message "Aligned tags in %s" file))))))
+
+  (defun my/collapse-multiple-blank-lines ()
+    "Collapse multiple blank lines into a single blank line in the current buffer."
+    (interactive)
+    (let ((inhibit-read-only t))
+      (save-excursion
+        (replace-regexp "^[[:space:]]*\n\\(?:[[:space:]]*\n\\)+" "\n"
+                        nil (point-min) (point-max)))))
+
+  (defun my/add-collapse-to-before-save ()
+    "Add `my/collapse-multiple-blank-lines' to the buffer-local `before-save-hook'."
+    (add-hook 'before-save-hook #'my/collapse-multiple-blank-lines
+              'append
+              'local))
+
+  ;; Add the hook function to org-mode-hook
+  (add-hook 'org-mode-hook #'my/add-collapse-to-before-save)
+
+  ;; Add the hook function to emacs-lisp-mode-hook
+  (add-hook 'emacs-lisp-mode-hook #'my/add-collapse-to-before-save))
 
 (use-package
  treesit-auto
@@ -942,7 +957,6 @@
                         1))
        (message "Lower-cased %d matches" count))))
 
-
  ;; Always insert blank line before headings.
  (setq org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
 
@@ -1157,7 +1171,6 @@
              (delete-file file)
              (message "Deleted: %s" file))
          (message "File not deleted."))))))
-
 
 (use-package
  deft
@@ -1503,7 +1516,6 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
                  (insert doced-fn)))))))))
 
   (define-key prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring))
-
 
 ;;; Footer:
 (provide 'init)
