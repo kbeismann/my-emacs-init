@@ -85,9 +85,6 @@
 (setq max-lisp-eval-depth 50000)
 (setq max-specpdl-size 10000)
 
-;; Disable specific byte compiler warnings to reduce noise
-(setq byte-compile-warnings '(not cl-functions obsolete))
-
 ;; Defer garbage collection during initialization
 (setq
  gc-cons-threshold most-positive-fixnum
