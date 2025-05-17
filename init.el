@@ -82,11 +82,13 @@
   (require 'use-package-ensure)
   (setq use-package-always-ensure t))
 
+;; Disable specific byte compiler warnings to reduce noise.
+(setq byte-compile-warnings '(not cl-functions obsolete))
+
 (use-package
  auto-compile
  :init (setq load-prefer-newer t)
  :config
- (setq load-prefer-newer t)
  (auto-compile-on-load-mode)
  (auto-compile-on-save-mode))
 
