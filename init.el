@@ -1609,7 +1609,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
   (let*
       ((code (buffer-substring-no-properties (region-beginning) (region-end)))
        (prompt
-        "Insert a minimalist one-line docstring string in an imperative tone into this function. Only return the updated function, without backticks or markdown formatting.")
+        "Insert a minimalist one-line docstring string in an imperative tone into this logic. Only return the updated version, without backticks or markdown formatting.  If there is a docstring already, update it based on the new logic.")
        (system
         "You are an coding expert. Use double spacing after dots. Return only ASCII.")
        (beg (region-beginning))
