@@ -44,12 +44,6 @@
    native-comp-async-jobs-number 4
    comp-deferred-compilation t))
 
-;; Check for native JSON support and report availability
-(message "Native JSON is %savailable."
-         (if (functionp 'json-serialize)
-             ""
-           "not "))
-
 ;; Increase the maximum data read from processes to optimize performance
 (setq read-process-output-max (* 1024 1024 4))
 
