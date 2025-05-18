@@ -1601,6 +1601,9 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
        (define-key
         my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
 
+(defconst my/gptel-base-system-prompt
+  "Use double spacing after dots. Return only ASCII.")
+
 (defun my/gptel-replace-with-docstring ()
   "Generate and replace the selected function with the same function plus a minimalist docstring."
   (interactive)
@@ -1609,9 +1612,11 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
   (let*
       ((code (buffer-substring-no-properties (region-beginning) (region-end)))
        (prompt
-        "Insert a minimalist one-line docstring string in an imperative tone into this logic. Only return the updated version, without backticks or markdown formatting.  If there is a docstring already, update it based on the new logic.")
-       (system
-        "You are an coding expert. Use double spacing after dots. Return only ASCII.")
+        (concat
+         "Insert a minimalist one-line docstring string in an imperative tone into this logic.  "
+         "Only return the updated version, without backticks or markdown formatting.  "
+         "If there is a docstring already, update it based on the new logic."))
+       (system my/gptel-base-system-prompt)
        (beg (region-beginning))
        (end (region-end)))
     (require 'gptel)
@@ -1630,6 +1635,35 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
                (insert doced-fn)))))))))
 
 (define-key prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
+
+(defun my/gptel-subtle-improvement ()
+  "Improve the selected region, correcting obvious mistakes and refining style."
+  (interactive)
+  (unless (use-region-p)
+    (user-error "Please select a region to improve"))
+  (let*
+      ((beg (region-beginning)) ; Get the beginning of the selected region.
+       (end (region-end)) ; Get the end of the selected region.
+       (code (buffer-substring-no-properties beg end)) ; Extract the code from the region.
+       (prompt
+        (concat
+         "Improve the following content subtly. Make small corrections and stylistic refinements. Do not change the logic. Return only the updated version, no backticks or markdown formatting.  Add comments only for parts that are difficult to read. Use spacing and whitespaces as recommended in the respective language style guides."))
+       (system my/gptel-base-system-prompt))
+    (require 'gptel)
+    (gptel-request
+     (concat prompt "\n\n" code)
+     :system system
+     :callback
+     (lambda (response _buffer)
+       (let ((new-content (string-trim response)))
+         (when (buffer-live-p (current-buffer))
+           (save-excursion
+             (goto-char beg)
+             (delete-region beg end)
+             (insert new-content)
+             (message "Applied subtle improvements."))))))))
+
+(define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
 ;;; Footer:
 (provide 'init)
