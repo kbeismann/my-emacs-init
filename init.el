@@ -897,7 +897,10 @@
  :diminish whitespace-mode
  :init (setq delete-trailing-lines t)
  ;; (setq show-trailing-whitespace t)
- :hook ((prog-mode . whitespace-mode) (markdown-mode . whitespace-mode))
+ :hook
+ ((prog-mode . whitespace-mode)
+  (markdown-mode . whitespace-mode)
+  (org-mode . whitespace-mode))
  :config (add-hook 'minibuffer-setup-hook (lambda () (setq-local whitespace-mode 0)))
  ;; Set the max. column as defined above and delete trailing lines.
  (setq whitespace-line-column my-default-line-width)
