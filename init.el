@@ -501,6 +501,35 @@
 ;; Add the hook function to emacs-lisp-mode-hook
 (add-hook 'emacs-lisp-mode-hook #'my/add-collapse-to-before-save)
 
+(defun my/batch-collapse-blank-lines (directory)
+  "Collapse multiple blank lines in all files within DIRECTORY and its subdirectories."
+  (interactive "DDirectory to process: ")
+  (let
+      ((files (find-lisp-find-files directory ".")) ; Find all regular files recursively
+       (processed-count 0))
+    (message "Processing files recursively in %s..." directory)
+    (dolist (file files)
+      (condition-case err
+          (progn
+            (message "  Processing %s..." (file-relative-name file directory))
+            (let ((buffer (find-file-noselect file)))
+              (with-current-buffer buffer
+                (let ((original-modified-p (buffer-modified-p)))
+                  (my/collapse-multiple-blank-lines)
+                  (when (buffer-modified-p)
+                    (save-buffer)
+                    (setq processed-count (1+ processed-count)))
+                  (unless original-modified-p
+                    (kill-buffer buffer))))))
+        (error
+         (message "Error processing %s: %s"
+                  (file-relative-name file directory)
+                  (error-message-string err))))
+      (sit-for 0))
+    (message "Finished processing files recursively in %s. %d files modified."
+             directory
+             processed-count)))
+
 (use-package
  treesit-auto
  :custom (treesit-auto-install 'prompt)
