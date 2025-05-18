@@ -889,42 +889,39 @@
  ;; Global activation of the Unicode symbol completion.
  (add-to-list 'company-backends 'company-math-symbols-unicode))
 
-;; Make sure that there is a single additional line at the end of the file
-;; while saving, also removes all white space at the end of lines.
+(setq show-trailing-whitespace t)
+
 (use-package
  whitespace
- :after base16-theme
  :diminish whitespace-mode
- :init (setq delete-trailing-lines t)
- ;; (setq show-trailing-whitespace t)
  :hook
  ((prog-mode . whitespace-mode)
   (markdown-mode . whitespace-mode)
   (org-mode . whitespace-mode))
- :config (add-hook 'minibuffer-setup-hook (lambda () (setq-local whitespace-mode 0)))
- ;; Set the max. column as defined above and delete trailing lines.
- (setq whitespace-line-column my-default-line-width)
- (setq whitespace-style
-       '(face
-         ;; tabs
-         ;; spaces
-         trailing
-         ;; lines
-         lines-tail
-         ;; lines-char
-         ;; newline
-         empty space-before-tab space-after-tab
-         ;; indentation
-         ;; space-mark
-         tab-mark
-         ;; newline-mark
-         missing-newline-at-eof)))
+ :config (setq whitespace-line-column my-default-line-width)
+ (setq
+  whitespace-style
+  '(face ;; Apply the face `whitespace` to detected characters.
+    trailing ;; Visualize trailing whitespace.
+    tabs ;; Visualize TAB characters.
+    tab-mark ;; Replace TAB characters with `whitespace-display-chars`.
+    empty ;; Visualize leading/trailing whitespace on empty lines or at buffer beginning/end.
+    space-before-tab ;; Visualize spaces immediately before a TAB.
+    space-after-tab ;; Visualize spaces immediately after a TAB.
+    missing-newline-at-eof ;; Visualize when the last line is not followed by a newline.
+    indentation ;; Visualize indentation using spaces.
+    indentation::space ;; Visualize spaces used for indentation.
+    newline ;; Visualize newlines.
+    newline-mark ;; Replace newlines with `whitespace-display-chars`.
+    )))
 
 (use-package
  ws-butler
  :diminish ws-butler-mode
  :config
- (add-to-list 'ws-butler-global-exempt-modes '(magit-mode))
+ ;; By default, ws-butler removes trailing whitespace and lines with only
+ ;; whitespace.  Add modes where you don't want automatic cleaning.
+ (add-to-list 'ws-butler-global-exempt-modes 'magit-mode)
  (ws-butler-global-mode t))
 
 ;; Basic bindings for multiple-cursors.
