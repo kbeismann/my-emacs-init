@@ -1630,8 +1630,8 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
        (define-key
         my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
 
-(defconst my/gptel-base-system-prompt
-  "Use double spacing after dots between sentences. Return only ASCII.")
+(defconst my/gptel-coding-base-system-prompt
+  "You are a proficient coder. Return only ASCII. Be succinct. Separate title from body. Only include arguments as continuous text.")
 
 (defun my/gptel-replace-with-docstring ()
   "Generate and replace the selected function with the same function plus a minimalist docstring."
@@ -1645,7 +1645,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
          "Insert a minimalist one-line docstring string in an imperative tone into this logic.  "
          "Only return the updated version, without backticks or markdown formatting.  "
          "If there is a docstring already, update it based on the new logic."))
-       (system my/gptel-base-system-prompt)
+       (system my/gptel-coding-base-system-prompt)
        (beg (region-beginning))
        (end (region-end)))
     (require 'gptel)
@@ -1677,7 +1677,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
        (prompt
         (concat
          "Improve the following content subtly. Make small corrections and stylistic refinements. Do not change the logic. Return only the updated version, no backticks or markdown formatting.  Add comments only for parts that are difficult to read. Use spacing and whitespaces as recommended in the respective language style guides."))
-       (system my/gptel-base-system-prompt))
+       (system my/gptel-coding-base-system-prompt))
     (require 'gptel)
     (gptel-request
      (concat prompt "\n\n" code)
