@@ -1188,27 +1188,21 @@
       (prog1 "Load private agenda settings."
         (message "%s" "No work-related agenda settings found.")
         (setq org-super-agenda-groups
-              '((:name "Bills" :tag "bill" :order 2)
+              '((:name "INPROGRESS" :todo "INPROGRESS" :order -10)
+                (:name "Finances" :tag "finances" :order 2)
                 (:name
                  "@home"
                  :and
                  (:tag
                   "@home"
-                  :not
-                  (:tag
-                   ("bill" "shoppinglist" "reading" "datascience" "@work")))
+                  :not (:tag ("finances" "shoppinglist" "reading" "@work")))
                  :order 3)
                 (:name
-                 "Data science"
-                 :and (:tag "datascience" :not (:tag "reading"))
+                 "Readings"
+                 :or (:category "readings" :tag "reading")
                  :order 4)
-                (:name
-                 "Data science readings"
-                 :and
-                 (:tag ("datascience" "towardsdatascience") :tag "reading")
-                 :order 5)
-                (:name "Readings" :category "readings" :order 6)
-                (:name "Shopping list" :tag "shoppinglist" :order 7))))))))
+                (:name "Shopping list" :tag "shoppinglist" :order 5)
+                (:name "Other"))))))))
 
 (use-package
  org-appear
