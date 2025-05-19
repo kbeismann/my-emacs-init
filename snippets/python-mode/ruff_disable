@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# name: ruff_disable
+# --
+# noqa: $0
