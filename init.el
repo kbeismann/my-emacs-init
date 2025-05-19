@@ -1539,7 +1539,7 @@
     stripped))
 
 (defconst my/gptel-commit-system-prompt
-  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 72 characters. If needed, add a body after a blank line. No bullets. Use ASCII only. Use double spacing after periods. Do not include code blocks. Refer to functions, commands, files, or package names using backticks, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title.  Do not capitalize after the type."
+  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 80 characters. Format the body so no line is longer than 80 characters.  If needed, add a body after a blank line. No bullets. Use ASCII only. Use double spacing after periods. Do not include code blocks. Refer to functions, commands, files, or package names using backticks, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title.  Do not capitalize after the type."
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-generate-commit-message ()
