@@ -1197,12 +1197,9 @@
                   "@home"
                   :not (:tag ("finances" "shoppinglist" "reading" "@work")))
                  :order 3)
-                (:name
-                 "Readings"
-                 :or (:category "readings" :tag "reading")
-                 :order 4)
+                (:name "Readings" :category "readings" :tag "reading" :order 4)
                 (:name "Shopping list" :tag "shoppinglist" :order 5)
-                (:name "Other"))))))))
+                (:name "Other" :order 7))))))))
 
 (use-package
  org-appear
