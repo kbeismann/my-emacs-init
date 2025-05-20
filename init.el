@@ -1114,24 +1114,79 @@
  (setq org-refile-targets
        '((nil :maxlevel . 9) (org-agenda-files :maxlevel . 9)))
 
- ;; Configure Org-capture templates.
- ;; Templates for org-capture
- ;; If the directory exists, load my templates.
- (let ((templates my-org-templates))
-   (if (file-exists-p templates)
-       ;; Add templates.
-       (message "%s" "Adding templates...")
-     (load templates)
-     (message "%s" "No templates specified.")))
+ (setq org-todo-keywords
+       '((sequence "TODO(t)" "INPROGRESS(i)" "|" "DONE(d)" "CANCELLED(c)")))
+ (setq org-todo-keyword-faces
+       '(("TODO" . org-warning)
+         ("DONE" . org-done)
+         ("CANCELLED" . org-done)
+         ("INPROGRESS" . org-link)))
 
- ;; If the directory exists, load templates for work.
  (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
    (if (and (file-exists-p templates) (boundp 'org-capture-templates))
        (let ()
          (message "%s" "Adding templates for work...")
          (load templates)
          "Add templates for work.")
-     (message "%s" "No work-related templates specified.")))
+     (message "%s" "No work-related templates specified.")
+     (setq
+      org-capture-templates
+      '(
+        ;; Key, name, type, target, template, options.
+        ;; ("n" "Save Note" entry
+        ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNCATEGORIZED")
+        ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
+        ;;  :empty-lines 1)
+        ;; Templates for my personal to-do list:
+        ("h" "@home")
+        ("ht"
+         "TODO"
+         entry
+         (file+headline org-todo-file "To-dos")
+         "* TODO \[\#A\] %^{Title} %^g\n\n%i\n\n"
+         :empty-lines 1)
+        ("hn"
+         "Save note"
+         entry
+         (file+headline org-default-notes-file "Uncategorized")
+         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n\n\n%i\n\n"
+         :empty-lines 1)
+        ("hu"
+         "Store URL"
+         entry
+         (file+headline org-default-notes-file "Uncategorized")
+         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
+         :empty-lines 1)
+        ("hr"
+         "Save reading"
+         entry
+         (file buffer-file-name)
+         "* TODO \[\#C\] \"%^{Title}\" %^g:reading:\n:PROPERTIES:\n:URL:\n:Author:\n:Year:\n:END:\n\n%i\n\n"
+         :empty-lines 1)
+        ("he"
+         "Edit/fix file"
+         entry
+         (file+headline org-todo-file "To-dos")
+         "* TODO \[\#C\] %^{Title} %^g:code:\n:PROPERTIES:\n:LINK: %a\n:END:\n\n%i\n\n"
+         :empty-lines 1)
+        ("hu"
+         "Save URL and check later"
+         entry
+         (file+headline org-todo-file "To-dos")
+         "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
+         :empty-lines 1)
+        ("hm"
+         "Meeting minutes"
+         entry
+         (file+headline org-default-notes-file "Uncategorized")
+         "* TODO \[\#A\] %^{Title} :meeting:minutes:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
+         :empty-lines 1)
+        ("hs"
+         "Stand-up"
+         entry
+         (file+headline org-default-notes-file "Uncategorized")
+         "* TODO \[\#A\] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
+         :empty-lines 1)))))
 
  ;; Switch entry to DONE when all subentries are done, to TODO
  ;; otherwise.
