@@ -1773,7 +1773,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
     (with-current-buffer buffer
       (erase-buffer)
       (insert prompt)
-      (insert "\n\n-->\n\n")
+      (insert "\n\n---\n\n")
       (insert response))))
 
 (defun my/gptel-define-word (start end)
