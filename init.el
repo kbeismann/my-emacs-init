@@ -1785,7 +1785,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
      :callback
      (lambda (response info)
        (my/gptel-stash-response
-        "*Last Definition*" (plist-get info :context) response)
+        (format "*Definition: %s*" input) (plist-get info :context) response)
        (message response))
      :system my/gptel-word-definition-prompt
      :context input)))
