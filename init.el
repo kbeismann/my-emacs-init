@@ -1762,7 +1762,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
 (define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
 (defvar my/gptel-word-definition-prompt
-  "Give a short definition of this word or phrase. Provide 3 usage examples, synonyms, and antonyms."
+  "Give a short definition of this word or phrase in a Merriam-Webster style. Provide usage examples, synonyms, and antonyms. Use strict Org mode formatting. Synonyms and antonyms should be comma-separated."
   "Style prompt used to define a word.")
 (defun my/gptel-stash-response (buffer prompt response)
   "Store a response in a buffer."
