@@ -1676,6 +1676,27 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
        (define-key
         my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
 
+(defun my/gptel-generate-branch-name ()
+  "Prompt for branch purpose, generate branch name with GPT, then let user edit it."
+  (interactive)
+  (let*
+      ((description (read-string "Describe the purpose of the new branch: "))
+       (prompt
+        (concat
+         "You are a Git expert. Convert the following description into a concise, kebab-case branch name. Use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. Only return the branch name: no quotes, punctuation, or explanations. "
+         description)))
+    (require 'gptel)
+    (gptel-request
+     prompt
+     :callback
+     (lambda (response _buffer)
+       (let* ((branch-name (string-trim response))
+              (final-name (read-string "Edit branch name: " branch-name)))
+         (kill-new final-name)
+         (message "Final branch name: %s (copied to kill ring)" final-name))))))
+
+(define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
+
 (defconst my/gptel-coding-base-system-prompt
   "You are a proficient coder. Return only ASCII. Be succinct. Separate title from body. Only include arguments as continuous text.")
 
