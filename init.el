@@ -1816,14 +1816,13 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
         (delete-region start end)
         (insert correction)))))
 
-(require 'uuid)
-
 (defun my/gptel-proof (start end &optional aggressive)
-  "Proof-read the region."
+  "Proof-read the selected region between START and END.
+If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
   (interactive "r\nP")
-  (when (not (use-region-p))
+  (unless (use-region-p)
     (error "No region selected"))
-  (let* ((marker (format "{proof:%s}" (uuid-string)))
+  (let* ((marker (format "{proof:%s}" (format-time-string "%s%N")))
          (input (buffer-substring start end))
          (prompt-style
           (if aggressive
