@@ -1740,6 +1740,37 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
 
 (define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
+(defvar my/gptel-word-definition-prompt
+  "Give a short definition of this word or phrase. Provide 3 usage examples, synonyms, and antonyms."
+  "Style prompt used to define a word.")
+(defun my/gptel-stash-response (buffer prompt response)
+  "Store a response in a buffer."
+  (let ((buffer (get-buffer-create buffer)))
+    (with-current-buffer buffer
+      (erase-buffer)
+      (insert prompt)
+      (insert "\n\n-->\n\n")
+      (insert response))))
+
+(defun my/gptel-define-word (start end)
+  "Use an LLM to define the current word of the region."
+  (interactive "r")
+  (unless (region-active-p)
+    (error "No region selected"))
+  (let ((input
+         (buffer-substring-no-properties (region-beginning) (region-end))))
+    (gptel-request
+     nil
+     :callback
+     (lambda (response info)
+       (my/gptel-stash-response
+        "*Last Definition*" (plist-get info :context) response)
+       (message response))
+     :system my/gptel-word-definition-prompt
+     :context input)))
+
+(define-key global-map (kbd "C-c g w") #'my/gptel-define-word)
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
