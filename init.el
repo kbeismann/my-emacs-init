@@ -1771,6 +1771,67 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
 
 (define-key global-map (kbd "C-c g w") #'my/gptel-define-word)
 
+(defvar my/gptel-proof-base-prompt
+  "Fix spelling, punctuation, and grammer in the following text. Only return the improved version. The returned text should use a line length and breaks as the previous one. Keep whitespace patterns as is."
+  "Base prompt for proof reading.")
+
+(defvar my/gptel-proof-gentle-prompt
+  (concat
+   my/gptel-proof-base-prompt
+   "Where possible, keep the word choice and tone unchanged. Try to keep a Git diff as small as possible."))
+
+(defvar my/gptel-proof-aggressive-prompt
+  (concat
+   my/gptel-proof-base-prompt
+   "Rewrite the text.  Be aggressive with improvements."))
+
+(defun my/gptel-proof-apply-fix (buffer marker correction)
+  "Apply the suggested changes."
+  (with-current-buffer buffer
+    (goto-char (point-min))
+    (when (re-search-forward marker nil t)
+      (let* ((end (point))
+             (start (- end (length marker))))
+        (delete-region start end)
+        (insert correction)))))
+
+(require 'uuid)
+
+(defun my/gptel-proof (start end &optional aggressive)
+  "Proof-read the region."
+  (interactive "r\nP")
+  (when (not (use-region-p))
+    (error "No region selected"))
+  (let* ((marker (format "{proof:%s}" (uuid-string)))
+         (input (buffer-substring start end))
+         (prompt-style
+          (if aggressive
+              "aggressive"
+            "gentle"))
+         (start-conflict "<<<<<<< Original\n")
+         (sep-conflict "=======\n")
+         (end-conflict (format ">>>>>>> Proofread (%s)\n" prompt-style)))
+    (save-excursion
+      (goto-char start)
+      (insert start-conflict)
+      (goto-char (+ end (length start-conflict)))
+      (insert (concat sep-conflict marker "\n" end-conflict)))
+    (gptel-request
+     input
+     :callback
+     (lambda (response info)
+       (if response
+           (my/gptel-proof-apply-fix
+            (plist-get info :buffer) (plist-get info :context) response)
+         (error "Proofread error: %s" (plist-get info :status))))
+     :context marker
+     :system
+     (if aggressive
+         my/gptel-proof-aggressive-prompt
+       my/gptel-proof-gentle-prompt))))
+
+(define-key global-map (kbd "C-c g p") #'my/gptel-proof)
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
