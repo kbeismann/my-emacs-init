@@ -1764,10 +1764,12 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
 (defvar my/gptel-word-definition-prompt
   "Give a short definition of this word or phrase in a Merriam-Webster style. Provide usage examples, synonyms, and antonyms. Use strict Org mode formatting. Synonyms and antonyms should be comma-separated."
   "Style prompt used to define a word.")
-(defun my/gptel-stash-response (buffer prompt response)
-  "Store a response in a buffer."
-  (let ((buffer (get-buffer-create buffer)))
+
+(defun my/gptel-stash-response (buffer-name prompt response)
+  "Store a response in a buffer named BUFFER-NAME and set it to org-mode."
+  (let ((buffer (get-buffer-create buffer-name)))
     (with-current-buffer buffer
+      (org-mode) ;; Set the major mode to org-mode
       (erase-buffer)
       (insert prompt)
       (insert "\n\n---\n\n")
