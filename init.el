@@ -1602,7 +1602,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
         my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
 
 (defconst my/gptel-base-system-prompt
-  "Use double spacing after dots. Return only ASCII.")
+  "Use double spacing after dots between sentences. Return only ASCII.")
 
 (defun my/gptel-replace-with-docstring ()
   "Generate and replace the selected function with the same function plus a minimalist docstring."
