@@ -102,6 +102,8 @@
  :init (benchmark-init/activate)
  :hook (after-init . benchmark-init/deactivate))
 
+(use-package shfmt)
+
 (use-package elisp-autofmt :commands (elisp-autofmt-mode elisp-autofmt-buffer))
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
