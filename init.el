@@ -102,10 +102,7 @@
  :init (benchmark-init/activate)
  :hook (after-init . benchmark-init/deactivate))
 
-(use-package
- elisp-autofmt
- :commands (elisp-autofmt-mode elisp-autofmt-buffer)
- :hook (emacs-lisp-mode . elisp-autofmt-mode))
+(use-package elisp-autofmt :commands (elisp-autofmt-mode elisp-autofmt-buffer))
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
 (defvar my-gitdir (file-truename "~/gitdir/my-git/")
