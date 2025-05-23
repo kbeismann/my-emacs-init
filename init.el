@@ -158,8 +158,6 @@
 (setq large-file-warning-threshold (* 10 1024 1024)) ; Adjust file size to 10MB.
 
 ;; Editing and indentation.
-(setq tab-width 4) ; Default tab width.
-(setq-default indent-tabs-mode nil) ; Always indent with spaces.
 (setq tab-always-indent t) ; Tab indents before completion.
 (setq next-line-add-newlines t) ; New line when C-n.
 (setq-default fill-column my-default-line-width) ; Set M-q columns.
@@ -942,7 +940,11 @@
 ;; Activate tree-sitter for Python.
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
-(setq python-indent-offset 4)
+(defun my-python-mode-settings ()
+  "Custom settings for `python-mode'."
+  (setq-local python-indent-offset 8)
+  (setq-local indent-tabs-mode nil))
+(add-hook 'python-ts-mode-hook 'my-python-mode-settings)
 
 (use-package
  sphinx-doc
