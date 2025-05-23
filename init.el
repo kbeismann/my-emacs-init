@@ -911,8 +911,6 @@
     space-before-tab ;; Visualize spaces immediately before a TAB.
     space-after-tab ;; Visualize spaces immediately after a TAB.
     missing-newline-at-eof ;; Visualize when the last line is not followed by a newline.
-    indentation ;; Visualize indentation using spaces.
-    indentation::space ;; Visualize spaces used for indentation.
     newline ;; Visualize newlines.
     newline-mark ;; Replace newlines with `whitespace-display-chars`.
     )))
