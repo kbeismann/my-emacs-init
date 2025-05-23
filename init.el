@@ -960,6 +960,8 @@
 
 (use-package python-docstring :hook (python-base-mode . python-docstring-mode))
 
+(use-package ruff-format)
+
 (use-package
  rust-mode
  :config
