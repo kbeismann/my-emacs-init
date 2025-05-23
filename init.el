@@ -905,8 +905,6 @@
   whitespace-style
   '(face ;; Apply the face `whitespace` to detected characters.
     trailing ;; Visualize trailing whitespace.
-    tabs ;; Visualize TAB characters.
-    tab-mark ;; Replace TAB characters with `whitespace-display-chars`.
     empty ;; Visualize leading/trailing whitespace on empty lines or at buffer beginning/end.
     space-before-tab ;; Visualize spaces immediately before a TAB.
     space-after-tab ;; Visualize spaces immediately after a TAB.
