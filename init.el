@@ -1784,6 +1784,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
     (error "No region selected"))
   (let ((input
          (buffer-substring-no-properties (region-beginning) (region-end))))
+    (require 'gptel)
     (gptel-request
      nil
      :callback
