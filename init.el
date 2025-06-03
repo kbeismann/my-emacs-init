@@ -984,6 +984,10 @@
    (lambda ()
      (interactive)
      (org-agenda nil "a")))
+  ("C-c o t" .
+   (lambda ()
+     (interactive)
+     (org-agenda nil "t")))
   ("C-c o c" . org-capture))
  ;; ("C-c l" . org-store-link) ; Store link.
  (:map
