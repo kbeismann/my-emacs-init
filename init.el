@@ -1046,8 +1046,8 @@
  (setq org-log-repeat 'time)
 
  ;; Agenda settings.
- (setq org-agenda-skip-scheduled-if-done t)
- (setq org-agenda-skip-deadline-if-done t)
+ (setq org-agenda-skip-scheduled-if-done nil)
+ (setq org-agenda-skip-deadline-if-done nil)
  (setq org-agenda-include-deadlines t)
  (setq org-agenda-include-diary nil)
  ;; (setq org-agenda-block-separator nil)
