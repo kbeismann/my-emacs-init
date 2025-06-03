@@ -1266,11 +1266,22 @@
                  :and
                  (:tag
                   "personal"
-                  :not (:tag ("finances" "shoppinglist" "reading" "@work")))
+                  :not
+                  (:tag
+                   ("finances"
+                    "shoppinglist"
+                    "reading"
+                    "@work"
+                    "series"
+                    "movie")))
                  :order 3)
                 (:name "Readings" :category "readings" :tag "reading" :order 4)
-                (:name "Shopping list" :tag "shoppinglist" :order 5)
-                (:name "Other" :order 7))))))))
+                (:name "Medical" :tag "medical" :order 5)
+                (:name "Shopping list" :tag "shoppinglist" :order 6)
+                (:name "Movies" :and (:tag "movie") :order 7)
+                (:name "Series" :and (:tag "series") :order 8)
+                (:name "Travel" :and (:tag "travel") :order 9)
+                (:name "Other" :order 20))))))))
 
 (use-package
  org-appear
