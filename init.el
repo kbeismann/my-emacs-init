@@ -991,7 +991,8 @@
   (("C-c o c i" . org-clock-in)
    ("C-c o c o" . org-clock-out)
    ("C-c o s n" . org-toogle-narrow-to-subtree)
-   ("C-c o i" . org-id-get-create)))
+   ("C-c o i" . org-id-get-create)
+   ("C-c C-x C-q" . org-columns-quit)))
  :hook
  (org-mode
   .
