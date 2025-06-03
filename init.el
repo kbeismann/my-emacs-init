@@ -1861,6 +1861,7 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
          (start-conflict "<<<<<<< Original\n")
          (sep-conflict "=======\n")
          (end-conflict (format ">>>>>>> Proofread (%s)\n" prompt-style)))
+    (require 'gptel)
     (save-excursion
       (goto-char start)
       (insert start-conflict)
