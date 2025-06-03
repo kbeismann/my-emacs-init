@@ -1070,6 +1070,19 @@
   '(("^ *\\([-]\\) " (0 (prog1 ()
           (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
+ (setq org-agenda-custom-commands
+       '(("u" "Unscheduled TODOs" alltodo ""
+          ((org-super-agenda-groups
+            '((:name
+               "Unscheduled"
+               :and
+               (:todo t :not (:scheduled t) :not (:deadline t)))))))))
+ (defun my-org-agenda-unscheduled ()
+   "Display org-agenda for custom command 'u' (Unscheduled TODOs)."
+   (interactive)
+   (org-agenda nil "u"))
+ (global-set-key (kbd "C-c o u") 'my-org-agenda-unscheduled)
+
  (defun my/org-syntax-convert-keyword-case-to-lower ()
    "Convert all #+KEYWORDS to #+keywords."
    (interactive)
