@@ -119,14 +119,10 @@
   "My Emacs initialization file repository.")
 (defvar my-org-templates (concat my-init "templates.el")
   "My Org templates.")
-(defvar my-notes-dir (concat my-gitdir "my-notes/")
-  "My directory for git repositories.")
-(defvar my-notes (concat my-notes-dir "notes.org")
-  "My notes.")
 (defvar my-roam-notes (concat my-gitdir "my-roam-notes/nodes/")
   "My Roam notes.")
-(defvar my-todos (concat my-notes-dir "notes.org")
-  "My to-do list.")
+(defvar my-notes (concat my-roam-notes "20250603194556-my_notes.org")
+  "My notes.")
 (defvar my-default-line-width 80
   "My predefined characters per line (CPL) limit.")
 (defvar path-to-my-snippets (concat my-gitdir "my-emacs-init/snippets/")
@@ -1007,9 +1003,9 @@
  (org-after-todo-statistics-hook . org-summary-todo)
  :config
  ;; Configure Org directory settings and load work-related notes.
- (setq org-directory my-notes-dir)
+ (setq org-directory my-roam-notes)
  (setq org-default-notes-file my-notes)
- (setq org-todo-file my-todos)
+ (setq org-todo-file my-notes)
  (setq org-agenda-files (list org-directory my-roam-notes))
  (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
    (if (file-exists-p work-notes)
@@ -1158,50 +1154,50 @@
         ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
         ;;  :empty-lines 1)
         ;; Templates for my personal to-do list:
-        ("h" "@home")
-        ("ht"
+        ("p" "personal")
+        ("pt"
          "TODO"
          entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#A\] %^{Title} %^g\n\n%i\n\n"
          :empty-lines 1)
-        ("hn"
+        ("pn"
          "Save note"
          entry
          (file+headline org-default-notes-file "Uncategorized")
          "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n\n\n%i\n\n"
          :empty-lines 1)
-        ("hu"
+        ("pu"
          "Store URL"
          entry
          (file+headline org-default-notes-file "Uncategorized")
          "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("hr"
+        ("pr"
          "Save reading"
          entry
          (file buffer-file-name)
          "* TODO \[\#C\] \"%^{Title}\" %^g:reading:\n:PROPERTIES:\n:URL:\n:Author:\n:Year:\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("he"
+        ("pe"
          "Edit/fix file"
          entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#C\] %^{Title} %^g:code:\n:PROPERTIES:\n:LINK: %a\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("hu"
+        ("pu"
          "Save URL and check later"
          entry
          (file+headline org-todo-file "To-dos")
          "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
-        ("hm"
+        ("pm"
          "Meeting minutes"
          entry
          (file+headline org-default-notes-file "Uncategorized")
          "* TODO \[\#A\] %^{Title} :meeting:minutes:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
          :empty-lines 1)
-        ("hs"
+        ("ps"
          "Stand-up"
          entry
          (file+headline org-default-notes-file "Uncategorized")
@@ -1266,10 +1262,10 @@
               '((:name "INPROGRESS" :todo "INPROGRESS" :order -10)
                 (:name "Finances" :tag "finances" :order 2)
                 (:name
-                 "@home"
+                 "Personal"
                  :and
                  (:tag
-                  "@home"
+                  "personal"
                   :not (:tag ("finances" "shoppinglist" "reading" "@work")))
                  :order 3)
                 (:name "Readings" :category "readings" :tag "reading" :order 4)
