@@ -1883,6 +1883,15 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
 
 (define-key global-map (kbd "C-c g p") #'my/gptel-proof)
 
+(use-package
+ aidermacs
+ :bind (("C-c a" . aidermacs-transient-menu))
+ :config
+ (setenv "GEMINI_API_KEY"
+         (auth-source-pick-first-password
+          :host "generativelanguage.googleapis.com"))
+ :custom (aidermacs-default-model "gemini"))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
