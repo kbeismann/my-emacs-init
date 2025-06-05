@@ -121,7 +121,7 @@
   "My Org templates.")
 (defvar my-roam-notes (concat my-gitdir "my-roam-notes/nodes/")
   "My Roam notes.")
-(defvar my-notes (concat my-roam-notes "20250603194556-my_notes.org")
+(defvar my-notes (concat my-roam-notes "20250603194556-my_personal_notes.org")
   "My notes.")
 (defvar my-default-line-width 80
   "My predefined characters per line (CPL) limit.")
