@@ -1618,20 +1618,37 @@
     stripped))
 
 (defconst my/gptel-commit-system-prompt
-  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 80 characters. Format the body so no line is longer than 80 characters.  If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Use double spacing after periods. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title.  Do not capitalize the first word after the type, capitalize afterwards.  Be consistent with capitalization and backticks between title and body.  Do not use abbreviations."
+  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 80 characters. Format the body so no line is longer than 80 characters.  If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Use double spacing after periods. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits).  Be consistent with capitalization and backticks between title and body.  Do not use abbreviations."
   "System prompt used for GPT-based commit message generation and rewriting.")
+
+(defun my/gptel-get-recent-commits ()
+  "Get the last 5 Git commit messages with title and body from the current repository."
+  (interactive)
+  (let* ((n 5)
+         (repo-root
+          (or (when (fboundp 'magit-toplevel)
+                (magit-toplevel))
+              (string-trim
+               (shell-command-to-string "git rev-parse --show-toplevel"))))
+         (default-directory repo-root))
+    (string-trim (shell-command-to-string (format "git log -n %d" n)))))
 
 (defun my/gptel-generate-commit-message ()
   "Generate a commit message using gptel based on the diff in the current commit buffer."
   (interactive)
   (unless (bound-and-true-p git-commit-mode)
     (user-error "This command must be run in a git-commit buffer"))
-  (let ((diff (buffer-string)))
+  (let* ((diff (buffer-string))
+         (recent-commits (my/gptel-get-recent-commits))
+         (prompt
+          (concat
+           "Recent commit messages:\n\n"
+           recent-commits
+           "\n\nWrite a Git commit message for the following diff:\n\n"
+           diff)))
     (require 'gptel)
     (gptel-request
-     (concat
-      "Write a conventional Git commit message for the following diff:\n\n"
-      diff)
+     prompt
      :system my/gptel-commit-system-prompt
      :callback
      (lambda (response _buffer)
@@ -1647,7 +1664,7 @@
                     (body (string-join (cdr lines) "\n"))
                     (start (point)))
                (insert title "\n\n" body "\n\n")
-               (when (not (string-empty-p body))
+               (unless (string-empty-p body)
                  (let ((body-start (point)))
                    (goto-char start)
                    (forward-line 2)
@@ -1665,6 +1682,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
          (split (split-string buffer-contents "^#.*$" t))
          (message-part (string-trim (car split)))
          (diff-part (string-trim (string-join (cdr split) "\n")))
+         (recent-commits (my/gptel-get-recent-commits))
          (user-prompt
           (read-string
            "Rewrite prompt: "
@@ -1672,6 +1690,9 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
     (require 'gptel)
     (gptel-request
      (concat
+      "Recent commit messages:\n\n" ;; Add recent commits to the prompt
+      recent-commits
+      "\n\n"
       user-prompt
       "\n\nOriginal message:\n\n"
       message-part
