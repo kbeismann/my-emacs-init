@@ -1,6 +1,6 @@
-# Emacs initialization file
+# My Emacs initialization file
 
-## Sources (incomplete)
+## Sources
 
 * https://github.com/rememberYou/.emacs.d/blob/master/config.org/
 * https://github.com/conao3/dotfiles/blob/master/.dotfiles/.emacs.d/init.el
