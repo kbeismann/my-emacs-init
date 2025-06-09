@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; This is my personal Emacs configuration file.  The focus is on minimalism,
+;; This is my personal Emacs configuration file. The focus is on minimalism,
 ;; distraction-free editing, and visual clarity.
 ;;
 ;; Note: Some system-specific settings, such as bitmap font installation, are
@@ -152,6 +152,7 @@
 (setq mouse-yank-at-point t) ; Paste at cursor, not at mouse.
 (setq vc-follow-symlinks t) ; Always follow symbolic links.
 (setq large-file-warning-threshold (* 10 1024 1024)) ; Adjust file size to 10MB.
+(setq sentence-end-double-space nil)
 
 ;; Editing and indentation.
 (setq tab-always-indent t) ; Tab indents before completion.
@@ -548,7 +549,7 @@
 (line-number-mode 1) ; Show line number in mode line.
 
 ;; Simplify the cursor position: No proportional position (percentage) nor
-;; texts like "Bot", "Top" or "All".  Source:
+;; texts like "Bot", "Top" or "All". Source:
 ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
 (setq mode-line-position
       '( ;; %p print percent of buffer above top of window, o Top, Bot or All.
@@ -656,14 +657,12 @@
 ;; Configure Helm.
 (use-package
  image-dired
- ;; Prevent `image-dired` from being autoloaded by Helm or other
- ;; packages (e.g., when browsing images with helm-find-files and
- ;; native image preview).  Emacs 27+ uses native image-mode
- ;; rendering, and loading image-dired adds unnecessary delay
- ;; (~450ms+). Providing the feature here fakes it as loaded, so it
- ;; won't be triggered via autoload or :require from other
- ;; packages.  NOTE: This also prevents image-dired submodules
- ;; (tags, external) from loading.
+ ;; Prevent `image-dired` from being autoloaded by Helm or other packages (e.g.,
+ ;; when browsing images with helm-find-files and native image preview). Emacs
+ ;; 27+ uses native image-mode rendering, and loading image-dired adds
+ ;; unnecessary delay (~450ms+). Providing the feature here fakes it as loaded,
+ ;; so it won't be triggered via autoload or :require from other packages. NOTE:
+ ;; This also prevents image-dired submodules (tags, external) from loading.
  :init
  (eval-when-compile
    (provide 'image-dired))
@@ -725,10 +724,10 @@
  :defer nil
  :config (load-theme 'base16-zenburn t)
 
- ;; Change the terminal colors.  Not sure if it works.
+ ;; Change the terminal colors. Not sure if it works.
  (setq base16-theme-256-color-source "colors")
 
- ;; Create a variable for each color.  Note: Replace the name of the theme if
+ ;; Create a variable for each color. Note: Replace the name of the theme if
  ;; necessary.
  (defvar base00-prop (nth 01 base16-zenburn-theme-colors))
  (defvar base01-prop (nth 03 base16-zenburn-theme-colors))
@@ -766,7 +765,7 @@
  (set-face-attribute 'fringe nil
                      :background base00-prop
                      :foreground base02-prop)
- ;; Look of the current line number.  Here, the background is the color
+ ;; Look of the current line number. Here, the background is the color
  ;; of the number.
  (set-face-attribute 'line-number-current-line nil
                      :foreground base08-prop
@@ -795,7 +794,7 @@
  ;; (global-set-key (kbd "M-S-SPC") 'avy-goto-char)
  (setq avy-background t) (setq avy-all-windows t)
  ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision
- ;; char with avy-lead-face-0.  Do this even when the char is terminating.
+ ;; char with avy-lead-face-0. Do this even when the char is terminating.
  ;; Normally avy-lead-face-0 is only used for the first non-terminating
  ;; decision chars.
  (setq avy-highlight-first t)
@@ -809,7 +808,7 @@
                      :background base00-prop
                      :weight 'bold)
 
- ;; Face used for matched leading chars.  Not sure what this does.
+ ;; Face used for matched leading chars. Not sure what this does.
  (set-face-attribute 'avy-lead-face-1 nil
                      :foreground base09-prop
                      :background base00-prop
@@ -843,7 +842,7 @@
  (setq which-key-idle-secondary-delay 0)
  (which-key-mode 1))
 
-;; Configure handling parens.  Sources:
+;; Configure handling parens. Sources:
 ;; https://github.com/rejeep/emacs/blob/master/init.el
 (setq show-paren-delay 0.0)
 (setq show-paren-mode t)
@@ -912,7 +911,7 @@
  :diminish ws-butler-mode
  :config
  ;; By default, ws-butler removes trailing whitespace and lines with only
- ;; whitespace.  Add modes where you don't want automatic cleaning.
+ ;; whitespace. Add modes where you don't want automatic cleaning.
  (add-to-list 'ws-butler-global-exempt-modes 'magit-mode)
  (ws-butler-global-mode t))
 
@@ -1618,7 +1617,7 @@
     stripped))
 
 (defconst my/gptel-commit-system-prompt
-  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 80 characters. Format the body so no line is longer than 80 characters.  If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Use double spacing after periods. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits).  Be consistent with capitalization and backticks between title and body.  Do not use abbreviations."
+  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 80 characters. Format the body so no line is longer than 80 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits). Be consistent with capitalization and backticks between title and body. Do not use abbreviations."
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-get-recent-commits ()
@@ -1774,8 +1773,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
       ((code (buffer-substring-no-properties (region-beginning) (region-end)))
        (prompt
         (concat
-         "Insert a minimalist one-line docstring string in an imperative tone into this logic.  "
-         "Only return the updated version, without backticks or markdown formatting.  "
+         "Insert a minimalist one-line docstring string in an imperative tone into this logic. "
+         "Only return the updated version, without backticks or markdown formatting. "
          "If there is a docstring already, update it based on the new logic."))
        (system my/gptel-coding-base-system-prompt)
        (beg (region-beginning))
@@ -1808,7 +1807,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        (code (buffer-substring-no-properties beg end)) ; Extract the code from the region.
        (prompt
         (concat
-         "Improve the following content subtly. Make small corrections and stylistic refinements. Do not change the logic. Return only the updated version, no backticks or markdown formatting.  Add comments only for parts that are difficult to read. Use spacing and whitespaces as recommended in the respective language style guides."))
+         "Improve the following content subtly. Make small corrections and stylistic refinements. Do not change the logic. Return only the updated version, no backticks or markdown formatting. Add comments only for parts that are difficult to read. Use spacing and whitespaces as recommended in the respective language style guides."))
        (system my/gptel-coding-base-system-prompt))
     (require 'gptel)
     (gptel-request
@@ -1872,7 +1871,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
 (defvar my/gptel-proof-aggressive-prompt
   (concat
    my/gptel-proof-base-prompt
-   "Rewrite the text.  Be aggressive with improvements."))
+   "Rewrite the text. Be aggressive with improvements."))
 
 (defun my/gptel-proof-apply-fix (buffer marker correction)
   "Apply the suggested changes."
