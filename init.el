@@ -1725,7 +1725,8 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
         my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
 
 (defun my/gptel-generate-branch-name ()
-  "Prompt for branch purpose, generate branch name with GPT, then let user edit it."
+  "Prompt for branch purpose, generate branch name with GPT, then let user edit it.
+Then, prompt for the starting point, and finally create and checkout the new branch using Magit."
   (interactive)
   (let*
       ((description (read-string "Describe the purpose of the new branch: "))
@@ -1739,9 +1740,25 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
      :callback
      (lambda (response _buffer)
        (let* ((branch-name (string-trim response))
-              (final-name (read-string "Edit branch name: " branch-name)))
+              (final-name (read-string "Edit branch name: " branch-name))
+              ;; Prompt for the starting point
+              (start-point
+               (magit-read-branch-or-commit
+                "Start point (e.g., 'main', 'HEAD', 'commit-sha'): " nil)))
          (kill-new final-name)
-         (message "Final branch name: %s (copied to kill ring)" final-name))))))
+         (message "Final branch name: %s (copied to kill ring)" final-name)
+         ;; Automatically call Magit to create and checkout the branch
+         (when (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
+           ;; Pass final-name (the new branch name) as the first argument
+           ;; and start-point (where to start from) as the second argument.
+           (magit-branch-create final-name start-point) ; Create the branch
+           (magit-checkout final-name) ; Checkout the branch
+           (message "Branch '%s' created from '%s' and checked out."
+                    final-name
+                    start-point))
+         (unless (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
+           (message
+            "Magit functions `magit-branch-create` or `magit-checkout` not found. Branch not created automatically.")))))))
 
 (define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
 
