@@ -25,9 +25,6 @@
 
 ;; This is my personal Emacs configuration file. The focus is on minimalism,
 ;; distraction-free editing, and visual clarity.
-;;
-;; Note: Some system-specific settings, such as bitmap font installation, are
-;; assumed to be handled outside this repository.
 
 ;;; Code:
 
