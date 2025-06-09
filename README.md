@@ -1,4 +1,4 @@
-# My Emacs initialization file
+# Emacs configuration
 
 ## Sources
 
