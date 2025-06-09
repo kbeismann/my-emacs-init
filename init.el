@@ -28,10 +28,6 @@
 
 ;;; Code:
 
-(let ((early-init-f (expand-file-name "early-init.el" user-emacs-directory)))
-  (add-to-list 'load-path early-init-f)
-  (require 'early-init))
-
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; Load work-related settings.
