@@ -1749,7 +1749,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
   "You are a proficient coder. Return only ASCII. Be succinct. Separate title from body. Only include arguments as continuous text.")
 
 (defun my/gptel-replace-with-docstring ()
-  "Generate and replace the selected function with the same function plus a minimalist docstring."
+  "Add a minimalist docstring to selected code region using GPTel."
   (interactive)
   (unless (use-region-p)
     (user-error "Please select a region containing the function code"))
