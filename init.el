@@ -31,7 +31,6 @@
 
 ;;; Code:
 
-;; Require early-init.el.
 (let ((early-init-f (expand-file-name "early-init.el" user-emacs-directory)))
   (add-to-list 'load-path early-init-f)
   (require 'early-init))
@@ -53,10 +52,7 @@
         ("melpa" . "https://melpa.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 (setq package-archive-priorities
-      '(("gnu" . 2)
-        ("org" . 1)
-        ("melpa" . 3) ; MELPA is often preferred for latest versions
-        ("melpa-stable" . 0))) ; MELPA-stable often has lower priority than MELPA
+      '(("gnu" . 2) ("org" . 1) ("melpa" . 3) ("melpa-stable" . 0)))
 
 ;; Initialize package BEFORE loading use-package and straight.
 (package-initialize)
@@ -146,18 +142,18 @@
 
 (setq user-full-name "Karsten Beismann")
 
-;; Misc. settings.
-(setq ring-bell-function 'ignore) ; No annoying bell.
-(setq inhibit-startup-screen t) ; No starting screen.
-(setq mouse-yank-at-point t) ; Paste at cursor, not at mouse.
-(setq vc-follow-symlinks t) ; Always follow symbolic links.
-(setq large-file-warning-threshold (* 10 1024 1024)) ; Adjust file size to 10MB.
+;; Miscellaneous settings.
+(setq ring-bell-function 'ignore)
+(setq inhibit-startup-screen t)
+(setq mouse-yank-at-point t)
+(setq vc-follow-symlinks t)
+(setq large-file-warning-threshold (* 10 1024 1024))
 (setq sentence-end-double-space nil)
 
 ;; Editing and indentation.
-(setq tab-always-indent t) ; Tab indents before completion.
-(setq next-line-add-newlines t) ; New line when C-n.
-(setq-default fill-column my-default-line-width) ; Set M-q columns.
+(setq tab-always-indent t)
+(setq next-line-add-newlines t)
+(setq-default fill-column my-default-line-width)
 
 ;; Better scrolling behavior.
 (setq scroll-step 1)
@@ -166,12 +162,13 @@
 (setq scroll-preserve-screen-position nil)
 (setq auto-window-vscroll nil)
 (setq next-screen-context-lines 30)
-;; Cleaner visuals, max. decoration.
+
+;; Cleaner visuals, maximum decoration.
 (setq line-spacing nil)
 (setq truncate-lines t)
 (setq font-lock-maximum-decoration t)
 (setq diff-font-lock-syntax t)
-(setq fringe-mode 1) ; This is the value for "minimal".
+(setq fringe-mode 1)
 
 ;; Clipboard behavior.
 (setq x-select-enable-clipboard-manager t)
@@ -192,9 +189,9 @@
 ;; Better interpreter settings: scroll down with input/output.
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
-(setq comint-move-point-for-output t) ; Not sure what this does.
+(setq comint-move-point-for-output t)
 
-;; GC tuning for minibuffer interaction
+;; GC tuning for minibuffer interaction.
 (defun my/gc-minibuffer-setup-hook ()
   (setq gc-cons-threshold most-positive-fixnum))
 
@@ -208,37 +205,22 @@
 ;; Configure warnings.
 (setq warning-suppress-types '((yasnippet backquote-change)))
 
-;; OS and font-related settings based on the system type
+;; OS and font-related settings based on the system type.
 (prog1 "OS- and font-related settings."
   (defvar checkos0 "Checking OS and hostname...")
   (defvar font0 "Looking for font family...")
   (defvar font1 "Setting font...")
   (defvar my-font-huckleberry "Dina:pixelsize=13"
-    ;; "Hack:pixelsize=14"
     "My default font for Huckleberry.")
   (defvar my-font-family-huckleberry "Dina"
-    ;; "Hack"
     "My default font family for Huckleberry.")
-  (defvar my-font-arch
-    ;; "DejaVu Sans Mono-10"; Arch
-    ;; "Hack:pixelsize=12"
-    ;; "Terminus:pixelsize=12"
-    "Dina:pixelsize=13"
+  (defvar my-font-arch "Dina:pixelsize=13"
     "My default font for Arch Linux.")
-  (defvar my-font-family-arch
-    ;; "DejaVu"
-    ;; "Hack"
-    ;; "Terminus"
-    "Dina"
+  (defvar my-font-family-arch "Dina"
     "My default font family for Arch Linux.")
-  (defvar my-font-ubuntu
-    ;; "--terminus-medium-r-normal--16.5-120-*-*-*-*-*-*"
-    ;; "Terminus:pixelsize=14"
-    "Hack:pixelsize=14"
+  (defvar my-font-ubuntu "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
-  (defvar my-font-family-ubuntu
-    ;; "Terminus"
-    "Hack"
+  (defvar my-font-family-ubuntu "Hack"
     "My default font family setting for Ubuntu.")
 
   (progn
@@ -253,7 +235,7 @@
             (substring (shell-command-to-string "hostname") 0 -1))
           (message "Found hostname: %s" my-hostname)
 
-          ;; Font setup for Huckleberry
+          ;; Font setup for Huckleberry.
           (if (string-equal "huckleberry" (substring my-hostname 0 11))
               (progn
                 (message "Current font settings for Huckleberry: %s"
@@ -272,7 +254,7 @@
                       (message "Font installed: %s" my-font-family-huckleberry)
                       (add-to-list
                        'default-frame-alist `(font . ,my-font-huckleberry)))))
-            ;; Font setup for Arch
+            ;; Font setup for Arch.
             (if (string-equal "Arch" (substring my-os 1 5))
                 (progn
                   (message "Current font settings for Arch Linux: %s"
@@ -292,7 +274,7 @@
                         (message font1)
                         (add-to-list
                          'default-frame-alist `(font . ,my-font-arch)))))
-              ;; Font setup for Ubuntu
+              ;; Font setup for Ubuntu.
               (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
                   (progn
                     (message "Current font settings for Ubuntu: %s"
@@ -332,7 +314,7 @@
  (setq no-littering-abbrev-directory
        (expand-file-name "abbrev/" no-littering-var-directory))
 
- ; Configure recentf exclude list.
+ ;; Configure recentf exclude list.
  (setq recentf-exclude '(no-littering-var-directory))
  (setq recentf-exclude '(no-littering-etc-directory))
 
@@ -384,11 +366,11 @@
  (setq create-lockfiles nil))
 
 ;; Configure line-numbering and enable it in specific modes.
-(setq display-line-numbers nil) ; No line numbers (prog-mode only).
-(setq display-line-numbers-width 4) ; Default width.
-(setq display-line-numbers-widen t) ; Don't disregard narrowing.
+(setq display-line-numbers nil)
+(setq display-line-numbers-width 4)
+(setq display-line-numbers-widen t)
 
-;; Only enable line numbers in prog-mode
+;; Only enable line numbers in prog-mode and related modes.
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'conf-mode-hook #'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook #'display-line-numbers-mode)
@@ -396,15 +378,14 @@
 (use-package hl-line :init (global-hl-line-mode 1))
 
 ;; Custom functions.
-;;; From https://www.emacswiki.org/emacs/UnfillParagraph.
-;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+;; From https://www.emacswiki.org/emacs/UnfillParagraph.
+;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph.
 (defun my/unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
   (interactive (progn
                  (barf-if-buffer-read-only)
                  '(t)))
   (let ((fill-column (point-max))
-        ;; This would override `fill-column' if it's an integer.
         (emacs-lisp-docstring-fill-column t))
     (fill-paragraph nil region)))
 (define-key global-map "\M-Q" 'my/unfill-paragraph)
@@ -429,6 +410,7 @@
 (define-key global-map (kbd "C-c c p") 'my/copy-current-path-to-file)
 
 (defun my/go-to-chezmoi-directory ()
+  "Go to the Chezmoi configuration directory."
   (interactive)
   (let ((chezmoi-dir (expand-file-name "~/.local/share/chezmoi/")))
     (find-file chezmoi-dir)))
@@ -473,8 +455,8 @@
         (with-temp-buffer
           (insert-file-contents file)
           (org-mode)
-          (ignore-errors ;; Ignore errors in case of no headlines
-            (org-align-tags)) ;; Align tags in the entire buffer
+          (ignore-errors
+            (org-align-tags))
           (write-file file)
           (message "Aligned tags in %s" file))))))
 
@@ -492,18 +474,15 @@
             'append
             'local))
 
-;; Add the hook function to org-mode-hook
+;; Add the hook function to org-mode-hook and emacs-lisp-mode-hook.
 (add-hook 'org-mode-hook #'my/add-collapse-to-before-save)
-
-;; Add the hook function to emacs-lisp-mode-hook
 (add-hook 'emacs-lisp-mode-hook #'my/add-collapse-to-before-save)
 
 (defun my/batch-collapse-blank-lines (directory)
   "Collapse multiple blank lines in all files within DIRECTORY and its subdirectories."
   (interactive "DDirectory to process: ")
-  (let
-      ((files (find-lisp-find-files directory ".")) ; Find all regular files recursively
-       (processed-count 0))
+  (let ((files (find-lisp-find-files directory "."))
+        (processed-count 0))
     (message "Processing files recursively in %s..." directory)
     (dolist (file files)
       (condition-case err
@@ -544,22 +523,15 @@
  (setq undo-tree-visualizer-diff t)
  (global-undo-tree-mode t))
 
-;; These options have to be included in mode-line-format as well.
-(column-number-mode 1) ; Show column number.
-(line-number-mode 1) ; Show line number in mode line.
+;; Show column and line number in mode line.
+(column-number-mode 1)
+(line-number-mode 1)
 
-;; Simplify the cursor position: No proportional position (percentage) nor
-;; texts like "Bot", "Top" or "All". Source:
+;; Simplify the cursor position: No proportional position (percentage) nor texts
+;; like "Bot", "Top" or "All". Source:
 ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
 (setq mode-line-position
-      '( ;; %p print percent of buffer above top of window, o Top, Bot or All.
-        ;; (-3 "%p")
-        ;; %I print the size of the buffer, with kmG etc.
-        ;; (size-indication-mode ("/" (-4 "%I")))
-        ;; " "
-        ;; %l print the current line number.
-        ;; %c print the current column.
-        (line-number-mode ("%l" (column-number-mode ":%c")))))
+      '((line-number-mode ("%l" (column-number-mode ":%c")))))
 
 (use-package
  yasnippet
@@ -577,10 +549,10 @@
 
 ;; Configure Dired.
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(setq dired-dwim-target t) ; Better target.
-(setq dired-recursive-copies 'always) ; Copy recursively.
-(setq dired-recursive-deletes 'always) ; Delete recursively.
-(setq dired-hide-details-hide-symlink-targets nil) ; Show symlinks.
+(setq dired-dwim-target t)
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+(setq dired-hide-details-hide-symlink-targets nil)
 (setq dired-listing-switches "-lahgF --group-directories-first")
 (setq dired-kill-when-opening-new-dired-buffer nil)
 (setq delete-by-moving-to-trash t)
@@ -610,8 +582,9 @@
 (use-package
  async
  :diminish dired-async-mode
- :config (setq dired-async-mode 1)
- (setq async-bytecomp-package-mode 0)) ; Not sure if this creates issues.
+ :config
+ (setq dired-async-mode 1)
+ (setq async-bytecomp-package-mode 0))
 
 (use-package
  flyspell
@@ -619,14 +592,11 @@
  :hook
  ((prog-mode . (lambda () (flyspell-prog-mode)))
   (text-mode . (lambda () (flyspell-mode))))
- ;; Deactivate for logs and log editing.
- ;; (log-edit-mode-hook . (lambda() (flyspell-mode -1)))
- ;; (change-log-mode-hook . (lambda() (flyspell-mode -1))))
  :config
  ;; If Hunspell is present, setup Hunspell dictionaries.
  (when (executable-find "hunspell")
    (setq
-    ispell-program-name (executable-find "hunspell") ; Use Hunspell.
+    ispell-program-name (executable-find "hunspell")
     ispell-local-dictionary "en_US"
     ispell-dictionary "en_US"
     ispell-really-hunspell nil ; Temporary fix for Hunspell 1.7.
@@ -700,7 +670,6 @@
  ;; Use fuzzy matching when possible.
  (setq helm-mode-fuzzy-match t)
  (setq helm-completion-in-region-fuzzy-match t)
- ;; (setq helm-display-function 'helm-display-buffer-in-own-frame)
  (setq helm-display-buffer-reuse-frame nil)
  (setq helm-use-undecorated-frame-option t)
  ;; Some helm-tramp settings.
@@ -727,8 +696,7 @@
  ;; Change the terminal colors. Not sure if it works.
  (setq base16-theme-256-color-source "colors")
 
- ;; Create a variable for each color. Note: Replace the name of the theme if
- ;; necessary.
+ ;; Create a variable for each color.
  (defvar base00-prop (nth 01 base16-zenburn-theme-colors))
  (defvar base01-prop (nth 03 base16-zenburn-theme-colors))
  (defvar base02-prop (nth 05 base16-zenburn-theme-colors))
@@ -751,7 +719,7 @@
  (defvar base0E-prop (nth 29 base16-zenburn-theme-colors))
  (defvar base0F-prop (nth 31 base16-zenburn-theme-colors))
 
- ;; Remove the vertical line between windows:
+ ;; Remove the vertical line between windows.
  (set-face-background 'vertical-border base00-prop)
  (set-face-foreground 'vertical-border (face-background 'vertical-border))
 
@@ -779,20 +747,13 @@
   '(font-lock-keyword-face ((t (:weight bold))))
   '(font-lock-builtin-face ((t (:weight bold))))))
 
-;; '(font-lock-function-name-face ((t (:weight bold))))
-;; '(font-lock-comment-delimiter-face ((t (:slant italic))))
-;; '(font-lock-comment-face ((t (:slant italic))))
-
 (use-package
  avy
  :after base16-theme
  :bind* (("C-z" . avy-goto-char))
  :init
  (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
- :config
- ;; (define-key global-map (kbd "M-S-SPC") nil)
- ;; (global-set-key (kbd "M-S-SPC") 'avy-goto-char)
- (setq avy-background t) (setq avy-all-windows t)
+ :config (setq avy-background t) (setq avy-all-windows t)
  ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision
  ;; char with avy-lead-face-0. Do this even when the char is terminating.
  ;; Normally avy-lead-face-0 is only used for the first non-terminating
@@ -842,12 +803,9 @@
  (setq which-key-idle-secondary-delay 0)
  (which-key-mode 1))
 
-;; Configure handling parens. Sources:
-;; https://github.com/rejeep/emacs/blob/master/init.el
+;; Configure handling parens.
 (setq show-paren-delay 0.0)
 (setq show-paren-mode t)
-;; From
-;; https://github.com/conao3/dotfiles/commit/d9c0f0dc55e7c65517b2c9ce8eb01f96a425ffd1#diff-f48385f05c9a82908d8bd23c391bbbd3
 (use-package
  smartparens
  :diminish (smartparens-mode smartparens-global-mode)
@@ -984,7 +942,6 @@
      (interactive)
      (org-agenda nil "t")))
   ("C-c o c" . org-capture))
- ;; ("C-c l" . org-store-link) ; Store link.
  (:map
   org-mode-map
   (("C-c o c i" . org-clock-in)
@@ -1009,7 +966,6 @@
  (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
    (if (file-exists-p work-notes)
        (let ()
-         "Load work-related notes."
          (message "%s" "Found work-related notes...")
          (load work-notes))
      (message "%s" "No work-related notes found.")))
@@ -1026,7 +982,7 @@
  (setq org-indent-mode-turns-on-hiding-stars nil)
  (setq org-adapt-indentation nil)
 
- ;; Misc.
+ ;; Miscellaneous.
  (setq org-src-window-setup 'other-window)
  (setq org-tags-column (- my-default-line-width))
  (setq org-image-actual-width nil)
@@ -1049,13 +1005,11 @@
  (setq org-agenda-skip-deadline-if-done nil)
  (setq org-agenda-include-deadlines t)
  (setq org-agenda-include-diary nil)
- ;; (setq org-agenda-block-separator nil)
  (setq org-agenda-compact-blocks t)
  (setq org-agenda-start-with-log-mode nil)
  ;; Better calendar settings: Include last week only if today is Monday,
  ;; always show three weeks. and always start the week on Monday.
  (setq calendar-week-start-day 1)
- ;; (setq org-agenda-start-day . "-7d")
  (setq org-agenda-start-on-weekday 1)
  (setq org-agenda-span 9)
 
@@ -1097,16 +1051,12 @@
              Example: \"#+TITLE\" -> \"#+title\"
                       \"#+BEGIN_EXAMPLE\" -> \"#+begin_example\"
 
-             Inspiration:
-             https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c1210daf0."
+             Inspiration: https://code.orgmode.org/bzg/org-mode/commit/13424336a6f30c50952d291e7a82906c1210daf0."
    (interactive)
    (save-excursion
      (goto-char (point-min))
      (let ((case-fold-search nil)
            (count 0))
-       ;; Match examples: "#+FOO bar", "#+FOO:", "=#+FOO=", "~#+FOO~",
-       ;;                 "‘#+FOO’", "“#+FOO”", ",#+FOO bar",
-       ;;                 "#+FOO_bar<eol>", "#+FOO<eol>".
        (while (re-search-forward
                "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
                nil
@@ -1141,19 +1091,11 @@
    (if (and (file-exists-p templates) (boundp 'org-capture-templates))
        (let ()
          (message "%s" "Adding templates for work...")
-         (load templates)
-         "Add templates for work.")
+         (load templates))
      (message "%s" "No work-related templates specified.")
      (setq
       org-capture-templates
-      '(
-        ;; Key, name, type, target, template, options.
-        ;; ("n" "Save Note" entry
-        ;;  (file+headline "~/gitdir/orgdir/notes.org" "UNCATEGORIZED")
-        ;;  "* TODO \[\#C\] %^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n\n%i\n\n"
-        ;;  :empty-lines 1)
-        ;; Templates for my personal to-do list:
-        ("p" "personal")
+      '(("p" "personal")
         ("pt"
          "TODO"
          entry
@@ -1164,43 +1106,43 @@
          "Save note"
          entry
          (file+headline org-default-notes-file "Uncategorized")
-         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n\n\n%i\n\n"
+         "* UNCATEGORIZED [\#A] %^{Title} %^g\n\n\n%i\n\n"
          :empty-lines 1)
         ("pu"
          "Store URL"
          entry
          (file+headline org-default-notes-file "Uncategorized")
-         "* UNCATEGORIZED \[\#A\] %^{Title} %^g\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
+         "* UNCATEGORIZED [\#A] %^{Title} %^g\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("pr"
          "Save reading"
          entry
          (file buffer-file-name)
-         "* TODO \[\#C\] \"%^{Title}\" %^g:reading:\n:PROPERTIES:\n:URL:\n:Author:\n:Year:\n:END:\n\n%i\n\n"
+         "* TODO [\#C] \"%^{Title}\" %^g:reading:\n:PROPERTIES:\n:URL:\n:Author:\n:Year:\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("pe"
          "Edit/fix file"
          entry
          (file+headline org-todo-file "To-dos")
-         "* TODO \[\#C\] %^{Title} %^g:code:\n:PROPERTIES:\n:LINK: %a\n:END:\n\n%i\n\n"
+         "* TODO [\#C] %^{Title} %^g:code:\n:PROPERTIES:\n:LINK: %a\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("pu"
          "Save URL and check later"
          entry
          (file+headline org-todo-file "To-dos")
-         "* TODO \[\#A\] %^{Title} %^g:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
+         "* TODO [\#A] %^{Title} %^g:url:\n:PROPERTIES:\n:URL: %x\n:END:\n\n%i\n\n"
          :empty-lines 1)
         ("pm"
          "Meeting minutes"
          entry
          (file+headline org-default-notes-file "Uncategorized")
-         "* TODO \[\#A\] %^{Title} :meeting:minutes:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
+         "* TODO [\#A] %^{Title} :meeting:minutes:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Attendees:*\n\n  + [X] Karsten Beismann\n\n- *Agenda:*\n\n  1. ...%i\n\n - *Notes:*\n\n  + ...\n\n- *Next steps:*\n\n  + ...\n\n"
          :empty-lines 1)
         ("ps"
          "Stand-up"
          entry
          (file+headline org-default-notes-file "Uncategorized")
-         "* TODO \[\#A\] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
+         "* TODO [\#A] Stand-up :meeting:standup:%^g\nSCHEDULED: %T\n:PROPERTIES:\n:END:\n\n- *Progress since the last meeting:*\n\n  1. ...%i\n\n- *Outlook:*\n\n  1. ...\n\n - *Questions/collaboration:*\n\n  + ...\n\n- *Notes:*\n\n  + ...\n\n"
          :empty-lines 1)))))
 
  ;; Switch entry to DONE when all subentries are done, to TODO
@@ -1208,7 +1150,7 @@
  (defun my/org-summary-todo (n-done n-not-done)
    "Switch entry to DONE when all subentries are done, to TODO otherwise."
    (let (org-log-done-with-time
-         org-log-states) ; turn off logging
+         org-log-states)
      (org-todo
       (if (= n-not-done 0)
           "DONE"
@@ -1220,18 +1162,15 @@
  (org-babel-do-load-languages
   'org-babel-load-languages
   '((shell . t) (emacs-lisp . t) (org . t) (python . t) (R . t) (latex . t)))
- ;; Use Python 3
  (setq org-babel-python-command "python3")
  ;; Better source block behavior.
  (setq
   org-src-preserve-indentation t
-
   org-edit-src-content-indentation 0)
  ;; Highlight code in code blocks in native language, also use TAB as
  ;; in native language.
  (setq
   org-src-fontify-natively t
-
   org-src-tab-acts-natively t)
  ;; Change font size for LaTeX previews.
  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
@@ -1247,7 +1186,6 @@
   (setq org-agenda-include-deadlines t)
   (setq org-agenda-block-separator 61)
   (setq org-agenda-compact-blocks nil)
-  ;; org-agenda-start-with-log-mode t
   (org-super-agenda-mode t)
 
   (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
@@ -1345,19 +1283,16 @@
           (id (org-roam-node-id node-to-delete))
           (title (org-roam-node-title node-to-delete))
           (file (org-roam-node-file node-to-delete))
-          (link (concat "id:" id)) ;; Link in the form of "id:<ID>"
+          (link (concat "id:" id))
           (link-regex
            (format "\\[\\[\\(%s\\)\\(?:\\[.*?\\]\\)?\\]\\]"
                    (regexp-quote link)))
           (org-files (org-roam-list-files)))
 
-     ;; Step 2: Search and replace links in all Org-roam files
      (dolist (f org-files)
-       ;; Open file in visible buffer
        (let ((buf (find-file-noselect f)))
          (with-current-buffer buf
            (goto-char (point-min))
-           ;; Step through each matching link
            (while (re-search-forward link-regex nil t)
              (let* ((match-start (match-beginning 0))
                     (match-end (match-end 0))
@@ -1407,8 +1342,7 @@
  (use-package
   pdf-tools
   :bind (:map pdf-view-mode-map ("C-s" . isearch-forward))
-  :init
-  (pdf-loader-install) ; Prepare Emacs for using PDF Tools.
+  :init (pdf-loader-install)
   :config
   (setq pdf-view-display-size 'fit-page)
   (setq pdf-annot-activate-created-annotations t)
@@ -1429,7 +1363,7 @@
 
 ;; Configure Ediff.
 (setq ediff-window-setup-function 'ediff-setup-windows-plain) ; Don't start another frame.
-;; Revert windows on exit - needs winner mode
+;; Revert windows on exit - needs winner mode.
 (winner-mode)
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 
@@ -1544,8 +1478,7 @@
 
 (use-package
  ssh-deploy
- ;; Effortlessly deploy local files and directories to remote
- ;; hosts via Tramp:
+ ;; Effortlessly deploy local files and directories to remote hosts via Tramp.
  ;; https://github.com/cjohansson/emacs-ssh-deploy
  :disabled t
  :bind (("C-c z d" . ssh-deploy-prefix-map))
@@ -1607,7 +1540,7 @@
         gptel-model 'gemini-2.5-flash-preview-04-17
         gptel-backend gemini-backend)))))
 
-;; Define custom functions outside use-package so they are available immediately
+;; Define custom functions outside use-package so they are available immediately.
 (defun my/gptel-strip-markdown-code-block (text)
   "Remove leading/trailing triple backticks and optional language hints from TEXT."
   (let ((stripped text))
@@ -1689,7 +1622,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
     (require 'gptel)
     (gptel-request
      (concat
-      "Recent commit messages:\n\n" ;; Add recent commits to the prompt
+      "Recent commit messages:\n\n"
       recent-commits
       "\n\n"
       user-prompt
@@ -1704,7 +1637,6 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
          (with-current-buffer (current-buffer)
            (save-excursion
              (goto-char (point-min))
-             ;; Insert rewritten commit message at the top with a separator
              (let* ((msg
                      (string-trim
                       (my/gptel-strip-markdown-code-block response)))
@@ -1740,18 +1672,14 @@ Then, prompt for the starting point, and finally create and checkout the new bra
      (lambda (response _buffer)
        (let* ((branch-name (string-trim response))
               (final-name (read-string "Edit branch name: " branch-name))
-              ;; Prompt for the starting point
               (start-point
                (magit-read-branch-or-commit
                 "Start point (e.g., 'main', 'HEAD', 'commit-sha'): " nil)))
          (kill-new final-name)
          (message "Final branch name: %s (copied to kill ring)" final-name)
-         ;; Automatically call Magit to create and checkout the branch
          (when (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
-           ;; Pass final-name (the new branch name) as the first argument
-           ;; and start-point (where to start from) as the second argument.
-           (magit-branch-create final-name start-point) ; Create the branch
-           (magit-checkout final-name) ; Checkout the branch
+           (magit-branch-create final-name start-point)
+           (magit-checkout final-name)
            (message "Branch '%s' created from '%s' and checked out."
                     final-name
                     start-point))
@@ -1802,9 +1730,9 @@ Then, prompt for the starting point, and finally create and checkout the new bra
   (unless (use-region-p)
     (user-error "Please select a region to improve"))
   (let*
-      ((beg (region-beginning)) ; Get the beginning of the selected region.
-       (end (region-end)) ; Get the end of the selected region.
-       (code (buffer-substring-no-properties beg end)) ; Extract the code from the region.
+      ((beg (region-beginning))
+       (end (region-end))
+       (code (buffer-substring-no-properties beg end))
        (prompt
         (concat
          "Improve the following content subtly. Make small corrections and stylistic refinements. Do not change the logic. Return only the updated version, no backticks or markdown formatting. Add comments only for parts that are difficult to read. Use spacing and whitespaces as recommended in the respective language style guides."))
@@ -1833,7 +1761,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
   "Store a response in a buffer named BUFFER-NAME and set it to org-mode."
   (let ((buffer (get-buffer-create buffer-name)))
     (with-current-buffer buffer
-      (org-mode) ;; Set the major mode to org-mode
+      (org-mode)
       (erase-buffer)
       (insert prompt)
       (insert "\n\n---\n\n")
