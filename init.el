@@ -424,6 +424,8 @@
              directory
              processed-count)))
 
+(require 'dired-configuration)
+
 (use-package
  treesit-auto
  :custom (treesit-auto-install 'prompt)
@@ -465,44 +467,12 @@
  (yas-reload-all)
  (yas-global-mode))
 
-;; Configure Dired.
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(setq dired-dwim-target t)
-(setq dired-recursive-copies 'always)
-(setq dired-recursive-deletes 'always)
-(setq dired-hide-details-hide-symlink-targets nil)
-(setq dired-listing-switches "-lahgF --group-directories-first")
-(setq dired-kill-when-opening-new-dired-buffer nil)
-(setq delete-by-moving-to-trash t)
-
-(use-package
- dired-du
- :after dired
- :diminish dired-du-mode
- :config (setq dired-du-size-format t))
-
-(use-package
- dired-subtree
- :after dired
- :bind
- (:map dired-mode-map (";" . dired-subtree-toggle) ("'" . dired-subtree-remove))
- :config
- (setq dired-subtree-use-backgrounds nil)
- (setq dired-subtree-line-prefix "   |-"))
-
 ;; Configure Tramp settings and load tramp-term.
 (setq tramp-debug-buffer t)
 (setq tramp-read-passwd t)
 (setq tramp-default-method "ssh")
 (setq tramp-verbose 10)
 (use-package tramp-term :after tramp)
-
-(use-package
- async
- :diminish dired-async-mode
- :config
- (setq dired-async-mode 1)
- (setq async-bytecomp-package-mode 0))
 
 (use-package
  flyspell
