@@ -425,6 +425,7 @@
              processed-count)))
 
 (require 'dired-configuration)
+(require 'helm-configuration)
 
 (use-package
  treesit-auto
@@ -511,70 +512,6 @@
       ("-d" "de_DE")
       nil
       iso-8859-1))))
-
-;; Configure Helm.
-(use-package
- image-dired
- ;; Prevent `image-dired` from being autoloaded by Helm or other packages (e.g.,
- ;; when browsing images with helm-find-files and native image preview). Emacs
- ;; 27+ uses native image-mode rendering, and loading image-dired adds
- ;; unnecessary delay (~450ms+). Providing the feature here fakes it as loaded,
- ;; so it won't be triggered via autoload or :require from other packages. NOTE:
- ;; This also prevents image-dired submodules (tags, external) from loading.
- :init
- (eval-when-compile
-   (provide 'image-dired))
- ;; Unbind image-dired to ensure it's not loaded.
- (fmakunbound 'image-dired))
-(use-package
- helm
- :defer nil
- :diminish (helm-mode helm-autoresize-mode helm-minibuffer-history-mode)
- :requires helm-autoloads
- :bind*
- (("M-x" . helm-M-x)
-  ("C-s" . helm-occur)
-  ("C-x b" . helm-mini)
-  ("C-x C-f" . helm-find-files)
-  ("M-y" . helm-show-kill-ring)
-  ("C-c h" . helm-command-prefix)
-  ("C-c t h" . helm-tramp)
-  (:map
-   helm-command-map
-   ("l" . helm-locate)
-   ("s" . helm-surfraw)
-   ("r" . helm-regexp)
-   ("m" . helm-multi-files)
-   ("a" . helm-apropos)
-   ("i" . helm-imenu)))
- :init
- ;; Remove old bind for helm-command-map.
- (global-unset-key (kbd "C-x c"))
- :config
- ;; Splitting behavior.
- (setq helm-split-window-inside-p nil)
- (setq helm-move-to-line-cycle-in-source nil) ; If t breaks cycling.
- (setq helm-autoresize-mode t)
- ;; Use fuzzy matching when possible.
- (setq helm-mode-fuzzy-match t)
- (setq helm-completion-in-region-fuzzy-match t)
- (setq helm-display-buffer-reuse-frame nil)
- (setq helm-use-undecorated-frame-option t)
- ;; Some helm-tramp settings.
- (setq helm-tramp-control-master t)
- ;; Turn on helm-mode.
- (helm-mode 1))
-
-(use-package helm-tramp :after helm tramp)
-
-(use-package helm-ag :after helm)
-
-(use-package
- helm-flyspell
- :after
- helm
- flyspell
- :bind (("C-c f c" . helm-flyspell-correct)))
 
 (use-package
  base16-theme
@@ -906,7 +843,6 @@
     ("pylsp.plugins.yapf.enabled" nil nil)
     ("pylsp.plugins.pylint.enabled" nil nil)
     ("pylsp.plugins.flake8.enabled" nil nil)))
- (use-package helm-lsp :after (helm lsp) :commands helm-lsp-workspace-symbol)
  (use-package
   lsp-pyright
   :after (python lsp)
@@ -966,12 +902,6 @@
  (setq projectile-completion-system 'helm)
  (setq projectile-indexing-method 'alien)
  (add-to-list 'projectile-globally-ignored-files ' "*ediff-merge*"))
-
-(use-package
- helm-projectile
- :defer nil
- :after (projectile helm)
- :config (helm-projectile-on))
 
 (use-package
  json-mode
