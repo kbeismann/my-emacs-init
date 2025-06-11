@@ -24,6 +24,8 @@
 (column-number-mode 1)
 (line-number-mode 1)
 
+(setq blink-cursor-mode t)
+
 ;; Simplify the cursor position: No proportional position (percentage) nor texts
 ;; like "Bot", "Top" or "All". Source:
 ;; http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/
