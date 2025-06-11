@@ -51,7 +51,8 @@
               (string-trim
                (shell-command-to-string "git rev-parse --show-toplevel"))))
          (default-directory repo-root))
-    (string-trim (shell-command-to-string (format "git log -n %d" n)))))
+    (string-trim
+     (shell-command-to-string (format "git --no-pager log -n %d -p" n)))))
 
 (defun my/gptel-generate-commit-message ()
   "Generate a commit message using gptel based on the diff in the current commit buffer."
