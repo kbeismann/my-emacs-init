@@ -42,9 +42,9 @@
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-get-recent-commits ()
-  "Get the last 5 Git commit messages with title and body from the current repository."
+  "Get the last Git commit messages with title and body from the current repository."
   (interactive)
-  (let* ((n 5)
+  (let* ((n 50)
          (repo-root
           (or (when (fboundp 'magit-toplevel)
                 (magit-toplevel))
