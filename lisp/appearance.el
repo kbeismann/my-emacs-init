@@ -25,6 +25,7 @@
 (line-number-mode 1)
 
 (setq blink-cursor-mode t)
+(setq-default cursor-type 'hollow)
 
 ;; Simplify the cursor position: No proportional position (percentage) nor texts
 ;; like "Bot", "Top" or "All". Source:
