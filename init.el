@@ -108,7 +108,6 @@
 ;; Save-related settings.
 (setq save-place-mode t)
 (setq desktop-save-mode nil)
-(setq blink-cursor-mode t)
 
 ;; History.
 (setq history-length 1000)
