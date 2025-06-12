@@ -37,6 +37,23 @@
     (setq stripped (replace-regexp-in-string "\\s-*```\\s-*\\'" "" stripped))
     stripped))
 
+(defun my/gptel-insert-and-fill-commit-message (response)
+  "Process the AI response, insert it into the current buffer, and fill paragraphs."
+  (let* ((msg (string-trim (my/gptel-strip-markdown-code-block response)))
+         (parts (split-string msg "\n\n" t))
+         (paragraph-regions '()))
+
+    ;; Insert and record regions for each paragraph
+    (dolist (paragraph parts)
+      (let ((start (point)))
+        (insert paragraph)
+        (push (cons start (point)) paragraph-regions))
+      (insert "\n\n"))
+
+    ;; Fill regions (in reverse order of insertion)
+    (dolist (region (nreverse paragraph-regions))
+      (fill-region (car region) (cdr region)))))
+
 (defconst my/gptel-commit-system-prompt
   "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits). Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable."
   "System prompt used for GPT-based commit message generation and rewriting.")
@@ -77,22 +94,7 @@
          (with-current-buffer (current-buffer)
            (save-excursion
              (goto-char (point-min))
-             (let* ((msg
-                     (string-trim
-                      (my/gptel-strip-markdown-code-block response)))
-                    (parts (split-string msg "\n\n" t))
-                    (paragraph-regions '()))
-
-               ;; Insert and record regions for each paragraph
-               (dolist (paragraph parts)
-                 (let ((start (point)))
-                   (insert paragraph)
-                   (push (cons start (point)) paragraph-regions))
-                 (insert "\n\n"))
-
-               ;; Fill regions (in reverse order of insertion)
-               (dolist (region (nreverse paragraph-regions))
-                 (fill-region (car region) (cdr region)))))))))))
+             (my/gptel-insert-and-fill-commit-message response))))))))
 
 (defun my/gptel-rewrite-commit-message ()
   "Rewrite the current commit message using gptel with a user-defined prompt.
@@ -127,13 +129,8 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
          (with-current-buffer (current-buffer)
            (save-excursion
              (goto-char (point-min))
-             (let* ((msg
-                     (string-trim
-                      (my/gptel-strip-markdown-code-block response)))
-                    (lines (split-string msg "\n" t))
-                    (title (car lines))
-                    (body (string-join (cdr lines) "\n")))
-               (insert title "\n\n" body "\n\n---\n\n")))))))))
+             (insert "\n---\n\n") ; Insert separator before the new message
+             (my/gptel-insert-and-fill-commit-message response))))))))
 
 (eval-after-load "git-commit"
   '(progn
