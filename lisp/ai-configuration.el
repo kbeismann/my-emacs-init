@@ -50,15 +50,46 @@
 (defun my/gptel-get-recent-commits ()
   "Get the last Git commit messages with title and body from the current repository."
   (interactive)
-  (let* ((n 50)
+  (let* ((max-commits 15)
+         (max-diff-chars-per-commit 5000)
          (repo-root
           (or (when (fboundp 'magit-toplevel)
                 (magit-toplevel))
               (string-trim
                (shell-command-to-string "git rev-parse --show-toplevel"))))
-         (default-directory repo-root))
-    (string-trim
-     (shell-command-to-string (format "git --no-pager log -n %d -p" n)))))
+         (default-directory repo-root)
+         (log-command
+          (format
+           "git --no-pager log -n %d --pretty=format:'%%H::%%s' --reverse"
+           max-commits))
+         (commit-lines
+          (split-string (shell-command-to-string log-command) "\n" t))
+         (result ""))
+
+    (dolist (line commit-lines)
+      (let* ((parts (split-string line "::"))
+             (hash (car parts))
+             (summary (cadr parts))
+             (diff
+              (shell-command-to-string
+               (format "git --no-pager show --no-color --format=%%b %s" hash)))
+             (diff-truncated
+              (if (> (length diff) max-diff-chars-per-commit)
+                  (substring diff 0 max-diff-chars-per-commit)
+                diff))
+             (entry
+              (format "\n--- Commit: %s (%s) ---\n%s\n"
+                      summary
+                      hash
+                      diff-truncated)))
+        (setq result (concat result entry))))
+
+    (if (called-interactively-p 'interactive)
+        (with-current-buffer (get-buffer-create "*gptel-commits*")
+          (erase-buffer)
+          (insert result)
+          (pop-to-buffer (current-buffer)))
+      (string-trim result))))
 
 (defun my/gptel-generate-commit-message ()
   "Generate a commit message using gptel based on the diff in the current commit buffer."
