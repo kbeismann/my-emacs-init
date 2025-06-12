@@ -52,6 +52,7 @@
  (setq helm-display-buffer-reuse-frame nil)
  (setq helm-use-undecorated-frame-option t)
  (setq helm-tramp-control-master t)
+ (setq helm-grep-ag-command "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
  (helm-mode 1))
 
 (use-package helm-tramp :after helm tramp)
