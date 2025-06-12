@@ -105,21 +105,22 @@
            "\n\nWrite a Git commit message for the following diff:\n\n"
            diff)))
     (require 'gptel)
-    (gptel-request
-     prompt
-     :system my/gptel-commit-system-prompt
-     :callback
-     (lambda (response _buffer)
-       (when (buffer-live-p (current-buffer))
-         (with-current-buffer (current-buffer)
-           (save-excursion
-             (goto-char (point-min))
-             (let* ((processed-message
-                     (my/gptel-process-commit-message-string response))
-                    (start (point)))
-               (insert processed-message)
-               (let ((end (point)))
-                 (fill-region start end))))))))))
+    (let ((gptel-include-reasoning nil))
+      (gptel-request
+       prompt
+       :system my/gptel-commit-system-prompt
+       :callback
+       (lambda (response _buffer)
+         (when (buffer-live-p (current-buffer))
+           (with-current-buffer (current-buffer)
+             (save-excursion
+               (goto-char (point-min))
+               (let* ((processed-message
+                       (my/gptel-process-commit-message-string response))
+                      (start (point)))
+                 (insert processed-message)
+                 (let ((end (point)))
+                   (fill-region start end)))))))))))
 
 (defun my/gptel-rewrite-commit-message ()
   "Rewrite the current commit message using gptel with a user-defined prompt.
@@ -176,26 +177,28 @@ Then, prompt for the starting point, and finally create and checkout the new bra
          "You are a Git expert. Convert the following description into a concise, kebab-case branch name. Use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. Only return the branch name: no quotes, punctuation, or explanations. No abbreviations."
          description)))
     (require 'gptel)
-    (gptel-request
-     prompt
-     :callback
-     (lambda (response _buffer)
-       (let* ((branch-name (string-trim response))
-              (final-name (read-string "Edit branch name: " branch-name))
-              (start-point
-               (magit-read-branch-or-commit
-                "Start point (e.g., 'main', 'HEAD', 'commit-sha'): " nil)))
-         (kill-new final-name)
-         (message "Final branch name: %s (copied to kill ring)" final-name)
-         (when (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
-           (magit-branch-create final-name start-point)
-           (magit-checkout final-name)
-           (message "Branch '%s' created from '%s' and checked out."
-                    final-name
-                    start-point))
-         (unless (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
-           (message
-            "Magit functions `magit-branch-create` or `magit-checkout` not found. Branch not created automatically.")))))))
+    (let ((gptel-include-reasoning nil))
+      (gptel-request
+       prompt
+       :callback
+       (lambda (response _buffer)
+         (let* ((branch-name (string-trim response))
+                (final-name (read-string "Edit branch name: " branch-name))
+                (start-point
+                 (magit-read-branch-or-commit
+                  "Start point (e.g., 'main', 'HEAD', 'commit-sha'): " nil)))
+           (kill-new final-name)
+           (message "Final branch name: %s (copied to kill ring)" final-name)
+           (when (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
+             (magit-branch-create final-name start-point)
+             (magit-checkout final-name)
+             (message "Branch '%s' created from '%s' and checked out."
+                      final-name
+                      start-point))
+           (unless (and (fboundp 'magit-branch-create)
+                        (fboundp 'magit-checkout))
+             (message
+              "Magit functions `magit-branch-create` or `magit-checkout` not found. Branch not created automatically."))))))))
 
 (define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
 
@@ -218,19 +221,20 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        (beg (region-beginning))
        (end (region-end)))
     (require 'gptel)
-    (gptel-request
-     (concat prompt "\n\n" code)
-     :system system
-     :callback
-     (lambda (response _buffer)
-       (let ((doced-fn
-              (string-trim (my/gptel-strip-markdown-code-block response))))
-         (when (buffer-live-p (current-buffer))
-           (with-current-buffer (current-buffer)
-             (save-excursion
-               (delete-region beg end)
-               (goto-char beg)
-               (insert doced-fn)))))))))
+    (let ((gptel-include-reasoning nil))
+      (gptel-request
+       (concat prompt "\n\n" code)
+       :system system
+       :callback
+       (lambda (response _buffer)
+         (let ((doced-fn
+                (string-trim (my/gptel-strip-markdown-code-block response))))
+           (when (buffer-live-p (current-buffer))
+             (with-current-buffer (current-buffer)
+               (save-excursion
+                 (delete-region beg end)
+                 (goto-char beg)
+                 (insert doced-fn))))))))))
 
 (define-key prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
 
@@ -248,18 +252,19 @@ Then, prompt for the starting point, and finally create and checkout the new bra
          "Improve the following content subtly. Make small corrections and stylistic refinements. Do not change the logic. Return only the updated version, no backticks or markdown formatting. Add comments only for parts that are difficult to read. Use spacing and whitespaces as recommended in the respective language style guides."))
        (system my/gptel-coding-base-system-prompt))
     (require 'gptel)
-    (gptel-request
-     (concat prompt "\n\n" code)
-     :system system
-     :callback
-     (lambda (response _buffer)
-       (let ((new-content (string-trim response)))
-         (when (buffer-live-p (current-buffer))
-           (save-excursion
-             (goto-char beg)
-             (delete-region beg end)
-             (insert new-content)
-             (message "Applied subtle improvements."))))))))
+    (let ((gptel-include-reasoning nil))
+      (gptel-request
+       (concat prompt "\n\n" code)
+       :system system
+       :callback
+       (lambda (response _buffer)
+         (let ((new-content (string-trim response)))
+           (when (buffer-live-p (current-buffer))
+             (save-excursion
+               (goto-char beg)
+               (delete-region beg end)
+               (insert new-content)
+               (message "Applied subtle improvements.")))))))))
 
 (define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
@@ -285,15 +290,16 @@ Then, prompt for the starting point, and finally create and checkout the new bra
   (let ((input
          (buffer-substring-no-properties (region-beginning) (region-end))))
     (require 'gptel)
-    (gptel-request
-     nil
-     :callback
-     (lambda (response info)
-       (my/gptel-stash-response
-        (format "*Definition: %s*" input) (plist-get info :context) response)
-       (message response))
-     :system my/gptel-word-definition-prompt
-     :context input)))
+    (let ((gptel-include-reasoning nil))
+      (gptel-request
+       nil
+       :callback
+       (lambda (response info)
+         (my/gptel-stash-response
+          (format "*Definition: %s*" input) (plist-get info :context) response)
+         (message response))
+       :system my/gptel-word-definition-prompt
+       :context input))))
 
 (define-key global-map (kbd "C-c g w") #'my/gptel-define-word)
 
@@ -342,19 +348,20 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
       (insert start-conflict)
       (goto-char (+ end (length start-conflict)))
       (insert (concat sep-conflict marker "\n" end-conflict)))
-    (gptel-request
-     input
-     :callback
-     (lambda (response info)
-       (if response
-           (my/gptel-proof-apply-fix
-            (plist-get info :buffer) (plist-get info :context) response)
-         (error "Proofread error: %s" (plist-get info :status))))
-     :context marker
-     :system
-     (if aggressive
-         my/gptel-proof-aggressive-prompt
-       my/gptel-proof-gentle-prompt))))
+    (let ((gptel-include-reasoning nil))
+      (gptel-request
+       input
+       :callback
+       (lambda (response info)
+         (if response
+             (my/gptel-proof-apply-fix
+              (plist-get info :buffer) (plist-get info :context) response)
+           (error "Proofread error: %s" (plist-get info :status))))
+       :context marker
+       :system
+       (if aggressive
+           my/gptel-proof-aggressive-prompt
+         my/gptel-proof-gentle-prompt)))))
 
 (define-key global-map (kbd "C-c g p") #'my/gptel-proof)
 
