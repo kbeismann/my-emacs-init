@@ -103,25 +103,17 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
   (unless (bound-and-true-p git-commit-mode)
     (user-error "This command must be run in a git-commit buffer"))
   (let* ((buffer-contents (buffer-string))
-         (split (split-string buffer-contents "^#.*$" t))
-         (message-part (string-trim (car split)))
-         (diff-part (string-trim (string-join (cdr split) "\n")))
          (recent-commits (my/gptel-get-recent-commits))
-         (user-prompt
-          (read-string
-           "Rewrite prompt: "
-           "Rewrite this commit message. Only return the new commit message.")))
+         (user-prompt (read-string "Rewrite instructions: ")))
     (require 'gptel)
     (gptel-request
      (concat
       "Recent commit messages:\n\n"
       recent-commits
-      "\n\n"
+      "\n\nUser rewrite instructions:\n\n"
       user-prompt
-      "\n\nOriginal message:\n\n"
-      message-part
-      "\n\nHere is the diff context:\n\n"
-      diff-part)
+      "\n\nRewrite the commit message part of the following buffer content based on the instructions and recent commits. Only return the rewritten commit message:\n\n"
+      buffer-contents)
      :system my/gptel-commit-system-prompt
      :callback
      (lambda (response _buffer)
