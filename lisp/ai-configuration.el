@@ -38,7 +38,7 @@
     stripped))
 
 (defconst my/gptel-commit-system-prompt
-  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 80 characters. Format the body so no line is longer than 80 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits). Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description."
+  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits). Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description."
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-get-recent-commits ()
@@ -86,7 +86,8 @@
                     (start (point)))
                (insert title "\n\n" body "\n\n")
                (unless (string-empty-p body)
-                 (let ((body-start (point)))
+                 (let ((body-start (point))
+                       (fill-column 72))
                    (goto-char start)
                    (forward-line 2)
                    (setq body-start (point))
