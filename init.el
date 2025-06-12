@@ -546,7 +546,13 @@
  (setq magit-log-auto-more t)
  ;; Auto-revert.
  (setq auto-revert-interval 1)
- (setq global-auto-revert-mode nil))
+ (setq global-auto-revert-mode nil)
+
+ ;; Custom settings for git-commit-mode.
+ (defun my/git-commit-mode-settings ()
+   "Custom settings for `git-commit-mode'."
+   (setq-local fill-column 72))
+ (add-hook 'git-commit-mode-hook #'my/git-commit-mode-settings))
 
 (use-package
  git-timemachine
