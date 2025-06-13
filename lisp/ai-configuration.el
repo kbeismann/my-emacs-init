@@ -7,6 +7,13 @@
 
 ;;; Code:
 
+(defconst my/gptel-title-case-preference
+  "Use sentence case for titles unless the context shows a different pattern."
+  "General preference for title casing in AI-generated text.")
+
+(defconst my/gptel-base-system-prompt "Return only ASCII. Be succinct."
+  "Base system prompt for AI interactions, ensuring ASCII output and conciseness.")
+
 (use-package
  gptel
  :bind
@@ -44,7 +51,9 @@
     (string-join parts "\n\n"))) ; Join parts back with double newline
 
 (defconst my/gptel-commit-system-prompt
-  "You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Use ASCII only. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use <type>: <description> for the title only if the commit history shows this pattern (conventional commits). Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable."
+  (concat
+   my/gptel-base-system-prompt
+   " You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. If the commit history shows a conventional commit pattern ('feat: add new feature'), emulate that. Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable.")
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-get-recent-commits ()
@@ -203,7 +212,10 @@ Then, prompt for the starting point, and finally create and checkout the new bra
 (define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
 
 (defconst my/gptel-coding-base-system-prompt
-  "You are a proficient coder. Return only ASCII. Be succinct. Separate title from body. Only include arguments as continuous text.")
+  (concat
+   my/gptel-base-system-prompt
+   " You are a proficient coder. Separate title from body. Only include arguments as continuous text.")
+  "System prompt for AI interactions related to coding tasks.")
 
 (defun my/gptel-replace-with-docstring ()
   "Add a minimalist docstring to selected code region using GPTel."
@@ -269,7 +281,11 @@ Then, prompt for the starting point, and finally create and checkout the new bra
 (define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
 (defvar my/gptel-word-definition-prompt
-  "Give a short definition of this word or phrase in a Merriam-Webster style. Provide usage examples, synonyms, and antonyms. Synonyms and antonyms should be comma-separated."
+  (concat
+   my/gptel-base-system-prompt
+   " "
+   my/gptel-title-case-preference
+   " Give a short definition of this word or phrase in a Merriam-Webster style. Provide usage examples, synonyms, and antonyms. Synonyms and antonyms should be comma-separated.")
   "Style prompt used to define a word.")
 
 (defun my/gptel-stash-response (buffer-name prompt response)
@@ -304,18 +320,22 @@ Then, prompt for the starting point, and finally create and checkout the new bra
 (define-key global-map (kbd "C-c g w") #'my/gptel-define-word)
 
 (defvar my/gptel-proof-base-prompt
-  "Fix spelling, punctuation, and grammer in the following text. Only return the improved version. The returned text should use a line length and breaks as the previous one. Keep whitespace patterns as is."
+  (concat
+   my/gptel-base-system-prompt
+   " "
+   my/gptel-title-case-preference
+   " Fix spelling, punctuation, and grammer in the following text. Only return the improved version. The returned text should use a line length and breaks as the previous one. Keep whitespace patterns as is.")
   "Base prompt for proof reading.")
 
 (defvar my/gptel-proof-gentle-prompt
   (concat
    my/gptel-proof-base-prompt
-   "Where possible, keep the word choice and tone unchanged. Try to keep a Git diff as small as possible."))
+   " Where possible, keep the word choice and tone unchanged. Try to keep a Git diff as small as possible."))
 
 (defvar my/gptel-proof-aggressive-prompt
   (concat
    my/gptel-proof-base-prompt
-   "Rewrite the text. Be aggressive with improvements."))
+   " Rewrite the text. Be aggressive with improvements."))
 
 (defun my/gptel-proof-apply-fix (buffer marker correction)
   "Apply the suggested changes."
