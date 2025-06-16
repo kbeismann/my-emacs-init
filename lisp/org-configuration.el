@@ -454,5 +454,63 @@
           (write-file file)
           (message "Aligned tags in %s" file))))))
 
+(defun my/sort-org-tags-region (beg end &optional reversed)
+  "In active region sort tags alphabetically in descending order.
+With prefix argument REVERSE order."
+  (interactive "r\nP")
+  (unless (region-active-p)
+    (user-error "No active region to sort!"))
+  (let* ((str (s-trim (buffer-substring-no-properties beg end)))
+         (wrd (split-string str ":" t " "))
+         (new
+          (concat
+           ":"
+           (s-join
+            ":"
+            (sort wrd
+                  (if reversed
+                      #'string<
+                    #'string>)))
+           ":")))
+    (save-excursion
+      (goto-char beg)
+      (delete-region beg end)
+      (insert new))))
+
+(defun my/sort-org-tags-in-buffer ()
+  "Sort Org tags in all headlines in the current buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward org-tag-line-re nil t)
+      (let* ((tags (org-get-tags-string))
+             (beg (match-beginning 0))
+             (end (match-end 0)))
+        (when tags
+          (let* ((tag-str (string-trim tags ":"))
+                 (sorted (sort (split-string tag-str ":" t " ") #'string>))
+                 (new-tag-str (concat ":" (string-join sorted ":") ":")))
+            (org-set-tags new-tag-str)))))))
+
+(defun my/sort-org-tags-in-directory (dir)
+  "Sort tags in all Org files under DIR using `my/sort-org-tags-in-buffer`."
+  (interactive "DDirectory: ")
+  (let ((org-files (directory-files-recursively dir "\\.org$")))
+    (dolist (file org-files)
+      (message "Processing %s" file)
+      (with-current-buffer (find-file-noselect file)
+        (when (derived-mode-p 'org-mode)
+          (my/sort-org-tags-in-buffer)
+          (save-buffer))
+        (kill-buffer)))))
+
+(define-minor-mode my/org-auto-sort-tags-mode
+  "Minor mode to auto-sort Org tags on save."
+  :lighter
+  " Tagsort"
+  (if my/org-auto-sort-tags-mode
+      (add-hook 'before-save-hook #'my/sort-org-tags-in-buffer nil t)
+    (remove-hook 'before-save-hook #'my/sort-org-tags-in-buffer t)))
+
 (provide 'org-configuration)
 ;;; org-configuration.el ends here
