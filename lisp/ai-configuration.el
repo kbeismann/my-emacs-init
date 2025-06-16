@@ -21,9 +21,8 @@
  (("C-c g c" . gptel)
   ("C-c g r" . gptel-rewrite)
   ("C-c g m" . gptel-menu)
-  ("C-c g a" . gptel-abort))
- :config
- (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
+  ("C-c g x" . gptel-abort)) ;; Changed: Moved gptel-abort to C-c g x
+ :config (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
 
  (let ((gemini-key
         (auth-source-pick-first-password
@@ -34,6 +33,17 @@
        (setq
         gptel-model 'gemini-2.5-flash-preview-05-20
         gptel-backend gemini-backend)))))
+
+(use-package
+ gptel-aibo
+ :init
+ (define-prefix-command 'gptel-aibo-map)
+ :bind
+ (("C-c g a" . gptel-aibo-map))
+ :config
+ (define-key gptel-aibo-map (kbd "a") #'gptel-aibo)
+ (define-key gptel-aibo-map (kbd "s") #'gptel-aibo-summon)
+ (define-key gptel-aibo-map (kbd "c") #'gptel-aibo-complete-at-point))
 
 ;; Define custom functions outside use-package so they are available
 ;; immediately.
