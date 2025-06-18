@@ -78,8 +78,10 @@
               (string-trim
                (shell-command-to-string "git rev-parse --show-toplevel"))))
          (default-directory repo-root)
+         ;; Always skip the HEAD commit when this function is called. This
+         ;; ensures the current commitis not used as history when amending it.
          (log-command
-          (format "git --no-pager log -n %d --pretty=format:'%%H::%%s' --reverse"
+          (format "git --no-pager log --skip 1 -n %d --pretty=format:'%%H::%%s' --reverse"
                   max-commits))
          (commit-lines (split-string (shell-command-to-string log-command) "\n" t))
          (result ""))
