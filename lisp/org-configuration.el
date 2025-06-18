@@ -512,5 +512,42 @@ With prefix argument REVERSE order."
       (add-hook 'before-save-hook #'my/sort-org-tags-in-buffer nil t)
     (remove-hook 'before-save-hook #'my/sort-org-tags-in-buffer t)))
 
+(defun my/org-roam-unlink-at-point ()
+  "Replace Org-roam link at point with its description, preserving spacing."
+  (interactive)
+  (let ((element (org-element-context)))
+    (when (eq (org-element-type element) 'link)
+      (let* ((desc-begin (org-element-property :contents-begin element))
+             (desc-end (org-element-property :contents-end element))
+             (desc
+              (and desc-begin
+                   desc-end
+                   (buffer-substring-no-properties desc-begin desc-end)))
+             (begin (org-element-property :begin element))
+             (end (org-element-property :end element))
+             (before
+              (save-excursion
+                (goto-char begin)
+                (if (bobp)
+                    nil
+                  (char-before))))
+             (after
+              (save-excursion
+                (goto-char end)
+                (if (eobp)
+                    nil
+                  (char-after)))))
+        (when desc
+          (delete-region begin end)
+          ;; Insert space before if needed
+          (when (and before (not (member (char-syntax before) '(?\  ?\( ?\"))))
+            (insert " "))
+          (insert desc)
+          ;; Insert space after if needed
+          (when (and after
+                     (not
+                      (member (char-syntax after) '(?\  ?\) ?\" ?. ?, ?! ??))))
+            (insert " ")))))))
+
 (provide 'org-configuration)
 ;;; org-configuration.el ends here
