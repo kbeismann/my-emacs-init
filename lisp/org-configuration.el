@@ -43,7 +43,8 @@
    ("C-c o c o" . org-clock-out)
    ("C-c o s n" . org-toogle-narrow-to-subtree)
    ("C-c o i" . org-id-get-create)
-   ("C-c C-x C-q" . org-columns-quit)))
+   ("C-c C-x C-q" . org-columns-quit)
+   ("C-c u l" . #'my/org-roam-unlink-at-point)))
  :hook
  (org-mode
   .
