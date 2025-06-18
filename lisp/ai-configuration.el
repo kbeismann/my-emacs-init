@@ -35,10 +35,8 @@
 
 (use-package
  gptel-aibo
- :init
- (define-prefix-command 'gptel-aibo-map)
- :bind
- (("C-c g a" . gptel-aibo-map))
+ :init (define-prefix-command 'gptel-aibo-map)
+ :bind (("C-c g a" . gptel-aibo-map))
  :config
  (define-key gptel-aibo-map (kbd "a") #'gptel-aibo)
  (define-key gptel-aibo-map (kbd "s") #'gptel-aibo-summon)
@@ -62,28 +60,32 @@
     (string-join parts "\n\n"))) ; Join parts back with double newline
 
 (defconst my/gptel-commit-system-prompt
-  (concat my/gptel-base-system-prompt
-          " You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use conventional commits ('feat: add new feature') only if the majority of previous commits shows that pattern. Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable.")
+  (concat
+   my/gptel-base-system-prompt
+   " You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use conventional commits ('feat: add new feature') only if the majority of previous commits shows that pattern. Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable.")
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-get-recent-commits ()
   "Get the last Git commit messages with title and body from the current repository."
   (interactive)
-  (let* ((max-commits 15)
-         (max-diff-chars-per-commit 5000)
-         (repo-root
-          (or (when (fboundp 'magit-toplevel)
-                (magit-toplevel))
-              (string-trim
-               (shell-command-to-string "git rev-parse --show-toplevel"))))
-         (default-directory repo-root)
-         (log-command
-          (format
-           "git --no-pager log -n %d --pretty=format:'%%H::%%s' --reverse"
-           max-commits))
-         (commit-lines
-          (split-string (shell-command-to-string log-command) "\n" t))
-         (result ""))
+  (let*
+      ((max-commits 15)
+       (max-diff-chars-per-commit 5000)
+       (repo-root
+        (or (when (fboundp 'magit-toplevel)
+              (magit-toplevel))
+            (string-trim
+             (shell-command-to-string "git rev-parse --show-toplevel"))))
+       (default-directory repo-root)
+       ;; Always skip the HEAD commit when this function is called. This
+       ;; ensures the current commitis not used as history when amending it.
+       (log-command
+        (format
+         "git --no-pager log --skip 1 -n %d --pretty=format:'%%H::%%s' --reverse"
+         max-commits))
+       (commit-lines
+        (split-string (shell-command-to-string log-command) "\n" t))
+       (result ""))
 
     (dolist (line commit-lines)
       (let* ((parts (split-string line "::"))
