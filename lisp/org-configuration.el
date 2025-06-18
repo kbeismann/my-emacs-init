@@ -164,6 +164,117 @@
                         1))
        (message "Lower-cased %d matches" count))))
 
+ (defun my/align-tags-in-all-org-files (directory)
+   "Align tags in all Org files in the specified DIRECTORY."
+   (interactive "DSelect directory: ")
+   (let ((files (directory-files-recursively directory "\\.org$")))
+     (if (not files)
+         (message "No Org files found in %s" directory)
+       (dolist (file files)
+         (message "Processing file: %s" file)
+         (with-temp-buffer
+           (insert-file-contents file)
+           (org-mode)
+           (ignore-errors
+             (org-align-tags))
+           (write-file file)
+           (message "Aligned tags in %s" file))))))
+
+ (defun my/sort-org-tags-region (beg end &optional reversed)
+   "In active region sort tags alphabetically in descending order.
+With prefix argument REVERSE order."
+   (interactive "r\nP")
+   (unless (region-active-p)
+     (user-error "No active region to sort!"))
+   (let* ((str (s-trim (buffer-substring-no-properties beg end)))
+          (wrd (split-string str ":" t " "))
+          (new
+           (concat
+            ":"
+            (s-join
+             ":"
+             (sort wrd
+                   (if reversed
+                       #'string<
+                     #'string>)))
+            ":")))
+     (save-excursion
+       (goto-char beg)
+       (delete-region beg end)
+       (insert new))))
+
+ (defun my/sort-org-tags-in-buffer ()
+   "Sort Org tags in all headlines in the current buffer."
+   (interactive)
+   (save-excursion
+     (goto-char (point-min))
+     (while (re-search-forward org-tag-line-re nil t)
+       (let* ((tags (org-get-tags-string))
+              (beg (match-beginning 0))
+              (end (match-end 0)))
+         (when tags
+           (let* ((tag-str (string-trim tags ":"))
+                  (sorted (sort (split-string tag-str ":" t " ") #'string>))
+                  (new-tag-str (concat ":" (string-join sorted ":") ":")))
+             (org-set-tags new-tag-str)))))))
+
+ (defun my/sort-org-tags-in-directory (dir)
+   "Sort tags in all Org files under DIR using `my/sort-org-tags-in-buffer`."
+   (interactive "DDirectory: ")
+   (let ((org-files (directory-files-recursively dir "\\.org$")))
+     (dolist (file org-files)
+       (message "Processing %s" file)
+       (with-current-buffer (find-file-noselect file)
+         (when (derived-mode-p 'org-mode)
+           (my/sort-org-tags-in-buffer)
+           (save-buffer))
+         (kill-buffer)))))
+
+ (define-minor-mode my/org-auto-sort-tags-mode
+   "Minor mode to auto-sort Org tags on save."
+   :lighter
+   " Tagsort"
+   (if my/org-auto-sort-tags-mode
+       (add-hook 'before-save-hook #'my/sort-org-tags-in-buffer nil t)
+     (remove-hook 'before-save-hook #'my/sort-org-tags-in-buffer t)))
+
+ (defun my/org-roam-unlink-at-point ()
+   "Replace Org-roam link at point with its description, preserving spacing."
+   (interactive)
+   (let ((element (org-element-context)))
+     (when (eq (org-element-type element) 'link)
+       (let* ((desc-begin (org-element-property :contents-begin element))
+              (desc-end (org-element-property :contents-end element))
+              (desc
+               (and desc-begin
+                    desc-end
+                    (buffer-substring-no-properties desc-begin desc-end)))
+              (begin (org-element-property :begin element))
+              (end (org-element-property :end element))
+              (before
+               (save-excursion
+                 (goto-char begin)
+                 (if (bobp)
+                     nil
+                   (char-before))))
+              (after
+               (save-excursion
+                 (goto-char end)
+                 (if (eobp)
+                     nil
+                   (char-after)))))
+         (when desc
+           (delete-region begin end)
+           ;; Insert space before if needed
+           (when (and before (not (member (char-syntax before) '(?\  ?\( ?\"))))
+             (insert " "))
+           (insert desc)
+           ;; Insert space after if needed
+           (when (and after
+                      (not
+                       (member (char-syntax after) '(?\  ?\) ?\" ?. ?, ?! ??))))
+             (insert " ")))))))
+
  ;; Always insert blank line before headings.
  (setq org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
 
@@ -437,117 +548,6 @@
  :config
  (add-to-list
   'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
-
-(defun my/align-tags-in-all-org-files (directory)
-  "Align tags in all Org files in the specified DIRECTORY."
-  (interactive "DSelect directory: ")
-  (let ((files (directory-files-recursively directory "\\.org$")))
-    (if (not files)
-        (message "No Org files found in %s" directory)
-      (dolist (file files)
-        (message "Processing file: %s" file)
-        (with-temp-buffer
-          (insert-file-contents file)
-          (org-mode)
-          (ignore-errors
-            (org-align-tags))
-          (write-file file)
-          (message "Aligned tags in %s" file))))))
-
-(defun my/sort-org-tags-region (beg end &optional reversed)
-  "In active region sort tags alphabetically in descending order.
-With prefix argument REVERSE order."
-  (interactive "r\nP")
-  (unless (region-active-p)
-    (user-error "No active region to sort!"))
-  (let* ((str (s-trim (buffer-substring-no-properties beg end)))
-         (wrd (split-string str ":" t " "))
-         (new
-          (concat
-           ":"
-           (s-join
-            ":"
-            (sort wrd
-                  (if reversed
-                      #'string<
-                    #'string>)))
-           ":")))
-    (save-excursion
-      (goto-char beg)
-      (delete-region beg end)
-      (insert new))))
-
-(defun my/sort-org-tags-in-buffer ()
-  "Sort Org tags in all headlines in the current buffer."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward org-tag-line-re nil t)
-      (let* ((tags (org-get-tags-string))
-             (beg (match-beginning 0))
-             (end (match-end 0)))
-        (when tags
-          (let* ((tag-str (string-trim tags ":"))
-                 (sorted (sort (split-string tag-str ":" t " ") #'string>))
-                 (new-tag-str (concat ":" (string-join sorted ":") ":")))
-            (org-set-tags new-tag-str)))))))
-
-(defun my/sort-org-tags-in-directory (dir)
-  "Sort tags in all Org files under DIR using `my/sort-org-tags-in-buffer`."
-  (interactive "DDirectory: ")
-  (let ((org-files (directory-files-recursively dir "\\.org$")))
-    (dolist (file org-files)
-      (message "Processing %s" file)
-      (with-current-buffer (find-file-noselect file)
-        (when (derived-mode-p 'org-mode)
-          (my/sort-org-tags-in-buffer)
-          (save-buffer))
-        (kill-buffer)))))
-
-(define-minor-mode my/org-auto-sort-tags-mode
-  "Minor mode to auto-sort Org tags on save."
-  :lighter
-  " Tagsort"
-  (if my/org-auto-sort-tags-mode
-      (add-hook 'before-save-hook #'my/sort-org-tags-in-buffer nil t)
-    (remove-hook 'before-save-hook #'my/sort-org-tags-in-buffer t)))
-
-(defun my/org-roam-unlink-at-point ()
-  "Replace Org-roam link at point with its description, preserving spacing."
-  (interactive)
-  (let ((element (org-element-context)))
-    (when (eq (org-element-type element) 'link)
-      (let* ((desc-begin (org-element-property :contents-begin element))
-             (desc-end (org-element-property :contents-end element))
-             (desc
-              (and desc-begin
-                   desc-end
-                   (buffer-substring-no-properties desc-begin desc-end)))
-             (begin (org-element-property :begin element))
-             (end (org-element-property :end element))
-             (before
-              (save-excursion
-                (goto-char begin)
-                (if (bobp)
-                    nil
-                  (char-before))))
-             (after
-              (save-excursion
-                (goto-char end)
-                (if (eobp)
-                    nil
-                  (char-after)))))
-        (when desc
-          (delete-region begin end)
-          ;; Insert space before if needed
-          (when (and before (not (member (char-syntax before) '(?\  ?\( ?\"))))
-            (insert " "))
-          (insert desc)
-          ;; Insert space after if needed
-          (when (and after
-                     (not
-                      (member (char-syntax after) '(?\  ?\) ?\" ?. ?, ?! ??))))
-            (insert " ")))))))
 
 (provide 'org-configuration)
 ;;; org-configuration.el ends here
