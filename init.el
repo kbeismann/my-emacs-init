@@ -446,16 +446,10 @@
     tabs
     tab-mark
     big-indent
-    space-before-tab ;; Visualize spaces immediately before a TAB.
-    space-after-tab ;; Visualize spaces immediately after a TAB.
-    space-after-tab::tab
-    space-after-tab::space
-    space-before-tab::tab
-    space-before-tab::space
     space-before-tab
+    space-after-tab
     indentation
-    indentation::tab
-    indentation::space
+    indentation
     missing-newline-at-eof ;; Visualize when the last line is not followed by a newline.
     newline ;; Visualize newlines.
     newline-mark ;; Replace newlines with `whitespace-display-chars`.
