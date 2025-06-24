@@ -443,19 +443,7 @@
   '(face ;; Apply the face `whitespace` to detected characters.
     trailing ;; Visualize trailing whitespace.
     empty ;; Visualize leading/trailing whitespace on empty lines or at buffer beginning/end.
-    tabs
-    tab-mark
-    big-indent
-    space-before-tab ;; Visualize spaces immediately before a TAB.
-    space-after-tab ;; Visualize spaces immediately after a TAB.
-    space-after-tab::tab
-    space-after-tab::space
-    space-before-tab::tab
-    space-before-tab::space
-    space-before-tab
-    indentation
-    indentation::tab
-    indentation::space
+    tabs tab-mark big-indent space-before-tab space-after-tab
     missing-newline-at-eof ;; Visualize when the last line is not followed by a newline.
     newline ;; Visualize newlines.
     newline-mark ;; Replace newlines with `whitespace-display-chars`.
