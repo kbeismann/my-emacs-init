@@ -637,6 +637,7 @@
 (use-package
  yaml-ts-mode
  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
+ :hook (yaml-ts-mode . display-line-numbers-mode)
  :config (define-key yaml-ts-mode-map (kbd "C-m") 'newline-and-indent))
 
 (use-package
