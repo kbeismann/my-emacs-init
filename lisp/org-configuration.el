@@ -396,6 +396,7 @@ With prefix argument REVERSE order."
  (org-super-agenda-mode t)
 
  (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
+   (message "Work agenda: %s" work-agenda)
    (if (file-exists-p work-agenda)
        (prog1 "Load work-related agenda settings."
          (message "%s" "Found work-related agenda settings...")
