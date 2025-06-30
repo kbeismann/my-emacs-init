@@ -476,9 +476,6 @@
  :bind (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
  :hook (after-init . global-flycheck-mode))
 
-;; Activate tree-sitter for Python.
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-
 (defun my-python-mode-settings ()
   "Custom settings for `python-mode'."
   (setq-local python-indent-offset 8)
@@ -504,9 +501,7 @@
  :config
  (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
  (setq rust-format-on-save t)
- (add-hook 'rust-mode-hook (lambda () (prettify-symbols-mode)))
- ;; Activate tree-sitter for Rust.
- (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode)))
+ (add-hook 'rust-mode-hook (lambda () (prettify-symbols-mode))))
 
 (require 'org-configuration)
 
