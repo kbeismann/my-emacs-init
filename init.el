@@ -315,10 +315,11 @@
 
 (use-package
  treesit-auto
+ :commands global-treesit-auto-mode
  :custom (treesit-auto-install 'prompt)
  :config
  (treesit-auto-add-to-auto-mode-alist 'all)
- (global-treesit-auto-mode))
+ (global-treesit-auto-mode t))
 
 (use-package
  undo-tree
