@@ -12,7 +12,8 @@
   "My Org templates.")
 (defvar my-roam-notes (concat my-gitdir "my-roam-notes/nodes/")
   "My Roam notes.")
-(defvar my-notes (concat my-roam-notes "20250603194556-my_personal_notes.org")
+(defvar my-notes
+  (concat my-roam-notes "20250603194556-my_personal_notes.org")
   "My notes.")
 
 (add-hook 'org-mode-hook #'my/add-collapse-to-before-save)
@@ -49,8 +50,9 @@
  (org-mode
   .
   (lambda ()
-    (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
-              nil 'local)))
+    (add-hook
+     'before-save-hook (lambda () (save-excursion (org-align-tags t)))
+     nil 'local)))
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
  :config
@@ -59,7 +61,8 @@
  (setq org-default-notes-file my-notes)
  (setq org-todo-file my-notes)
  (setq org-agenda-files (list org-directory my-roam-notes))
- (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
+ (let ((work-notes
+        (expand-file-name "notes.el" user-emacs-directory)))
    (if (file-exists-p work-notes)
        (let ()
          (message "%s" "Found work-related notes...")
@@ -153,10 +156,11 @@
      (goto-char (point-min))
      (let ((case-fold-search nil)
            (count 0))
-       (while (re-search-forward
-               "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
-               nil
-               :noerror)
+       (while
+           (re-search-forward
+            "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
+            nil
+            :noerror)
          (setq count (1+ count))
          (replace-match (downcase (match-string-no-properties 1))
                         :fixedcase
@@ -215,8 +219,10 @@ With prefix argument REVERSE order."
               (end (match-end 0)))
          (when tags
            (let* ((tag-str (string-trim tags ":"))
-                  (sorted (sort (split-string tag-str ":" t " ") #'string>))
-                  (new-tag-str (concat ":" (string-join sorted ":") ":")))
+                  (sorted
+                   (sort (split-string tag-str ":" t " ") #'string>))
+                  (new-tag-str
+                   (concat ":" (string-join sorted ":") ":")))
              (org-set-tags new-tag-str)))))))
 
  (defun my/sort-org-tags-in-directory (dir)
@@ -244,12 +250,14 @@ With prefix argument REVERSE order."
    (interactive)
    (let ((element (org-element-context)))
      (when (eq (org-element-type element) 'link)
-       (let* ((desc-begin (org-element-property :contents-begin element))
+       (let* ((desc-begin
+               (org-element-property :contents-begin element))
               (desc-end (org-element-property :contents-end element))
               (desc
                (and desc-begin
                     desc-end
-                    (buffer-substring-no-properties desc-begin desc-end)))
+                    (buffer-substring-no-properties
+                     desc-begin desc-end)))
               (begin (org-element-property :begin element))
               (end (org-element-property :end element))
               (before
@@ -267,17 +275,22 @@ With prefix argument REVERSE order."
          (when desc
            (delete-region begin end)
            ;; Insert space before if needed
-           (when (and before (not (member (char-syntax before) '(?\  ?\( ?\"))))
+           (when (and before
+                      (not
+                       (member (char-syntax before) '(?\  ?\( ?\"))))
              (insert " "))
            (insert desc)
            ;; Insert space after if needed
            (when (and after
                       (not
-                       (member (char-syntax after) '(?\  ?\) ?\" ?. ?, ?! ??))))
+                       (member
+                        (char-syntax after)
+                        '(?\  ?\) ?\" ?. ?, ?! ??))))
              (insert " ")))))))
 
  ;; Always insert blank line before headings.
- (setq org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
+ (setq org-blank-before-new-entry
+       '((heading . auto) (plain-list-item . auto)))
 
  ;; Configure Org refiling.
  (setq org-refile-use-outline-path 'full-file-path)
@@ -287,14 +300,16 @@ With prefix argument REVERSE order."
        '((nil :maxlevel . 9) (org-agenda-files :maxlevel . 9)))
 
  (setq org-todo-keywords
-       '((sequence "TODO(t)" "INPROGRESS(i)" "|" "DONE(d)" "CANCELLED(c)")))
+       '((sequence
+          "TODO(t)" "INPROGRESS(i)" "|" "DONE(d)" "CANCELLED(c)")))
  (setq org-todo-keyword-faces
        '(("TODO" . org-warning)
          ("DONE" . org-done)
          ("CANCELLED" . org-done)
          ("INPROGRESS" . org-link)))
 
- (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
+ (let ((templates
+        (expand-file-name "templates.el" user-emacs-directory)))
    (if (and (file-exists-p templates) (boundp 'org-capture-templates))
        (let ()
          (message "%s" "Adding templates for work...")
@@ -368,7 +383,12 @@ With prefix argument REVERSE order."
  ;; Available languages: https://orgmode.org/org.html#Languages
  (org-babel-do-load-languages
   'org-babel-load-languages
-  '((shell . t) (emacs-lisp . t) (org . t) (python . t) (R . t) (latex . t)))
+  '((shell . t)
+    (emacs-lisp . t)
+    (org . t)
+    (python . t)
+    (R . t)
+    (latex . t)))
  (setq org-babel-python-command "python3")
  ;; Better source block behavior.
  (setq
@@ -380,7 +400,8 @@ With prefix argument REVERSE order."
   org-src-fontify-natively t
   org-src-tab-acts-natively t)
  ;; Change font size for LaTeX previews.
- (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
+ (setq org-format-latex-options
+       (plist-put org-format-latex-options :scale 1.5))
  (setq org-format-latex-options
        (plist-put org-format-latex-options :html-scale 1.5))
  (setq org-latex-toc-command "\\tableofcontents \\clearpage"))
@@ -395,7 +416,8 @@ With prefix argument REVERSE order."
  (setq org-agenda-compact-blocks nil)
  (org-super-agenda-mode t)
 
- (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
+ (let ((work-agenda
+        (expand-file-name "agenda.el" user-emacs-directory)))
    (message "Work agenda: %s" work-agenda)
    (if (file-exists-p work-agenda)
        (prog1 "Load work-related agenda settings."
@@ -420,7 +442,11 @@ With prefix argument REVERSE order."
                    "series"
                    "movie")))
                 :order 3)
-               (:name "Readings" :category "readings" :tag "reading" :order 4)
+               (:name
+                "Readings"
+                :category "readings"
+                :tag "reading"
+                :order 4)
                (:name "Medical" :tag "medical" :order 5)
                (:name "Shopping list" :tag "shoppinglist" :order 6)
                (:name "Movies" :and (:tag "movie") :order 7)
@@ -441,7 +467,8 @@ With prefix argument REVERSE order."
  :bind
  (:map
   org-mode-map
-  (("C-c i s" . org-download-screenshot) ("C-c i y" . org-download-yank))))
+  (("C-c i s" . org-download-screenshot)
+   ("C-c i y" . org-download-yank))))
 
 (use-package
  org-roam
@@ -459,20 +486,19 @@ With prefix argument REVERSE order."
  (setq org-roam-directory my-roam-notes)
  (setq org-roam-db-gc-threshold most-positive-fixnum)
  (setq org-roam-completion-everywhere t)
+ (setq org-roam-capture-templates
+       '(("d" "default" plain "%?"
+          :if-new
+          (file+head
+           "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+          :unnarrowed t)))
  (setq
-  org-roam-capture-templates
+  org-roam-dailies-capture-templates
   '(("d"
      "default"
-     plain
-     "%?"
-     :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-     :unnarrowed t)))
- (setq org-roam-dailies-capture-templates
-       '(("d"
-          "default"
-          entry
-          "* %?"
-          :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+     entry
+     "* %?"
+     :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
  (setq org-roam-mode-section-functions
        (list
         #'org-roam-backlinks-section
@@ -480,7 +506,8 @@ With prefix argument REVERSE order."
         #'org-roam-unlinked-references-section))
  (org-roam-db-autosync-mode)
 
- (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise ()
+ (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise
+     ()
    "Delete an Org-roam node and interactively replace each link to it with plain text."
    (interactive)
    (require 'org-roam)
@@ -515,8 +542,7 @@ With prefix argument REVERSE order."
 
                (if (yes-or-no-p
                     (format "Replace link '%s' with '%s'? "
-                            match-str
-                            replacement))
+                            match-str replacement))
                    (progn
                      (delete-region match-start match-end)
                      (goto-char match-start)
@@ -549,7 +575,8 @@ With prefix argument REVERSE order."
  :after org
  :config
  (add-to-list
-  'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
+  'org-file-apps
+  '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
 
 (provide 'org-configuration)
 ;;; org-configuration.el ends here

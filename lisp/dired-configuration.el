@@ -26,7 +26,10 @@
  dired-subtree
  :after dired
  :bind
- (:map dired-mode-map (";" . dired-subtree-toggle) ("'" . dired-subtree-remove))
+ (:map
+  dired-mode-map
+  (";" . dired-subtree-toggle)
+  ("'" . dired-subtree-remove))
  :config
  (setq dired-subtree-use-backgrounds nil)
  (setq dired-subtree-line-prefix "   |-"))

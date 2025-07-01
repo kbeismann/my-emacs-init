@@ -58,31 +58,39 @@
         (progn
           (message (concat checkos0 "done"))
           (defvar my-os
-            (substring (shell-command-to-string "lsb_release -sd") 0 -1))
+            (substring (shell-command-to-string "lsb_release -sd")
+                       0
+                       -1))
           (message "Found GNU/Linux distribution: %s" my-os)
           (defvar my-hostname
             (substring (shell-command-to-string "hostname") 0 -1))
           (message "Found hostname: %s" my-hostname)
 
           ;; Font setup for Huckleberry.
-          (if (string-equal "huckleberry" (substring my-hostname 0 11))
+          (if (string-equal
+               "huckleberry" (substring my-hostname 0 11))
               (progn
                 (message "Current font settings for Huckleberry: %s"
                          my-font-huckleberry)
                 (message font0)
                 (if (and (null
                           (string=
-                           "" (shell-command-to-string "which fc-list")))
+                           ""
+                           (shell-command-to-string "which fc-list")))
                          (null
                           (string=
                            ""
                            (shell-command-to-string
-                            (concat "fc-list " my-font-family-huckleberry)))))
+                            (concat
+                             "fc-list "
+                             my-font-family-huckleberry)))))
                     (progn
                       (message (concat font0 "done"))
-                      (message "Font installed: %s" my-font-family-huckleberry)
+                      (message "Font installed: %s"
+                               my-font-family-huckleberry)
                       (add-to-list
-                       'default-frame-alist `(font . ,my-font-huckleberry)))))
+                       'default-frame-alist
+                       `(font . ,my-font-huckleberry)))))
             ;; Font setup for Arch.
             (if (string-equal "Arch" (substring my-os 1 5))
                 (progn
@@ -91,43 +99,55 @@
                   (message font0)
                   (if (and (null
                             (string=
-                             "" (shell-command-to-string "which fc-list")))
+                             ""
+                             (shell-command-to-string
+                              "which fc-list")))
                            (null
                             (string=
                              ""
                              (shell-command-to-string
-                              (concat "fc-list " my-font-family-arch)))))
+                              (concat
+                               "fc-list " my-font-family-arch)))))
                       (progn
                         (message (concat font0 "done"))
-                        (message "Font installed: %s" my-font-family-arch)
+                        (message "Font installed: %s"
+                                 my-font-family-arch)
                         (message font1)
                         (add-to-list
-                         'default-frame-alist `(font . ,my-font-arch)))))
+                         'default-frame-alist
+                         `(font . ,my-font-arch)))))
               ;; Font setup for Ubuntu.
-              (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
+              (if (string-equal
+                   (substring my-os 0 5) (substring "Ubuntu" 0 5))
                   (progn
                     (message "Current font settings for Ubuntu: %s"
                              my-font-ubuntu)
                     (message font1)
                     (if (and (null
                               (string=
-                               "" (shell-command-to-string "which fc-list")))
+                               ""
+                               (shell-command-to-string
+                                "which fc-list")))
                              (null
                               (string=
                                ""
                                (shell-command-to-string
-                                (concat "fc-list " my-font-family-ubuntu)))))
+                                (concat
+                                 "fc-list " my-font-family-ubuntu)))))
                         (progn
-                          (message "Font installed: %s" my-font-family-ubuntu)
+                          (message "Font installed: %s"
+                                   my-font-family-ubuntu)
                           (message font1)
                           (add-to-list
-                           'default-frame-alist `(font . ,my-font-ubuntu)))))
+                           'default-frame-alist
+                           `(font . ,my-font-ubuntu)))))
                 (message "Adjusting frame parameters...")
                 (add-to-list 'default-frame-alist '(height . 50))
                 (add-to-list 'default-frame-alist '(width . 180))
                 (message "Adjusting frame parameters...done"))
               (message "No predefined font settings found")))))
-    (message "No Linux-based system found > font settings are not applicable")))
+    (message
+     "No Linux-based system found > font settings are not applicable")))
 
 (use-package
  base16-theme
@@ -160,7 +180,8 @@
 
  ;; Remove the vertical line between windows.
  (set-face-background 'vertical-border base00-prop)
- (set-face-foreground 'vertical-border (face-background 'vertical-border))
+ (set-face-foreground
+  'vertical-border (face-background 'vertical-border))
 
  ;; Adjust mode line colors.
  (set-face-background 'mode-line base02-prop)
@@ -189,48 +210,48 @@
   '(font-lock-builtin-face ((t (:weight bold))))))
 
 (use-package
-  avy
-  :after base16-theme
-  :bind* (("C-z" . avy-goto-char))
-  :init
-  (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
-  :config (setq avy-background t) (setq avy-all-windows t)
-  ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision char
-  ;; with avy-lead-face-0. Do this even when the char is terminating. Normally
-  ;; avy-lead-face-0 is only used for the first non-terminating decision chars.
-  (setq avy-highlight-first t)
+ avy
+ :after base16-theme
+ :bind* (("C-z" . avy-goto-char))
+ :init
+ (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
+ :config (setq avy-background t) (setq avy-all-windows t)
+ ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision char
+ ;; with avy-lead-face-0. Do this even when the char is terminating. Normally
+ ;; avy-lead-face-0 is only used for the first non-terminating decision chars.
+ (setq avy-highlight-first t)
 
-  ;; Using any command makes the face attributes accessible.
-  (avy-setup-default)
+ ;; Using any command makes the face attributes accessible.
+ (avy-setup-default)
 
-  ;; Face used for first non-terminating leading chars.
-  (set-face-attribute 'avy-lead-face-0 nil
-                      :foreground base0A-prop
-                      :background base00-prop
-                      :weight 'bold)
+ ;; Face used for first non-terminating leading chars.
+ (set-face-attribute 'avy-lead-face-0 nil
+                     :foreground base0A-prop
+                     :background base00-prop
+                     :weight 'bold)
 
-  ;; Face used for matched leading chars. Not sure what this does.
-  (set-face-attribute 'avy-lead-face-1 nil
-                      :foreground base09-prop
-                      :background base00-prop
-                      :weight 'bold)
+ ;; Face used for matched leading chars. Not sure what this does.
+ (set-face-attribute 'avy-lead-face-1 nil
+                     :foreground base09-prop
+                     :background base00-prop
+                     :weight 'bold)
 
-  ;; Face used for leading chars.
-  (set-face-attribute 'avy-lead-face-2 nil
-                      :foreground base0C-prop
-                      :background base00-prop
-                      :weight 'bold)
+ ;; Face used for leading chars.
+ (set-face-attribute 'avy-lead-face-2 nil
+                     :foreground base0C-prop
+                     :background base00-prop
+                     :weight 'bold)
 
-  ;; Face used for the leading chars.
-  (set-face-attribute 'avy-lead-face nil
-                      :foreground base00-prop
-                      :background base0E-prop
-                      :weight 'bold)
+ ;; Face used for the leading chars.
+ (set-face-attribute 'avy-lead-face nil
+                     :foreground base00-prop
+                     :background base0E-prop
+                     :weight 'bold)
 
-  ;; Face for foreground/font during selection: base03.
-  (set-face-attribute 'avy-background-face nil
-                      :foreground base03-prop
-                      :background base00-prop))
+ ;; Face for foreground/font during selection: base03.
+ (set-face-attribute 'avy-background-face nil
+                     :foreground base03-prop
+                     :background base00-prop))
 
 (use-package
  which-key

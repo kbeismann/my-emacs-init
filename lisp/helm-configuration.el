@@ -23,7 +23,8 @@
 (use-package
  helm
  :defer nil
- :diminish (helm-mode helm-autoresize-mode helm-minibuffer-history-mode)
+ :diminish
+ (helm-mode helm-autoresize-mode helm-minibuffer-history-mode)
  :requires helm-autoloads
  :bind*
  (("M-x" . helm-M-x)
@@ -41,8 +42,7 @@
    ("m" . helm-multi-files)
    ("a" . helm-apropos)
    ("i" . helm-imenu)))
- :init
- (global-unset-key (kbd "C-x c"))
+ :init (global-unset-key (kbd "C-x c"))
  :config
  (setq helm-split-window-inside-p nil)
  (setq helm-move-to-line-cycle-in-source nil)
@@ -52,7 +52,8 @@
  (setq helm-display-buffer-reuse-frame nil)
  (setq helm-use-undecorated-frame-option t)
  (setq helm-tramp-control-master t)
- (setq helm-grep-ag-command "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
+ (setq helm-grep-ag-command
+       "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
  (helm-mode 1))
 
 (use-package helm-tramp :after helm tramp)
@@ -72,7 +73,10 @@
  :after (projectile helm)
  :config (helm-projectile-on))
 
-(use-package helm-lsp :after (helm lsp) :commands helm-lsp-workspace-symbol)
+(use-package
+ helm-lsp
+ :after (helm lsp)
+ :commands helm-lsp-workspace-symbol)
 
 (provide 'helm-configuration)
 ;;; helm-configuration.el ends here

@@ -34,11 +34,11 @@
  'emacs-startup-hook
  (lambda ()
    (message "Emacs loaded in %s seconds with %d garbage collections."
-            (emacs-init-time)
-            gcs-done)))
+            (emacs-init-time) gcs-done)))
 
 ;; Native compilation settings (available from Emacs 28).
-(when (and (fboundp 'native-comp-available-p) (native-comp-available-p))
+(when (and (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
   (message "Native compilation is available.")
   (setq
    native-comp-async-report-warnings-errors nil
@@ -52,7 +52,8 @@
 ;; Re-enable it after startup when Emacs is ready.
 (setq garbage-collection-messages t)
 (defvar original-gc-cons-threshold gc-cons-threshold)
-(defvar better-gc-cons-threshold (* 128 12 original-gc-cons-threshold))
+(defvar better-gc-cons-threshold
+  (* 128 12 original-gc-cons-threshold))
 (add-hook
  'emacs-startup-hook
  (lambda ()

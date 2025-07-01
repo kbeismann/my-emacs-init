@@ -11,7 +11,8 @@
   "Use sentence case for titles unless the context shows a different pattern."
   "General preference for title casing in AI-generated text.")
 
-(defconst my/gptel-base-system-prompt "Return only ASCII. Be succinct."
+(defconst my/gptel-base-system-prompt
+  "Return only ASCII. Be succinct."
   "Base system prompt for AI interactions, ensuring ASCII output and conciseness.")
 
 (use-package
@@ -21,7 +22,9 @@
   ("C-c g r" . gptel-rewrite)
   ("C-c g m" . gptel-menu)
   ("C-c g x" . gptel-abort))
- :config (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
+ :config
+ (setq gptel-api-key
+       (auth-source-pick-first-password :host "api.openai.com"))
 
  (let ((gemini-key
         (auth-source-pick-first-password
@@ -49,13 +52,16 @@
   "Remove leading/trailing triple backticks and optional language hints from TEXT."
   (let ((stripped text))
     (setq stripped
-          (replace-regexp-in-string "\\`\\s-*```[a-zA-Z]*\\s-*\n" "" stripped))
-    (setq stripped (replace-regexp-in-string "\\s-*```\\s-*\\'" "" stripped))
+          (replace-regexp-in-string
+           "\\`\\s-*```[a-zA-Z]*\\s-*\n" "" stripped))
+    (setq stripped
+          (replace-regexp-in-string "\\s-*```\\s-*\\'" "" stripped))
     stripped))
 
 (defun my/gptel-process-commit-message-string (response)
   "Process the AI RESPONSE and return the formatted string."
-  (let* ((msg (string-trim (my/gptel-strip-markdown-code-block response)))
+  (let* ((msg
+          (string-trim (my/gptel-strip-markdown-code-block response)))
          (parts (split-string msg "\n\n" t)))
     (string-join parts "\n\n"))) ; Join parts back with double newline
 
@@ -75,7 +81,8 @@
         (or (when (fboundp 'magit-toplevel)
               (magit-toplevel))
             (string-trim
-             (shell-command-to-string "git rev-parse --show-toplevel"))))
+             (shell-command-to-string
+              "git rev-parse --show-toplevel"))))
        (default-directory repo-root)
        ;; Always skip the HEAD commit when this function is called. This
        ;; ensures the current commitis not used as history when amending it.
@@ -93,7 +100,9 @@
              (summary (cadr parts))
              (diff
               (shell-command-to-string
-               (format "git --no-pager show --no-color --format=%%b %s" hash)))
+               (format
+                "git --no-pager show --no-color --format=%%b %s"
+                hash)))
              (diff-truncated
               (if (> (length diff) max-diff-chars-per-commit)
                   (substring diff 0 max-diff-chars-per-commit)
@@ -117,14 +126,15 @@
   (interactive)
   (unless (bound-and-true-p git-commit-mode)
     (user-error "This command must be run in a git-commit buffer"))
-  (let* ((diff (buffer-string))
-         (recent-commits (my/gptel-get-recent-commits))
-         (prompt
-          (concat
-           "Recent commit messages:\n\n"
-           recent-commits
-           "\n\nWrite a Git commit message for the following diff:\n\n"
-           diff)))
+  (let*
+      ((diff (buffer-string))
+       (recent-commits (my/gptel-get-recent-commits))
+       (prompt
+        (concat
+         "Recent commit messages:\n\n"
+         recent-commits
+         "\n\nWrite a Git commit message for the following diff:\n\n"
+         diff)))
     (require 'gptel)
     (let ((gptel-include-reasoning nil))
       (gptel-request
@@ -137,7 +147,8 @@
              (save-excursion
                (goto-char (point-min))
                (let* ((processed-message
-                       (my/gptel-process-commit-message-string response))
+                       (my/gptel-process-commit-message-string
+                        response))
                       (start (point)))
                  (insert processed-message)
                  (let ((end (point)))
@@ -169,7 +180,8 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
            (save-excursion
              (goto-char (point-min))
              (let* ((processed-message
-                     (my/gptel-process-commit-message-string response))
+                     (my/gptel-process-commit-message-string
+                      response))
                     (start (point))) ; Start of the new message
                (insert processed-message) ; Insert the new message
                (let ((message-end (point))) ; End of the new message
@@ -181,18 +193,24 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
   '(progn
      (when (boundp 'git-commit-mode-map)
        (define-prefix-command 'my/gptel-commit-map)
-       (define-key git-commit-mode-map (kbd "C-c g g") 'my/gptel-commit-map)
        (define-key
-        my/gptel-commit-map (kbd "c") #'my/gptel-generate-commit-message)
+        git-commit-mode-map (kbd "C-c g g") 'my/gptel-commit-map)
        (define-key
-        my/gptel-commit-map (kbd "r") #'my/gptel-rewrite-commit-message))))
+        my/gptel-commit-map
+        (kbd "c")
+        #'my/gptel-generate-commit-message)
+       (define-key
+        my/gptel-commit-map
+        (kbd "r")
+        #'my/gptel-rewrite-commit-message))))
 
 (defun my/gptel-generate-branch-name ()
   "Prompt for branch purpose, generate branch name with GPT, then let user edit it.
 Then, prompt for the starting point, and finally create and checkout the new branch using Magit."
   (interactive)
   (let*
-      ((description (read-string "Describe the purpose of the new branch: "))
+      ((description
+        (read-string "Describe the purpose of the new branch: "))
        (prompt
         (concat
          "You are a Git expert. Convert the following description into a concise, kebab-case branch name. Use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. Only return the branch name: no quotes, punctuation, or explanations. No abbreviations."
@@ -204,13 +222,17 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        :callback
        (lambda (response _buffer)
          (let* ((branch-name (string-trim response))
-                (final-name (read-string "Edit branch name: " branch-name))
+                (final-name
+                 (read-string "Edit branch name: " branch-name))
                 (start-point
                  (magit-read-branch-or-commit
-                  "Start point (e.g., 'main', 'HEAD', 'commit-sha'): " nil)))
+                  "Start point (e.g., 'main', 'HEAD', 'commit-sha'): "
+                  nil)))
            (kill-new final-name)
-           (message "Final branch name: %s (copied to kill ring)" final-name)
-           (when (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
+           (message "Final branch name: %s (copied to kill ring)"
+                    final-name)
+           (when (and (fboundp 'magit-branch-create)
+                      (fboundp 'magit-checkout))
              (magit-branch-create final-name start-point)
              (magit-checkout final-name)
              (message "Branch '%s' created from '%s' and checked out."
@@ -221,7 +243,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
              (message
               "Magit functions `magit-branch-create` or `magit-checkout` not found. Branch not created automatically."))))))))
 
-(define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
+(define-key
+ global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
 
 (defconst my/gptel-coding-base-system-prompt
   (concat
@@ -233,9 +256,12 @@ Then, prompt for the starting point, and finally create and checkout the new bra
   "Add a minimalist docstring to selected code region using GPTel."
   (interactive)
   (unless (use-region-p)
-    (user-error "Please select a region containing the function code"))
+    (user-error
+     "Please select a region containing the function code"))
   (let*
-      ((code (buffer-substring-no-properties (region-beginning) (region-end)))
+      ((code
+        (buffer-substring-no-properties
+         (region-beginning) (region-end)))
        (prompt
         (concat
          "Insert a minimalist one-line docstring string in an imperative tone into this logic. "
@@ -252,7 +278,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        :callback
        (lambda (response _buffer)
          (let ((doced-fn
-                (string-trim (my/gptel-strip-markdown-code-block response))))
+                (string-trim
+                 (my/gptel-strip-markdown-code-block response))))
            (when (buffer-live-p (current-buffer))
              (with-current-buffer (current-buffer)
                (save-excursion
@@ -260,7 +287,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
                  (goto-char beg)
                  (insert doced-fn))))))))))
 
-(define-key prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
+(define-key
+ prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
 
 (defun my/gptel-subtle-improvement ()
   "Improve the selected region, correcting obvious mistakes and refining style."
@@ -290,7 +318,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
                (insert new-content)
                (message "Applied subtle improvements.")))))))))
 
-(define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
+(define-key
+ prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
 (defvar my/gptel-word-definition-prompt
   (concat
@@ -316,7 +345,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
   (unless (region-active-p)
     (error "No region selected"))
   (let ((input
-         (buffer-substring-no-properties (region-beginning) (region-end))))
+         (buffer-substring-no-properties
+          (region-beginning) (region-end))))
     (require 'gptel)
     (let ((gptel-include-reasoning nil))
       (gptel-request
@@ -324,7 +354,9 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        :callback
        (lambda (response info)
          (my/gptel-stash-response
-          (format "*Definition: %s*" input) (plist-get info :context) response)
+          (format "*Definition: %s*" input)
+          (plist-get info :context)
+          response)
          (message response))
        :system my/gptel-word-definition-prompt
        :context input))))
@@ -373,7 +405,8 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
             "gentle"))
          (start-conflict "<<<<<<< Original\n")
          (sep-conflict "=======\n")
-         (end-conflict (format ">>>>>>> Proofread (%s)\n" prompt-style)))
+         (end-conflict
+          (format ">>>>>>> Proofread (%s)\n" prompt-style)))
     (require 'gptel)
     (save-excursion
       (goto-char start)
@@ -387,7 +420,9 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
        (lambda (response info)
          (if response
              (my/gptel-proof-apply-fix
-              (plist-get info :buffer) (plist-get info :context) response)
+              (plist-get info :buffer)
+              (plist-get info :context)
+              response)
            (error "Proofread error: %s" (plist-get info :status))))
        :context marker
        :system
