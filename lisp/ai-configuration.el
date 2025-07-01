@@ -141,7 +141,9 @@
                       (start (point)))
                  (insert processed-message)
                  (let ((end (point)))
-                   (fill-region start end)))))))))))
+                   (fill-region start end)
+                   (goto-char message-end)
+                   (insert "\n\n")))))))))))
 
 (defun my/gptel-rewrite-commit-message ()
   "Rewrite the current commit message using gptel with a user-defined prompt.
