@@ -41,8 +41,7 @@
    ("m" . helm-multi-files)
    ("a" . helm-apropos)
    ("i" . helm-imenu)))
- :init
- (global-unset-key (kbd "C-x c"))
+ :init (global-unset-key (kbd "C-x c"))
  :config
  (setq helm-split-window-inside-p nil)
  (setq helm-move-to-line-cycle-in-source nil)
@@ -52,7 +51,8 @@
  (setq helm-display-buffer-reuse-frame nil)
  (setq helm-use-undecorated-frame-option t)
  (setq helm-tramp-control-master t)
- (setq helm-grep-ag-command "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
+ (setq helm-grep-ag-command
+       "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
  (helm-mode 1))
 
 (use-package helm-tramp :after helm tramp)
