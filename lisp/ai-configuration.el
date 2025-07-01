@@ -11,16 +11,14 @@
   "Use sentence case for titles unless the context shows a different pattern."
   "General preference for title casing in AI-generated text.")
 
-(defconst my/gptel-base-system-prompt
-  "Return only ASCII. Be succinct."
+(defconst my/gptel-base-system-prompt "Return only ASCII. Be succinct."
   "Base system prompt for AI interactions, ensuring ASCII output and conciseness.")
 
 (use-package
  gptel
  :bind
  (("C-c g c" . gptel)
-  ("C-c g r" . gptel-rewrite)
-  ("C-c g m" . gptel-menu)
+  ("C-c g r" . gptel-rewrite) ("C-c g m" . gptel-menu)
   ("C-c g x" . gptel-abort)) ;; Changed: Moved gptel-abort to C-c g x
  :config (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
 
@@ -36,10 +34,8 @@
 
 (use-package
  gptel-aibo
- :init
- (define-prefix-command 'gptel-aibo-map)
- :bind
- (("C-c g a" . gptel-aibo-map))
+ :init (define-prefix-command 'gptel-aibo-map)
+ :bind (("C-c g a" . gptel-aibo-map))
  :config
  (define-key gptel-aibo-map (kbd "a") #'gptel-aibo)
  (define-key gptel-aibo-map (kbd "s") #'gptel-aibo-summon)
@@ -63,39 +59,49 @@
     (string-join parts "\n\n"))) ; Join parts back with double newline
 
 (defconst my/gptel-commit-system-prompt
-  (concat my/gptel-base-system-prompt
-          " You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use conventional commits ('feat: add new feature') only if the majority of previous commits shows that pattern. Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable.")
+  (concat
+   my/gptel-base-system-prompt
+   " You are a concise assistant that writes conventional Git commit messages. Write in imperative tone. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. Keep the title under 50 characters. Format the body so no line is longer than 72 characters. If needed, add a body after a blank line. No lists. Separate subtopics into paragraphs. Do not include code blocks. Always refer to functions, commands, files, directory, modules, or package names using backticks, also in the title, for example, `use-package`, `gptel`, or `magit`. Use conventional commits ('feat: add new feature') only if the majority of previous commits shows that pattern. Be consistent with capitalization and backticks between title and body. Do not use abbreviations, eg use 'configuration' instead of 'config'. Add the intention for the change in the body after the change description. Separate the body into sensible paragraphs if applicable.")
   "System prompt used for GPT-based commit message generation and rewriting.")
 
 (defun my/gptel-get-recent-commits ()
   "Get the last Git commit messages with title and body from the current repository."
   (interactive)
-  (let* ((max-commits 15)
-         (max-diff-chars-per-commit 5000)
-         (repo-root
-          (or (when (fboundp 'magit-toplevel)
-                (magit-toplevel))
-              (string-trim
-               (shell-command-to-string "git rev-parse --show-toplevel"))))
-         (default-directory repo-root)
-         ;; Always skip the HEAD commit when this function is called. This
-         ;; ensures the current commitis not used as history when amending it.
-         (log-command
-          (format "git --no-pager log --skip 1 -n %d --pretty=format:'%%H::%%s' --reverse"
-                  max-commits))
-         (commit-lines (split-string (shell-command-to-string log-command) "\n" t))
-         (result ""))
+  (let*
+      ((max-commits 15)
+       (max-diff-chars-per-commit 5000)
+       (repo-root
+        (or (when (fboundp 'magit-toplevel)
+              (magit-toplevel))
+            (string-trim
+             (shell-command-to-string "git rev-parse --show-toplevel"))))
+       (default-directory repo-root)
+       ;; Always skip the HEAD commit when this function is called. This
+       ;; ensures the current commitis not used as history when amending it.
+       (log-command
+        (format
+         "git --no-pager log --skip 1 -n %d --pretty=format:'%%H::%%s' --reverse"
+         max-commits))
+       (commit-lines
+        (split-string (shell-command-to-string log-command) "\n" t))
+       (result ""))
 
     (dolist (line commit-lines)
       (let* ((parts (split-string line "::"))
              (hash (car parts))
              (summary (cadr parts))
-             (diff (shell-command-to-string (format "git --no-pager show --no-color --format=%%b %s" hash)))
-             (diff-truncated (if (> (length diff) max-diff-chars-per-commit)
-                                 (substring diff 0 max-diff-chars-per-commit)
-                               diff))
-             (entry (format "\n--- Commit: %s (%s) ---\n%s\n"
-                            summary hash diff-truncated)))
+             (diff
+              (shell-command-to-string
+               (format "git --no-pager show --no-color --format=%%b %s" hash)))
+             (diff-truncated
+              (if (> (length diff) max-diff-chars-per-commit)
+                  (substring diff 0 max-diff-chars-per-commit)
+                diff))
+             (entry
+              (format "\n--- Commit: %s (%s) ---\n%s\n"
+                      summary
+                      hash
+                      diff-truncated)))
         (setq result (concat result entry))))
 
     (if (called-interactively-p 'interactive)
@@ -129,7 +135,8 @@
            (with-current-buffer (current-buffer)
              (save-excursion
                (goto-char (point-min))
-               (let* ((processed-message (my/gptel-process-commit-message-string response))
+               (let* ((processed-message
+                       (my/gptel-process-commit-message-string response))
                       (start (point)))
                  (insert processed-message)
                  (let ((end (point)))
@@ -143,9 +150,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
     (user-error "This command must be run in a git-commit buffer"))
   (let* ((buffer-contents (buffer-string))
          (recent-commits (my/gptel-get-recent-commits))
-         (user-prompt
-          (read-string
-           "Rewrite instructions: ")))
+         (user-prompt (read-string "Rewrite instructions: ")))
     (require 'gptel)
     (gptel-request
      (concat
@@ -162,7 +167,8 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
          (with-current-buffer (current-buffer)
            (save-excursion
              (goto-char (point-min))
-             (let* ((processed-message (my/gptel-process-commit-message-string response))
+             (let* ((processed-message
+                     (my/gptel-process-commit-message-string response))
                     (start (point))) ; Start of the new message
                (insert processed-message) ; Insert the new message
                (let ((message-end (point))) ; End of the new message
@@ -209,15 +215,17 @@ Then, prompt for the starting point, and finally create and checkout the new bra
              (message "Branch '%s' created from '%s' and checked out."
                       final-name
                       start-point))
-           (unless (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
+           (unless (and (fboundp 'magit-branch-create)
+                        (fboundp 'magit-checkout))
              (message
               "Magit functions `magit-branch-create` or `magit-checkout` not found. Branch not created automatically."))))))))
 
 (define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
 
 (defconst my/gptel-coding-base-system-prompt
-  (concat my/gptel-base-system-prompt
-          " You are a proficient coder. Separate title from body. Only include arguments as continuous text.")
+  (concat
+   my/gptel-base-system-prompt
+   " You are a proficient coder. Separate title from body. Only include arguments as continuous text.")
   "System prompt for AI interactions related to coding tasks.")
 
 (defun my/gptel-replace-with-docstring ()
@@ -284,8 +292,11 @@ Then, prompt for the starting point, and finally create and checkout the new bra
 (define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
 (defvar my/gptel-word-definition-prompt
-  (concat my/gptel-base-system-prompt " " my/gptel-title-case-preference
-          " Give a short definition of this word or phrase in a Merriam-Webster style. Provide usage examples, synonyms, and antonyms. Synonyms and antonyms should be comma-separated.")
+  (concat
+   my/gptel-base-system-prompt
+   " "
+   my/gptel-title-case-preference
+   " Give a short definition of this word or phrase in a Merriam-Webster style. Provide usage examples, synonyms, and antonyms. Synonyms and antonyms should be comma-separated.")
   "Style prompt used to define a word.")
 
 (defun my/gptel-stash-response (buffer-name prompt response)
@@ -320,8 +331,11 @@ Then, prompt for the starting point, and finally create and checkout the new bra
 (define-key global-map (kbd "C-c g w") #'my/gptel-define-word)
 
 (defvar my/gptel-proof-base-prompt
-  (concat my/gptel-base-system-prompt " " my/gptel-title-case-preference
-          " Fix spelling, punctuation, and grammer in the following text. Only return the improved version. The returned text should use a line length and breaks as the previous one. Keep whitespace patterns as is.")
+  (concat
+   my/gptel-base-system-prompt
+   " "
+   my/gptel-title-case-preference
+   " Fix spelling, punctuation, and grammer in the following text. Only return the improved version. The returned text should use a line length and breaks as the previous one. Keep whitespace patterns as is.")
   "Base prompt for proof reading.")
 
 (defvar my/gptel-proof-gentle-prompt
