@@ -454,7 +454,8 @@ With prefix argument REVERSE order."
   ("C-c n t g" . org-roam-dailies-goto-today)
   ("C-c n g" . org-roam-graph)
   ("C-c n a r" . org-roam-ref-add)
-  ("C-c n a t" . org-roam-tag-add))
+  ("C-c n a t" . org-roam-tag-add)
+  ("C-c n s" . org-roam-db-sync))
  :config
  (setq org-roam-directory my-roam-notes)
  (setq org-roam-db-gc-threshold most-positive-fixnum)
