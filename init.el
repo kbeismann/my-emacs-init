@@ -683,7 +683,8 @@
 (use-package
  kubernetes
  :bind (("C-c k o" . kubernetes-overview))
- :commands (kubernetes-overview))
+ :commands (kubernetes-overview)
+ :config (setq kubernetes-redraw-frequency 600))
 
 (require 'ai-configuration)
 
