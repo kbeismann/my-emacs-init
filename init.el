@@ -609,6 +609,7 @@
  (setq lsp-keymap-prefix "C-c l")
  (setq lsp-diagnostics-provider :none)
  :config
+ (setq lsp-log-io t)
  (setq lsp-file-watch-threshold 10000)
  (setq lsp-restart 'auto-restart)
  (lsp-register-custom-settings
