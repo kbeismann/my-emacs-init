@@ -586,8 +586,13 @@
   (rust-ts-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration))
  :bind (:map lsp-mode-map ("M-?" . lsp-find-references) ("M-." . lsp-find-definition))
- :init (setq lsp-keymap-prefix "C-c l") (setq lsp-diagnostics-provider :none)
- :config (setq lsp-file-watch-threshold 10000) (setq lsp-restart 'auto-restart)
+ :init
+ (setq lsp-keymap-prefix "C-c l")
+ (setq lsp-diagnostics-provider :none)
+ :config
+ (setq lsp-log-io t)
+ (setq lsp-file-watch-threshold 10000)
+ (setq lsp-restart 'auto-restart)
  (lsp-register-custom-settings
   '(("pylsp.plugins.pylsp_mypy.enabled" nil nil)
     ("pylsp.plugins.pylsp_mypy.live_mode" nil nil)
