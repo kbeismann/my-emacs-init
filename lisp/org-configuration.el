@@ -201,8 +201,8 @@ With prefix argument REVERSE order."
              ":"
              (sort wrd
                    (if reversed
-                       #'string<
-                     #'string>)))
+                       #'string> ; Sort descending if reversed
+                     #'string<))) ; Sort ascending by default
             ":")))
      (save-excursion
        (goto-char beg)
@@ -219,11 +219,12 @@ With prefix argument REVERSE order."
               (beg (match-beginning 0))
               (end (match-end 0)))
          (when tags
-           (let* ((tag-str (string-trim tags ":"))
-                  (sorted
-                   (sort (split-string tag-str ":" t " ") #'string>))
-                  (new-tag-str
-                   (concat ":" (string-join sorted ":") ":")))
+           (let*
+               ((tag-str (string-trim tags ":"))
+                (sorted
+                 (sort (split-string tag-str ":" t " ") #'string<)) ; Sort ascending
+                (new-tag-str
+                 (concat ":" (string-join sorted ":") ":")))
              (org-set-tags new-tag-str)))))))
 
  (defun my/sort-org-tags-in-directory (dir)
