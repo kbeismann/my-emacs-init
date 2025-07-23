@@ -50,7 +50,8 @@
   .
   (lambda ()
     (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
-              nil 'local)))
+              nil 'local)
+    (my/org-auto-sort-tags-mode 1)))
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
  :config
