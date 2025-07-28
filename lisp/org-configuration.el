@@ -50,7 +50,8 @@
   .
   (lambda ()
     (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
-              nil 'local)
+              nil
+              'local)
     (my/org-auto-sort-tags-mode 1)))
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
@@ -215,9 +216,10 @@ With prefix argument REVERSE order."
               (beg (match-beginning 0))
               (end (match-end 0)))
          (when tags
-           (let* ((tag-str (string-trim tags ":"))
-                  (sorted (sort (split-string tag-str ":" t " ") #'string<)) ; Sort ascending
-                  (new-tag-str (concat ":" (string-join sorted ":") ":")))
+           (let*
+               ((tag-str (string-trim tags ":"))
+                (sorted (sort (split-string tag-str ":" t " ") #'string<)) ; Sort ascending
+                (new-tag-str (concat ":" (string-join sorted ":") ":")))
              (org-set-tags new-tag-str)))))))
 
  (defun my/sort-org-tags-in-directory (dir)
