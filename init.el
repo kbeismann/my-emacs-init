@@ -84,6 +84,7 @@
 (setq vc-follow-symlinks t)
 (setq large-file-warning-threshold (* 10 1024 1024))
 (setq sentence-end-double-space nil)
+(setq-default sentence-end "[.?!…‽][]\"')}»›]*[ \t\n]+")
 
 ;; Editing and indentation.
 (setq tab-always-indent t)
