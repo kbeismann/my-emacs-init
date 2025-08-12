@@ -212,7 +212,9 @@ Then, prompt for the starting point, and finally create and checkout the new bra
   (interactive)
   (let*
       ((description
-        (read-string "Describe the purpose of the new branch: "))
+        (if (eq major-mode 'magit-revision-mode)
+            (buffer-string)
+          (read-string "Describe the purpose of the new branch: ")))
        (prompt
         (concat
          "You are a Git expert. Convert the following description into a concise, kebab-case branch name. Use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. Only return the branch name: no quotes, punctuation, or explanations. No abbreviations."
