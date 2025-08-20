@@ -417,7 +417,7 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
   aidermacs-weak-model
   "weak"
   aidermacs-architect-model
-  "architect"
+  "qwen"
   aidermacs-editor-model
   "editor"))
 
