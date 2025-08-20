@@ -1,4 +1,4 @@
-;;; ai.el --- AI-related configurations -*- lexical-binding: t; coding: utf-8 -*-
+;;; ai-configuration.el --- AI-related configurations -*- lexical-binding: t; coding: utf-8 -*-
 
 ;;; Commentary:
 
@@ -422,4 +422,4 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
   "editor"))
 
 (provide 'ai-configuration)
-;;; ai.el ends here
+;;; ai-configuration.el ends here
