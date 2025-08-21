@@ -413,13 +413,13 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
          (auth-source-pick-first-password :host "openrouter.ai"))
  :custom
  (aidermacs-default-model
-  "default"
+  "qwen"
   aidermacs-weak-model
-  "weak"
+  "flash"
   aidermacs-architect-model
-  "architect"
+  "flash"
   aidermacs-editor-model
-  "editor"))
+  "flash"))
 
 (provide 'ai-configuration)
 ;;; ai-configuration.el ends here
