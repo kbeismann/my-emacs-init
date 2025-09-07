@@ -35,6 +35,7 @@
 
 (use-package
  gptel-aibo
+ :straight (:host github :repo "dolmens/gptel-aibo")
  :init (define-prefix-command 'gptel-aibo-map)
  :bind (("C-c g a" . gptel-aibo-map))
  :config
@@ -404,6 +405,7 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
 
 (use-package
  aidermacs
+ :straight (:host github :repo "MatthewZMD/aidermacs")
  :bind (("C-c a" . aidermacs-transient-menu))
  :config
  (setenv "GEMINI_API_KEY"
