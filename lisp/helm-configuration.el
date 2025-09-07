@@ -43,17 +43,18 @@
    ("i" . helm-imenu)))
  :init (global-unset-key (kbd "C-x c"))
  :config
- (setq helm-split-window-inside-p nil)
- (setq helm-move-to-line-cycle-in-source nil)
- (setq helm-autoresize-mode t)
- (setq helm-mode-fuzzy-match t)
- (setq helm-completion-in-region-fuzzy-match t)
- (setq helm-display-buffer-reuse-frame nil)
- (setq helm-use-undecorated-frame-option t)
- (setq helm-tramp-control-master t)
- (setq helm-grep-ag-command
-       "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
- (helm-mode 1))
+ (with-demoted-errors "Warning suppressed: %S"
+   (setq helm-split-window-inside-p nil)
+   (setq helm-move-to-line-cycle-in-source nil)
+   (setq helm-autoresize-mode t)
+   (setq helm-mode-fuzzy-match t)
+   (setq helm-completion-in-region-fuzzy-match t)
+   (setq helm-display-buffer-reuse-frame nil)
+   (setq helm-use-undecorated-frame-option t)
+   (setq helm-tramp-control-master t)
+   (setq helm-grep-ag-command
+         "ag --line-numbers -S -i --color --nogroup %s -- %s %s")
+   (helm-mode 1)))
 
 (use-package helm-tramp :after helm tramp)
 
