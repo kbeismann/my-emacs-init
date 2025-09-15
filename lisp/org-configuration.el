@@ -43,8 +43,10 @@
   .
   (lambda ()
     (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
-              nil 'local)
-    (my/org-auto-sort-tags-mode 1)))
+              nil
+              'local)
+    (my/org-auto-sort-tags-mode 1)
+    (add-hook 'before-save-hook #'my/org-normalize-header-spacing nil 'local))) ;; Added hook for header spacing
  ;; Switch to DONE when sub-entries are done.
  (org-after-todo-statistics-hook . org-summary-todo)
  :config
@@ -208,9 +210,10 @@ With prefix argument REVERSE order."
               (beg (match-beginning 0))
               (end (match-end 0)))
          (when tags
-           (let* ((tag-str (string-trim tags ":"))
-                  (sorted (sort (split-string tag-str ":" t " ") #'string<)) ; Sort ascending
-                  (new-tag-str (concat ":" (string-join sorted ":") ":")))
+           (let*
+               ((tag-str (string-trim tags ":"))
+                (sorted (sort (split-string tag-str ":" t " ") #'string<)) ; Sort ascending
+                (new-tag-str (concat ":" (string-join sorted ":") ":")))
              (org-set-tags new-tag-str)))))))
 
  (defun my/sort-org-tags-in-directory (dir)
@@ -377,7 +380,191 @@ With prefix argument REVERSE order."
  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
  (setq org-format-latex-options
        (plist-put org-format-latex-options :html-scale 1.5))
- (setq org-latex-toc-command "\\tableofcontents \\clearpage"))
+ (setq org-latex-toc-command "\\tableofcontents \\clearpage")
+
+ ;; New function: my/org-normalize-header-spacing
+ (defun my/count-blank-lines-before-point (pos)
+   "Count blank lines immediately preceding POS.
+   Assumes POS is at the beginning of a non-blank line."
+   (save-excursion
+     (goto-char pos)
+     (let ((blanks 0))
+       (while (and (not (bobp))
+                   (progn
+                     (forward-line -1)
+                     (string-empty-p
+                      (buffer-substring
+                       (line-beginning-position) (line-end-position)))))
+         (setq blanks (1+ blanks)))
+       blanks)))
+
+ (defun my/delete-blanks-before-point (pos)
+   "Delete all blank lines immediately preceding POS."
+   (save-excursion
+     (goto-char pos)
+     (while (and (not (bobp))
+                 (progn
+                   (forward-line -1)
+                   (string-empty-p
+                    (buffer-substring
+                     (line-beginning-position) (line-end-position)))))
+       (delete-region (line-beginning-position) (line-end-position)))))
+
+ (defun my/org-get-line-category-at-point ()
+   "Return the category of the current line as a symbol:
+   :heading, :metadata, :body, :blank.
+   Uses `org-element-context` for robust classification."
+   (save-excursion
+     (beginning-of-line)
+     (let ((line-text (buffer-substring (point) (line-end-position))))
+       (cond
+        ((string-empty-p line-text)
+         :blank)
+        ((org-at-heading-p)
+         :heading)
+        ;; Explicitly check for common metadata lines using regex
+        ((or
+          (string-match-p "^[ \t]*:PROPERTIES:" line-text) ; Start of property drawer
+          (string-match-p "^[ \t]*:END:" line-text) ; End of property drawer
+          (string-match-p "^[ \t]*:[A-Z_]+:" line-text) ; Individual property line like :ID:
+          (string-match-p
+           "^[ \t]*\\(?:CLOSED\\|SCHEDULED\\|DEADLINE\\):"
+           line-text) ; Timestamps with keywords
+          (string-match-p "^[ \t]*[<[]\\d{4}-\\d{2}-\\d{2}" line-text) ; Active/inactive timestamps (e.g., <2023-01-01 Mon>)
+          ;; Org keywords like #+TITLE: (requires colon), but exclude #+NAME:
+          ;; Emacs Lisp regex does not support PCRE-style lookaheads (?!...).
+          ;; We match the general pattern and then check the exclusion in Lisp.
+          (let ((match-pos
+                 (string-match "^[ \t]*#\\+\\([A-Z_]+\\):" line-text)))
+            (and match-pos
+                 (not (string-equal (match-string 1 line-text) "NAME")))))
+         :metadata)
+        ;; Explicitly check for Org block delimiters as body content
+        ((string-match-p "^[ \t]*#\\+\\(?:begin\\|end\\)_[A-Z_]+" line-text)
+         :body)
+        (t
+         ;; For anything else, rely on org-element-context to classify as body
+         (let ((element (org-element-context)))
+           (pcase (org-element-type element)
+             ('src-block :body) ; Source blocks
+             ('example-block :body) ; Example blocks
+             ('quote-block :body) ; Quote blocks
+             ('comment-block :body) ; Comment blocks
+             ('list-item :body) ; List items
+             ('paragraph :body) ; Regular paragraphs
+             ;; Default to body for anything else not explicitly categorized
+             (_ :body))))))))
+
+ (defun my/org-determine-required-blanks
+     (prev-cat current-cat &optional is-first-content-line)
+   "Determine the number of blank lines required between two categories.
+   Returns 0, 1, or :preserve.
+   IS-FIRST-CONTENT-LINE should be non-nil if current-cat is the first content line in the buffer."
+   (cond
+    (is-first-content-line
+     0) ; No blanks before the very first content line
+    (t
+     (pcase (list prev-cat current-cat)
+       ;; No blank lines
+       ((or `(:heading :heading)
+            `(:heading :metadata)
+            `(:metadata :metadata)) ; e.g., #+TITLE then #+DATE
+        0)
+       ;; One blank line
+       ((or `(:heading :body)
+            `(:metadata :heading)
+            `(:metadata :body)
+            `(:body :heading)
+            `(:body :metadata))
+        1)
+       ;; Preserve existing blank lines for other combinations (body to body)
+       (_ :preserve)))))
+
+ (defun my/org-normalize-header-spacing ()
+   "Ensure consistent empty line handling around Org mode headers and metadata.
+    - No empty line between two consecutive headers.
+    - No empty line between a header and its associated metadata (e.g., :PROPERTIES:).
+    - Exactly one empty line between a header and body text.
+    - Exactly one empty line between metadata and a header or body text.
+    - No empty line between consecutive metadata lines (e.g., #+TITLE then #+DATE).
+    - Preserves existing blank lines between non-header, non-metadata content (body-body).
+    - No blank lines at the beginning or end of the buffer."
+   (interactive)
+   (save-excursion
+     (save-restriction
+       (widen)
+       (goto-char (point-min))
+
+       ;; 1. Delete leading blank lines
+       (delete-blank-lines)
+
+       (let
+           ((prev-line-category :blank) ; Category of the line *before* the current one being processed
+            (current-content-start (point)) ; Start of the current non-blank line being considered
+            current-line-category) ; Declare current-line-category here
+
+         (while (not (eobp))
+           ;; Ensure point is at the start of the current non-blank line
+           (goto-char current-content-start)
+
+           (setq current-line-category (my/org-get-line-category-at-point)) ; Assign value here
+           (let* ((is-first-content-line (eq current-content-start (point-min)))
+                  (required-blanks
+                   (my/org-determine-required-blanks
+                    prev-line-category
+                    current-line-category
+                    is-first-content-line)))
+
+             ;; Determine required blanks *before* current-content-start
+             (when
+                 (not is-first-content-line) ; Only adjust blanks if not the very first content line
+               (let ((blanks-found
+                      (my/count-blank-lines-before-point
+                       current-content-start)))
+                 (let ((actual-required-blanks
+                        (if (eq required-blanks :preserve)
+                            blanks-found ; Preserve if :preserve
+                          required-blanks)))
+                   (when (/= blanks-found actual-required-blanks)
+                     (save-excursion
+                       (my/delete-blanks-before-point current-content-start) ; Delete all existing blanks
+                       (goto-char current-content-start) ; Point is now at the original start of the non-blank line
+                       (dotimes (_ actual-required-blanks)
+                         (insert "\n"))))))))
+
+           ;; Update for next iteration
+           (setq prev-line-category current-line-category)
+
+           ;; Advance current-content-start to the next non-blank line
+           (goto-char current-content-start) ; Go back to the start of the line we just processed (its original position)
+           (forward-line 1) ; Move to the line *after* the one just processed
+           (while (and (not (eobp))
+                       (string-empty-p
+                        (buffer-substring
+                         (line-beginning-position) (line-end-position))))
+             (forward-line 1)) ; Skip blank lines
+           (setq current-content-start (point)) ; Update current-content-start to the start of the next non-blank line
+           ))
+
+       ;; 2. Delete trailing blank lines
+       (goto-char (point-max))
+       (delete-blank-lines)))))
+
+;; New function: my/org-normalize-header-spacing-in-directory
+(defun my/org-normalize-header-spacing-in-directory (directory)
+  "Apply `my/org-normalize-header-spacing` to all Org files in DIRECTORY.
+   Processes files recursively in subdirectories."
+  (interactive "DSelect directory: ")
+  (let ((org-files (directory-files-recursively directory "\\.org$")))
+    (if (not org-files)
+        (message "No Org files found in %s" directory)
+      (dolist (file org-files)
+        (message "Processing file: %s" file)
+        (with-current-buffer (find-file-noselect file)
+          (when (derived-mode-p 'org-mode)
+            (my/org-normalize-header-spacing)
+            (save-buffer))
+          (message "Normalized header spacing in %s" file))))))
 
 (defun my/org-fill-buffer ()
   "Fill all paragraphs in the current Org mode buffer.
