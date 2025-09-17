@@ -52,10 +52,9 @@
     (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
               nil
               'local)
-    (my/org-auto-sort-tags-mode 1)
     (add-hook 'before-save-hook #'my/org-normalize-header-spacing nil 'local))) ;; Added hook for header spacing
  ;; Switch to DONE when sub-entries are done.
- (org-after-todo-statistics-hook . org-summary-todo)
+ (org-after-todo-statistics-hook . my/org-summary-todo)
  :config
  ;; Configure Org directory settings and load work-related notes.
  (setq org-directory my-roam-notes)
