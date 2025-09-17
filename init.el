@@ -697,7 +697,9 @@
        '((eval . (git-auto-commit-mode 1))
          (eval .
                (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-         (eval . (my/org-auto-sort-tags-mode 1)))))
+         ;; The following entry makes the org-mode specific local variables safe.
+         ;; It must match the structure in .dir-locals.el exactly.
+         (org-mode . ((eval . (my/org-auto-sort-tags-mode 1)))))))
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
