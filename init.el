@@ -689,6 +689,15 @@
 
 (require 'ai-configuration)
 
+;; Allow the global eval forms in .dir-locals.el. This block must be loaded
+;; early enough for .dir-locals.el to be processed correctly.
+(setq safe-local-variable-values
+      (append
+       safe-local-variable-values
+       '((eval . (git-auto-commit-mode 1))
+         (eval .
+               (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+         (eval . (my/org-auto-sort-tags-mode 1)))))
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
