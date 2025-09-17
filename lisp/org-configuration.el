@@ -234,14 +234,6 @@ With prefix argument REVERSE order."
            (save-buffer))
          (kill-buffer)))))
 
- (define-minor-mode my/org-auto-sort-tags-mode
-   "Minor mode to auto-sort Org tags on save."
-   :lighter
-   " Tagsort"
-   (if my/org-auto-sort-tags-mode
-       (add-hook 'before-save-hook #'my/sort-org-tags-in-buffer nil t)
-     (remove-hook 'before-save-hook #'my/sort-org-tags-in-buffer t)))
-
  (defun my/org-roam-unlink-at-point ()
    "Replace Org-roam link at point with its description, preserving spacing."
    (interactive)

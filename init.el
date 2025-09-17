@@ -282,6 +282,14 @@
 ;; Add the hook function to org-mode-hook and emacs-lisp-mode-hook.
 (add-hook 'emacs-lisp-mode-hook #'my/add-collapse-to-before-save)
 
+(define-minor-mode my/org-auto-sort-tags-mode
+  "Minor mode to auto-sort Org tags on save."
+  :lighter
+  " Tagsort"
+  (if my/org-auto-sort-tags-mode
+      (add-hook 'before-save-hook #'my/sort-org-tags-in-buffer nil t)
+    (remove-hook 'before-save-hook #'my/sort-org-tags-in-buffer t)))
+
 (defun my/batch-collapse-blank-lines (directory)
   "Collapse multiple blank lines in all files within DIRECTORY and its subdirectories."
   (interactive "DDirectory to process: ")
