@@ -573,6 +573,18 @@ With prefix argument REVERSE order."
             (save-buffer))
           (message "Normalized header spacing in %s" file))))))
 
+(defun my/org-fill-buffer ()
+  "Fill all paragraphs in the current Org mode buffer.
+This function iterates through the buffer, applying `org-fill-paragraph`
+to each paragraph to ensure consistent line wrapping."
+  (interactive)
+  (save-excursion
+    (widen) ; Ensure all parts of the buffer are visible
+    (goto-char (point-min))
+    (while (not (eobp))
+      (org-fill-paragraph)
+      (forward-paragraph))))
+
 (use-package
  org-super-agenda
  :defer nil
