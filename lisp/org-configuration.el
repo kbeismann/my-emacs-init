@@ -388,6 +388,18 @@ With prefix argument REVERSE order."
        (plist-put org-format-latex-options :html-scale 1.5))
  (setq org-latex-toc-command "\\tableofcontents \\clearpage"))
 
+(defun my/org-fill-buffer ()
+  "Fill all paragraphs in the current Org mode buffer.
+This function iterates through the buffer, applying `org-fill-paragraph`
+to each paragraph to ensure consistent line wrapping."
+  (interactive)
+  (save-excursion
+    (widen) ; Ensure all parts of the buffer are visible
+    (goto-char (point-min))
+    (while (not (eobp))
+      (org-fill-paragraph)
+      (forward-paragraph))))
+
 (use-package
  org-super-agenda
  :defer nil
