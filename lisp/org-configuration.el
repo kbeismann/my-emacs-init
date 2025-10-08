@@ -19,13 +19,6 @@
 
 (use-package
  org
- :straight
- (:package
-  org
-  :type git
-  :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git"
-  :local-repo "org"
-  :depth 1)
  :mode "//.org$"
  :bind*
  (("C-c o a" .
