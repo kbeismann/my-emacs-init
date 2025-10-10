@@ -463,7 +463,8 @@ With prefix argument REVERSE order."
    disruption during saving."
    (interactive)
    (save-window-excursion ; Use save-window-excursion to preserve view
-     (save-excursion ; Also use save-excursion to preserve point within the window
+     (let ((original-line (line-number-at-pos))
+           (original-column (current-column)))
        (save-restriction
          (widen)
          (let ((new-content-lines '())
@@ -514,7 +515,10 @@ With prefix argument REVERSE order."
            (let ((final-content (string-join (nreverse new-content-lines) "\n")))
              ;; Replace buffer content
              (delete-region (point-min) (point-max))
-             (insert final-content)))))))
+             (insert final-content))))
+       ;; Restore point after the buffer content has been completely rewritten
+       (goto-line original-line)
+       (move-to-column original-column))))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
