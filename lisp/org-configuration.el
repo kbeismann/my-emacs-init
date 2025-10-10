@@ -462,7 +462,8 @@ With prefix argument REVERSE order."
    buffer content in a single operation to improve performance and reduce visual
    disruption during saving."
    (interactive)
-   (save-excursion
+   (let ((original-line (line-number-at-pos))
+         (original-column (current-column)))
      (save-restriction
        (widen)
        (let ((new-content-lines '())
@@ -513,7 +514,10 @@ With prefix argument REVERSE order."
          (let ((final-content (string-join (nreverse new-content-lines) "\n")))
            ;; Replace buffer content
            (delete-region (point-min) (point-max))
-           (insert final-content))))))
+           (insert final-content))))
+     ;; Restore point after the buffer content has been completely rewritten
+     (goto-line original-line)
+     (move-to-column original-column)))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
@@ -523,7 +527,7 @@ With prefix argument REVERSE order."
   (let ((org-files (directory-files-recursively directory "\\.org$")))
     (if (not org-files)
         (message "No Org files found in %s" directory)
-      (dolist (file org-files)
+      (dolist (file files)
         (message "Processing file: %s" file)
         (with-current-buffer (find-file-noselect file)
           (when (derived-mode-p 'org-mode)
