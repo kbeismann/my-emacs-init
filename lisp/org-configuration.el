@@ -545,7 +545,7 @@ to each paragraph to ensure consistent line wrapping."
     (goto-char (point-min))
     (while (not (eobp))
       (org-fill-paragraph)
-      (forward-paragraph))))
+      (forward-paragraph)))))
 
 (use-package
  org-super-agenda
