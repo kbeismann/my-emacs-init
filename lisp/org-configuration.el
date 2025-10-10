@@ -373,7 +373,7 @@ With prefix argument REVERSE order."
        (plist-put org-format-latex-options :html-scale 1.5))
  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
- ;; New function: my/org-normalize-header-spacing
+ ;; New function: my/org-get-line-category-at-point-optimized
  (defun my/org-get-line-category-at-point-optimized ()
    "Return the category of the current line as a symbol:
    :heading, :metadata, :body, :blank.
@@ -448,84 +448,164 @@ With prefix argument REVERSE order."
        ;; Preserve existing blank lines for other combinations (body to body)
        (_ :preserve)))))
 
- (defun my/org-normalize-header-spacing ()
-   "Ensure consistent empty line handling around Org mode headers and metadata.
-    - No empty line between two consecutive headers.
-    - No empty line between a header and its associated metadata (e.g., :PROPERTIES:).
-    - Exactly one empty line between a header and body text.
-    - Exactly one empty line between metadata and a header or body text.
-    - No empty line between consecutive metadata lines (e.g., #+TITLE then #+DATE).
-    - Preserves existing blank lines between non-header, non-metadata content (body-body).
-    - No blank lines at the beginning or end of the buffer.
+;; Renamed old function for reference
+(defun my/org-normalize-header-spacing-build-and-replace ()
+  "Ensure consistent empty line handling around Org mode headers and metadata.
+   This function builds the normalized content in memory and replaces the
+   buffer content in a single operation. This approach can cause visual
+   disruption (buffer jumping) during saving.
+   Use `my/org-normalize-header-spacing` for in-place modification."
+  (interactive)
+  (save-window-excursion ; Use save-window-excursion to preserve view
+    (let ((original-line (line-number-at-pos))
+          (original-column (current-column))
+          (scroll-conservatively most-positive-fixnum) ; Temporarily disable aggressive scrolling
+          (inhibit-redisplay t)) ; Temporarily inhibit redisplay
+      (unwind-protect
+          (save-restriction
+            (widen)
+            (let ((new-content-lines '())
+                  (prev-line-category :blank)
+                  (consecutive-blanks 0))
 
-   This function now builds the normalized content in memory and replaces the
-   buffer content in a single operation to improve performance and reduce visual
-   disruption during saving."
-   (interactive)
-   (save-window-excursion ; Use save-window-excursion to preserve view
-     (let ((original-line (line-number-at-pos))
-           (original-column (current-column))
-           (old-window-start (window-start)) ; Explicitly save window start
-           (scroll-conservatively most-positive-fixnum) ; Temporarily disable aggressive scrolling
-           (inhibit-redisplay t)) ; Temporarily inhibit redisplay
-       (unwind-protect
-           (save-restriction
-             (widen)
-             (let ((new-content-lines '())
-                   (prev-line-category :blank)
-                   (consecutive-blanks 0))
+              (goto-char (point-min))
 
-               (goto-char (point-min))
+              (while (not (eobp))
+                (let* ((current-line-start (point))
+                       (current-line-end (line-end-position))
+                       (line-text (buffer-substring current-line-start current-line-end))
+                       (current-line-category (my/org-get-line-category-at-point-optimized)))
 
-               (while (not (eobp))
-                 (let* ((current-line-start (point))
-                        (current-line-end (line-end-position))
-                        (line-text (buffer-substring current-line-start current-line-end))
-                        (current-line-category (my/org-get-line-category-at-point-optimized)))
+                  (cond
+                   ((eq current-line-category :blank)
+                    (setq consecutive-blanks (1+ consecutive-blanks)))
+                   (t
+                    ;; This is a content line
+                    (let* ((is-first-content-line (null new-content-lines))
+                           (required-blanks
+                            (my/org-determine-required-blanks
+                             prev-line-category
+                             current-line-category
+                             is-first-content-line)))
 
-                   (cond
-                    ((eq current-line-category :blank)
-                     (setq consecutive-blanks (1+ consecutive-blanks)))
-                    (t
-                     ;; This is a content line
-                     (let* ((is-first-content-line (null new-content-lines))
-                            (required-blanks
-                             (my/org-determine-required-blanks
-                              prev-line-category
-                              current-line-category
-                              is-first-content-line)))
+                      ;; Add required blank lines
+                      (cond
+                       ((eq required-blanks :preserve)
+                        ;; Preserve existing blanks for body-body transitions
+                        (dotimes (_ consecutive-blanks)
+                          (push "" new-content-lines)))
+                       ((> required-blanks 0)
+                        ;; Add the exact number of required blanks
+                        (dotimes (_ required-blanks)
+                          (push "" new-content-lines)))))
 
-                       ;; Add required blank lines
-                       (cond
-                        ((eq required-blanks :preserve)
-                         ;; Preserve existing blanks for body-body transitions
-                         (dotimes (_ consecutive-blanks)
-                           (push "" new-content-lines)))
-                        ((> required-blanks 0)
-                         ;; Add the exact number of required blanks
-                         (dotimes (_ required-blanks)
-                           (push "" new-content-lines)))))
+                    ;; Add the current content line
+                    (push line-text new-content-lines)
 
-                     ;; Add the current content line
-                     (push line-text new-content-lines)
+                    ;; Reset blank counter and update previous category
+                    (setq consecutive-blanks 0)
+                    (setq prev-line-category current-line-category))))
 
-                     ;; Reset blank counter and update previous category
-                     (setq consecutive-blanks 0)
-                     (setq prev-line-category current-line-category))))
+                (forward-line 1))
 
-                 (forward-line 1))
+              ;; Reverse the list to get correct order and join
+              (let ((final-content (string-join (nreverse new-content-lines) "\n")))
+                ;; Replace buffer content
+                (delete-region (point-min) (point-max))
+                (insert final-content))))
+        ;; Ensure redisplay is re-enabled and point/window are restored
+        (setq inhibit-redisplay nil)
+        (goto-line original-line)
+        (move-to-column original-column)))))
 
-               ;; Reverse the list to get correct order and join
-               (let ((final-content (string-join (nreverse new-content-lines) "\n")))
-                 ;; Replace buffer content
-                 (delete-region (point-min) (point-max))
-                 (insert final-content))))
-         ;; Ensure redisplay is re-enabled and point/window are restored
-         (setq inhibit-redisplay nil)
-         (goto-line original-line)
-         (move-to-column original-column)
-         (set-window-start (selected-window) old-window-start)
-         (redisplay)))))
+;; New helper functions for in-place blank line manipulation
+
+(defun my/org-count-blank-lines-before-current-line ()
+  "Count consecutive blank lines immediately before the current line (at point).
+   Point is assumed to be at the beginning of a line."
+  (save-excursion
+    (let ((count 0))
+      (while (and (not (bobp))
+                  (progn (forward-line -1) ; Move to previous line
+                         (looking-at "^[ \t]*$"))) ; Check if it's blank
+        (setq count (1+ count)))
+      count)))
+
+(defun my/org-delete-blank-lines-before-current-line (num-to-delete)
+  "Delete NUM-TO-DELETE blank lines immediately before the current line (at point).
+   Point is assumed to be at the beginning of a line."
+  (save-excursion
+    (dotimes (_ num-to-delete)
+      (if (and (not (bobp))
+               (progn (forward-line -1)
+                      (looking-at "^[ \t]*$")))
+          (delete-region (line-beginning-position) (line-end-position))
+        (error "No blank line to delete before point")))))
+
+(defun my/org-insert-blank-lines-before-current-line (num-to-insert)
+  "Insert NUM-TO-INSERT blank lines immediately before the current line (at point).
+   Point is assumed to be at the beginning of a line."
+  (save-excursion
+    (dotimes (_ num-to-insert)
+      (insert "\n"))))
+
+(defun my/org-remove-blank-lines-at-buffer-edges ()
+  "Remove blank lines at the beginning and end of the buffer."
+  (save-excursion
+    (goto-char (point-min))
+    (while (looking-at "^[ \t]*$")
+      (delete-horizontal-space)
+      (delete-blank-lines))
+    (goto-char (point-max))
+    (while (looking-back "^[ \t]*$" (point-min))
+      (delete-horizontal-space)
+      (delete-blank-lines))))
+
+(defun my/org-normalize-internal-blanks ()
+  "Normalize blank lines between Org mode elements in-place.
+   This function iterates through the buffer and adjusts blank lines
+   based on the categories of adjacent lines."
+  (save-excursion
+    (goto-char (point-min))
+    (let ((prev-line-category :blank) ; Assume buffer starts with a blank context
+          (current-line-category nil))
+      (while (not (eobp))
+        (setq current-line-category (my/org-get-line-category-at-point-optimized))
+
+        (let* ((actual-blanks-before (my/org-count-blank-lines-before-current-line))
+               (required-blanks (my/org-determine-required-blanks
+                                 prev-line-category
+                                 current-line-category
+                                 (eq (point) (point-min))))) ; is-first-content-line
+
+          (unless (eq required-blanks :preserve)
+            (let ((diff (- actual-blanks-before required-blanks)))
+              (cond
+               ((> diff 0) ; Too many blanks, delete some
+                (my/org-delete-blank-lines-before-current-line diff))
+               ((< diff 0) ; Too few blanks, insert some
+                (my/org-insert-blank-lines-before-current-line (- diff)))))))
+
+        (setq prev-line-category current-line-category)
+        (forward-line 1)))))
+
+(defun my/org-normalize-header-spacing ()
+  "Ensure consistent empty line handling around Org mode headers and metadata.
+   This version performs in-place modifications to avoid buffer jumping."
+  (interactive)
+  (save-window-excursion ; Use save-window-excursion to preserve view
+    (let ((original-point (point))
+          (scroll-conservatively most-positive-fixnum) ; Temporarily disable aggressive scrolling
+          (inhibit-redisplay t)) ; Temporarily inhibit redisplay
+      (unwind-protect
+          (progn
+            (save-restriction
+              (widen)
+              (my/org-remove-blank-lines-at-buffer-edges)
+              (my/org-normalize-internal-blanks)))
+        ;; Ensure redisplay is re-enabled and point is restored
+        (setq inhibit-redisplay nil)
+        (goto-char original-point)))))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
