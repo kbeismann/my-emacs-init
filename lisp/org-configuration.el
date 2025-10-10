@@ -467,8 +467,7 @@ With prefix argument REVERSE order."
        (widen)
        (let ((new-content-lines '())
              (prev-line-category :blank)
-             (consecutive-blanks 0)
-             (original-point (point)))
+             (consecutive-blanks 0))
 
          (goto-char (point-min))
 
@@ -514,10 +513,7 @@ With prefix argument REVERSE order."
          (let ((final-content (string-join (nreverse new-content-lines) "\n")))
            ;; Replace buffer content
            (delete-region (point-min) (point-max))
-           (insert final-content))
-
-         ;; Restore original point, or at least ensure it's within bounds
-         (goto-char (min original-point (point-max)))))))
+           (insert final-content))))))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
