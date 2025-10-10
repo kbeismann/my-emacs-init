@@ -374,37 +374,10 @@ With prefix argument REVERSE order."
  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
  ;; New function: my/org-normalize-header-spacing
- (defun my/count-blank-lines-before-point (pos)
-   "Count blank lines immediately preceding POS.
-   Assumes POS is at the beginning of a non-blank line."
-   (save-excursion
-     (goto-char pos)
-     (let ((blanks 0))
-       (while (and (not (bobp))
-                   (progn
-                     (forward-line -1)
-                     (string-empty-p
-                      (buffer-substring
-                       (line-beginning-position) (line-end-position)))))
-         (setq blanks (1+ blanks)))
-       blanks)))
-
- (defun my/delete-blanks-before-point (pos)
-   "Delete all blank lines immediately preceding POS."
-   (save-excursion
-     (goto-char pos)
-     (while (and (not (bobp))
-                 (progn
-                   (forward-line -1)
-                   (string-empty-p
-                    (buffer-substring
-                     (line-beginning-position) (line-end-position)))))
-       (delete-region (line-beginning-position) (line-end-position)))))
-
- (defun my/org-get-line-category-at-point ()
+ (defun my/org-get-line-category-at-point-optimized ()
    "Return the category of the current line as a symbol:
    :heading, :metadata, :body, :blank.
-   Uses `org-element-context` for robust classification."
+   Optimized to reduce calls to `org-element-context`."
    (save-excursion
      (beginning-of-line)
      (let ((line-text (buffer-substring (point) (line-end-position))))
@@ -421,7 +394,6 @@ With prefix argument REVERSE order."
           (string-match-p
            "^[ \t]*\\(?:CLOSED\\|SCHEDULED\\|DEADLINE\\):"
            line-text) ; Timestamps with keywords
-          (string-match-p "^[ \t]*[<[]\\d{4}-\\d{2}-\\d{2}" line-text) ; Active/inactive timestamps (e.g., <2023-01-01 Mon>)
           ;; Org keywords like #+TITLE: (requires colon), but exclude #+NAME:
           ;; Emacs Lisp regex does not support PCRE-style lookaheads (?!...).
           ;; We match the general pattern and then check the exclusion in Lisp.
@@ -430,11 +402,16 @@ With prefix argument REVERSE order."
             (and match-pos
                  (not (string-equal (match-string 1 line-text) "NAME")))))
          :metadata)
-        ;; Explicitly check for Org block delimiters as body content
-        ((string-match-p "^[ \t]*#\\+\\(?:begin\\|end\\)_[A-Z_]+" line-text)
+        ;; Explicitly check for common body elements with regex before org-element-context
+        ((or
+          (string-match-p "^[ \t]*#\\+\\(?:begin\\|end\\)_[A-Z_]+" line-text) ; Org block delimiters
+          (string-match-p "^[ \t]*[-+*] " line-text) ; List items
+          (string-match-p "^[ \t]*[0-9]+\\. " line-text) ; Numbered list items
+          (string-match-p "^[ \t]*\\(?:#\\+CALL\\|#\\+RESULTS\\):" line-text) ; Babel call/results
+          )
          :body)
         (t
-         ;; For anything else, rely on org-element-context to classify as body
+         ;; Fallback to org-element-context for robustness, but it should be less frequent now
          (let ((element (org-element-context)))
            (pcase (org-element-type element)
              ('src-block :body) ; Source blocks
@@ -479,67 +456,68 @@ With prefix argument REVERSE order."
     - Exactly one empty line between metadata and a header or body text.
     - No empty line between consecutive metadata lines (e.g., #+TITLE then #+DATE).
     - Preserves existing blank lines between non-header, non-metadata content (body-body).
-    - No blank lines at the beginning or end of the buffer."
+    - No blank lines at the beginning or end of the buffer.
+
+   This function now builds the normalized content in memory and replaces the
+   buffer content in a single operation to improve performance and reduce visual
+   disruption during saving."
    (interactive)
    (save-excursion
      (save-restriction
        (widen)
-       (goto-char (point-min))
+       (let ((new-content-lines '())
+             (prev-line-category :blank)
+             (consecutive-blanks 0)
+             (original-point (point)))
 
-       ;; 1. Delete leading blank lines
-       (delete-blank-lines)
-
-       (let
-           ((prev-line-category :blank) ; Category of the line *before* the current one being processed
-            (current-content-start (point)) ; Start of the current non-blank line being considered
-            current-line-category) ; Declare current-line-category here
+         (goto-char (point-min))
 
          (while (not (eobp))
-           ;; Ensure point is at the start of the current non-blank line
-           (goto-char current-content-start)
+           (let* ((current-line-start (point))
+                  (current-line-end (line-end-position))
+                  (line-text (buffer-substring current-line-start current-line-end))
+                  (current-line-category (my/org-get-line-category-at-point-optimized)))
 
-           (setq current-line-category (my/org-get-line-category-at-point)) ; Assign value here
-           (let* ((is-first-content-line (eq current-content-start (point-min)))
-                  (required-blanks
-                   (my/org-determine-required-blanks
-                    prev-line-category
-                    current-line-category
-                    is-first-content-line)))
+             (cond
+              ((eq current-line-category :blank)
+               (setq consecutive-blanks (1+ consecutive-blanks)))
+              (t
+               ;; This is a content line
+               (let* ((is-first-content-line (null new-content-lines))
+                      (required-blanks
+                       (my/org-determine-required-blanks
+                        prev-line-category
+                        current-line-category
+                        is-first-content-line)))
 
-             ;; Determine required blanks *before* current-content-start
-             (when
-                 (not is-first-content-line) ; Only adjust blanks if not the very first content line
-               (let ((blanks-found
-                      (my/count-blank-lines-before-point
-                       current-content-start)))
-                 (let ((actual-required-blanks
-                        (if (eq required-blanks :preserve)
-                            blanks-found ; Preserve if :preserve
-                          required-blanks)))
-                   (when (/= blanks-found actual-required-blanks)
-                     (save-excursion
-                       (my/delete-blanks-before-point current-content-start) ; Delete all existing blanks
-                       (goto-char current-content-start) ; Point is now at the original start of the non-blank line
-                       (dotimes (_ actual-required-blanks)
-                         (insert "\n"))))))))
+                 ;; Add required blank lines
+                 (cond
+                  ((eq required-blanks :preserve)
+                   ;; Preserve existing blanks for body-body transitions
+                   (dotimes (_ consecutive-blanks)
+                     (push "" new-content-lines)))
+                  ((> required-blanks 0)
+                   ;; Add the exact number of required blanks
+                   (dotimes (_ required-blanks)
+                     (push "" new-content-lines)))))
 
-           ;; Update for next iteration
-           (setq prev-line-category current-line-category)
+               ;; Add the current content line
+               (push line-text new-content-lines)
 
-           ;; Advance current-content-start to the next non-blank line
-           (goto-char current-content-start) ; Go back to the start of the line we just processed (its original position)
-           (forward-line 1) ; Move to the line *after* the one just processed
-           (while (and (not (eobp))
-                       (string-empty-p
-                        (buffer-substring
-                         (line-beginning-position) (line-end-position))))
-             (forward-line 1)) ; Skip blank lines
-           (setq current-content-start (point)) ; Update current-content-start to the start of the next non-blank line
-           ))
+               ;; Reset blank counter and update previous category
+               (setq consecutive-blanks 0)
+               (setq prev-line-category current-line-category))))
 
-       ;; 2. Delete trailing blank lines
-       (goto-char (point-max))
-       (delete-blank-lines)))))
+           (forward-line 1))
+
+         ;; Reverse the list to get correct order and join
+         (let ((final-content (string-join (nreverse new-content-lines) "\n")))
+           ;; Replace buffer content
+           (delete-region (point-min) (point-max))
+           (insert final-content))
+
+         ;; Restore original point, or at least ensure it's within bounds
+         (goto-char (min original-point (point-max)))))))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
