@@ -465,61 +465,67 @@ With prefix argument REVERSE order."
    (save-window-excursion ; Use save-window-excursion to preserve view
      (let ((original-line (line-number-at-pos))
            (original-column (current-column))
-           (scroll-conservatively most-positive-fixnum)) ; Temporarily disable aggressive scrolling
-       (save-restriction
-         (widen)
-         (let ((new-content-lines '())
-               (prev-line-category :blank)
-               (consecutive-blanks 0))
+           (old-window-start (window-start)) ; Explicitly save window start
+           (scroll-conservatively most-positive-fixnum) ; Temporarily disable aggressive scrolling
+           (inhibit-redisplay t)) ; Temporarily inhibit redisplay
+       (unwind-protect
+           (save-restriction
+             (widen)
+             (let ((new-content-lines '())
+                   (prev-line-category :blank)
+                   (consecutive-blanks 0))
 
-           (goto-char (point-min))
+               (goto-char (point-min))
 
-           (while (not (eobp))
-             (let* ((current-line-start (point))
-                    (current-line-end (line-end-position))
-                    (line-text (buffer-substring current-line-start current-line-end))
-                    (current-line-category (my/org-get-line-category-at-point-optimized)))
+               (while (not (eobp))
+                 (let* ((current-line-start (point))
+                        (current-line-end (line-end-position))
+                        (line-text (buffer-substring current-line-start current-line-end))
+                        (current-line-category (my/org-get-line-category-at-point-optimized)))
 
-               (cond
-                ((eq current-line-category :blank)
-                 (setq consecutive-blanks (1+ consecutive-blanks)))
-                (t
-                 ;; This is a content line
-                 (let* ((is-first-content-line (null new-content-lines))
-                        (required-blanks
-                         (my/org-determine-required-blanks
-                          prev-line-category
-                          current-line-category
-                          is-first-content-line)))
-
-                   ;; Add required blank lines
                    (cond
-                    ((eq required-blanks :preserve)
-                     ;; Preserve existing blanks for body-body transitions
-                     (dotimes (_ consecutive-blanks)
-                       (push "" new-content-lines)))
-                    ((> required-blanks 0)
-                     ;; Add the exact number of required blanks
-                     (dotimes (_ required-blanks)
-                       (push "" new-content-lines)))))
+                    ((eq current-line-category :blank)
+                     (setq consecutive-blanks (1+ consecutive-blanks)))
+                    (t
+                     ;; This is a content line
+                     (let* ((is-first-content-line (null new-content-lines))
+                            (required-blanks
+                             (my/org-determine-required-blanks
+                              prev-line-category
+                              current-line-category
+                              is-first-content-line)))
 
-                 ;; Add the current content line
-                 (push line-text new-content-lines)
+                       ;; Add required blank lines
+                       (cond
+                        ((eq required-blanks :preserve)
+                         ;; Preserve existing blanks for body-body transitions
+                         (dotimes (_ consecutive-blanks)
+                           (push "" new-content-lines)))
+                        ((> required-blanks 0)
+                         ;; Add the exact number of required blanks
+                         (dotimes (_ required-blanks)
+                           (push "" new-content-lines)))))
 
-                 ;; Reset blank counter and update previous category
-                 (setq consecutive-blanks 0)
-                 (setq prev-line-category current-line-category))))
+                     ;; Add the current content line
+                     (push line-text new-content-lines)
 
-             (forward-line 1))
+                     ;; Reset blank counter and update previous category
+                     (setq consecutive-blanks 0)
+                     (setq prev-line-category current-line-category))))
 
-           ;; Reverse the list to get correct order and join
-           (let ((final-content (string-join (nreverse new-content-lines) "\n")))
-             ;; Replace buffer content
-             (delete-region (point-min) (point-max))
-             (insert final-content))))
-       ;; Restore point after the buffer content has been completely rewritten
-       (goto-line original-line)
-       (move-to-column original-column))))
+                 (forward-line 1))
+
+               ;; Reverse the list to get correct order and join
+               (let ((final-content (string-join (nreverse new-content-lines) "\n")))
+                 ;; Replace buffer content
+                 (delete-region (point-min) (point-max))
+                 (insert final-content))))
+         ;; Ensure redisplay is re-enabled and point/window are restored
+         (setq inhibit-redisplay nil)
+         (goto-line original-line)
+         (move-to-column original-column)
+         (set-window-start (selected-window) old-window-start)
+         (redisplay)))))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
