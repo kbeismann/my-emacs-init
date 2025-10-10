@@ -464,7 +464,8 @@ With prefix argument REVERSE order."
    (interactive)
    (save-window-excursion ; Use save-window-excursion to preserve view
      (let ((original-line (line-number-at-pos))
-           (original-column (current-column)))
+           (original-column (current-column))
+           (scroll-conservatively most-positive-fixnum)) ; Temporarily disable aggressive scrolling
        (save-restriction
          (widen)
          (let ((new-content-lines '())
