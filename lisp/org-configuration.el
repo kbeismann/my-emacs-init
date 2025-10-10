@@ -448,17 +448,24 @@ With prefix argument REVERSE order."
        ;; Preserve existing blank lines for other combinations (body to body)
        (_ :preserve)))))
 
-;; Renamed old function for reference
-(defun my/org-normalize-header-spacing-build-and-replace ()
+(defun my/org-normalize-header-spacing ()
   "Ensure consistent empty line handling around Org mode headers and metadata.
+    - No empty line between two consecutive headers.
+    - No empty line between a header and its associated metadata (e.g., :PROPERTIES:).
+    - Exactly one empty line between a header and body text.
+    - Exactly one empty line between metadata and a header or body text.
+    - No empty line between consecutive metadata lines (e.g., #+TITLE then #+DATE).
+    - Preserves existing blank lines between non-header, non-metadata content (body-body).
+    - No blank lines at the beginning or end of the buffer.
+
    This function builds the normalized content in memory and replaces the
-   buffer content in a single operation. This approach can cause visual
-   disruption (buffer jumping) during saving.
-   Use `my/org-normalize-header-spacing` for in-place modification."
+   buffer content in a single operation to improve performance and reduce visual
+   disruption during saving."
   (interactive)
   (save-window-excursion ; Use save-window-excursion to preserve view
     (let ((original-line (line-number-at-pos))
           (original-column (current-column))
+          (old-window-start (window-start)) ; Explicitly save window start
           (scroll-conservatively most-positive-fixnum) ; Temporarily disable aggressive scrolling
           (inhibit-redisplay t)) ; Temporarily inhibit redisplay
       (unwind-protect
@@ -516,96 +523,9 @@ With prefix argument REVERSE order."
         ;; Ensure redisplay is re-enabled and point/window are restored
         (setq inhibit-redisplay nil)
         (goto-line original-line)
-        (move-to-column original-column)))))
-
-;; New helper functions for in-place blank line manipulation
-
-(defun my/org-count-blank-lines-before-current-line ()
-  "Count consecutive blank lines immediately before the current line (at point).
-   Point is assumed to be at the beginning of a line."
-  (save-excursion
-    (let ((count 0))
-      (while (and (not (bobp))
-                  (progn (forward-line -1) ; Move to previous line
-                         (looking-at "^[ \t]*$"))) ; Check if it's blank
-        (setq count (1+ count)))
-      count)))
-
-(defun my/org-delete-blank-lines-before-current-line (num-to-delete)
-  "Delete NUM-TO-DELETE blank lines immediately before the current line (at point).
-   Point is assumed to be at the beginning of a line."
-  (save-excursion
-    (dotimes (_ num-to-delete)
-      (if (and (not (bobp))
-               (progn (forward-line -1)
-                      (looking-at "^[ \t]*$")))
-          (delete-region (line-beginning-position) (line-end-position))
-        (error "No blank line to delete before point")))))
-
-(defun my/org-insert-blank-lines-before-current-line (num-to-insert)
-  "Insert NUM-TO-INSERT blank lines immediately before the current line (at point).
-   Point is assumed to be at the beginning of a line."
-  (save-excursion
-    (dotimes (_ num-to-insert)
-      (insert "\n"))))
-
-(defun my/org-remove-blank-lines-at-buffer-edges ()
-  "Remove blank lines at the beginning and end of the buffer."
-  (save-excursion
-    (goto-char (point-min))
-    (while (looking-at "^[ \t]*$")
-      (delete-horizontal-space)
-      (delete-blank-lines))
-    (goto-char (point-max))
-    (while (looking-back "^[ \t]*$" (point-min))
-      (delete-horizontal-space)
-      (delete-blank-lines))))
-
-(defun my/org-normalize-internal-blanks ()
-  "Normalize blank lines between Org mode elements in-place.
-   This function iterates through the buffer and adjusts blank lines
-   based on the categories of adjacent lines."
-  (save-excursion
-    (goto-char (point-min))
-    (let ((prev-line-category :blank) ; Assume buffer starts with a blank context
-          (current-line-category nil))
-      (while (not (eobp))
-        (setq current-line-category (my/org-get-line-category-at-point-optimized))
-
-        (let* ((actual-blanks-before (my/org-count-blank-lines-before-current-line))
-               (required-blanks (my/org-determine-required-blanks
-                                 prev-line-category
-                                 current-line-category
-                                 (eq (point) (point-min))))) ; is-first-content-line
-
-          (unless (eq required-blanks :preserve)
-            (let ((diff (- actual-blanks-before required-blanks)))
-              (cond
-               ((> diff 0) ; Too many blanks, delete some
-                (my/org-delete-blank-lines-before-current-line diff))
-               ((< diff 0) ; Too few blanks, insert some
-                (my/org-insert-blank-lines-before-current-line (- diff)))))))
-
-        (setq prev-line-category current-line-category)
-        (forward-line 1)))))
-
-(defun my/org-normalize-header-spacing ()
-  "Ensure consistent empty line handling around Org mode headers and metadata.
-   This version performs in-place modifications to avoid buffer jumping."
-  (interactive)
-  (save-window-excursion ; Use save-window-excursion to preserve view
-    (let ((original-point (point))
-          (scroll-conservatively most-positive-fixnum) ; Temporarily disable aggressive scrolling
-          (inhibit-redisplay t)) ; Temporarily inhibit redisplay
-      (unwind-protect
-          (progn
-            (save-restriction
-              (widen)
-              (my/org-remove-blank-lines-at-buffer-edges)
-              (my/org-normalize-internal-blanks)))
-        ;; Ensure redisplay is re-enabled and point is restored
-        (setq inhibit-redisplay nil)
-        (goto-char original-point)))))
+        (move-to-column original-column)
+        (set-window-start (selected-window) old-window-start)
+        (redisplay)))))
 
 ;; New function: my/org-normalize-header-spacing-in-directory
 (defun my/org-normalize-header-spacing-in-directory (directory)
@@ -615,7 +535,7 @@ With prefix argument REVERSE order."
   (let ((org-files (directory-files-recursively directory "\\.org$")))
     (if (not org-files)
         (message "No Org files found in %s" directory)
-      (dolist (file org-files) ; Fixed: iterate over org-files, not 'files'
+      (dolist (file org-files)
         (message "Processing file: %s" file)
         (with-current-buffer (find-file-noselect file)
           (when (derived-mode-p 'org-mode)
