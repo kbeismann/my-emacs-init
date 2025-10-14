@@ -691,6 +691,16 @@
 
 (require 'ai-configuration)
 
+;; Allow the global eval forms in .dir-locals.el. This block must be loaded
+;; early enough for .dir-locals.el to be processed correctly.
+(setq safe-local-variable-values
+      (append
+       safe-local-variable-values
+       '((eval .
+               (add-hook 'before-save-hook #'delete-trailing-whitespace
+                         nil
+                         t)))))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
