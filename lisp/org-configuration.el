@@ -897,8 +897,18 @@ On failure: keep body and insert/update a one-line warning at the top."
 (setq safe-local-variable-values
       (append
        safe-local-variable-values
-       '((org-after-todo-statistics-hook . my/org-summary-todo)
-         (eval my/org-auto-sort-tags-mode 1))))
+       '((eval .
+               (progn
+                 (my/org-auto-sort-tags-mode 1)
+                 (add-hook 'before-save-hook #'my/org-format-sh-blocks nil t)
+                 (add-hook 'before-save-hook
+                           (lambda () (save-excursion (org-align-tags t)))
+                           nil
+                           'local)
+                 (add-hook 'before-save-hook #'my/org-normalize-header-spacing
+                           nil
+                           'local)))
+         (org-after-todo-statistics-hook . my/org-summary-todo))))
 
 (provide 'org-configuration)
 ;;; org-configuration.el ends here
