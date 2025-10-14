@@ -554,7 +554,177 @@ to each paragraph to ensure consistent line wrapping."
      (goto-char (point-min))
      (while (not (eobp))
        (org-fill-paragraph)
-       (forward-paragraph)))))
+       (forward-paragraph))))
+
+ (defvar my/org-shfmt-verbose t
+   "If non-nil, show a summary: how many blocks formatted/warned.")
+
+ (defun my/org-format-sh-blocks ()
+   "Format all sh/bash/shell source block bodies with shfmt.
+Only modifies the text between #+begin_src and #+end_src (narrowed).
+On success: replace with shfmt output (preserving list indentation).
+On failure: keep body and insert/update a one-line warning at the top."
+   (interactive)
+   (when (and (derived-mode-p 'org-mode) (executable-find "shfmt"))
+     (save-excursion
+       (save-restriction
+         (widen)
+         (let ((formatted 0)
+               (warned 0)
+               regions)
+           ;; collect body regions
+           (org-element-map
+            (org-element-parse-buffer) 'src-block
+            (lambda (blk)
+              (let ((lang
+                     (downcase (or (org-element-property :language blk) ""))))
+                (when (member lang '("sh" "bash" "shell"))
+                  (let ((blk-beg (org-element-property :begin blk))
+                        (blk-end (org-element-property :end blk)))
+                    (when (and blk-beg blk-end)
+                      (save-excursion
+                        (goto-char blk-beg)
+                        (when (re-search-forward "^[ \t]*#\\+begin_src\\b.*$"
+                                                 blk-end
+                                                 t)
+                          (forward-line)
+                          (let ((body-beg (point)))
+                            (when (re-search-forward "^[ \t]*#\\+end_src\\b"
+                                                     blk-end
+                                                     t)
+                              (let ((body-end (match-beginning 0)))
+                                (when (< body-beg body-end)
+                                  (push
+                                   (cons body-beg body-end) regions))))))))))))
+            nil nil)
+
+           ;; process bottom-up
+           (dolist (region (sort regions (lambda (a b) (> (car a) (car b)))))
+             (condition-case err
+                 (let ((rb (car region))
+                       (re (cdr region)))
+                   (save-restriction
+                     (narrow-to-region rb re)
+                     (let* ((orig
+                             (buffer-substring-no-properties
+                              (point-min) (point-max)))
+                            (orig-ends-nl (string-suffix-p "\n" orig))
+                            (lines (split-string orig "\n" nil))
+                            ;; common indent width across non-empty lines
+                            (min-indent
+                             (let (m)
+                               (dolist (ln lines m)
+                                 (unless (string-match-p "\\`[ \t]*\\'" ln)
+                                   (string-match "\\`[ \t]*" ln)
+                                   (let ((w (length (match-string 0 ln))))
+                                     (setq m
+                                           (if (null m)
+                                               w
+                                             (min m w))))))))
+                            (indent-width (or min-indent 0))
+                            (indent-prefix (make-string indent-width ?\s))
+                            ;; deindent safely (regex, no substrings)
+                            (rx-deindent
+                             (format "\\`[ \t]\\{0,%d\\}" indent-width))
+                            (deindented
+                             (mapconcat (lambda (ln)
+                                          (replace-regexp-in-string
+                                           rx-deindent "" ln
+                                           nil t))
+                                        lines
+                                        "\n"))
+                            (input
+                             (if (string-suffix-p "\n" deindented)
+                                 deindented
+                               (concat deindented "\n")))
+                            (out (generate-new-buffer " *org-shfmt-out*"))
+                            status)
+                       (unwind-protect
+                           (progn
+                             ;; run shfmt *in the temp buffer*, replacing its contents
+                             (with-current-buffer out
+                               (erase-buffer)
+                               (insert input)
+                               (setq status
+                                     (call-process-region
+                                      (point-min)
+                                      (point-max)
+                                      "shfmt" ; program
+                                      t
+                                      t
+                                      nil))) ; replace, output here, no args
+                             (if (and (integerp status) (zerop status))
+                                 ;; success: pull result from temp buffer
+                                 (let*
+                                     ((fmt
+                                       (with-current-buffer out
+                                         (buffer-string)))
+                                      ;; restore newline state like the deindented input
+                                      (fmt*
+                                       (if (and (string-suffix-p "\n" fmt)
+                                                (not
+                                                 (string-suffix-p
+                                                  "\n" deindented)))
+                                           (string-trim-right fmt)
+                                         fmt))
+                                      ;; reindent non-empty lines
+                                      (reindented
+                                       (if (zerop indent-width)
+                                           fmt*
+                                         (mapconcat (lambda (ln)
+                                                      (if (string-match-p
+                                                           "\\`[ \t]*\\'" ln)
+                                                          ln
+                                                        (concat
+                                                         indent-prefix ln)))
+                                                    (split-string fmt* "\n" nil)
+                                                    "\n"))))
+                                   (delete-region (point-min) (point-max))
+                                   (insert reindented)
+                                   (cl-incf formatted))
+                               ;; failure: add/update a single warning line
+                               (let*
+                                   ((warning
+                                     "# [org-shfmt] format error: non-zero exit")
+                                    (body-lines
+                                     (split-string deindented "\n" nil)))
+                                 (if (and body-lines
+                                          (string-match-p
+                                           "\\`# \\[org-shfmt\\] format error:"
+                                           (car body-lines)))
+                                     (setf (car body-lines) warning)
+                                   (setq body-lines (cons warning body-lines)))
+                                 (let* ((warned-text
+                                         (mapconcat #'identity body-lines "\n"))
+                                        (warned-text*
+                                         (if (string-suffix-p "\n" deindented)
+                                             warned-text
+                                           (string-trim-right warned-text)))
+                                        (reindented
+                                         (if (zerop indent-width)
+                                             warned-text*
+                                           (mapconcat (lambda (ln)
+                                                        (if (string-match-p
+                                                             "\\`[ \t]*\\'" ln)
+                                                            ln
+                                                          (concat
+                                                           indent-prefix ln)))
+                                                      (split-string warned-text*
+                                                                    "\n"
+                                                                    nil)
+                                                      "\n"))))
+                                   (delete-region (point-min) (point-max))
+                                   (insert reindented)
+                                   (cl-incf warned)))))
+                         (when (buffer-live-p out)
+                           (kill-buffer out))))))
+               (error
+                (message "[org-shfmt] internal error on a block: %s"
+                         (error-message-string err)))))
+           (when my/org-shfmt-verbose
+             (message "[org-shfmt] formatted %d block(s), warned %d block(s)."
+                      formatted
+                      warned))))))))
 
 (use-package
  org-super-agenda
