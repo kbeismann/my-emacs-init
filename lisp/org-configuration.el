@@ -561,5 +561,10 @@ to each paragraph to ensure consistent line wrapping."
  (add-to-list
   'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
 
+(setq safe-local-variable-values
+      (append
+       safe-local-variable-values
+       '((org-after-todo-statistics-hook . my/org-summary-todo))))
+
 (provide 'org-configuration)
 ;;; org-configuration.el ends here
