@@ -564,7 +564,8 @@ to each paragraph to ensure consistent line wrapping."
 (setq safe-local-variable-values
       (append
        safe-local-variable-values
-       '((org-after-todo-statistics-hook . my/org-summary-todo))))
+       '((org-after-todo-statistics-hook . my/org-summary-todo)
+         (eval my/org-auto-sort-tags-mode 1))))
 
 (provide 'org-configuration)
 ;;; org-configuration.el ends here
