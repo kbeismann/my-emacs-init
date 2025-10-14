@@ -38,16 +38,6 @@
    ("C-c o i" . org-id-get-create)
    ("C-c C-x C-q" . org-columns-quit)
    ("C-c u l" . #'my/org-roam-unlink-at-point)))
- :hook
- (org-mode
-  .
-  (lambda ()
-    (add-hook 'before-save-hook (lambda () (save-excursion (org-align-tags t)))
-              nil
-              'local)
-    (my/org-auto-sort-tags-mode 1)))
- ;; Switch to DONE when sub-entries are done.
- (org-after-todo-statistics-hook . my/org-summary-todo)
 
  :config
  ;; Configure Org directory settings and load work-related notes.
