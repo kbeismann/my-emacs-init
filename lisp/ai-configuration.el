@@ -209,23 +209,30 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        prompt
        :callback
        (lambda (response _buffer)
-         (let* ((branch-name (string-trim response))
-                (final-name (read-string "Edit branch name: " branch-name))
-                (start-point
-                 (magit-read-branch-or-commit
-                  "Start point (e.g., 'main', 'HEAD', 'commit-sha'): " nil)))
-           (kill-new final-name)
-           (message "Final branch name: %s (copied to kill ring)" final-name)
-           (when (and (fboundp 'magit-branch-create) (fboundp 'magit-checkout))
-             (magit-branch-create final-name start-point)
-             (magit-checkout final-name)
-             (message "Branch '%s' created from '%s' and checked out."
-                      final-name
-                      start-point))
-           (unless (and (fboundp 'magit-branch-create)
-                        (fboundp 'magit-checkout))
-             (message
-              "Magit functions `magit-branch-create` or `magit-checkout` not found. Branch not created automatically."))))))))
+         (if (stringp response) ; Check if response is a string
+             (let* ((branch-name (string-trim response))
+                    (final-name (read-string "Edit branch name: " branch-name))
+                    (start-point
+                     (magit-read-branch-or-commit
+                      "Start point (e.g., 'main', 'HEAD', 'commit-sha'): "
+                      nil)))
+               (kill-new final-name)
+               (message "Final branch name: %s (copied to kill ring)"
+                        final-name)
+               (when (and (fboundp 'magit-branch-create)
+                          (fboundp 'magit-checkout))
+                 (magit-branch-create final-name start-point)
+                 (magit-checkout final-name)
+                 (message "Branch '%s' created from '%s' and checked out."
+                          final-name
+                          start-point))
+               (unless (and (fboundp 'magit-branch-create)
+                            (fboundp 'magit-checkout))
+                 (message
+                  "Magit functions `magit-branch-create` or `magit-checkout` "
+                  "not found. Branch not created automatically.")))
+           (user-error "GPTel failed to generate a branch name. "
+                       "Response was empty or invalid.")))))))
 
 (define-key global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
 
