@@ -47,7 +47,8 @@
               'local)
     (my/org-auto-sort-tags-mode 1)))
  ;; Switch to DONE when sub-entries are done.
- (org-after-todo-statistics-hook . org-summary-todo)
+ (org-after-todo-statistics-hook . my/org-summary-todo)
+
  :config
  ;; Configure Org directory settings and load work-related notes.
  (setq org-directory my-roam-notes)
