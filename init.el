@@ -41,6 +41,14 @@
    (t
     (message "No project-related settings found."))))
 
+(let ((wsl-functions (expand-file-name "wsl.el" user-emacs-directory)))
+  (cond
+   ((file-exists-p wsl-functions)
+    (message "Found WSL-related settings...")
+    (load-file wsl-functions))
+   (t
+    (message "No WSL-related settings found."))))
+
 (use-package shfmt)
 
 (use-package elisp-autofmt :commands (elisp-autofmt-mode elisp-autofmt-buffer))
