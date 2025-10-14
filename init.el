@@ -705,9 +705,11 @@
       (append
        safe-local-variable-values
        '((eval .
-               (add-hook 'before-save-hook #'delete-trailing-whitespace
-                         nil
-                         t)))))
+               (progn
+                 (git-auto-commit-mode 1)
+                 (add-hook 'before-save-hook #'delete-trailing-whitespace
+                           nil
+                           t))))))
 
 ;;; Footer:
 (provide 'init)
