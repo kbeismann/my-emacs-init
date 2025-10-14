@@ -559,7 +559,9 @@
 (use-package
  git-auto-commit-mode
  :diminish git-auto-commit-mode
- :config (setq gac-automatically-push-p t))
+ :config (setq gac-automatically-push-p t)
+ (setq safe-local-variable-values
+       (append safe-local-variable-values '((eval (git-auto-commit-mode 1))))))
 
 ;; Emacs Refactor (EMR) is a framework for providing language-specific
 ;; refactoring in Emacs.
