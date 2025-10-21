@@ -16,9 +16,6 @@
 (setq package-archive-priorities
       '(("gnu" . 2) ("org" . 1) ("melpa" . 3) ("melpa-stable" . 0)))
 
-;; Initialize package BEFORE loading use-package and straight.
-(package-initialize)
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el"
