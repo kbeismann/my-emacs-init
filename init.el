@@ -472,7 +472,7 @@
 
 (use-package
  ws-butler
- :straight nil
+ :straight (:host github :repo "lewang/ws-butler" :branch "master")
  :diminish ws-butler-mode
  :config
  ;; By default, ws-butler removes trailing whitespace and lines with only
