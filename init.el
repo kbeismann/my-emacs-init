@@ -464,6 +464,7 @@
 
 (use-package
  ws-butler
+ :straight nil
  :diminish ws-butler-mode
  :config
  ;; By default, ws-butler removes trailing whitespace and lines with only
