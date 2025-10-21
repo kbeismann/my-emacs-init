@@ -546,20 +546,27 @@ With prefix argument REVERSE order."
            (message "Normalized header spacing in %s" file))))))
 
  (defun my/org-fill-buffer ()
-   "Fill all paragraphs in the current Org mode buffer, ignoring source blocks.
+   "Fill all paragraphs in the current Org mode buffer, ignoring source blocks and logbook entries.
 This function iterates through the buffer, applying `org-fill-paragraph`
 to each paragraph to ensure consistent line wrapping, but skips over
-any Org source blocks."
+any Org source blocks and logbook entries."
    (interactive)
    (save-excursion
      (widen) ; Ensure all parts of the buffer are visible
      (goto-char (point-min))
      (while (not (eobp))
-       (let ((element (org-element-context)))
+       (let ((element (org-element-context))
+             (line-start (point))
+             (line-end (line-end-position)))
          (cond
           ((eq (org-element-type element) 'src-block)
            ;; If inside a source block, skip to its end
            (goto-char (org-element-property :end element)))
+          ;; NEW: If it's a logbook entry, skip to the next line
+          ((string-match-p
+            "^[ \t]*[-+*] \\(?:State\\|Note\\) \"[^\"]+\" \\(?:from \"[^\"]+\" \\)?\\[[0-9-]+\\s-+[A-Za-z]+\\s-+[0-9:]+\\]"
+            (buffer-substring-no-properties line-start line-end))
+           (forward-line 1))
           (t
            ;; Otherwise, fill the current paragraph and move to the next
            (org-fill-paragraph)
