@@ -53,7 +53,7 @@
 
 (use-package
  elisp-autofmt
- :straight (:host codeberg :repo "kbeismann/emacs-elisp-autofmt") ; Using a fork for a fix.
+ :straight (:host codeberg :repo "ideasman42/emacs-elisp-autofmt")
  :commands (elisp-autofmt-mode elisp-autofmt-buffer))
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
