@@ -209,7 +209,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        prompt
        :callback
        (lambda (response _buffer)
-         (if (stringp response) ; Check if response is a string
+         (if (stringp response)
              (let* ((branch-name (string-trim response))
                     (final-name (read-string "Edit branch name: " branch-name))
                     (start-point
