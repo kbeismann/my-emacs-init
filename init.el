@@ -28,6 +28,13 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+(when (version< emacs-version "31.0.50")
+  (error
+   "This Emacs configuration requires Emacs version 31.0.50 or newer.
+Your current Emacs version is %s."
+   emacs-version))
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'package-management)
