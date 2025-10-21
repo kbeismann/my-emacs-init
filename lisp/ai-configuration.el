@@ -137,14 +137,17 @@
            (with-current-buffer (current-buffer)
              (save-excursion
                (goto-char (point-min))
-               (let* ((processed-message
-                       (my/gptel-process-commit-message-string response))
-                      (start (point)))
-                 (insert processed-message)
-                 (let ((end (point)))
-                   (fill-region start end)
-                   (goto-char message-end)
-                   (insert "\n\n")))))))))))
+               (if (stringp response)
+                   (let* ((processed-message
+                           (my/gptel-process-commit-message-string response))
+                          (start (point)))
+                     (insert processed-message)
+                     (let ((end (point)))
+                       (fill-region start end)
+                       (goto-char end)
+                       (insert "\n\n")))
+                 (user-error "GPTel returned an invalid response: %S"
+                             response))))))))))
 
 (defun my/gptel-rewrite-commit-message ()
   "Rewrite the current commit message using gptel with a user-defined prompt.
@@ -171,14 +174,17 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
          (with-current-buffer (current-buffer)
            (save-excursion
              (goto-char (point-min))
-             (let* ((processed-message
-                     (my/gptel-process-commit-message-string response))
-                    (start (point))) ; Start of the new message
-               (insert processed-message) ; Insert the new message
-               (let ((message-end (point))) ; End of the new message
-                 (fill-region start message-end) ; Fill the region of the inserted message
-                 (goto-char message-end) ; Move to the end of the inserted message
-                 (insert "\n\n---\n\n"))))))))))
+             (if (stringp response)
+                 (let* ((processed-message
+                         (my/gptel-process-commit-message-string response))
+                        (start (point))) ; Start of the new message
+                   (insert processed-message) ; Insert the new message
+                   (let ((message-end (point))) ; End of the new message
+                     (fill-region start message-end) ; Fill the region of the inserted message
+                     (goto-char message-end) ; Move to the end of the inserted message
+                     (insert "\n\n---\n\n")))
+               (user-error "GPTel returned an invalid response: %S"
+                           response)))))))))
 
 (eval-after-load "git-commit"
   '(progn
@@ -264,14 +270,17 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        :system system
        :callback
        (lambda (response _buffer)
-         (let ((doced-fn
-                (string-trim (my/gptel-strip-markdown-code-block response))))
-           (when (buffer-live-p (current-buffer))
-             (with-current-buffer (current-buffer)
-               (save-excursion
-                 (delete-region beg end)
-                 (goto-char beg)
-                 (insert doced-fn))))))))))
+         (if (stringp response)
+             (let ((doced-fn
+                    (string-trim
+                     (my/gptel-strip-markdown-code-block response))))
+               (when (buffer-live-p (current-buffer))
+                 (with-current-buffer (current-buffer)
+                   (save-excursion
+                     (delete-region beg end)
+                     (goto-char beg)
+                     (insert doced-fn)))))
+           (user-error "GPTel returned an invalid response: %S" response)))))))
 
 (define-key prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
 
@@ -295,13 +304,15 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        :system system
        :callback
        (lambda (response _buffer)
-         (let ((new-content (string-trim response)))
-           (when (buffer-live-p (current-buffer))
-             (save-excursion
-               (goto-char beg)
-               (delete-region beg end)
-               (insert new-content)
-               (message "Applied subtle improvements.")))))))))
+         (if (stringp response)
+             (let ((new-content (string-trim response)))
+               (when (buffer-live-p (current-buffer))
+                 (save-excursion
+                   (goto-char beg)
+                   (delete-region beg end)
+                   (insert new-content)
+                   (message "Applied subtle improvements."))))
+           (user-error "GPTel returned an invalid response: %S" response)))))))
 
 (define-key prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
@@ -336,9 +347,14 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        nil
        :callback
        (lambda (response info)
-         (my/gptel-stash-response
-          (format "*Definition: %s*" input) (plist-get info :context) response)
-         (message response))
+         (if (stringp response)
+             (progn
+               (my/gptel-stash-response
+                (format "*Definition: %s*" input)
+                (plist-get info :context)
+                response)
+               (message response))
+           (user-error "GPTel returned an invalid response: %S" response)))
        :system my/gptel-word-definition-prompt
        :context input))))
 
@@ -398,10 +414,11 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
        input
        :callback
        (lambda (response info)
-         (if response
+         (if (stringp response)
              (my/gptel-proof-apply-fix
               (plist-get info :buffer) (plist-get info :context) response)
-           (error "Proofread error: %s" (plist-get info :status))))
+           (user-error "Proofread error: GPTel returned an invalid response: %S"
+                       response)))
        :context marker
        :system
        (if aggressive
