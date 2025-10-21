@@ -546,16 +546,24 @@ With prefix argument REVERSE order."
            (message "Normalized header spacing in %s" file))))))
 
  (defun my/org-fill-buffer ()
-   "Fill all paragraphs in the current Org mode buffer.
+   "Fill all paragraphs in the current Org mode buffer, ignoring source blocks.
 This function iterates through the buffer, applying `org-fill-paragraph`
-to each paragraph to ensure consistent line wrapping."
+to each paragraph to ensure consistent line wrapping, but skips over
+any Org source blocks."
    (interactive)
    (save-excursion
      (widen) ; Ensure all parts of the buffer are visible
      (goto-char (point-min))
      (while (not (eobp))
-       (org-fill-paragraph)
-       (forward-paragraph))))
+       (let ((element (org-element-context)))
+         (cond
+          ((eq (org-element-type element) 'src-block)
+           ;; If inside a source block, skip to its end
+           (goto-char (org-element-property :end element)))
+          (t
+           ;; Otherwise, fill the current paragraph and move to the next
+           (org-fill-paragraph)
+           (forward-paragraph)))))))
 
  (defvar my/org-shfmt-verbose t
    "If non-nil, show a summary: how many blocks formatted/warned.")
