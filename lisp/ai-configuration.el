@@ -15,6 +15,60 @@
   "Return only ASCII. Be succinct."
   "Base system prompt for AI interactions, ensuring ASCII output and conciseness.")
 
+(defun my/gptel-format-error-message (response &optional prefix info)
+  "Format an informative error message for GPTel failures.
+PREFIX is an optional string to prepend to the error message.
+INFO is the plist passed by gptel to the callback, which may contain
+additional error details from the API.
+
+Error information is gathered in the following order of precedence:
+1. Specific API error/message from the INFO plist.
+2. General GPTel error message from `gptel-last-error`.
+3. Raw last response from `gptel-last-response` (if the main response was invalid).
+4. Indication if the main RESPONSE was nil."
+  (let
+      ((message
+        (or
+         prefix
+         "GPTel API call failed or returned an empty/invalid response")))
+    ;; 1. Prioritize error details from the info plist, as it often contains API-specific errors
+    (when info
+      (let ((api-error (plist-get info :error))
+            (api-message (plist-get info :message)))
+        (cond
+         (api-error
+          (setq message
+                (concat
+                 message
+                 " (API error: "
+                 (prin1-to-string api-error)
+                 ")")))
+         (api-message
+          (setq message
+                (concat
+                 message " (API message: " api-message ")"))))))
+
+    ;; 2. Add details from gptel-last-error
+    (when (bound-and-true-p gptel-last-error)
+      (setq message
+            (concat message " (GPTel error: " gptel-last-error ")")))
+
+    ;; 3. Include gptel-last-response if it's an error response and not already covered
+    (when
+        (and (bound-and-true-p gptel-last-response)
+             (not (stringp response))) ;; Only if the main response is not a string (i.e., it's an error)
+      (setq message
+            (concat
+             message
+             " (Last raw response: "
+             gptel-last-response
+             ")")))
+
+    ;; 4. Indicate if the main response was nil
+    (when (null response)
+      (setq message (concat message ": nil")))
+    message))
+
 (use-package
  gptel
  :bind
@@ -142,7 +196,7 @@
        prompt
        :system my/gptel-commit-system-prompt
        :callback
-       (lambda (response _buffer)
+       (lambda (response info)
          (when (buffer-live-p (current-buffer))
            (with-current-buffer (current-buffer)
              (save-excursion
@@ -157,8 +211,9 @@
                        (fill-region start end)
                        (goto-char end)
                        (insert "\n\n")))
-                 (user-error "GPTel returned an invalid response: %S"
-                             response))))))))))
+                 (user-error
+                  (my/gptel-format-error-message response
+                                                 nil info)))))))))))
 
 (defun my/gptel-rewrite-commit-message ()
   "Rewrite the current commit message using gptel with a user-defined prompt.
@@ -180,7 +235,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
       buffer-contents)
      :system my/gptel-commit-system-prompt
      :callback
-     (lambda (response _buffer)
+     (lambda (response info)
        (when (buffer-live-p (current-buffer))
          (with-current-buffer (current-buffer)
            (save-excursion
@@ -196,8 +251,9 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
                      (fill-region start message-end) ; Fill the region of the inserted message
                      (goto-char message-end) ; Move to the end of the inserted message
                      (insert "\n\n---\n\n")))
-               (user-error "GPTel returned an invalid response: %S"
-                           response)))))))))
+               (user-error
+                (my/gptel-format-error-message response
+                                               nil info))))))))))
 
 (eval-after-load "git-commit"
   '(progn
@@ -232,7 +288,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
       (gptel-request
        prompt
        :callback
-       (lambda (response _buffer)
+       (lambda (response info)
          (if (stringp response)
              (let*
                  ((branch-name (string-trim response))
@@ -257,8 +313,10 @@ Then, prompt for the starting point, and finally create and checkout the new bra
                  (message
                   "Magit functions `magit-branch-create` or `magit-checkout` "
                   "not found. Branch not created automatically.")))
-           (user-error "GPTel failed to generate a branch name. "
-                       "Response was empty or invalid.")))))))
+           (user-error
+            (my/gptel-format-error-message
+             response
+             "GPTel failed to generate a branch name. " info))))))))
 
 (define-key
  global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
@@ -293,7 +351,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        (concat prompt "\n\n" code)
        :system system
        :callback
-       (lambda (response _buffer)
+       (lambda (response info)
          (if (stringp response)
              (let ((doced-fn
                     (string-trim
@@ -304,8 +362,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
                      (delete-region beg end)
                      (goto-char beg)
                      (insert doced-fn)))))
-           (user-error "GPTel returned an invalid response: %S"
-                       response)))))))
+           (user-error
+            (my/gptel-format-error-message response nil info))))))))
 
 (define-key
  prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
@@ -329,7 +387,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
        (concat prompt "\n\n" code)
        :system system
        :callback
-       (lambda (response _buffer)
+       (lambda (response info)
          (if (stringp response)
              (let ((new-content (string-trim response)))
                (when (buffer-live-p (current-buffer))
@@ -338,8 +396,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
                    (delete-region beg end)
                    (insert new-content)
                    (message "Applied subtle improvements."))))
-           (user-error "GPTel returned an invalid response: %S"
-                       response)))))))
+           (user-error
+            (my/gptel-format-error-message response nil info))))))))
 
 (define-key
  prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
@@ -383,8 +441,8 @@ Then, prompt for the starting point, and finally create and checkout the new bra
                 (plist-get info :context)
                 response)
                (message response))
-           (user-error "GPTel returned an invalid response: %S"
-                       response)))
+           (user-error
+            (my/gptel-format-error-message response nil info))))
        :system my/gptel-word-definition-prompt
        :context input))))
 
@@ -451,8 +509,8 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
               (plist-get info :context)
               response)
            (user-error
-            "Proofread error: GPTel returned an invalid response: %S"
-            response)))
+            (my/gptel-format-error-message response
+                                           "Proofread error" info))))
        :context marker
        :system
        (if aggressive
