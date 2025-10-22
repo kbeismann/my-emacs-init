@@ -30,7 +30,7 @@
      (let ((gemini-backend
             (gptel-make-gemini "Gemini" :key gemini-key :stream t)))
        (setq
-        gptel-model 'gemini-2.5-flash-preview-05-20
+        gptel-model 'gemini-2.5-flash
         gptel-backend gemini-backend)))))
 
 (use-package
