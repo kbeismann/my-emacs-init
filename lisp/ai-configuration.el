@@ -489,7 +489,9 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
   aidermacs-architect-model
   "gemini-pro"
   aidermacs-editor-model
-  "gemini-flash"))
+  "gemini-flash"
+  aidermacs-show-diff-after-change
+  nil))
 
 (provide 'ai-configuration)
 ;;; ai-configuration.el ends here
