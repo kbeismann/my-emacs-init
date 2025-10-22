@@ -481,17 +481,7 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
           :host "generativelanguage.googleapis.com"))
  (setenv "OPENROUTER_API_KEY"
          (auth-source-pick-first-password :host "openrouter.ai"))
- :custom
- (aidermacs-default-model
-  "gemini-flash"
-  aidermacs-weak-model
-  "gemini-flash"
-  aidermacs-architect-model
-  "gemini-pro"
-  aidermacs-editor-model
-  "gemini-flash"
-  aidermacs-show-diff-after-change
-  nil))
+ :custom (aidermacs-show-diff-after-change nil))
 
 (provide 'ai-configuration)
 ;;; ai-configuration.el ends here
