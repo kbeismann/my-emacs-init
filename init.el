@@ -48,7 +48,8 @@ Your current Emacs version is %s."
    (t
     (message "No project-related settings found."))))
 
-(let ((wsl-functions (expand-file-name "wsl.el" user-emacs-directory)))
+(let ((wsl-functions
+       (expand-file-name "wsl.el" (concat user-emacs-directory "lisp/"))))
   (cond
    ((file-exists-p wsl-functions)
     (message "Found WSL-related settings...")
