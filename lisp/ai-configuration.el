@@ -65,15 +65,20 @@ Error information is gathered in the following order of precedence:
   ("C-c g x" . gptel-abort))
  :config (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
 
- (let ((gemini-key
-        (auth-source-pick-first-password
-         :host "generativelanguage.googleapis.com")))
-   (when gemini-key
-     (let ((gemini-backend
-            (gptel-make-gemini "Gemini" :key gemini-key :stream t)))
+ (let ((openrouter-key (auth-source-pick-first-password :host "openrouter.ai")))
+   (when openrouter-key
+     (let ((openrouter-backend
+            (gptel-make-openai
+             "OpenRouter"
+             :host "openrouter.ai"
+             :endpoint "/api/v1/chat/completions"
+             :stream t
+             :key openrouter-key
+             :models
+             '(x-ai/grok-code-fast-1 google/gemini-2.5-flash))))
        (setq
-        gptel-model 'gemini-2.5-flash
-        gptel-backend gemini-backend)))))
+        gptel-model 'google/gemini-2.5-flash
+        gptel-backend openrouter-backend)))))
 
 (use-package
  gptel-aibo
