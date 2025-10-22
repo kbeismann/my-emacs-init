@@ -29,3 +29,9 @@ repos:
       - id: pretty-format-json
       - id: sort-simple-yaml
       - id: trailing-whitespace
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: "v0.45.0"
+    hooks:
+      - id: markdownlint
+        args: ["-f"]
