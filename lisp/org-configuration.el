@@ -423,11 +423,17 @@ With prefix argument REVERSE order."
              (_ :body))))))))
 
  (defun my/org-determine-required-blanks
-     (prev-cat current-cat &optional is-first-content-line prev-line-text)
+     (prev-cat
+      current-cat
+      &optional
+      is-first-content-line
+      prev-line-text
+      current-line-text)
    "Determine the number of blank lines required between two categories.
    Returns 0, 1, or :preserve.
    IS-FIRST-CONTENT-LINE should be non-nil if current-cat is the first content line in the buffer.
-   PREV-LINE-TEXT is the text of the previous line, used for special cases."
+   PREV-LINE-TEXT is the text of the previous line, used for special cases.
+   CURRENT-LINE-TEXT is the text of the current line, used for special cases."
    (cond
     (is-first-content-line
      0) ; No blanks before the very first content line
@@ -442,7 +448,20 @@ With prefix argument REVERSE order."
       ;; Special case: no blank after #+RESULTS:
       ((and (eq prev-cat :metadata)
             (eq current-cat :body)
-            (string-match-p "^[ \t]*#\\+RESULTS:" prev-line-text))
+            (let ((case-fold-search t))
+              (string-match-p "^[ \t]*#\\+results:" prev-line-text)))
+       0)
+      ;; Special case: no blank after #+TBLFM:
+      ((and (eq prev-cat :metadata)
+            (eq current-cat :body)
+            (let ((case-fold-search t))
+              (string-match-p "^[ \t]*#\\+tblfm:" prev-line-text)))
+       0)
+      ;; Special case: no blank before #+TBLFM: if previous is body (table)
+      ((and (eq prev-cat :body)
+            (eq current-cat :metadata)
+            (let ((case-fold-search t))
+              (string-match-p "^[ \t]*#\\+tblfm:" current-line-text)))
        0)
       ((or (and (eq prev-cat :heading) (eq current-cat :body))
            (and (eq prev-cat :metadata) (eq current-cat :heading))
@@ -504,7 +523,8 @@ With prefix argument REVERSE order."
                               prev-line-category
                               current-line-category
                               is-first-content-line
-                              prev-line-text)))
+                              prev-line-text
+                              line-text)))
 
                        ;; Add required blank lines
                        (cond
