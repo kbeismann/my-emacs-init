@@ -663,23 +663,20 @@ On failure: keep body and insert/update a one-line warning at the top."
                      (downcase
                       (or (org-element-property :language blk) ""))))
                 (when (member lang '("sh" "bash" "shell"))
-                  (let ((blk-beg (org-element-property :begin blk))
-                        (blk-end (org-element-property :end blk)))
-                    (when (and blk-beg blk-end)
-                      (save-excursion
-                        (goto-char blk-beg)
+                  (save-excursion
+                    (goto-char blk-beg)
+                    (when (re-search-forward
+                           "^[ \t]*#\\+begin_src\\b.*$"
+                           blk-end t)
+                      (forward-line)
+                      (let ((body-beg (point)))
                         (when (re-search-forward
-                               "^[ \t]*#\\+begin_src\\b.*$"
+                               "^[ \t]*#\\+end_src\\b"
                                blk-end t)
-                          (forward-line)
-                          (let ((body-beg (point)))
-                            (when (re-search-forward
-                                   "^[ \t]*#\\+end_src\\b"
-                                   blk-end t)
-                              (let ((body-end (match-beginning 0)))
-                                (when (< body-beg body-end)
-                                  (push (cons body-beg body-end)
-                                        regions))))))))))))
+                          (let ((body-end (match-beginning 0)))
+                            (when (< body-beg body-end)
+                              (push (cons body-beg body-end)
+                                    regions))))))))))
             nil nil)
 
            ;; process bottom-up
@@ -817,16 +814,17 @@ On failure: keep body and insert/update a one-line warning at the top."
                                    (delete-region
                                     (point-min) (point-max))
                                    (insert reindented)
-                                   (cl-incf warned)))))
-                         (when (buffer-live-p out)
-                           (kill-buffer out))))))
-               (error
-                (message "[org-shfmt] internal error on a block: %s"
-                         (error-message-string err)))))
-           (when my/org-shfmt-verbose
-             (message
-              "[org-shfmt] formatted %d block(s), warned %d block(s)."
-              formatted warned))))))))
+                                   (cl-incf warned))))
+                             (when (buffer-live-p out)
+                               (kill-buffer out))))))
+                   (error
+                    (message
+                     "[org-shfmt] internal error on a block: %s"
+                     (error-message-string err)))))
+             (when my/org-shfmt-verbose
+               (message
+                "[org-shfmt] formatted %d block(s), warned %d block(s)."
+                formatted warned)))))))))
 
 (use-package
  org-super-agenda
