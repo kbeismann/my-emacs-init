@@ -533,13 +533,18 @@ With prefix argument REVERSE order."
                       (string-join (nreverse new-content-lines) "\n")))
                  ;; Replace buffer content
                  (delete-region (point-min) (point-max))
-                 (insert final-content))))
-         ;; Ensure redisplay is re-enabled and point/window are restored
-         (setq inhibit-redisplay nil)
-         (goto-line original-line)
-         (move-to-column original-column)
-         (set-window-start (selected-window) old-window-start)
-         (redisplay)))))
+                 (insert final-content)
+                 ;; Ensure the buffer ends with a newline (standard for files)
+                 (goto-char (point-max))
+                 (unless
+                     (bolp) ; If not at the beginning of a line (i.e., no trailing newline)
+                   (insert "\n"))))))
+       ;; Ensure redisplay is re-enabled and point/window are restored
+       (setq inhibit-redisplay nil)
+       (goto-line original-line)
+       (move-to-column original-column)
+       (set-window-start (selected-window) old-window-start)
+       (redisplay))))
 
  ;; New function: my/org-normalize-header-spacing-in-directory
  (defun my/org-normalize-header-spacing-in-directory (directory)
