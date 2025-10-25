@@ -423,29 +423,36 @@ With prefix argument REVERSE order."
              (_ :body))))))))
 
  (defun my/org-determine-required-blanks
-     (prev-cat current-cat &optional is-first-content-line)
+     (prev-cat current-cat &optional is-first-content-line prev-line-text)
    "Determine the number of blank lines required between two categories.
    Returns 0, 1, or :preserve.
-   IS-FIRST-CONTENT-LINE should be non-nil if current-cat is the first content line in the buffer."
+   IS-FIRST-CONTENT-LINE should be non-nil if current-cat is the first content line in the buffer.
+   PREV-LINE-TEXT is the text of the previous line, used for special cases."
    (cond
     (is-first-content-line
      0) ; No blanks before the very first content line
     (t
-     (pcase (list prev-cat current-cat)
-       ;; No blank lines
-       ((or `(:heading :heading)
-            `(:heading :metadata)
-            `(:metadata :metadata)) ; e.g., #+TITLE then #+DATE
-        0)
-       ;; One blank line
-       ((or `(:heading :body)
-            `(:metadata :heading)
-            `(:metadata :body)
-            `(:body :heading)
-            `(:body :metadata))
-        1)
-       ;; Preserve existing blank lines for other combinations (body to body)
-       (_ :preserve)))))
+     (cond
+      ((and (eq prev-cat :heading) (eq current-cat :heading))
+       0)
+      ((and (eq prev-cat :heading) (eq current-cat :metadata))
+       0)
+      ((and (eq prev-cat :metadata) (eq current-cat :metadata))
+       0)
+      ;; Special case: no blank after #+RESULTS:
+      ((and (eq prev-cat :metadata)
+            (eq current-cat :body)
+            (string-match-p "^[ \t]*#\\+RESULTS:" prev-line-text))
+       0)
+      ((or (and (eq prev-cat :heading) (eq current-cat :body))
+           (and (eq prev-cat :metadata) (eq current-cat :heading))
+           (and (eq prev-cat :metadata) (eq current-cat :body))
+           (and (eq prev-cat :body) (eq current-cat :heading))
+           (and (eq prev-cat :body) (eq current-cat :metadata)))
+       1)
+      ;; Preserve existing blank lines for other combinations (body-body)
+      (t
+       :preserve)))))
 
  (defun my/org-normalize-header-spacing ()
    "Ensure consistent empty line handling around Org mode headers and metadata.
@@ -473,7 +480,8 @@ With prefix argument REVERSE order."
              (widen)
              (let ((new-content-lines '())
                    (prev-line-category :blank)
-                   (consecutive-blanks 0))
+                   (consecutive-blanks 0)
+                   (prev-line-text nil))
 
                (goto-char (point-min))
 
@@ -495,7 +503,8 @@ With prefix argument REVERSE order."
                              (my/org-determine-required-blanks
                               prev-line-category
                               current-line-category
-                              is-first-content-line)))
+                              is-first-content-line
+                              prev-line-text)))
 
                        ;; Add required blank lines
                        (cond
@@ -513,7 +522,8 @@ With prefix argument REVERSE order."
 
                      ;; Reset blank counter and update previous category
                      (setq consecutive-blanks 0)
-                     (setq prev-line-category current-line-category))))
+                     (setq prev-line-category current-line-category)
+                     (setq prev-line-text line-text))))
 
                  (forward-line 1))
 
