@@ -393,13 +393,10 @@ With prefix argument REVERSE order."
           (string-match-p
            "^[ \t]*\\(?:CLOSED\\|SCHEDULED\\|DEADLINE\\):"
            line-text) ; Timestamps with keywords
-          ;; Org keywords like #+TITLE: (requires colon), but exclude #+NAME:
-          ;; Emacs Lisp regex does not support PCRE-style lookaheads (?!...).
-          ;; We match the general pattern and then check the exclusion in Lisp.
+          ;; Org keywords like #+TITLE: (requires colon)
           (let ((match-pos
                  (string-match "^[ \t]*#\\+\\([A-Z_]+\\):" line-text)))
-            (and match-pos
-                 (not (string-equal (match-string 1 line-text) "NAME")))))
+            (and match-pos)))
          :metadata)
         ;; Explicitly check for common body elements with regex before org-element-context
         ((or
@@ -462,6 +459,13 @@ With prefix argument REVERSE order."
             (eq current-cat :metadata)
             (let ((case-fold-search t))
               (string-match-p "^[ \t]*#\\+tblfm:" current-line-text)))
+       0)
+      ;; Special case: no blank before source block if previous is #+NAME:
+      ((and (eq prev-cat :metadata)
+            (eq current-cat :body)
+            (let ((case-fold-search t))
+              (and (string-match-p "^[ \t]*#\\+name:" prev-line-text)
+                   (string-match-p "^[ \t]*#\\+begin_src" current-line-text))))
        0)
       ((or (and (eq prev-cat :heading) (eq current-cat :body))
            (and (eq prev-cat :metadata) (eq current-cat :heading))
