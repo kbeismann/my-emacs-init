@@ -810,7 +810,7 @@ On failure: keep body and insert/update a one-line warning at the top."
                    "series"
                    "movie")))
                 :order 3)
-               (:name "Readings" :category "readings" :tag "reading" :order 4)
+               (:name "Readings" :tag "reading" :order 4)
                (:name "Medical" :tag "medical" :order 5)
                (:name "Shopping list" :tag "shoppinglist" :order 6)
                (:name "Movies" :and (:tag "movie") :order 7)
