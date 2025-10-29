@@ -440,6 +440,14 @@ With prefix argument REVERSE order."
      0) ; No blanks before the very first content line
     (t
      (cond
+      ((and (eq prev-cat :body)
+            (eq current-cat :body)
+            (string-match-p "^[ \t]*#\\+begin_[A-Z_]+" prev-line-text))
+       0) ; No blank after any block start (e.g., #+begin_src)
+      ((and (eq prev-cat :body)
+            (eq current-cat :body)
+            (string-match-p "^[ \t]*#\\+end_[A-Z_]+" current-line-text))
+       0) ; No blank before any block end (e.g., #+end_src)
       ((and (eq prev-cat :heading) (eq current-cat :heading))
        0)
       ((and (eq prev-cat :heading) (eq current-cat :metadata))
