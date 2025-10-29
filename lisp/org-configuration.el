@@ -432,6 +432,10 @@ With prefix argument REVERSE order."
    PREV-LINE-TEXT is the text of the previous line, used for special cases.
    CURRENT-LINE-TEXT is the text of the current line, used for special cases."
    (cond
+    ;; Special case: no blank before #+TBLFM: regardless of previous category
+    ((let ((case-fold-search t))
+       (string-match-p "^[ \t]*#\\+tblfm:" current-line-text))
+     0)
     (is-first-content-line
      0) ; No blanks before the very first content line
     (t
@@ -453,12 +457,6 @@ With prefix argument REVERSE order."
             (eq current-cat :body)
             (let ((case-fold-search t))
               (string-match-p "^[ \t]*#\\+tblfm:" prev-line-text)))
-       0)
-      ;; Special case: no blank before #+TBLFM: if previous is body (table)
-      ((and (eq prev-cat :body)
-            (eq current-cat :metadata)
-            (let ((case-fold-search t))
-              (string-match-p "^[ \t]*#\\+tblfm:" current-line-text)))
        0)
       ;; Special case: no blank before source block if previous is #+NAME:
       ((and (eq prev-cat :metadata)
