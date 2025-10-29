@@ -557,8 +557,8 @@ With prefix argument REVERSE order."
                  (insert final-content)
                  ;; Ensure the buffer ends with a newline (standard for files)
                  (goto-char (point-max))
-                 (unless
-                     (bolp) ; If not at the beginning of a line (i.e., no trailing newline)
+                 (when (not
+                        (and (> (point) (point-min)) (eq (char-before) ?\n)))
                    (insert "\n"))))))
        ;; Ensure redisplay is re-enabled and point/window are restored
        (setq inhibit-redisplay nil)
