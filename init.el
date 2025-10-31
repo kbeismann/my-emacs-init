@@ -86,6 +86,27 @@ Your current Emacs version is %s."
 (global-unset-key (kbd "C-z")) ; Unbind suspend in a terminal-context.
 (global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
 
+;; Manual zoom.
+(defun my-scale-ui (factor)
+  "Scale entire UI by FACTOR."
+  (interactive "nScale factor (e.g. 1.2): ")
+  (let ((new-height (truncate (* factor (face-attribute 'default :height)))))
+    (set-face-attribute 'default nil :height new-height)
+    (set-face-attribute 'mode-line nil :height new-height)
+    (set-face-attribute 'mode-line-inactive nil :height new-height)
+    (set-face-attribute 'line-number nil :height new-height)
+    (set-face-attribute 'fringe nil :height new-height)))
+(global-set-key
+ (kbd "C-+")
+ (lambda ()
+   (interactive)
+   (my-scale-ui 1.1)))
+(global-set-key
+ (kbd "C-=")
+ (lambda ()
+   (interactive)
+   (my-scale-ui 0.9)))
+
 ;; Better splitting behavior.
 (setq split-height-threshold my-default-line-width)
 (setq split-width-threshold (* 2 my-default-line-width))
