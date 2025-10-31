@@ -30,8 +30,10 @@
 
 (require 'cl-lib)
 (when (version< emacs-version "31.0.50")
-  (error "This Emacs configuration requires Emacs version 31.0.50 or newer.
-Your current Emacs version is %s." emacs-version))
+  (error
+   "This Emacs configuration requires Emacs version 31.0.50 or newer.
+Your current Emacs version is %s."
+   emacs-version))
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
@@ -46,7 +48,8 @@ Your current Emacs version is %s." emacs-version))
    (t
     (message "No project-related settings found."))))
 
-(let ((wsl-functions (expand-file-name "wsl.el" (concat user-emacs-directory "lisp/"))))
+(let ((wsl-functions
+       (expand-file-name "wsl.el" (concat user-emacs-directory "lisp/"))))
   (cond
    ((file-exists-p wsl-functions)
     (message "Found WSL-related settings...")
