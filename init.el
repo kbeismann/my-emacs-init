@@ -125,6 +125,7 @@ Your current Emacs version is %s."
 (setq large-file-warning-threshold (* 10 1024 1024))
 (setq sentence-end-double-space nil)
 (setq-default sentence-end "[.?!…‽][]\"')}»›]*[ \t\n]+")
+(setq-default buffer-file-coding-system 'unix)
 
 ;; Editing and indentation.
 (setq tab-always-indent t)
