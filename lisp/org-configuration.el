@@ -38,6 +38,7 @@
    ("C-c o i" . org-id-get-create)
    ("C-c C-x C-q" . org-columns-quit)
    ("C-c u l" . #'my/org-roam-unlink-at-point)
+   ("C-c o l" . org-lint)
    ("C-M-q" . #'my/org-fill-buffer)))
 
  :config
