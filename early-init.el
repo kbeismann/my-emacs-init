@@ -60,17 +60,6 @@
    (setq file-name-handler-alist file-name-handler-alist-original)
    (makunbound 'file-name-handler-alist-original)))
 
-;; Auto-trigger garbage collection after focus change.
-(add-hook
- 'emacs-startup-hook
- (lambda ()
-   (if (boundp 'after-focus-change-function)
-       (add-function :after after-focus-change-function
-                     (lambda ()
-                       (unless (frame-focus-state)
-                         (garbage-collect))))
-     (add-hook 'after-focus-change-function 'garbage-collect))))
-
 ;; Increase recursion limits to avoid exceeding maximum recursion depth.
 (setq max-lisp-eval-depth 50000)
 (setq max-specpdl-size 10000)
