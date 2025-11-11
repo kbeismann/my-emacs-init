@@ -68,7 +68,7 @@
 
  ;; Miscellaneous.
  (setq org-src-window-setup 'other-window)
- (setq org-tags-column (- my-default-line-width))
+ (setq org-tags-column 0)
  (setq org-image-actual-width nil)
  (setq org-highlight-latex-and-related '(latex script entities))
  (setq org-catch-invisible-edits t)
