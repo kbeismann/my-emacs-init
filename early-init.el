@@ -52,7 +52,7 @@
 ;; Re-enable it after startup when Emacs is ready.
 (setq garbage-collection-messages t)
 (defvar original-gc-cons-threshold gc-cons-threshold)
-(defvar better-gc-cons-threshold (* 128 12 original-gc-cons-threshold))
+(defvar better-gc-cons-threshold (* 100 1024 1024))
 (add-hook
  'emacs-startup-hook
  (lambda ()
@@ -67,7 +67,7 @@
 ;; Defer garbage collection during initialization.
 (setq
  gc-cons-threshold most-positive-fixnum
- gc-cons-percentage 0.6)
+ gc-cons-percentage 0.1)
 
 ;; Disable package loading at startup.
 (setq package-enable-at-startup nil)
