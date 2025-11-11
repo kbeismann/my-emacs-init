@@ -87,7 +87,7 @@ Your current Emacs version is %s."
 (global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
 
 ;; Manual zoom.
-(defun my-scale-ui (factor)
+(defun my/scale-ui (factor)
   "Scale entire UI by FACTOR."
   (interactive "nScale factor (e.g. 1.2): ")
   (let ((new-height (truncate (* factor (face-attribute 'default :height)))))
@@ -100,12 +100,12 @@ Your current Emacs version is %s."
  (kbd "C-+")
  (lambda ()
    (interactive)
-   (my-scale-ui 1.1)))
+   (my/scale-ui 1.1)))
 (global-set-key
  (kbd "C-=")
  (lambda ()
    (interactive)
-   (my-scale-ui 0.9)))
+   (my/scale-ui 0.9)))
 
 ;; Better splitting behavior.
 (setq split-height-threshold my-default-line-width)
@@ -518,11 +518,11 @@ Your current Emacs version is %s."
  :bind (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
  :hook (after-init . global-flycheck-mode))
 
-(defun my-python-mode-settings ()
+(defun my/python-mode-settings ()
   "Custom settings for `python-mode'."
   (setq-local python-indent-offset 8)
   (setq-local indent-tabs-mode nil))
-(add-hook 'python-ts-mode-hook 'my-python-mode-settings)
+(add-hook 'python-ts-mode-hook 'my/python-mode-settings)
 
 (use-package
  sphinx-doc
