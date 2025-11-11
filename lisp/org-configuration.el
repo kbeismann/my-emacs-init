@@ -784,6 +784,35 @@ On failure: keep body and insert/update a one-line warning at the top."
                         formatted
                         warned)))))))))
 
+(defun my/org-lint-directory (directory)
+  "Run org-lint on all Org files in DIRECTORY and its subdirectories.
+Stops at the first file with issues, opens it, and runs org-lint interactively."
+  (interactive "DSelect directory: ")
+  (let ((original-threshold gc-cons-threshold))
+    (setq gc-cons-threshold (* 500 1024 1024))
+    (let ((org-files (directory-files-recursively directory "\\.org$"))
+          (total-files 0)
+          (stop nil))
+      (if (not org-files)
+          (message "No Org files found in %s" directory)
+        (dolist (file org-files)
+          (when (not stop)
+            (cl-incf total-files)
+            (message "Linting %s..." (file-relative-name file directory))
+            (let ((buf (find-file-noselect file)))
+              (with-current-buffer buf
+                (when (derived-mode-p 'org-mode)
+                  (let ((lint-output (org-lint)))
+                    (if lint-output
+                        (progn
+                          (switch-to-buffer buf)
+                          (org-lint)
+                          (setq stop t))
+                      (kill-buffer buf)))))
+              (garbage-collect)))))
+      (garbage-collect)
+      (setq gc-cons-threshold original-threshold))))
+
 (use-package
  org-super-agenda
  :defer nil
