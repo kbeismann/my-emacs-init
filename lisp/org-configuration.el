@@ -161,13 +161,15 @@
          (message "No Org files found in %s" directory)
        (dolist (file files)
          (message "Processing file: %s" file)
-         (with-temp-buffer
-           (insert-file-contents file)
-           (org-mode)
-           (ignore-errors
-             (org-align-tags))
-           (write-file file)
-           (message "Aligned tags in %s" file))))))
+         (let ((buf (find-file-noselect file)))
+           (with-current-buffer buf
+             (when (derived-mode-p 'org-mode)
+               (org-align-tags t)
+               (save-buffer)))
+           ;; Only kill the buffer if it wasn't already open
+           (unless (get-file-buffer file)
+             (kill-buffer buf)))
+         (message "Aligned tags in %s" file)))))
 
  (defun my/sort-org-tags-region (beg end &optional reversed)
    "In active region sort tags alphabetically in descending order.
