@@ -8,7 +8,7 @@
 (add-to-list
  'exec-path "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/")
 
-(defun open-downloads-folder ()
+(defun my/open-downloads-folder ()
   "Open the Windows Downloads folder in dired."
   (interactive)
   (dired "/mnt/c/Users/kbeismann/Downloads/"))
