@@ -447,17 +447,20 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
           my/gptel-proof-gentle-prompt)))))
 
  (define-key global-map (kbd "C-c g p") #'my/gptel-proof)
- :config (setq gptel-api-key (auth-source-pick-first-password :host "api.openai.com"))
-
- (let ((gemini-key
-        (auth-source-pick-first-password
-         :host "generativelanguage.googleapis.com")))
-   (when gemini-key
-     (let ((gemini-backend
-            (gptel-make-gemini "Gemini" :key gemini-key :stream t)))
+ :config
+ (let ((openrouter-key (auth-source-pick-first-password :host "openrouter.ai")))
+   (when openrouter-key
+     (let ((openrouter-backend
+            (gptel-make-openai
+             "OpenRouter"
+             :host "openrouter.ai"
+             :endpoint "/api/v1/chat/completions"
+             :stream t
+             :key openrouter-key
+             :models '(google/gemini-2.5-flash-lite))))
        (setq
-        gptel-model 'gemini-2.5-flash
-        gptel-backend gemini-backend)))))
+        gptel-backend openrouter-backend
+        gptel-model 'google/gemini-2.5-flash-lite)))))
 
 (use-package
  gptel-aibo
