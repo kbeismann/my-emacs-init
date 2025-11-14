@@ -7,7 +7,7 @@
 ;; Add PowerShell directory to exec-path for Get-Clipboard.
 (add-to-list 'exec-path "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/")
 
-(defun my/open-downloads-folder ()
+(defun my/wsl-open-downloads-folder ()
   "Open the Windows Downloads folder in dired."
   (interactive)
   (dired "/mnt/c/Users/kbeismann/Downloads/"))
