@@ -59,11 +59,6 @@ Your current Emacs version is %s."
 
 (use-package shfmt)
 
-(use-package
- elisp-autofmt
- :straight (:host codeberg :repo "ideasman42/emacs-elisp-autofmt")
- :commands (elisp-autofmt-mode elisp-autofmt-buffer))
-
 ;; Defines a number of directories and files in ~/.emacs.d/.
 (defvar my-gitdir (file-truename "~/gitdir/my-git/")
   "My directory for git repositories.")
@@ -320,9 +315,6 @@ Your current Emacs version is %s."
             'append
             'local))
 
-;; Add the hook function to org-mode-hook and emacs-lisp-mode-hook.
-(add-hook 'emacs-lisp-mode-hook #'my/add-collapse-to-before-save)
-
 (defun my/batch-collapse-blank-lines (directory)
   "Collapse multiple blank lines in all files within DIRECTORY and its subdirectories."
   (interactive "DDirectory to process: ")
@@ -354,6 +346,7 @@ Your current Emacs version is %s."
 (require 'dired-configuration)
 (require 'helm-configuration)
 (require 'appearance)
+(require 'lisp-configuration)
 
 (use-package
  treesit-auto
