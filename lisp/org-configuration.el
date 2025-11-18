@@ -967,7 +967,6 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
 
 (use-package
  deft
- :after org
  :bind* (("C-c n d" . deft))
  :config
  (setq deft-recursive t)
