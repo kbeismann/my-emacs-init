@@ -1,4 +1,4 @@
-;;; lisp-configuration.el --- Configuration for Lisp and Emacs Lisp modes
+;;; lisp-configuration.el --- Configuration for Lisp and Emacs Lisp modes -*- lexical-binding: t; coding: utf-8 -*-
 
 ;; Copyright (C) 2019 Karsten E. Beismann
 
