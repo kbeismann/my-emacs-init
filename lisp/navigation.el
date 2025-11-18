@@ -31,7 +31,9 @@
 (use-package
  avy
  :after base16-theme
- :bind* (("C-z" . avy-goto-char))
+ :bind*
+ (("M-S-SPC" . avy-goto-char)
+  ("<Launch5>" . avy-goto-char)) ; For WSL, after binding M-S-SPC to Launch5.
  :init
  (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
  :config (setq avy-background t) (setq avy-all-windows t)
