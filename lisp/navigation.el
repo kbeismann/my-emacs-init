@@ -35,6 +35,16 @@
 (global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
 (global-set-key (kbd "<Tools>") 'just-one-space) ; Alternative for WSL. Use PowerToys to bind M-SPC to <Tools>.
 
+;; Basic bindings for multiple-cursors.
+(use-package
+ multiple-cursors
+ :init (setq warning-suppress-types '((files))) (setq mc/always-run-for-all t)
+ :bind*
+ (("C-S-c C-S-c" . mc/edit-lines)
+  ("C->" . mc/mark-next-like-this)
+  ("C-<" . mc/mark-previous-like-this)
+  ("C-M->" . mc/mark-all-like-this)))
+
 (use-package
  avy
  :after base16-theme
