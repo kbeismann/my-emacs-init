@@ -641,7 +641,9 @@ On failure: keep body and insert/update a one-line warning at the top."
             (org-element-parse-buffer) 'src-block
             (lambda (blk)
               (let ((lang
-                     (downcase (or (org-element-property :language blk) ""))))
+                     (downcase (or (org-element-property :language blk) "")))
+                    (blk-beg (org-element-property :begin blk))
+                    (blk-end (org-element-property :end blk)))
                 (when (member lang '("sh" "bash" "shell"))
                   (save-excursion
                     (goto-char blk-beg)
