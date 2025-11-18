@@ -444,7 +444,24 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
  gptel-quick
  :straight (:host github :repo "karthink/gptel-quick")
  :bind (("C-c g q" . gptel-quick))
- :init (use-package posframe)
+ :init
+ (use-package
+  posframe
+  :config
+  (with-eval-after-load 'posframe
+    (advice-add
+     'posframe-show
+     :around
+     (lambda (orig-fun &rest args)
+       (if (and (stringp (car args)) (string-match-p "gptel-quick" (car args)))
+           (let* ((plist (cdr args))
+                  (plist (plist-put plist :background-color base00-prop))
+                  (plist (plist-put plist :border-width 1))
+                  (plist (plist-put plist :border-color base0A-prop))
+                  (plist (plist-put plist :left-fringe 10))
+                  (plist (plist-put plist :right-fringe 10)))
+             (apply orig-fun (car args) plist))
+         (apply orig-fun args))))))
  :config
  (setq
   gptel-quick-system-message
