@@ -38,7 +38,6 @@ Your current Emacs version is %s."
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'package-management)
-(require 'generic-functions)
 
 ;; Load work-related settings.
 (let ((work-projects (expand-file-name "projects.el" user-emacs-directory)))
@@ -208,6 +207,7 @@ Your current Emacs version is %s."
  ;; Configure lockfiles.
  (setq create-lockfiles nil))
 
+(require 'generic-functions)
 (require 'dired-configuration)
 (require 'helm-configuration)
 (require 'appearance)
