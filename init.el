@@ -374,16 +374,6 @@ Your current Emacs version is %s."
  (add-to-list 'ws-butler-global-exempt-modes 'magit-mode)
  (ws-butler-global-mode t))
 
-;; Basic bindings for multiple-cursors.
-(use-package
- multiple-cursors
- :init (setq warning-suppress-types '((files))) (setq mc/always-run-for-all t)
- :bind*
- (("C-S-c C-S-c" . mc/edit-lines)
-  ("C->" . mc/mark-next-like-this)
-  ("C-<" . mc/mark-previous-like-this)
-  ("C-M->" . mc/mark-all-like-this)))
-
 (use-package
  flycheck
  :diminish (global-flycheck-mode flycheck-mode)
