@@ -207,12 +207,27 @@ Your current Emacs version is %s."
  ;; Configure lockfiles.
  (setq create-lockfiles nil))
 
+;; Configure handling parens.
+(setq show-paren-delay 0.0)
+(setq show-paren-mode t)
+
+(use-package
+ smartparens
+ :diminish (smartparens-mode smartparens-global-mode)
+ :bind* (("C-c u s" . sp-unwrap-sexp))
+ :config
+ (require 'smartparens-config)
+ (smartparens-global-mode t)
+ (setq sp-highlight-pair-overlay nil)
+ (setq sp-show-pair-from-inside t))
+
 (require 'generic-functions)
 (require 'dired-configuration)
 (require 'helm-configuration)
 (require 'appearance)
 (require 'lisp-configuration)
 (require 'navigation)
+(require 'git-tooling)
 
 (use-package
  treesit-auto
@@ -290,19 +305,6 @@ Your current Emacs version is %s."
       ("-d" "de_DE")
       nil
       iso-8859-1))))
-
-;; Configure handling parens.
-(setq show-paren-delay 0.0)
-(setq show-paren-mode t)
-(use-package
- smartparens
- :diminish (smartparens-mode smartparens-global-mode)
- :bind* (("C-c u s" . sp-unwrap-sexp))
- :config
- (require 'smartparens-config)
- (smartparens-global-mode t)
- (setq sp-highlight-pair-overlay nil)
- (setq sp-show-pair-from-inside t))
 
 (use-package
  highlight-indent-guides
@@ -407,51 +409,7 @@ Your current Emacs version is %s."
   (setq pdf-view-display-size 'fit-page)
   (setq pdf-annot-activate-created-annotations t)))
 
-;; Git tooling.
-:config
-;; Fixes temporary issues with vc-mode.
-(setq vc-handled-backends ())
-
 (use-package hl-todo :config (global-hl-todo-mode t))
-
-;; Configure Ediff.
-(setq ediff-window-setup-function 'ediff-setup-windows-plain) ; Don't start another frame.
-;; Revert windows on exit - needs winner mode.
-(winner-mode)
-(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-
-(use-package
- magit
- :diminish magit-auto-revert-mode
- :init
- (require 'helm)
- (require 'smartparens)
- :config
- (magit-auto-revert-mode t)
- (setq magit-diff-refine-hunk 'all)
- (setq magit-log-auto-more t)
- ;; Auto-revert.
- (setq auto-revert-interval 1)
- (setq global-auto-revert-mode nil)
-
- ;; Custom settings for git-commit-mode.
- (defun my/git-commit-mode-settings ()
-   "Custom settings for `git-commit-mode'."
-   (setq-local fill-column 72))
- (add-hook 'git-commit-mode-hook #'my/git-commit-mode-settings))
-
-(use-package
- git-timemachine
- ;; https://codeberg.org/pidu/git-timemachine
- :diminish git-timemachine-mode
- :bind (("C-c t m" . git-timemachine)))
-
-(use-package
- git-auto-commit-mode
- :diminish git-auto-commit-mode
- :config (setq gac-automatically-push-p t)
- (setq safe-local-variable-values
-       (append safe-local-variable-values '((eval (git-auto-commit-mode 1))))))
 
 ;; Emacs Refactor (EMR) is a framework for providing language-specific
 ;; refactoring in Emacs.
@@ -570,18 +528,6 @@ Your current Emacs version is %s."
  :config (setq kubernetes-redraw-frequency 600))
 
 (require 'ai-configuration)
-
-;; Allow the global eval forms in .dir-locals.el. This block must be loaded
-;; early enough for .dir-locals.el to be processed correctly.
-(setq safe-local-variable-values
-      (append
-       safe-local-variable-values
-       '((eval .
-               (progn
-                 (git-auto-commit-mode 1)
-                 (add-hook 'before-save-hook #'delete-trailing-whitespace
-                           nil
-                           t))))))
 
 (use-package
  eshell
