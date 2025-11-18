@@ -28,6 +28,13 @@
 
 ;;; Code:
 
+;; Unset and set basic bindings.
+(global-unset-key (kbd "M-o")) ; Unbind face menu.
+(global-unset-key (kbd "C-x C-z")) ; Unbind suspend frame.
+(global-unset-key (kbd "C-z")) ; Unbind suspend in a terminal-context.
+(global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
+(global-set-key (kbd "<Tools>") 'just-one-space) ; Alternative for WSL. Use PowerToys to bind M-SPC to <Tools>.
+
 (use-package
  avy
  :after base16-theme
