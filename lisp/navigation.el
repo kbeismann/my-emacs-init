@@ -72,6 +72,15 @@
                      :foreground base03-prop
                      :background base00-prop))
 
+(use-package
+ which-key
+ :defer nil
+ :diminish which-key-mode
+ :config
+ (setq which-key-idle-delay 1)
+ (setq which-key-idle-secondary-delay 0)
+ (which-key-mode 1))
+
 ;;; Footer:
 (provide 'navigation)
 ;;; navigation.el ends here
