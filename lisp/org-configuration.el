@@ -662,7 +662,7 @@ On failure: keep body and insert/update a one-line warning at the top."
 
            ;; process bottom-up
            (dolist (region (sort regions (lambda (a b) (> (car a) (car b)))))
-             (condition-case err
+             (condition-case nil
                  (let ((rb (car region))
                        (re (cdr region)))
                    (save-restriction
@@ -781,8 +781,7 @@ On failure: keep body and insert/update a one-line warning at the top."
                              (when (buffer-live-p out)
                                (kill-buffer out))))))
                    (error
-                    (message "[org-shfmt] internal error on a block: %s"
-                             (error-message-string err)))))
+                    (message "[org-shfmt] internal error on a block")))))
              (when my/org-shfmt-verbose
                (message "[org-shfmt] formatted %d block(s), warned %d block(s)."
                         formatted
