@@ -139,6 +139,9 @@ Your current Emacs version is %s."
 (add-hook 'minibuffer-setup-hook #'my/gc-minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'my/gc-minibuffer-exit-hook)
 
+;; Suppress garbage collection messages.
+(setq garbage-collection-messages nil)
+
 ;; Configure warnings.
 (setq warning-suppress-types '((yasnippet backquote-change)))
 
