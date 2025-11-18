@@ -555,16 +555,6 @@ Your current Emacs version is %s."
  (ssh-deploy-add-menu))
 
 (use-package
- projectile
- :diminish projectile-mode
- :bind (("C-c p" . projectile-command-map))
- :init (projectile-mode t)
- :config
- (setq projectile-completion-system 'helm)
- (setq projectile-indexing-method 'alien)
- (add-to-list 'projectile-globally-ignored-files ' "*ediff-merge*"))
-
-(use-package
  json-mode
  :config (add-to-list 'major-mode-remap-alist '(json-mode . json-ts-mode)))
 
