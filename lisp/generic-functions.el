@@ -7,6 +7,18 @@
 
 ;;; Code:
 
+;; From https://www.emacswiki.org/emacs/UnfillParagraph.
+;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph.
+(defun my/unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn
+                 (barf-if-buffer-read-only)
+                 '(t)))
+  (let ((fill-column (point-max))
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+(define-key global-map "\M-Q" 'my/unfill-paragraph)
+
 ;; Manual zoom.
 (defun my/scale-ui (factor)
   "Scale entire UI by FACTOR."
