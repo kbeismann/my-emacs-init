@@ -76,13 +76,6 @@ Your current Emacs version is %s."
 (defvar path-to-snippets (concat user-emacs-directory "snippets/")
   "Path to snippets.")
 
-;; Unset and set basic bindings.
-(global-unset-key (kbd "M-o")) ; Unbind face menu.
-(global-unset-key (kbd "C-x C-z")) ; Unbind suspend frame.
-(global-unset-key (kbd "C-z")) ; Unbind suspend in a terminal-context.
-(global-set-key (kbd "M-SPC") 'cycle-spacing) ; Richer alternative to just-one-space.
-(global-set-key (kbd "<Tools>") 'just-one-space) ; Alternative for WSL. Use PowerToys to bind M-SPC to <Tools>.
-
 ;; Better splitting behavior.
 (setq split-height-threshold my-default-line-width)
 (setq split-width-threshold (* 2 my-default-line-width))
