@@ -184,50 +184,6 @@
   '(font-lock-builtin-face ((t (:weight bold))))))
 
 (use-package
- avy
- :after base16-theme
- :bind* (("C-z" . avy-goto-char))
- :init
- (global-unset-key (kbd "S-SPC")) ; Unbind scroll down from S-SPC.
- :config (setq avy-background t) (setq avy-all-windows t)
- ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision char
- ;; with avy-lead-face-0. Do this even when the char is terminating. Normally
- ;; avy-lead-face-0 is only used for the first non-terminating decision chars.
- (setq avy-highlight-first t)
-
- ;; Using any command makes the face attributes accessible.
- (avy-setup-default)
-
- ;; Face used for first non-terminating leading chars.
- (set-face-attribute 'avy-lead-face-0 nil
-                     :foreground base0A-prop
-                     :background base00-prop
-                     :weight 'bold)
-
- ;; Face used for matched leading chars. Not sure what this does.
- (set-face-attribute 'avy-lead-face-1 nil
-                     :foreground base09-prop
-                     :background base00-prop
-                     :weight 'bold)
-
- ;; Face used for leading chars.
- (set-face-attribute 'avy-lead-face-2 nil
-                     :foreground base0C-prop
-                     :background base00-prop
-                     :weight 'bold)
-
- ;; Face used for the leading chars.
- (set-face-attribute 'avy-lead-face nil
-                     :foreground base00-prop
-                     :background base0E-prop
-                     :weight 'bold)
-
- ;; Face for foreground/font during selection: base03.
- (set-face-attribute 'avy-background-face nil
-                     :foreground base03-prop
-                     :background base00-prop))
-
-(use-package
  which-key
  :defer nil
  :diminish which-key-mode
