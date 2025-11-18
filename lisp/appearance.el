@@ -183,14 +183,5 @@
   '(font-lock-keyword-face ((t (:weight bold))))
   '(font-lock-builtin-face ((t (:weight bold))))))
 
-(use-package
- which-key
- :defer nil
- :diminish which-key-mode
- :config
- (setq which-key-idle-delay 1)
- (setq which-key-idle-secondary-delay 0)
- (which-key-mode 1))
-
 (provide 'appearance)
 ;;; appearance.el ends here
