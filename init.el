@@ -645,6 +645,16 @@ Your current Emacs version is %s."
                   'before-save-hook #'delete-trailing-whitespace
                   nil t))))))
 
+(use-package
+ eshell
+ :ensure nil
+ :bind (("C-c s" . my/eshell-new))
+ :config
+ (defun my/eshell-new ()
+   "Open a new eshell buffer."
+   (interactive)
+   (eshell 'N)))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
