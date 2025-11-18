@@ -153,10 +153,10 @@
    (nth 21 base16-zenburn-theme-colors))
  (defvar base0B-prop ; Green.
    (nth 23 base16-zenburn-theme-colors))
- (defvar base0C-prop (nth 25 base16-zenburn-theme-colors))
- (defvar base0D-prop (nth 27 base16-zenburn-theme-colors))
- (defvar base0E-prop (nth 29 base16-zenburn-theme-colors))
- (defvar base0F-prop (nth 31 base16-zenburn-theme-colors))
+ (defvar base0C-prop (nth 25 base16-zenburn-theme-colors)) ; Light blue.
+ (defvar base0D-prop (nth 27 base16-zenburn-theme-colors)) ; Light blue.
+ (defvar base0E-prop (nth 29 base16-zenburn-theme-colors)) ; Pink.
+ (defvar base0F-prop (nth 31 base16-zenburn-theme-colors)) ; Black.
 
  ;; Remove the vertical line between windows.
  (set-face-background 'vertical-border base00-prop)
