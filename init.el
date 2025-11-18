@@ -236,6 +236,7 @@ Your current Emacs version is %s."
 (require 'helm-configuration)
 (require 'appearance)
 (require 'lisp-configuration)
+(require 'navigation)
 
 (use-package
  treesit-auto
