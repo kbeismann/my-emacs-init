@@ -666,13 +666,13 @@ Assumes shfmt is installed. Signals an error on failure."
          (with-current-buffer temp-buf
            (erase-buffer)
            (insert body-text)
-           (unless (and (integerp
-                         (call-process-region (point-min) (point-max) "shfmt"
-                                              t t nil))
-                        (zerop
-                         (call-process-region (point-min) (point-max) "shfmt"
-                                              t t nil)))
-             (error "shfmt failed with non-zero exit"))
+           (let ((exit-code
+                  (call-process-region (point-min) (point-max) "shfmt"
+                                       t
+                                       t
+                                       nil)))
+             (unless (zerop exit-code)
+               (error "shfmt failed with exit code %d" exit-code)))
            (buffer-string))
        (kill-buffer temp-buf))))
 
