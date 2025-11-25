@@ -788,14 +788,17 @@ Ignores blocks without a configured formatter."
                          (cl-incf formatted)
                          (message "[org-format] Formatted block %s" lang)))
                    (error
-                    (let ((line (line-number-at-pos rb)))
+                    (let ((line (line-number-at-pos rb))
+                          (first-line
+                           (save-excursion
+                             (goto-char rb)
+                             (buffer-substring (point) (line-end-position)))))
                       (goto-char rb)
-                      (error "Formatting failed for %s block at line %d: %s"
-                             lang
-                             line
-                             (error-message-string err)))))))
-             (when my/org-format-verbose
-               (message "[org-format] formatted %d block(s)." formatted)))))))))
+                      (error
+                       "Formatting failed for %s block at line %d: %s\nFirst line: %s"
+                       lang line (error-message-string err) first-line)))))))
+           (when my/org-format-verbose
+             (message "[org-format] formatted %d block(s)." formatted))))))))
 
 (defun my/org-format-source-blocks-directory (directory)
   "Run my/org-format-source-blocks-buffer on all Org files in DIRECTORY and its subdirectories."
