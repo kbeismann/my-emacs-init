@@ -30,10 +30,8 @@
 (use-package
  elisp-autofmt
  :straight (:host codeberg :repo "ideasman42/emacs-elisp-autofmt")
- :commands (elisp-autofmt-mode elisp-autofmt-buffer))
-
-;; Add the hook function to emacs-lisp-mode-hook.
-(add-hook 'emacs-lisp-mode-hook #'my/add-collapse-to-before-save)
+ :commands (elisp-autofmt-mode elisp-autofmt-buffer)
+ :hook (emacs-lisp-mode . elisp-autofmt-mode))
 
 ;;; Footer:
 (provide 'lisp-configuration)
