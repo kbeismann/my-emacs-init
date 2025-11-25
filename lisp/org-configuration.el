@@ -698,7 +698,7 @@ Assumes elisp-autofmt is loaded. Signals an error on failure."
    "Format all source block bodies in the current Org buffer using language-specific tools.
 Only modifies text between #+begin_src and #+end_src (narrowed).
 On success: replace with formatted output (preserving indentation).
-On failure: keep body and insert/update a one-line warning at the top.
+On failure: signal an error and point to the problem block.
 Ignores blocks without a configured formatter."
    (interactive)
    (when (derived-mode-p 'org-mode)
@@ -706,7 +706,6 @@ Ignores blocks without a configured formatter."
        (save-restriction
          (widen)
          (let ((formatted 0)
-               (warned 0)
                (blocks (my/org-identify-source-blocks)))
            (message "[org-format] Found %d blocks" (length blocks))
            ;; Process blocks bottom-up to avoid position shifts
@@ -788,104 +787,67 @@ Ignores blocks without a configured formatter."
                          (cl-incf formatted)
                          (message "[org-format] Formatted block %s" lang)))
                    (error
-                    ;; On failure, add/update warning
-                    (save-restriction
-                      (narrow-to-region rb re)
-                      (let* ((orig
-                              (buffer-substring-no-properties
-                               (point-min) (point-max)))
-                             (orig-ends-nl (string-suffix-p "\n" orig))
-                             (lines (split-string orig "\n" nil))
-                             ;; Calculate common indent width
-                             (min-indent
-                              (let (m)
-                                (dolist (ln lines m)
-                                  (unless (string-match-p "\\`[ \t]*\\'" ln)
-                                    (string-match "\\`[ \t]*" ln)
-                                    (let ((w (length (match-string 0 ln))))
-                                      (setq m
-                                            (if (null m)
-                                                w
-                                              (min m w))))))))
-                             (indent-width (or min-indent 0))
-                             (indent-prefix (make-string indent-width ?\s))
-                             ;; Deindent
-                             (rx-deindent
-                              (format "\\`[ \t]\\{0,%d\\}" indent-width))
-                             (deindented
-                              (mapconcat (lambda (ln)
-                                           (replace-regexp-in-string
-                                            rx-deindent "" ln
-                                            nil t))
-                                         lines
-                                         "\n"))
-                             (warning
-                              (format "# [org-format] format error for %s: %s"
-                                      lang (error-message-string err)))
-                             (body-lines (split-string deindented "\n" nil)))
-                        (if (and body-lines
-                                 (string-match-p
-                                  "\\`# \\[org-format\\] format error"
-                                  (car body-lines)))
-                            (setf (car body-lines) warning)
-                          (setq body-lines (cons warning body-lines)))
-                        (let* ((warned-text
-                                (mapconcat #'identity body-lines "\n"))
-                               (warned-text*
-                                (if (string-suffix-p "\n" deindented)
-                                    warned-text
-                                  (string-trim-right warned-text)))
-                               (reindented
-                                (if (zerop indent-width)
-                                    warned-text*
-                                  (mapconcat (lambda (ln)
-                                               (if (string-match-p
-                                                    "\\`[ \t]*\\'" ln)
-                                                   ln
-                                                 (concat indent-prefix ln)))
-                                             (split-string warned-text*
-                                                           "\n"
-                                                           nil)
-                                             "\n"))))
-                          (delete-region (point-min) (point-max))
-                          (insert reindented)
-                          (cl-incf warned)
-                          (message "[org-format] Warned block %s: %s"
-                                   lang
-                                   (error-message-string err))))))))
-               (when my/org-format-verbose
-                 (message
-                  "[org-format] formatted %d block(s), warned %d block(s)."
-                  formatted warned)))))))
+                    (let ((line (line-number-at-pos rb)))
+                      (goto-char rb)
+                      (error "Formatting failed for %s block at line %d: %s"
+                             lang
+                             line
+                             (error-message-string err)))))))
+             (when my/org-format-verbose
+               (message "[org-format] formatted %d block(s)." formatted)))))))))
 
-     (defun my/org-lint-directory (directory)
-       "Run org-lint on all Org files in DIRECTORY and its subdirectories.
+(defun my/org-format-source-blocks-directory (directory)
+  "Run my/org-format-source-blocks-buffer on all Org files in DIRECTORY and its subdirectories."
+  (interactive "DSelect directory: ")
+  (let ((org-files (directory-files-recursively directory "\\.org$")))
+    (if (not org-files)
+        (message "No Org files found in %s" directory)
+      (dolist (file org-files)
+        (message "Processing file: %s" file)
+        (let ((buf (find-file-noselect file)))
+          (with-current-buffer buf
+            (when (derived-mode-p 'org-mode)
+              (condition-case err
+                  (progn
+                    (my/org-format-source-blocks-buffer)
+                    (save-buffer)
+                    (unless (get-file-buffer file)
+                      (kill-buffer buf)))
+                (error
+                 (save-buffer)
+                 (switch-to-buffer buf)
+                 (error "Error in %s: %s"
+                        file
+                        (error-message-string err)))))))))))
+
+(defun my/org-lint-directory (directory)
+  "Run org-lint on all Org files in DIRECTORY and its subdirectories.
 Stops at the first file with issues, opens it, and runs org-lint interactively."
-       (interactive "DSelect directory: ")
-       (let ((original-threshold gc-cons-threshold))
-         (setq gc-cons-threshold (* 500 1024 1024))
-         (let ((org-files (directory-files-recursively directory "\\.org$"))
-               (total-files 0)
-               (stop nil))
-           (if (not org-files)
-               (message "No Org files found in %s" directory)
-             (dolist (file org-files)
-               (when (not stop)
-                 (cl-incf total-files)
-                 (message "Linting %s..." (file-relative-name file directory))
-                 (let ((buf (find-file-noselect file)))
-                   (with-current-buffer buf
-                     (when (derived-mode-p 'org-mode)
-                       (let ((lint-output (org-lint)))
-                         (if lint-output
-                             (progn
-                               (switch-to-buffer buf)
-                               (org-lint)
-                               (setq stop t))
-                           (kill-buffer buf)))))
-                   (garbage-collect)))))
-           (garbage-collect)
-           (setq gc-cons-threshold original-threshold)))))))
+  (interactive "DSelect directory: ")
+  (let ((original-threshold gc-cons-threshold))
+    (setq gc-cons-threshold (* 500 1024 1024))
+    (let ((org-files (directory-files-recursively directory "\\.org$"))
+          (total-files 0)
+          (stop nil))
+      (if (not org-files)
+          (message "No Org files found in %s" directory)
+        (dolist (file org-files)
+          (when (not stop)
+            (cl-incf total-files)
+            (message "Linting %s..." (file-relative-name file directory))
+            (let ((buf (find-file-noselect file)))
+              (with-current-buffer buf
+                (when (derived-mode-p 'org-mode)
+                  (let ((lint-output (org-lint)))
+                    (if lint-output
+                        (progn
+                          (switch-to-buffer buf)
+                          (org-lint)
+                          (setq stop t))
+                      (kill-buffer buf)))))
+              (garbage-collect)))))
+      (garbage-collect)
+      (setq gc-cons-threshold original-threshold))))
 
 (use-package
  org-super-agenda
