@@ -726,7 +726,11 @@ Assumes elisp-autofmt is loaded. Signals an error on failure."
            (insert body-text)
            (condition-case err
                (progn
-                 (elisp-autofmt-region (point-min) (point-max))
+                 (with-timeout
+                     (10
+                      (error
+                       "elisp-autofmt-region timed out after 10 seconds"))
+                   (elisp-autofmt-region (point-min) (point-max)))
                  (buffer-string))
              (error
               (error "elisp-autofmt-region failed: %s"
