@@ -15,8 +15,6 @@
 (defvar my-notes (concat my-roam-notes "20250603194556-my_personal_notes.org")
   "My notes.")
 
-(add-hook 'org-mode-hook #'my/add-collapse-to-before-save)
-
 (use-package
  org
  :mode "//.org$"
