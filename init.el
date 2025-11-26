@@ -542,6 +542,8 @@ Your current Emacs version is %s."
    (interactive)
    (eshell 'N)))
 
+(use-package mermaid-mode)
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
