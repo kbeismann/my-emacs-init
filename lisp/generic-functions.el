@@ -102,12 +102,6 @@
       (replace-regexp "^[[:space:]]*\n\\(?:[[:space:]]*\n\\)+" "\n"
                       nil (point-min) (point-max)))))
 
-(defun my/add-collapse-to-before-save ()
-  "Add `my/collapse-multiple-blank-lines' to the buffer-local `before-save-hook'."
-  (add-hook 'before-save-hook #'my/collapse-multiple-blank-lines
-            'append
-            'local))
-
 (defun my/batch-collapse-blank-lines (directory)
   "Collapse multiple blank lines in all files within DIRECTORY and its subdirectories."
   (interactive "DDirectory to process: ")
