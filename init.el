@@ -544,6 +544,19 @@ Your current Emacs version is %s."
 
 (use-package mermaid-mode)
 
+(use-package
+ go-mode
+ :after flycheck
+ :hook
+ (go-ts-mode
+  .
+  (lambda ()
+    (add-hook 'before-save-hook #'lsp-format-buffer nil t)
+    (add-hook 'before-save-hook #'lsp-organize-imports nil t)
+    (flycheck-select-checker 'go-staticcheck)
+    (lsp-deferred)))
+ :config (add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode)))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
