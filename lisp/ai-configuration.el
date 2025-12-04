@@ -220,13 +220,16 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
 Then, prompt for the starting point, and finally create and checkout the new branch using Magit."
    (interactive)
    (let*
-       ((description
+       ((existing-branches (magit-list-branch-names))
+        (description
          (if (eq major-mode 'magit-revision-mode)
              (buffer-string)
            (read-string "Describe the purpose of the new branch: ")))
         (prompt
          (concat
-          "You are a Git expert. Convert the following description into a concise, kebab-case branch name. Use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. Only return the branch name: no quotes, punctuation, or explanations. No abbreviations."
+          "You are a Git expert. Existing branches: "
+          (string-join existing-branches ", ")
+          ". Convert the following description into a concise, kebab-case branch name. Follow the current pattern. Otherwise, use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. Make it unique among existing branches. Only return the branch name: no quotes, punctuation, or explanations. No abbreviations."
           description)))
      (require 'gptel)
      (let ((gptel-include-reasoning nil))
