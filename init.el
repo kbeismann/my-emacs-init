@@ -513,7 +513,6 @@ Your current Emacs version is %s."
 
 (use-package
  csv-mode
- :disabled t
  :config
  (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
  (autoload 'csv-mode "csv-mode"
