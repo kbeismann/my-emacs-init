@@ -57,6 +57,13 @@ Your current Emacs version is %s."
    (t
     (message "No WSL-related settings found."))))
 
+(add-hook
+ 'sh-mode-hook
+ (lambda ()
+   (setq-local indent-tabs-mode t)
+   (setq-local tab-width 2)
+   (setq-local sh-basic-offset 2)))
+;; Like all formatters, shfmt should be configured in a .dir-locals.el.
 (use-package shfmt)
 
 ;; Defines a number of directories and files in ~/.emacs.d/.
