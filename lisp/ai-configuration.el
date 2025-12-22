@@ -88,7 +88,7 @@ Error information is gathered in the following order of precedence:
      "Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. "
      "Keep the title under 50 characters. "
      "Format the body so no line is longer than 72 characters. "
-     "If needed, add a body after a blank line. "
+     "Add a body after a blank line. "
      "Do not use lists, e.g. do not use - Change 1 - Change 2, only continuous text. "
      "Separate subtopics into paragraphs. "
      "Do not include code blocks. "
