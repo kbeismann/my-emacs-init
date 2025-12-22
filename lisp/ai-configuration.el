@@ -99,7 +99,6 @@ Error information is gathered in the following order of precedence:
      "Use the capitalization pattern of the title from previous commits. "
      "Do not use uncommon abbreviations: e.g., use 'configuration' instead of 'config' but keep URL. "
      "Add the intention for the change in the body after the change description. "
-     "Separate the body into sensible paragraphs if applicable. "
      "When referring to previous changes add the complete commit SHA (all 40 characters) as a reference."))
    "System prompt used for GPT-based commit message generation and rewriting.")
 
