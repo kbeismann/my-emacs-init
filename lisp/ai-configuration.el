@@ -89,7 +89,7 @@ Error information is gathered in the following order of precedence:
      "Keep the title under 50 characters. "
      "Format the body so no line is longer than 72 characters. "
      "If needed, add a body after a blank line. "
-     "No lists. "
+     "Do not use lists, e.g. do not use - Change 1 - Change 2, only continuous text. "
      "Separate subtopics into paragraphs. "
      "Do not include code blocks. "
      "Always use backticks in the title and body for functions, commands, files, directories, modules, or package names, e.g., `use-package`, `gptel`, or `magit`. "
