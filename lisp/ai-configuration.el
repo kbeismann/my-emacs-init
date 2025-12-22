@@ -137,14 +137,16 @@ Error information is gathered in the following order of precedence:
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((diff (buffer-string))
-          (recent-commits (my/gptel-get-recent-commits))
-          (prompt
-           (concat
-            "Recent commit messages:\n\n"
-            recent-commits
-            "\n\nWrite a Git commit message for the following diff:\n\n"
-            diff)))
+   (let*
+       ((diff (buffer-string))
+        (recent-commits (my/gptel-get-recent-commits))
+        (prompt
+         (concat
+          "### Recent commit history (for context only, do not include in the message):\n\n"
+          recent-commits
+          "\n\n### Current diff to Commit:\n\n"
+          diff
+          "\n\nWrite a Git commit message for the diff above.")))
      (require 'gptel)
      (let ((gptel-include-reasoning nil))
        (gptel-request
@@ -180,12 +182,13 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
      (require 'gptel)
      (gptel-request
       (concat
-       "Recent commit messages:\n\n"
+       "### Recent commit history (for context only):\n\n"
        recent-commits
-       "\n\nUser rewrite instructions:\n\n"
+       "\n\n### User rewrite instructions:\n\n"
        user-prompt
-       "\n\nRewrite the commit message part of the following buffer content based on the instructions and recent commits. Only return the rewritten commit message:\n\n"
-       buffer-contents)
+       "\n\n### Current commit message to rewrite:\n\n"
+       buffer-contents
+       "\n\nRewrite the commit message above based on the instructions and history. Only return the rewritten commit message.")
       :system my/gptel-commit-system-prompt
       :callback
       (lambda (response info)
