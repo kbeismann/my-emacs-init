@@ -94,6 +94,7 @@ Error information is gathered in the following order of precedence:
      "Do not include code blocks. "
      "Always use backticks in the title and body for functions, commands, files, directories, modules, or package names, e.g., `use-package`, `gptel`, or `magit`. "
      "Use conventional commits ('feat: add new feature') only if previous commits shows that pattern consistently. "
+     "Do not use conventional commits if the history does not show any."
      "Be consistent with capitalization and backticks between title and body. "
      "Use the capitalization pattern of the title from previous commits. "
      "Do not use uncommon abbreviations: e.g., use 'configuration' instead of 'config' but keep URL. "
