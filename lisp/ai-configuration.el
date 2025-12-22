@@ -92,11 +92,11 @@ Error information is gathered in the following order of precedence:
      "No lists. "
      "Separate subtopics into paragraphs. "
      "Do not include code blocks. "
-     "Always use backticks in the title and body for functions, commands, files, directories, modules, or package names, for example, `use-package`, `gptel`, or `magit`. "
+     "Always use backticks in the title and body for functions, commands, files, directories, modules, or package names, e.g., `use-package`, `gptel`, or `magit`. "
      "Use conventional commits ('feat: add new feature') only if previous commits shows that pattern consistently. "
      "Be consistent with capitalization and backticks between title and body. "
      "Use the capitalization pattern of the title from previous commits. "
-     "Do not use uncommon abbreviations: eg use 'configuration' instead of 'config' but keep URL. "
+     "Do not use uncommon abbreviations: e.g., use 'configuration' instead of 'config' but keep URL. "
      "Add the intention for the change in the body after the change description. "
      "Separate the body into sensible paragraphs if applicable. "
      "When referring to previous changes add the complete commit SHA (all 40 characters) as a reference."))
