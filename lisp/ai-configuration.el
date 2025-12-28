@@ -454,10 +454,10 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
              :endpoint "/api/v1/chat/completions"
              :stream t
              :key openrouter-key
-             :models '(google/gemini-2.5-flash-lite))))
+             :models '(google/gemini-3-flash-preview))))
        (setq
         gptel-backend openrouter-backend
-        gptel-model 'google/gemini-2.5-flash-lite)))))
+        gptel-model 'google/gemini-3-flash-preview)))))
 
 (use-package
  gptel-aibo
