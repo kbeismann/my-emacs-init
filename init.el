@@ -583,6 +583,14 @@ Your current Emacs version is %s."
     (lsp-deferred)))
  :config (add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode)))
 
+(use-package
+ devcontainer
+ :straight
+ (devcontainer
+  :type git
+  :host github
+  :repo "johannes-mueller/devcontainer.el"))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
