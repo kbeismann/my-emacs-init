@@ -32,9 +32,9 @@ This function is intended for `interprogram-cut-function`."
 This function is intended for `interprogram-paste-function`."
   (let ((powershell-path (executable-find "powershell.exe")))
     (if powershell-path
-        (string-trim
-         (shell-command-to-string
-          (format "%s -command Get-Clipboard" powershell-path)))
+        (let ((text (shell-command-to-string
+                     (format "%s -command Get-Clipboard" powershell-path))))
+          (string-trim (replace-regexp-in-string "\r" "" text)))
       (message
        "Error: powershell.exe not found. Cannot paste from Windows clipboard.")
       "")))
