@@ -358,7 +358,6 @@ Your current Emacs version is %s."
     trailing ;; Visualize trailing whitespace.
     empty ;; Visualize leading/trailing whitespace on empty lines or at buffer beginning/end.
     tabs tab-mark big-indent space-after-tab
-    missing-newline-at-eof ;; Visualize when the last line is not followed by a newline.
     newline ;; Visualize newlines.
     newline-mark ;; Replace newlines with `whitespace-display-chars`.
     )))
