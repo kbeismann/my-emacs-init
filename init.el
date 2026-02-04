@@ -455,6 +455,7 @@ Your current Emacs version is %s."
  :hook
  ((python-base-mode . lsp-deferred)
   (rust-ts-mode . lsp-deferred)
+  (typescript-base-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration))
  :bind
  (:map
@@ -589,6 +590,11 @@ Your current Emacs version is %s."
   :type git
   :host github
   :repo "johannes-mueller/devcontainer.el"))
+
+(use-package
+ typescript-mode
+ :after lsp
+ :mode ("\\.[jt]sx?\\'" . typescript-ts-mode))
 
 ;;; Footer:
 (provide 'init)
