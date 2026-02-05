@@ -573,6 +573,8 @@ Your current Emacs version is %s."
  :after lsp
  :mode ("\\.[jt]sx?\\'" . typescript-ts-mode))
 
+(use-package writeroom-mode :bind ("C-c w" . writeroom-mode))
+
 ;;; Footer:
 (provide 'init)
 ;;; init.el ends here
