@@ -39,13 +39,13 @@
   (defvar checkos0 "Checking OS and hostname...")
   (defvar font0 "Looking for font family...")
   (defvar font1 "Setting font...")
-  (defvar my-font-huckleberry "Dina:pixelsize=13"
+  (defvar my-font-huckleberry "Hack-13"
     "My default font for Huckleberry.")
-  (defvar my-font-family-huckleberry "Dina"
+  (defvar my-font-family-huckleberry "Hack"
     "My default font family for Huckleberry.")
-  (defvar my-font-arch "Dina:pixelsize=13"
+  (defvar my-font-arch "Hack-13"
     "My default font for Arch Linux.")
-  (defvar my-font-family-arch "Dina"
+  (defvar my-font-family-arch "Hack"
     "My default font family for Arch Linux.")
   (defvar my-font-ubuntu "Hack:pixelsize=14"
     "My default font setting for Ubuntu.")
