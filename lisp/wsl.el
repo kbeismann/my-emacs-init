@@ -46,6 +46,30 @@ This function is intended for `interprogram-paste-function`."
 (setq x-select-enable-clipboard nil)
 (setq x-select-enable-primary nil)
 
+(defun my/adjust-font-size-for-monitor (&optional frame)
+  "Adjust font size based on the current monitor resolution."
+  (interactive)
+  (let* ((f (or frame (selected-frame)))
+         (monitor-attrs (frame-monitor-attributes f))
+         (geometry (assoc 'geometry monitor-attrs))
+         (width (nth 3 geometry)))
+    (when width
+      ;; Width >= 3840 is the 4K screen.
+      ;; Width around 1920 (or less if logical) are the small screens.
+      (let ((new-height (if (>= width 3840) 150 100)))
+        (set-face-attribute 'default f :height new-height :family "Hack")
+        (message "Monitor width: %d, setting font height to: %d with Hack font" width new-height)))))
+
+;; Increase frequency of checks to catch moves between monitors.
+(add-hook 'after-make-frame-functions #'my/adjust-font-size-for-monitor)
+(add-hook 'focus-in-hook #'my/adjust-font-size-for-monitor)
+;; Use a timer to poll for monitor changes since move-frame-functions
+;; are often not triggered reliably in WSLg/Wayland.
+(run-with-timer 2 2 #'my/adjust-font-size-for-monitor)
+
+;; Initial adjustment for the current frame.
+(my/adjust-font-size-for-monitor)
+
 ;;; Footer:
 
 (provide 'wsl)
