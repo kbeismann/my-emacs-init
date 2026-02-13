@@ -35,99 +35,11 @@
 
 (use-package hl-line :init (global-hl-line-mode 1))
 
-(prog1 "OS- and font-related settings."
-  (defvar checkos0 "Checking OS and hostname...")
-  (defvar font0 "Looking for font family...")
-  (defvar font1 "Setting font...")
-  (defvar my-font-huckleberry "Hack-13"
-    "My default font for Huckleberry.")
-  (defvar my-font-family-huckleberry "Hack"
-    "My default font family for Huckleberry.")
-  (defvar my-font-arch "Hack-13"
-    "My default font for Arch Linux.")
-  (defvar my-font-family-arch "Hack"
-    "My default font family for Arch Linux.")
-  (defvar my-font-ubuntu "Hack:pixelsize=14"
-    "My default font setting for Ubuntu.")
-  (defvar my-font-family-ubuntu "Hack"
-    "My default font family setting for Ubuntu.")
+;; Font settings
+(defvar my-font "Hack-13"
+  "My default font.")
 
-  (progn
-    (message checkos0)
-    (if (eq system-type 'gnu/linux)
-        (progn
-          (message (concat checkos0 "done"))
-          (defvar my-os
-            (substring (shell-command-to-string "lsb_release -sd") 0 -1))
-          (message "Found GNU/Linux distribution: %s" my-os)
-          (defvar my-hostname
-            (substring (shell-command-to-string "hostname") 0 -1))
-          (message "Found hostname: %s" my-hostname)
-
-          ;; Font setup for Huckleberry.
-          (if (string-equal "huckleberry" (substring my-hostname 0 11))
-              (progn
-                (message "Current font settings for Huckleberry: %s"
-                         my-font-huckleberry)
-                (message font0)
-                (if (and (null
-                          (string=
-                           "" (shell-command-to-string "which fc-list")))
-                         (null
-                          (string=
-                           ""
-                           (shell-command-to-string
-                            (concat "fc-list " my-font-family-huckleberry)))))
-                    (progn
-                      (message (concat font0 "done"))
-                      (message "Font installed: %s" my-font-family-huckleberry)
-                      (add-to-list
-                       'default-frame-alist `(font . ,my-font-huckleberry)))))
-            ;; Font setup for Arch.
-            (if (string-equal "Arch" (substring my-os 1 5))
-                (progn
-                  (message "Current font settings for Arch Linux: %s"
-                           my-font-arch)
-                  (message font0)
-                  (if (and (null
-                            (string=
-                             "" (shell-command-to-string "which fc-list")))
-                           (null
-                            (string=
-                             ""
-                             (shell-command-to-string
-                              (concat "fc-list " my-font-family-arch)))))
-                      (progn
-                        (message (concat font0 "done"))
-                        (message "Font installed: %s" my-font-family-arch)
-                        (message font1)
-                        (add-to-list
-                         'default-frame-alist `(font . ,my-font-arch)))))
-              ;; Font setup for Ubuntu.
-              (if (string-equal (substring my-os 0 5) (substring "Ubuntu" 0 5))
-                  (progn
-                    (message "Current font settings for Ubuntu: %s"
-                             my-font-ubuntu)
-                    (message font1)
-                    (if (and (null
-                              (string=
-                               "" (shell-command-to-string "which fc-list")))
-                             (null
-                              (string=
-                               ""
-                               (shell-command-to-string
-                                (concat "fc-list " my-font-family-ubuntu)))))
-                        (progn
-                          (message "Font installed: %s" my-font-family-ubuntu)
-                          (message font1)
-                          (add-to-list
-                           'default-frame-alist `(font . ,my-font-ubuntu)))))
-                (message "Adjusting frame parameters...")
-                (add-to-list 'default-frame-alist '(height . 50))
-                (add-to-list 'default-frame-alist '(width . 180))
-                (message "Adjusting frame parameters...done"))
-              (message "No predefined font settings found")))))
-    (message "No Linux-based system found > font settings are not applicable")))
+(add-to-list 'default-frame-alist `(font . ,my-font))
 
 (use-package
  base16-theme
