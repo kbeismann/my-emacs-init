@@ -79,28 +79,46 @@ Error information is gathered in the following order of precedence:
           (parts (split-string msg "\n\n" t)))
      (string-join parts "\n\n"))) ; Join parts back with double newline
 
- (defconst my/gptel-commit-system-prompt
+ (defun my/gptel-get-git-instructions ()
+   "Get Git commit instructions from the repository or fallback to history."
+   (let* ((repo-root
+           (or (when (fboundp 'magit-toplevel)
+                 (magit-toplevel))
+               (let ((root
+                      (shell-command-to-string
+                       "git rev-parse --show-toplevel 2>/dev/null")))
+                 (if (string-empty-p root)
+                     nil
+                   (string-trim root)))))
+          (gitlint-file
+           (when repo-root
+             (expand-file-name ".gitlint" repo-root)))
+          (instruction-file
+           (when repo-root
+             (expand-file-name "GIT-INSTRUCTIONS.md" repo-root))))
+     (cond
+      ((and gitlint-file (file-exists-p gitlint-file))
+       (with-temp-buffer
+         (insert-file-contents gitlint-file)
+         (buffer-string)))
+      ((and instruction-file (file-exists-p instruction-file))
+       (with-temp-buffer
+         (insert-file-contents instruction-file)
+         (buffer-string)))
+      (t
+       (let ((history
+              (shell-command-to-string
+               "git log -n 5 --pretty=format:%s 2>/dev/null")))
+         (if (and history (not (string-empty-p history)))
+             "Write a concise single-sentence commit message based on the history above."
+           "Write a single word: TMP"))))))
+
+ (defun my/gptel-get-commit-system-prompt ()
+   "Return the current Git commit system prompt."
    (concat
     my/gptel-base-system-prompt
-    (concat
-     "You are a concise assistant that writes Git commit messages. "
-     "Write in imperative tone. "
-     "Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input. "
-     "Keep the title under 50 characters. "
-     "Add a body after a blank line. "
-     "Format the body so no line is longer than 72 characters. "
-     "Do not use lists, e.g. do not use - Change 1 - Change 2, only continuous text. "
-     "Separate subtopics into paragraphs. "
-     "Do not include code blocks. "
-     "Always use backticks in the title and body for functions, commands, files, directories, modules, or package names, e.g., `use-package`, `gptel`, or `magit`. "
-     "Use conventional commits ('feat: add new feature') only if previous commits shows that pattern consistently. "
-     "Do not use conventional commits if the history does not show any."
-     "Be consistent with capitalization and backticks between title and body. "
-     "Use the capitalization pattern of the title from previous commits. "
-     "Do not use uncommon abbreviations: e.g., use 'configuration' instead of 'config' but keep URL. "
-     "Add the intention for the change in the body after the change description. "
-     "When referring to previous changes add the complete commit SHA (all 40 characters) as a reference."))
-   "System prompt used for GPT-based commit message generation and rewriting.")
+    " You are a concise assistant that writes Git commit messages. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input.\n"
+    (my/gptel-get-git-instructions)))
 
  (defun my/gptel-get-recent-commits ()
    "Get the last Git commit messages with title and body from the current repository."
@@ -168,7 +186,7 @@ Error information is gathered in the following order of precedence:
      (let ((gptel-include-reasoning nil))
        (gptel-request
         prompt
-        :system my/gptel-commit-system-prompt
+        :system (my/gptel-get-commit-system-prompt)
         :callback
         (lambda (response info)
           (when (buffer-live-p (current-buffer))
@@ -206,7 +224,7 @@ Inserts the rewritten commit message at the top of the buffer, separated by a li
        "\n\n### Current commit message to rewrite:\n\n"
        buffer-contents
        "\n\nRewrite the commit message above based on the instructions and history. Only return the rewritten commit message.")
-      :system my/gptel-commit-system-prompt
+      :system (my/gptel-get-commit-system-prompt)
       :callback
       (lambda (response info)
         (when (buffer-live-p (current-buffer))
