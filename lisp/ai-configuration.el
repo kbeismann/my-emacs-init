@@ -88,185 +88,88 @@ Error information is gathered in the following order of precedence:
            (replace-regexp-in-string "\\s-*```\\s-*\\'" "" stripped))
      stripped))
 
- (defun my/gptel-process-commit-message-string (response)
-   "Process the AI RESPONSE and return the formatted string."
-   (let* ((msg
-           (string-trim
-            (my/gptel-strip-markdown-code-block response)))
-          (parts (split-string msg "\n\n" t)))
-     (string-join parts "\n\n"))) ; Join parts back with double newline
 
- (defun my/gptel-get-git-instructions ()
-   "Get Git commit instructions from the repository or fallback to history."
-   (let* ((repo-root
-           (or (when (fboundp 'magit-toplevel)
-                 (magit-toplevel))
-               (let ((root
-                      (shell-command-to-string
-                       "git rev-parse --show-toplevel 2>/dev/null")))
-                 (if (string-empty-p root)
+ (defconst my/git-commit-ai-script
+   (expand-file-name "~/scripts/git_commit_ai/main.py")
+   "Path to the shared Python commit-message helper.")
+
+ (defun my/git-commit-ai--run (args &optional stdin-content)
+   "Run the shared commit AI script with ARGS and optional STDIN-CONTENT."
+   (unless (file-exists-p my/git-commit-ai-script)
+     (user-error "Missing commit AI script: %s"
+                 my/git-commit-ai-script))
+   (with-temp-buffer
+     (let ((exit-code
+            (if stdin-content
+                (let ((process-connection-type nil)
+                      (process
+                       (make-process
+                        :name "git-commit-ai"
+                        :buffer (current-buffer)
+                        :command
+                        (append
+                         (list "python" my/git-commit-ai-script) args)
+                        :noquery t)))
+                  (process-send-string process stdin-content)
+                  (process-send-eof process)
+                  (while (process-live-p process)
+                    (accept-process-output process 0.05))
+                  (process-exit-status process))
+              (apply #'call-process
+                     "python"
                      nil
-                   (string-trim root)))))
-          (gitlint-file
-           (when repo-root
-             (expand-file-name ".gitlint" repo-root)))
-          (instruction-file
-           (when repo-root
-             (expand-file-name "GIT-INSTRUCTIONS.md" repo-root))))
-     (cond
-      ((and gitlint-file (file-exists-p gitlint-file))
-       (with-temp-buffer
-         (insert-file-contents gitlint-file)
-         (buffer-string)))
-      ((and instruction-file (file-exists-p instruction-file))
-       (with-temp-buffer
-         (insert-file-contents instruction-file)
-         (buffer-string)))
-      (t
-       (let ((history
-              (shell-command-to-string
-               "git log -n 5 --pretty=format:%s 2>/dev/null")))
-         (if (and history (not (string-empty-p history)))
-             "Write a concise single-sentence commit message based on the history above."
-           "Write a single word: TMP"))))))
-
- (defun my/gptel-get-commit-system-prompt ()
-   "Return the current Git commit system prompt."
-   (concat
-    my/gptel-base-system-prompt
-    " You are a concise assistant that writes Git commit messages. Return only the commit message, no formatting, no comments, no explanations, and no repetition of the input.\n"
-    (my/gptel-get-git-instructions)))
-
- (defun my/gptel-get-recent-commits ()
-   "Get the last Git commit messages with title and body from the current repository."
-   (interactive)
-   (let*
-       ((max-commits 15)
-        (max-diff-chars-per-commit 5000)
-        (repo-root
-         (or (when (fboundp 'magit-toplevel)
-               (magit-toplevel))
-             (string-trim
-              (shell-command-to-string
-               "git rev-parse --show-toplevel"))))
-        (default-directory repo-root)
-        ;; Always skip the HEAD commit when this function is called. This
-        ;; ensures the current commitis not used as history when amending it.
-        (log-command
-         (format
-          "git --no-pager log --skip 1 -n %d --pretty=format:'%%H::%%s' --reverse"
-          max-commits))
-        (commit-lines
-         (split-string (shell-command-to-string log-command) "\n" t))
-        (result ""))
-
-     (dolist (line commit-lines)
-       (let* ((parts (split-string line "::"))
-              (hash (car parts))
-              (summary (cadr parts))
-              (diff
-               (shell-command-to-string
-                (format
-                 "git --no-pager show --no-color --format=%%b %s"
-                 hash)))
-              (diff-truncated
-               (if (> (length diff) max-diff-chars-per-commit)
-                   (substring diff 0 max-diff-chars-per-commit)
-                 diff))
-              (entry
-               (format "\n--- Commit: %s (%s) ---\n%s\n"
-                       summary
-                       hash
-                       diff-truncated)))
-         (setq result (concat result entry))))
-
-     (if (called-interactively-p 'interactive)
-         (with-current-buffer (get-buffer-create "*gptel-commits*")
-           (erase-buffer)
-           (insert result)
-           (pop-to-buffer (current-buffer)))
-       (string-trim result))))
+                     (current-buffer)
+                     nil
+                     my/git-commit-ai-script
+                     args))))
+       (if (eq exit-code 0)
+           (string-trim (buffer-string))
+         (user-error "git-commit-ai failed: %s"
+                     (string-trim (buffer-string)))))))
 
  (defun my/gptel-generate-commit-message ()
-   "Generate a commit message using gptel based on the diff in the current commit buffer."
+   "Generate a commit message via the shared Python helper script."
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let*
-       ((diff (buffer-string))
-        (recent-commits (my/gptel-get-recent-commits))
-        (prompt
-         (concat
-          "### Recent commit history (for context only, do not include in the message):\n\n"
-          recent-commits
-          "\n\n### Current diff to Commit:\n\n"
-          diff
-          "\n\nWrite a Git commit message for the diff above.")))
-     (require 'gptel)
-     (let ((gptel-include-reasoning nil))
-       (gptel-request
-        prompt
-        :system (my/gptel-get-commit-system-prompt)
-        :callback
-        (lambda (response info)
-          (when (buffer-live-p (current-buffer))
-            (with-current-buffer (current-buffer)
-              (save-excursion
-                (goto-char (point-min))
-                (if (stringp response)
-                    (let* ((processed-message
-                            (my/gptel-process-commit-message-string
-                             response))
-                           (start (point)))
-                      (insert processed-message)
-                      (let ((end (point)))
-                        (fill-region start end)
-                        (goto-char end)
-                        (insert "\n\n")))
-                  (user-error
-                   (my/gptel-format-error-message
-                    response nil info)))))))))))
+   (let* ((diff-file
+           (make-temp-file "git-commit-ai-diff-" nil ".txt"))
+          (generated-message nil))
+     (unwind-protect
+         (progn
+           (write-region (buffer-string) nil diff-file nil 'silent)
+           (setq generated-message
+                 (my/git-commit-ai--run
+                  (list "generate" "--diff-file" diff-file)))
+           (save-excursion
+             (goto-char (point-min))
+             (insert generated-message)
+             (let ((end (point)))
+               (fill-region (point-min) end)
+               (goto-char end)
+               (insert "\n\n"))))
+       (when (file-exists-p diff-file)
+         (delete-file diff-file)))))
 
  (defun my/gptel-rewrite-commit-message ()
-   "Rewrite the current commit message using gptel with a user-defined prompt.
-Inserts the rewritten commit message at the top of the buffer, separated by a line."
+   "Rewrite the current commit message via the shared Python helper script."
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
    (let* ((buffer-contents (buffer-string))
-          (recent-commits (my/gptel-get-recent-commits))
-          (user-prompt (read-string "Rewrite instructions: ")))
-     (require 'gptel)
-     (gptel-request
-      (concat
-       "### Recent commit history (for context only):\n\n"
-       recent-commits
-       "\n\n### User rewrite instructions:\n\n"
-       user-prompt
-       "\n\n### Current commit message to rewrite:\n\n"
-       buffer-contents
-       "\n\nRewrite the commit message above based on the instructions and history. Only return the rewritten commit message.")
-      :system (my/gptel-get-commit-system-prompt)
-      :callback
-      (lambda (response info)
-        (when (buffer-live-p (current-buffer))
-          (with-current-buffer (current-buffer)
-            (save-excursion
-              (goto-char (point-min))
-              (if (stringp response)
-                  (let* ((processed-message
-                          (my/gptel-process-commit-message-string
-                           response))
-                         (start (point))) ; Start of the new message
-                    (insert processed-message) ; Insert the new message
-                    (let
-                        ((message-end (point))) ; End of the new message
-                      (fill-region start message-end) ; Fill the region of the inserted message
-                      (goto-char message-end) ; Move to the end of the inserted message
-                      (insert "\n\n---\n\n")))
-                (user-error
-                 (my/gptel-format-error-message
-                  response nil info))))))))))
+          (user-prompt (read-string "Rewrite instructions: "))
+          (rewritten-message
+           (my/git-commit-ai--run
+            (list
+             "rewrite" "--instruction" user-prompt)
+            buffer-contents)))
+     (save-excursion
+       (goto-char (point-min))
+       (insert rewritten-message)
+       (let ((message-end (point)))
+         (fill-region (point-min) message-end)
+         (goto-char message-end)
+         (insert "\n\n---\n\n")))))
 
  (eval-after-load "git-commit"
    '(progn
