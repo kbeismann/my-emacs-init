@@ -7,6 +7,8 @@
 
 ;;; Code:
 
+(require 'json)
+
 (use-package
  gptel
  :bind
@@ -93,83 +95,194 @@ Error information is gathered in the following order of precedence:
    (expand-file-name "~/scripts/git_commit_ai/main.py")
    "Path to the shared Python commit-message helper.")
 
- (defun my/git-commit-ai--run (args &optional stdin-content)
-   "Run the shared commit AI script with ARGS and optional STDIN-CONTENT."
+ (defconst my/git-commit-ai-project-root
+   (expand-file-name "~/.local/share/chezmoi")
+   "Project root used by uv for git commit AI dependencies.")
+
+ (defun my/git-commit-ai--get-repo-root ()
+   "Return the repository root for the current git-commit buffer."
+   (let* ((start-directory
+           (or (and buffer-file-name
+                    (file-name-directory buffer-file-name))
+               default-directory))
+          (repository-root
+           (locate-dominating-file start-directory ".git")))
+     (unless repository-root
+       (user-error "Could not determine repository root from %s"
+                   start-directory))
+     (directory-file-name repository-root)))
+
+ (defun my/git-commit-ai--run (args &optional stdin-content repo-root)
+   "Run the shared commit AI script with ARGS and optional STDIN-CONTENT.
+REPO-ROOT, when non-nil, is used as `default-directory' for the process."
    (unless (file-exists-p my/git-commit-ai-script)
      (user-error "Missing commit AI script: %s"
                  my/git-commit-ai-script))
+   (unless (executable-find "uv")
+     (user-error "Missing uv executable in PATH"))
+   (unless (file-exists-p my/git-commit-ai-project-root)
+     (user-error "Missing uv project root: %s"
+                 my/git-commit-ai-project-root))
    (with-temp-buffer
-     (let ((exit-code
-            (if stdin-content
-                (let ((process-connection-type nil)
-                      (process
-                       (make-process
-                        :name "git-commit-ai"
-                        :buffer (current-buffer)
-                        :command
-                        (append
-                         (list "python" my/git-commit-ai-script) args)
-                        :noquery t)))
-                  (process-send-string process stdin-content)
-                  (process-send-eof process)
-                  (while (process-live-p process)
-                    (accept-process-output process 0.05))
-                  (process-exit-status process))
-              (apply #'call-process
-                     "python"
-                     nil
-                     (current-buffer)
-                     nil
-                     my/git-commit-ai-script
-                     args))))
+     (let* ((default-directory (or repo-root default-directory))
+            (resolved-args
+             (if repo-root
+                 (append
+                  args
+                  (list "--repo-root" (expand-file-name repo-root)))
+               args))
+            (process-environment
+             (let ((clean-environment nil))
+               (dolist (environment-entry
+                        process-environment
+                        (nreverse clean-environment))
+                 (unless (string-prefix-p
+                          "VIRTUAL_ENV=" environment-entry)
+                   (push environment-entry clean-environment)))))
+            (command
+             (list
+              "uv"
+              "run"
+              "--project"
+              my/git-commit-ai-project-root
+              "python"
+              my/git-commit-ai-script))
+            (exit-code
+             (if stdin-content
+                 (let ((process-connection-type nil)
+                       (process
+                        (make-process
+                         :name "git-commit-ai"
+                         :buffer (current-buffer)
+                         :command
+                         (append command resolved-args)
+                         :noquery t)))
+                   (process-send-string process stdin-content)
+                   (process-send-eof process)
+                   (while (process-live-p process)
+                     (accept-process-output process 0.05))
+                   (process-exit-status process))
+               (apply #'call-process
+                      (car command)
+                      nil
+                      (current-buffer)
+                      nil
+                      (append (cdr command) resolved-args)))))
        (if (eq exit-code 0)
            (string-trim (buffer-string))
          (user-error "git-commit-ai failed: %s"
                      (string-trim (buffer-string)))))))
+
+ (defun my/git-commit-ai--collect-current-diff (_repo-root)
+   "Collect diff text from the current commit buffer."
+   (save-excursion
+     (goto-char (point-min))
+     (let ((start-marker
+            (or
+             (search-forward
+              "# ------------------------ >8 ------------------------"
+              nil t)
+             (search-forward "diff --git " nil t))))
+       (if start-marker
+           (progn
+             (goto-char start-marker)
+             (when (looking-at ".*>8.*\n")
+               (forward-line 1))
+             (buffer-substring-no-properties (point) (point-max)))
+         ""))))
+
+ (defun my/git-commit-ai--display-report (report-file)
+   "Display git commit AI REPORT-FILE information transparently."
+   (when (and report-file (file-exists-p report-file))
+     (let* ((json-object-type 'alist)
+            (json-array-type 'list)
+            (report (json-read-file report-file))
+            (mode (or (cdr (assoc 'mode report)) "unknown"))
+            (instruction-sources
+             (or (cdr (assoc 'instruction_sources report)) '()))
+            (considered-files
+             (or (cdr (assoc 'considered_files report)) '()))
+            (instruction-text
+             (if instruction-sources
+                 (string-join instruction-sources ", ")
+               "none"))
+            (files-text
+             (if considered-files
+                 (string-join considered-files ", ")
+               "none")))
+       (message
+        "git-commit-ai mode=%s; instruction sources=%s; considered files=%s"
+        mode instruction-text files-text))))
 
  (defun my/gptel-generate-commit-message ()
    "Generate a commit message via the shared Python helper script."
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((diff-file
+   (let* ((repo-root (my/git-commit-ai--get-repo-root))
+          (current-diff
+           (my/git-commit-ai--collect-current-diff repo-root))
+          (diff-file
            (make-temp-file "git-commit-ai-diff-" nil ".txt"))
+          (report-file
+           (make-temp-file "git-commit-ai-report-" nil ".json"))
           (generated-message nil))
      (unwind-protect
          (progn
-           (write-region (buffer-string) nil diff-file nil 'silent)
+           (when (string-empty-p current-diff)
+             (user-error "No diff found in the commit buffer"))
+           (write-region current-diff nil diff-file nil 'silent)
            (setq generated-message
                  (my/git-commit-ai--run
-                  (list "generate" "--diff-file" diff-file)))
+                  (list
+                   "generate"
+                   "--diff-file"
+                   diff-file
+                   "--report-file"
+                   report-file)
+                  nil repo-root))
            (save-excursion
              (goto-char (point-min))
              (insert generated-message)
              (let ((end (point)))
                (fill-region (point-min) end)
                (goto-char end)
-               (insert "\n\n"))))
+               (insert "\n\n")))
+           (my/git-commit-ai--display-report report-file))
        (when (file-exists-p diff-file)
-         (delete-file diff-file)))))
+         (delete-file diff-file))
+       (when (file-exists-p report-file)
+         (delete-file report-file)))))
 
  (defun my/gptel-rewrite-commit-message ()
    "Rewrite the current commit message via the shared Python helper script."
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((buffer-contents (buffer-string))
+   (let* ((repo-root (my/git-commit-ai--get-repo-root))
+          (buffer-contents (buffer-string))
+          (report-file
+           (make-temp-file "git-commit-ai-report-" nil ".json"))
           (user-prompt (read-string "Rewrite instructions: "))
           (rewritten-message
            (my/git-commit-ai--run
             (list
-             "rewrite" "--instruction" user-prompt)
-            buffer-contents)))
+             "rewrite"
+             "--instruction"
+             user-prompt
+             "--report-file"
+             report-file)
+            buffer-contents repo-root)))
      (save-excursion
        (goto-char (point-min))
        (insert rewritten-message)
        (let ((message-end (point)))
          (fill-region (point-min) message-end)
          (goto-char message-end)
-         (insert "\n\n---\n\n")))))
+         (insert "\n\n---\n\n")))
+     (my/git-commit-ai--display-report report-file)
+     (when (file-exists-p report-file)
+       (delete-file report-file))))
 
  (eval-after-load "git-commit"
    '(progn
