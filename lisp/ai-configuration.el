@@ -247,39 +247,26 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
            (string-trim (buffer-string))
          (user-error "git-commit-ai failed: %s" (string-trim (buffer-string)))))))
 
- (defun my/git-commit-ai--collect-current-diff (repo-root)
-   "Collect current repository diff text for commit message generation."
-   (let ((default-directory repo-root)
-         (commit-buffer (current-buffer)))
-     (with-temp-buffer
-       (call-process "git" nil (current-buffer) nil "--no-pager" "diff" "--cached")
-       (let ((cached-diff (string-trim (buffer-string))))
-         (if (not (string-empty-p cached-diff))
-             cached-diff
-           (erase-buffer)
-           (call-process "git" nil (current-buffer) nil "--no-pager" "diff" "HEAD")
-           (let ((head-diff (string-trim (buffer-string))))
-             (if (not (string-empty-p head-diff))
-                 head-diff
-               (with-current-buffer commit-buffer
-                 (save-excursion
-                   (goto-char (point-min))
-                   (let ((start-marker
-                          (or
-                           (search-forward
-                            "# ------------------------ >8 ------------------------"
-                            nil
-                            t)
-                           (search-forward "diff --git " nil t))))
-                     (if start-marker
-                         (progn
-                           (goto-char start-marker)
-                           (when (looking-at ".*>8.*\n")
-                             (forward-line 1))
-                           (buffer-substring-no-properties
-                            (point)
-                            (point-max)))
-                       "")))))))))))
+ (defun my/git-commit-ai--collect-current-diff (_repo-root)
+   "Collect diff text from the current commit buffer."
+   (save-excursion
+     (goto-char (point-min))
+     (let ((start-marker
+            (or
+             (search-forward
+              "# ------------------------ >8 ------------------------"
+              nil
+              t)
+             (search-forward "diff --git " nil t))))
+       (if start-marker
+           (progn
+             (goto-char start-marker)
+             (when (looking-at ".*>8.*\n")
+               (forward-line 1))
+             (buffer-substring-no-properties
+              (point)
+              (point-max)))
+         ""))))
 
  (defun my/git-commit-ai--display-report (report-file)
    "Display git commit AI REPORT-FILE information transparently."
@@ -319,6 +306,8 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
           (generated-message nil))
      (unwind-protect
          (progn
+           (when (string-empty-p current-diff)
+             (user-error "No diff found in the commit buffer"))
            (write-region current-diff nil diff-file nil 'silent)
            (setq generated-message
                  (my/git-commit-ai--run
