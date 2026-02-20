@@ -171,12 +171,25 @@ Error information is gathered in the following order of precedence:
   (expand-file-name "~/scripts/git_commit_ai/main.py")
   "Path to the shared Python commit-message helper.")
 
- (defun my/git-commit-ai--run (args &optional stdin-content)
-   "Run the shared commit AI script with ARGS and optional STDIN-CONTENT."
+ (defun my/git-commit-ai--get-repo-root ()
+   "Return the repository root for the current git-commit buffer."
+   (let* ((start-directory
+           (or (and buffer-file-name
+                    (file-name-directory buffer-file-name))
+               default-directory))
+          (repository-root (locate-dominating-file start-directory ".git")))
+     (unless repository-root
+       (user-error "Could not determine repository root from %s" start-directory))
+     (directory-file-name repository-root)))
+
+ (defun my/git-commit-ai--run (args &optional stdin-content repo-root)
+   "Run the shared commit AI script with ARGS and optional STDIN-CONTENT.
+REPO-ROOT, when non-nil, is used as `default-directory' for the process."
    (unless (file-exists-p my/git-commit-ai-script)
      (user-error "Missing commit AI script: %s" my/git-commit-ai-script))
    (with-temp-buffer
-     (let ((exit-code
+     (let ((default-directory (or repo-root default-directory))
+           (exit-code
             (if stdin-content
                 (let ((process-connection-type nil)
                       (process
@@ -201,13 +214,17 @@ Error information is gathered in the following order of precedence:
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((diff-file (make-temp-file "git-commit-ai-diff-" nil ".txt"))
+   (let* ((repo-root (my/git-commit-ai--get-repo-root))
+          (diff-file (make-temp-file "git-commit-ai-diff-" nil ".txt"))
           (generated-message nil))
      (unwind-protect
          (progn
            (write-region (buffer-string) nil diff-file nil 'silent)
            (setq generated-message
-                 (my/git-commit-ai--run (list "generate" "--diff-file" diff-file)))
+                 (my/git-commit-ai--run
+                  (list "generate" "--diff-file" diff-file)
+                  nil
+                  repo-root))
            (save-excursion
              (goto-char (point-min))
              (insert generated-message)
@@ -223,12 +240,14 @@ Error information is gathered in the following order of precedence:
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((buffer-contents (buffer-string))
+   (let* ((repo-root (my/git-commit-ai--get-repo-root))
+          (buffer-contents (buffer-string))
           (user-prompt (read-string "Rewrite instructions: "))
           (rewritten-message
            (my/git-commit-ai--run
             (list "rewrite" "--instruction" user-prompt)
-            buffer-contents)))
+            buffer-contents
+            repo-root)))
      (save-excursion
        (goto-char (point-min))
        (insert rewritten-message)
