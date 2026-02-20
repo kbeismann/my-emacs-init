@@ -91,13 +91,14 @@ Error information is gathered in the following order of precedence:
      stripped))
 
 
- (defconst my/git-commit-ai-script
-   (expand-file-name "~/scripts/git_commit_ai/main.py")
-   "Path to the shared Python commit-message helper.")
-
  (defconst my/git-commit-ai-project-root
    (expand-file-name "~/.local/share/chezmoi")
    "Project root used by uv for git commit AI dependencies.")
+
+ (defconst my/git-commit-ai-script
+   (expand-file-name "scripts/git_commit_ai/main.py"
+                     my/git-commit-ai-project-root)
+   "Path to the shared Python commit-message helper.")
 
  (defun my/git-commit-ai--get-repo-root ()
    "Return the repository root for the current git-commit buffer."
@@ -124,7 +125,9 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
      (user-error "Missing uv project root: %s"
                  my/git-commit-ai-project-root))
    (with-temp-buffer
-     (let* ((default-directory (or repo-root default-directory))
+     (let* ((stderr-file
+             (make-temp-file "git-commit-ai-stderr-" nil ".log"))
+            (default-directory (or repo-root default-directory))
             (resolved-args
              (if repo-root
                  (append
@@ -140,40 +143,68 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                           "VIRTUAL_ENV=" environment-entry)
                    (push environment-entry clean-environment)))))
             (command
-             (list
-              "uv"
-              "run"
-              "--project"
-              my/git-commit-ai-project-root
-              "python"
-              my/git-commit-ai-script))
-            (exit-code
-             (if stdin-content
-                 (let ((process-connection-type nil)
-                       (process
-                        (make-process
-                         :name "git-commit-ai"
-                         :buffer (current-buffer)
-                         :command
-                         (append command resolved-args)
-                         :noquery t)))
-                   (process-send-string process stdin-content)
-                   (process-send-eof process)
-                   (while (process-live-p process)
-                     (accept-process-output process 0.05))
-                   (process-exit-status process))
-               (apply #'call-process
-                      (car command)
-                      nil
-                      (current-buffer)
-                      nil
-                      (append (cdr command) resolved-args)))))
-       (if (eq exit-code 0)
-           (string-trim (buffer-string))
-         (user-error "git-commit-ai failed: %s"
-                     (string-trim (buffer-string)))))))
+             (append
+              (list
+               "uv"
+               "run"
+               "--project"
+               my/git-commit-ai-project-root
+               "python"
+               my/git-commit-ai-script)
+              resolved-args))
+            (output-destination (list t stderr-file))
+            (stdout-text nil)
+            (stderr-text nil))
+       (unwind-protect
+           (let ((exit-code
+                  (if stdin-content
+                      (with-temp-buffer
+                        (insert stdin-content)
+                        (apply #'call-process-region
+                               (point-min)
+                               (point-max)
+                               (car command)
+                               nil
+                               output-destination
+                               nil
+                               (cdr command)))
+                    (apply #'call-process
+                           (car command)
+                           nil
+                           output-destination
+                           nil
+                           (cdr command)))))
+             (setq stdout-text (string-trim (buffer-string)))
+             (setq stderr-text
+                   (if (file-exists-p stderr-file)
+                       (string-trim
+                        (with-temp-buffer
+                          (insert-file-contents stderr-file)
+                          (buffer-string)))
+                     ""))
+             (cond
+              ((not (eq exit-code 0))
+               (user-error
+                "git-commit-ai failed (exit %d). stderr: %s stdout: %s"
+                exit-code
+                (if (string-empty-p stderr-text)
+                    "<empty>"
+                  stderr-text)
+                (if (string-empty-p stdout-text)
+                    "<empty>"
+                  stdout-text)))
+              ((string-empty-p stdout-text)
+               (user-error
+                "git-commit-ai returned empty output. stderr: %s"
+                (if (string-empty-p stderr-text)
+                    "<empty>"
+                  stderr-text)))
+              (t
+               stdout-text)))
+         (when (file-exists-p stderr-file)
+           (delete-file stderr-file))))))
 
- (defun my/git-commit-ai--collect-current-diff (_repo-root)
+ (defun my/git-commit-ai--collect-current-diff ()
    "Collect diff text from the current commit buffer."
    (save-excursion
      (goto-char (point-min))
@@ -220,8 +251,7 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
    (let* ((repo-root (my/git-commit-ai--get-repo-root))
-          (current-diff
-           (my/git-commit-ai--collect-current-diff repo-root))
+          (current-diff (my/git-commit-ai--collect-current-diff))
           (diff-file
            (make-temp-file "git-commit-ai-diff-" nil ".txt"))
           (report-file
