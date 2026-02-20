@@ -171,6 +171,10 @@ Error information is gathered in the following order of precedence:
   (expand-file-name "~/scripts/git_commit_ai/main.py")
   "Path to the shared Python commit-message helper.")
 
+(defconst my/git-commit-ai-project-root
+  (expand-file-name "~/.local/share/chezmoi")
+  "Project root used by uv for git commit AI dependencies.")
+
  (defun my/git-commit-ai--get-repo-root ()
    "Return the repository root for the current git-commit buffer."
    (let* ((start-directory
@@ -187,8 +191,29 @@ Error information is gathered in the following order of precedence:
 REPO-ROOT, when non-nil, is used as `default-directory' for the process."
    (unless (file-exists-p my/git-commit-ai-script)
      (user-error "Missing commit AI script: %s" my/git-commit-ai-script))
+   (unless (executable-find "uv")
+     (user-error "Missing uv executable in PATH"))
+   (unless (file-exists-p my/git-commit-ai-project-root)
+     (user-error
+      "Missing uv project root: %s"
+      my/git-commit-ai-project-root))
    (with-temp-buffer
-     (let ((default-directory (or repo-root default-directory))
+     (let* ((default-directory (or repo-root default-directory))
+            (process-environment
+             (let ((clean-environment nil))
+               (dolist
+                   (environment-entry process-environment
+                                      (nreverse clean-environment))
+                 (unless (string-prefix-p "VIRTUAL_ENV=" environment-entry)
+                   (push environment-entry clean-environment)))))
+            (command
+             (list
+              "uv"
+              "run"
+              "--project"
+              my/git-commit-ai-project-root
+              "python"
+              my/git-commit-ai-script))
            (exit-code
             (if stdin-content
                 (let ((process-connection-type nil)
@@ -196,15 +221,20 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                        (make-process
                         :name "git-commit-ai"
                         :buffer (current-buffer)
-                        :command (append (list "python" my/git-commit-ai-script) args)
+                        :command (append command args)
                         :noquery t)))
                   (process-send-string process stdin-content)
                   (process-send-eof process)
                   (while (process-live-p process)
                     (accept-process-output process 0.05))
                   (process-exit-status process))
-              (apply #'call-process "python" nil (current-buffer) nil
-                     my/git-commit-ai-script args))))
+              (apply
+               #'call-process
+               (car command)
+               nil
+               (current-buffer)
+               nil
+               (append (cdr command) args)))))
        (if (eq exit-code 0)
            (string-trim (buffer-string))
          (user-error "git-commit-ai failed: %s" (string-trim (buffer-string)))))))
