@@ -78,9 +78,9 @@
  (setq org-hierarchical-todo-statistics nil)
 
  ;; Logging.
- (setq org-log-done-with-time t)
- (setq org-log-done 'time)
- (setq org-log-repeat 'time)
+ (setq org-log-done-with-time nil)
+ (setq org-log-done nil)
+ (setq org-log-repeat nil)
 
  ;; Agenda settings.
  (setq org-agenda-skip-scheduled-if-done nil)
