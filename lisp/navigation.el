@@ -62,7 +62,7 @@
  :after base16-theme
  :bind*
  (("M-S-SPC" . avy-goto-char)
-  ("<Launch5>" . avy-goto-char)) ; For WSL, after binding M-S-SPC to Launch5.
+  ("<XF86Launch5>" . avy-goto-char)) ; For WSL, after binding M-S-SPC to F14.
  :config (setq avy-background t) (setq avy-all-windows t)
  ;; NOT SURE IF THIS IS CORRECT: When non-nil highlight the first decision char
  ;; with avy-lead-face-0. Do this even when the char is terminating. Normally
