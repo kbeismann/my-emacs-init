@@ -483,7 +483,7 @@ Then, prompt for the starting point, and finally create and checkout the new bra
    (concat
     my/gptel-base-system-prompt " " my/gptel-title-case-preference
     (concat
-     " Fix spelling, punctuation, and grammer in the following text. "
+     " Fix spelling, punctuation, and grammar in the following text. "
      "Only return the improved version. "
      "The returned text should use a line length and breaks as the previous one. "
      "Keep whitespace patterns as is."))
