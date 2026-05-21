@@ -127,7 +127,7 @@
          (unless (s-matches-p "RESULTS" (match-string 0))
            (replace-match (downcase (match-string 0)) t)
            (setq count (1+ count))))
-       (message "Replaced %d occurances" count))))
+       (message "Replaced %d occurrences" count))))
 
  (defun my/modi/lower-case-org-keywords ()
    "Lower case Org keywords and block identifiers.
