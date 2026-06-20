@@ -36,7 +36,10 @@
 (use-package hl-line :init (global-hl-line-mode 1))
 
 ;; Font settings
-(defvar my-font "Hack-13"
+(defvar my-font
+  (if (getenv "SWAYSOCK")
+      "Hack-8"
+    "Hack-13")
   "My default font.")
 
 (add-to-list 'default-frame-alist `(font . ,my-font))
