@@ -91,21 +91,21 @@ Error information is gathered in the following order of precedence:
      stripped))
 
 
- (defconst my/git-commit-ai-project-root
+ (defconst my/git-commit-message-project-root
    (expand-file-name "~/.local/share/chezmoi")
-   "Project root used by uv for git commit AI dependencies.")
+   "Project root used by uv for git commit message dependencies.")
 
- (defconst my/git-commit-ai-script
-   (expand-file-name "scripts/git_commit_ai/main.py"
-                     my/git-commit-ai-project-root)
+ (defconst my/git-commit-message-script
+   (expand-file-name "scripts/git_commit_message/main.py"
+                     my/git-commit-message-project-root)
    "Path to the shared Python commit-message helper.")
 
  (defconst my/git-branch-naming-script
    (expand-file-name "scripts/git_branch_naming/main.py"
-                     my/git-commit-ai-project-root)
+                     my/git-commit-message-project-root)
    "Path to the shared Python branch-name helper.")
 
- (defun my/git-commit-ai--get-repo-root ()
+ (defun my/git-commit-message--get-repo-root ()
    "Return the repository root for the current git-commit buffer."
    (let* ((start-directory
            (or (and buffer-file-name
@@ -118,20 +118,21 @@ Error information is gathered in the following order of precedence:
                    start-directory))
      (directory-file-name repository-root)))
 
- (defun my/git-commit-ai--run (args &optional stdin-content repo-root)
-   "Run the shared commit AI script with ARGS and optional STDIN-CONTENT.
+ (defun my/git-commit-message--run
+     (args &optional stdin-content repo-root)
+   "Run the shared commit message script with ARGS and optional STDIN-CONTENT.
 REPO-ROOT, when non-nil, is used as `default-directory' for the process."
-   (unless (file-exists-p my/git-commit-ai-script)
-     (user-error "Missing commit AI script: %s"
-                 my/git-commit-ai-script))
+   (unless (file-exists-p my/git-commit-message-script)
+     (user-error "Missing commit message script: %s"
+                 my/git-commit-message-script))
    (unless (executable-find "uv")
      (user-error "Missing uv executable in PATH"))
-   (unless (file-exists-p my/git-commit-ai-project-root)
+   (unless (file-exists-p my/git-commit-message-project-root)
      (user-error "Missing uv project root: %s"
-                 my/git-commit-ai-project-root))
+                 my/git-commit-message-project-root))
    (with-temp-buffer
      (let* ((stderr-file
-             (make-temp-file "git-commit-ai-stderr-" nil ".log"))
+             (make-temp-file "git-commit-message-stderr-" nil ".log"))
             (default-directory (or repo-root default-directory))
             (resolved-args
              (if repo-root
@@ -153,9 +154,9 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                "uv"
                "run"
                "--project"
-               my/git-commit-ai-project-root
+               my/git-commit-message-project-root
                "python"
-               my/git-commit-ai-script)
+               my/git-commit-message-script)
               resolved-args))
             (output-destination (list t stderr-file))
             (stdout-text nil)
@@ -190,7 +191,7 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
              (cond
               ((not (eq exit-code 0))
                (user-error
-                "git-commit-ai failed (exit %d). stderr: %s stdout: %s"
+                "git-commit-message failed (exit %d). stderr: %s stdout: %s"
                 exit-code
                 (if (string-empty-p stderr-text)
                     "<empty>"
@@ -200,7 +201,7 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                   stdout-text)))
               ((string-empty-p stdout-text)
                (user-error
-                "git-commit-ai returned empty output. stderr: %s"
+                "git-commit-message returned empty output. stderr: %s"
                 (if (string-empty-p stderr-text)
                     "<empty>"
                   stderr-text)))
@@ -217,9 +218,9 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                  my/git-branch-naming-script))
    (unless (executable-find "uv")
      (user-error "Missing uv executable in PATH"))
-   (unless (file-exists-p my/git-commit-ai-project-root)
+   (unless (file-exists-p my/git-commit-message-project-root)
      (user-error "Missing uv project root: %s"
-                 my/git-commit-ai-project-root))
+                 my/git-commit-message-project-root))
    (with-temp-buffer
      (let* ((stderr-file
              (make-temp-file "git-branch-naming-stderr-" nil ".log"))
@@ -244,7 +245,7 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                "uv"
                "run"
                "--project"
-               my/git-commit-ai-project-root
+               my/git-commit-message-project-root
                "python"
                my/git-branch-naming-script)
               resolved-args))
@@ -309,7 +310,7 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
    (my/git-branch-naming--run
     (list "unique" "--branch-name" branch-name) repo-root))
 
- (defun my/git-commit-ai--collect-current-diff ()
+ (defun my/git-commit-message--collect-current-diff ()
    "Collect diff text from the current commit buffer."
    (save-excursion
      (goto-char (point-min))
@@ -327,8 +328,8 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
              (buffer-substring-no-properties (point) (point-max)))
          ""))))
 
- (defun my/git-commit-ai--display-report (report-file)
-   "Display git commit AI REPORT-FILE information transparently."
+ (defun my/git-commit-message--display-report (report-file)
+   "Display git commit message REPORT-FILE information transparently."
    (when (and report-file (file-exists-p report-file))
      (let* ((json-object-type 'alist)
             (json-array-type 'list)
@@ -347,20 +348,20 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                  (string-join considered-files ", ")
                "none")))
        (message
-        "git-commit-ai mode=%s; instruction sources=%s; considered files=%s"
+        "git-commit-message mode=%s; instruction sources=%s; considered files=%s"
         mode instruction-text files-text))))
 
- (defun my/gptel-generate-commit-message ()
+ (defun my/git-commit-message-generate ()
    "Generate a commit message via the shared Python helper script."
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((repo-root (my/git-commit-ai--get-repo-root))
-          (current-diff (my/git-commit-ai--collect-current-diff))
+   (let* ((repo-root (my/git-commit-message--get-repo-root))
+          (current-diff (my/git-commit-message--collect-current-diff))
           (diff-file
-           (make-temp-file "git-commit-ai-diff-" nil ".txt"))
+           (make-temp-file "git-commit-message-diff-" nil ".txt"))
           (report-file
-           (make-temp-file "git-commit-ai-report-" nil ".json"))
+           (make-temp-file "git-commit-message-report-" nil ".json"))
           (generated-message nil))
      (unwind-protect
          (progn
@@ -368,7 +369,7 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
              (user-error "No diff found in the commit buffer"))
            (write-region current-diff nil diff-file nil 'silent)
            (setq generated-message
-                 (my/git-commit-ai--run
+                 (my/git-commit-message--run
                   (list
                    "generate"
                    "--diff-file"
@@ -383,24 +384,24 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                (fill-region (point-min) end)
                (goto-char end)
                (insert "\n\n")))
-           (my/git-commit-ai--display-report report-file))
+           (my/git-commit-message--display-report report-file))
        (when (file-exists-p diff-file)
          (delete-file diff-file))
        (when (file-exists-p report-file)
          (delete-file report-file)))))
 
- (defun my/gptel-rewrite-commit-message ()
+ (defun my/git-commit-message-rewrite ()
    "Rewrite the current commit message via the shared Python helper script."
    (interactive)
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
-   (let* ((repo-root (my/git-commit-ai--get-repo-root))
+   (let* ((repo-root (my/git-commit-message--get-repo-root))
           (buffer-contents (buffer-string))
           (report-file
-           (make-temp-file "git-commit-ai-report-" nil ".json"))
+           (make-temp-file "git-commit-message-report-" nil ".json"))
           (user-prompt (read-string "Rewrite instructions: "))
           (rewritten-message
-           (my/git-commit-ai--run
+           (my/git-commit-message--run
             (list
              "rewrite"
              "--instruction"
@@ -415,24 +416,26 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
          (fill-region (point-min) message-end)
          (goto-char message-end)
          (insert "\n\n---\n\n")))
-     (my/git-commit-ai--display-report report-file)
+     (my/git-commit-message--display-report report-file)
      (when (file-exists-p report-file)
        (delete-file report-file))))
 
  (eval-after-load "git-commit"
    '(progn
       (when (boundp 'git-commit-mode-map)
-        (define-prefix-command 'my/gptel-commit-map)
+        (define-prefix-command 'my/git-commit-message-map)
         (define-key
-         git-commit-mode-map (kbd "C-c g g") 'my/gptel-commit-map)
+         git-commit-mode-map
+         (kbd "C-c g g")
+         'my/git-commit-message-map)
         (define-key
-         my/gptel-commit-map
+         my/git-commit-message-map
          (kbd "c")
-         #'my/gptel-generate-commit-message)
+         #'my/git-commit-message-generate)
         (define-key
-         my/gptel-commit-map
+         my/git-commit-message-map
          (kbd "r")
-         #'my/gptel-rewrite-commit-message))))
+         #'my/git-commit-message-rewrite))))
 
  (defun my/git-branch-naming-generate ()
    "Prompt for branch purpose and create a new unique branch with Magit.
