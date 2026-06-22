@@ -329,12 +329,43 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
          (kbd "r")
          #'my/gptel-rewrite-commit-message))))
 
+ (defun my/gptel-existing-branch-names ()
+   "Return known local and remote branch names for the current repository."
+   (let ((branch-names nil))
+     (dolist (branch-name
+              (magit-git-lines
+               "for-each-ref"
+               "--format=%(refname:short)"
+               "refs/heads"))
+       (push branch-name branch-names))
+     (dolist (branch-name
+              (magit-git-lines
+               "for-each-ref"
+               "--format=%(refname:short)"
+               "refs/remotes"))
+       (unless (string-match-p "/HEAD\\'" branch-name)
+         (push branch-name branch-names)
+         (when (string-match "\\`[^/]+/\\(.+\\)\\'" branch-name)
+           (push (match-string 1 branch-name) branch-names))))
+     (delete-dups branch-names)))
+
+ (defun my/gptel-unique-branch-name (branch-name)
+   "Return BRANCH-NAME or a suffixed variant not used by any known branch."
+   (let ((candidate branch-name)
+         (existing-branches (my/gptel-existing-branch-names))
+         (suffix 2))
+     (while (member candidate existing-branches)
+       (setq candidate (format "%s-%d" branch-name suffix))
+       (setq suffix (1+ suffix)))
+     candidate))
+
  (defun my/gptel-generate-branch-name ()
-   "Prompt for branch purpose, generate branch name with GPT, then let user edit it.
-Then, prompt for the starting point, and finally create and checkout the new branch using Magit."
+   "Prompt for branch purpose and create a new unique branch with Magit.
+Generate a branch name with GPT, let the user edit it, prompt for the starting
+point, and finally create and checkout the new branch using Magit."
    (interactive)
    (let*
-       ((existing-branches (magit-list-branch-names))
+       ((existing-branches (my/gptel-existing-branch-names))
         (description
          (if (eq major-mode 'magit-revision-mode)
              (buffer-string)
@@ -360,15 +391,27 @@ Then, prompt for the starting point, and finally create and checkout the new bra
           (if (stringp response)
               (let*
                   ((branch-name (string-trim response))
+                   (edited-name
+                    (string-trim
+                     (read-string "Edit branch name: " branch-name)))
                    (final-name
-                    (read-string "Edit branch name: " branch-name))
+                    (my/gptel-unique-branch-name edited-name))
                    (start-point
                     (magit-read-branch-or-commit
                      "Start point (e.g., 'main', 'HEAD', 'commit-sha'): "
                      nil)))
+                (when (string= final-name "")
+                  (user-error "Branch name cannot be empty"))
                 (kill-new final-name)
-                (message "Final branch name: %s (copied to kill ring)"
-                         final-name)
+                (if (string= final-name edited-name)
+                    (message
+                     "Final branch name: %s (copied to kill ring)"
+                     final-name)
+                  (message
+                   (concat
+                    "Adjusted branch name to unique value: %s "
+                    "(copied to kill ring)")
+                   final-name))
                 (when (and (fboundp 'magit-branch-create)
                            (fboundp 'magit-checkout))
                   (magit-branch-create final-name start-point)
