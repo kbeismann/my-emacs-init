@@ -100,6 +100,11 @@ Error information is gathered in the following order of precedence:
                      my/git-commit-ai-project-root)
    "Path to the shared Python commit-message helper.")
 
+ (defconst my/git-branch-naming-script
+   (expand-file-name "scripts/git_branch_naming/main.py"
+                     my/git-commit-ai-project-root)
+   "Path to the shared Python branch-name helper.")
+
  (defun my/git-commit-ai--get-repo-root ()
    "Return the repository root for the current git-commit buffer."
    (let* ((start-directory
@@ -203,6 +208,106 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
                stdout-text)))
          (when (file-exists-p stderr-file)
            (delete-file stderr-file))))))
+
+ (defun my/git-branch-naming--run (args &optional repo-root)
+   "Run the shared branch naming script with ARGS.
+REPO-ROOT, when non-nil, is used as `default-directory' for the process."
+   (unless (file-exists-p my/git-branch-naming-script)
+     (user-error "Missing branch naming script: %s"
+                 my/git-branch-naming-script))
+   (unless (executable-find "uv")
+     (user-error "Missing uv executable in PATH"))
+   (unless (file-exists-p my/git-commit-ai-project-root)
+     (user-error "Missing uv project root: %s"
+                 my/git-commit-ai-project-root))
+   (with-temp-buffer
+     (let* ((stderr-file
+             (make-temp-file "git-branch-naming-stderr-" nil ".log"))
+            (default-directory (or repo-root default-directory))
+            (resolved-args
+             (if repo-root
+                 (append
+                  args
+                  (list "--repo-root" (expand-file-name repo-root)))
+               args))
+            (process-environment
+             (let ((clean-environment nil))
+               (dolist (environment-entry
+                        process-environment
+                        (nreverse clean-environment))
+                 (unless (string-prefix-p
+                          "VIRTUAL_ENV=" environment-entry)
+                   (push environment-entry clean-environment)))))
+            (command
+             (append
+              (list
+               "uv"
+               "run"
+               "--project"
+               my/git-commit-ai-project-root
+               "python"
+               my/git-branch-naming-script)
+              resolved-args))
+            (output-destination (list t stderr-file))
+            (stdout-text nil)
+            (stderr-text nil))
+       (unwind-protect
+           (let ((exit-code
+                  (apply #'call-process
+                         (car command)
+                         nil
+                         output-destination
+                         nil
+                         (cdr command))))
+             (setq stdout-text (string-trim (buffer-string)))
+             (setq stderr-text
+                   (if (file-exists-p stderr-file)
+                       (string-trim
+                        (with-temp-buffer
+                          (insert-file-contents stderr-file)
+                          (buffer-string)))
+                     ""))
+             (cond
+              ((not (eq exit-code 0))
+               (user-error
+                "git-branch-naming failed (exit %d). stderr: %s stdout: %s"
+                exit-code
+                (if (string-empty-p stderr-text)
+                    "<empty>"
+                  stderr-text)
+                (if (string-empty-p stdout-text)
+                    "<empty>"
+                  stdout-text)))
+              ((string-empty-p stdout-text)
+               (user-error
+                "git-branch-naming returned empty output. stderr: %s"
+                (if (string-empty-p stderr-text)
+                    "<empty>"
+                  stderr-text)))
+              (t
+               stdout-text)))
+         (when (file-exists-p stderr-file)
+           (delete-file stderr-file))))))
+
+ (defun my/git-branch-naming--current-commit ()
+   "Return the current commit used for branch-name generation."
+   (if (and (eq major-mode 'magit-revision-mode)
+            (boundp 'magit-buffer-revision)
+            (symbol-value 'magit-buffer-revision))
+       (symbol-value 'magit-buffer-revision)
+     "HEAD"))
+
+ (defun my/git-branch-naming--generate (description commit repo-root)
+   "Generate a unique branch name from DESCRIPTION, COMMIT, and REPO-ROOT."
+   (let ((args (list "generate" "--commit" commit)))
+     (unless (string-empty-p description)
+       (setq args (append args (list "--description" description))))
+     (my/git-branch-naming--run args repo-root)))
+
+ (defun my/git-branch-naming--unique (branch-name repo-root)
+   "Return a unique branch name for BRANCH-NAME in REPO-ROOT."
+   (my/git-branch-naming--run
+    (list "unique" "--branch-name" branch-name) repo-root))
 
  (defun my/git-commit-ai--collect-current-diff ()
    "Collect diff text from the current commit buffer."
@@ -329,109 +434,61 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
          (kbd "r")
          #'my/gptel-rewrite-commit-message))))
 
- (defun my/gptel-existing-branch-names ()
-   "Return known local and remote branch names for the current repository."
-   (let ((branch-names nil))
-     (dolist (branch-name
-              (magit-git-lines
-               "for-each-ref"
-               "--format=%(refname:short)"
-               "refs/heads"))
-       (push branch-name branch-names))
-     (dolist (branch-name
-              (magit-git-lines
-               "for-each-ref"
-               "--format=%(refname:short)"
-               "refs/remotes"))
-       (unless (string-match-p "/HEAD\\'" branch-name)
-         (push branch-name branch-names)
-         (when (string-match "\\`[^/]+/\\(.+\\)\\'" branch-name)
-           (push (match-string 1 branch-name) branch-names))))
-     (delete-dups branch-names)))
-
- (defun my/gptel-unique-branch-name (branch-name)
-   "Return BRANCH-NAME or a suffixed variant not used by any known branch."
-   (let ((candidate branch-name)
-         (existing-branches (my/gptel-existing-branch-names))
-         (suffix 2))
-     (while (member candidate existing-branches)
-       (setq candidate (format "%s-%d" branch-name suffix))
-       (setq suffix (1+ suffix)))
-     candidate))
-
- (defun my/gptel-generate-branch-name ()
+ (defun my/git-branch-naming-generate ()
    "Prompt for branch purpose and create a new unique branch with Magit.
-Generate a branch name with GPT, let the user edit it, prompt for the starting
-point, and finally create and checkout the new branch using Magit."
+Generate a branch name with the shared helper, let the user edit it, prompt for
+the starting point, and finally create and checkout the new branch using Magit."
    (interactive)
-   (let*
-       ((existing-branches (my/gptel-existing-branch-names))
-        (description
-         (if (eq major-mode 'magit-revision-mode)
-             (buffer-string)
-           (read-string "Describe the purpose of the new branch: ")))
-        (prompt
-         (concat
-          "You are a Git expert. Existing branches: "
-          (string-join existing-branches ", ")
-          (concat
-           ". Convert the following description into a concise, kebab-case branch name. "
-           "Follow the current pattern. "
-           "Otherwise, use a relevant prefix based on conventional commits like 'feat/', 'fix/', or 'chore/'. "
-           "Make it unique among existing branches. "
-           "Only return the branch name: no quotes, punctuation, or explanations. "
-           "No abbreviations.")
-          description)))
-     (require 'gptel)
-     (let ((gptel-include-reasoning nil))
-       (gptel-request
-        prompt
-        :callback
-        (lambda (response info)
-          (if (stringp response)
-              (let*
-                  ((branch-name (string-trim response))
-                   (edited-name
-                    (string-trim
-                     (read-string "Edit branch name: " branch-name)))
-                   (final-name
-                    (my/gptel-unique-branch-name edited-name))
-                   (start-point
-                    (magit-read-branch-or-commit
-                     "Start point (e.g., 'main', 'HEAD', 'commit-sha'): "
-                     nil)))
-                (when (string= final-name "")
-                  (user-error "Branch name cannot be empty"))
-                (kill-new final-name)
-                (if (string= final-name edited-name)
-                    (message
-                     "Final branch name: %s (copied to kill ring)"
-                     final-name)
-                  (message
-                   (concat
-                    "Adjusted branch name to unique value: %s "
-                    "(copied to kill ring)")
-                   final-name))
-                (when (and (fboundp 'magit-branch-create)
-                           (fboundp 'magit-checkout))
-                  (magit-branch-create final-name start-point)
-                  (magit-checkout final-name)
-                  (message
-                   "Branch '%s' created from '%s' and checked out."
-                   final-name start-point))
-                (unless (and (fboundp 'magit-branch-create)
-                             (fboundp 'magit-checkout))
-                  (message
-                   "Magit functions `magit-branch-create` or `magit-checkout` "
-                   "not found. Branch not created automatically.")))
-            (user-error
-             (my/gptel-format-error-message
-              response
-              "GPTel failed to generate a branch name. "
-              info))))))))
+   (let* ((repo-root
+           (or (when (fboundp 'magit-toplevel)
+                 (magit-toplevel))
+               default-directory))
+          (description
+           (if (eq major-mode 'magit-revision-mode)
+               (buffer-string)
+             (read-string
+              "Describe the purpose of the new branch: ")))
+          (commit (my/git-branch-naming--current-commit))
+          (branch-name
+           (string-trim
+            (my/git-branch-naming--generate
+             description commit repo-root)))
+          (edited-name
+           (string-trim
+            (read-string "Edit branch name: " branch-name)))
+          (final-name
+           (string-trim
+            (my/git-branch-naming--unique edited-name repo-root)))
+          (start-point
+           (magit-read-branch-or-commit
+            "Start point (e.g., 'main', 'HEAD', 'commit-sha'): "
+            nil)))
+     (when (string= final-name "")
+       (user-error "Branch name cannot be empty"))
+     (kill-new final-name)
+     (if (string= final-name edited-name)
+         (message "Final branch name: %s (copied to kill ring)"
+                  final-name)
+       (message (concat
+                 "Adjusted branch name to unique value: %s "
+                 "(copied to kill ring)")
+                final-name))
+     (when (and (fboundp 'magit-branch-create)
+                (fboundp 'magit-checkout))
+       (magit-branch-create final-name start-point)
+       (magit-checkout final-name)
+       (message "Branch '%s' created from '%s' and checked out."
+                final-name
+                start-point))
+     (unless (and (fboundp 'magit-branch-create)
+                  (fboundp 'magit-checkout))
+       (message
+        (concat
+         "Magit functions `magit-branch-create` or `magit-checkout` "
+         "not found. Branch not created automatically.")))))
 
  (define-key
-  global-map (kbd "C-c g b") #'my/gptel-generate-branch-name)
+  global-map (kbd "C-c g b") #'my/git-branch-naming-generate)
 
  (defconst my/gptel-coding-base-system-prompt
    (concat
