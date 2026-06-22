@@ -3,7 +3,7 @@
 ;;; Commentary:
 
 ;; This file contains configurations and functions related to AI tools like
-;; gptel and aidermacs.
+;; gptel.
 
 ;;; Code:
 
@@ -683,18 +683,6 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
  (define-key gptel-aibo-map (kbd "s") #'gptel-aibo-summon)
  (define-key gptel-aibo-map (kbd "c") #'gptel-aibo-complete-at-point))
 
-(use-package
- aidermacs
- :straight (:host github :repo "MatthewZMD/aidermacs")
- :bind (("C-c a" . aidermacs-transient-menu))
- :config
- (setenv "GEMINI_API_KEY"
-         (auth-source-pick-first-password
-          :host "generativelanguage.googleapis.com"))
- (setenv "OPENROUTER_API_KEY"
-         (auth-source-pick-first-password :host "openrouter.ai"))
- :custom
- ((aidermacs-show-diff-after-change nil) (aidermacs-program "aider")))
 
 (use-package
  gptel-quick
