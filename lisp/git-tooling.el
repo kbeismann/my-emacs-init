@@ -46,6 +46,7 @@
  (require 'smartparens)
  :config
  (magit-auto-revert-mode t)
+ (remove-hook 'git-commit-setup-hook #'git-commit-collapse-diff)
  (setq magit-diff-refine-hunk 'all)
  (setq magit-log-auto-more t)
  ;; Auto-revert.
