@@ -585,16 +585,6 @@ If AGGRESSIVE is non-nil (e.g., with C-u prefix), use the aggressive prompt."
         gptel-backend openrouter-backend
         gptel-model 'google/gemini-3-flash-preview)))))
 
-(use-package
- gptel-aibo
- :straight (:host github :repo "dolmens/gptel-aibo")
- :init (define-prefix-command 'gptel-aibo-map)
- :bind (("C-c g a" . gptel-aibo-map))
- :config
- (define-key gptel-aibo-map (kbd "a") #'gptel-aibo)
- (define-key gptel-aibo-map (kbd "s") #'gptel-aibo-summon)
- (define-key gptel-aibo-map (kbd "c") #'gptel-aibo-complete-at-point))
-
 
 (use-package
  gptel-quick
