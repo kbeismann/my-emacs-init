@@ -502,47 +502,6 @@ the starting point, and finally create and checkout the new branch using Magit."
      "Only include arguments as continuous text.")
     "System prompt for AI interactions related to coding tasks."))
 
- (defun my/gptel-replace-with-docstring ()
-   "Add a minimalist docstring to selected code region using GPTel."
-   (interactive)
-   (unless (use-region-p)
-     (user-error
-      "Please select a region containing the function code"))
-   (let*
-       ((code
-         (buffer-substring-no-properties
-          (region-beginning) (region-end)))
-        (prompt
-         (concat
-          "Insert a minimalist one-line docstring string in an imperative tone into this logic. "
-          "Only return the updated version, without backticks or markdown formatting. "
-          "If there is a docstring already, update it based on the new logic."))
-        (system my/gptel-coding-base-system-prompt)
-        (beg (region-beginning))
-        (end (region-end)))
-     (require 'gptel)
-     (let ((gptel-include-reasoning nil))
-       (gptel-request
-        (concat prompt "\n\n" code)
-        :system system
-        :callback
-        (lambda (response info)
-          (if (stringp response)
-              (let ((doced-fn
-                     (string-trim
-                      (my/gptel-strip-markdown-code-block response))))
-                (when (buffer-live-p (current-buffer))
-                  (with-current-buffer (current-buffer)
-                    (save-excursion
-                      (delete-region beg end)
-                      (goto-char beg)
-                      (insert doced-fn)))))
-            (user-error
-             (my/gptel-format-error-message response nil info))))))))
-
- (define-key
-  prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
-
 
  (defvar my/gptel-proof-base-prompt
    (concat
