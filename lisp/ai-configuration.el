@@ -543,44 +543,6 @@ the starting point, and finally create and checkout the new branch using Magit."
  (define-key
   prog-mode-map (kbd "C-c g d") #'my/gptel-replace-with-docstring)
 
- (defun my/gptel-subtle-improvement ()
-   "Improve the selected region, correcting obvious mistakes and refining style."
-   (interactive)
-   (unless (use-region-p)
-     (user-error "Please select a region to improve"))
-   (let*
-       ((beg (region-beginning))
-        (end (region-end))
-        (code (buffer-substring-no-properties beg end))
-        (prompt
-         (concat
-          "Improve the following content subtly. "
-          "Make small corrections and stylistic refinements. "
-          "Do not change the logic. "
-          "Return only the updated version, no backticks or markdown formatting. "
-          "Add comments only for parts that are difficult to read. "
-          "Use spacing and whitespaces as recommended in the respective language style guides."))
-        (system my/gptel-coding-base-system-prompt))
-     (require 'gptel)
-     (let ((gptel-include-reasoning nil))
-       (gptel-request
-        (concat prompt "\n\n" code)
-        :system system
-        :callback
-        (lambda (response info)
-          (if (stringp response)
-              (let ((new-content (string-trim response)))
-                (when (buffer-live-p (current-buffer))
-                  (save-excursion
-                    (goto-char beg)
-                    (delete-region beg end)
-                    (insert new-content)
-                    (message "Applied subtle improvements."))))
-            (user-error
-             (my/gptel-format-error-message response nil info))))))))
-
- (define-key
-  prog-mode-map (kbd "C-c g i") #'my/gptel-subtle-improvement)
 
  (defvar my/gptel-proof-base-prompt
    (concat
