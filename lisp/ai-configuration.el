@@ -493,15 +493,6 @@ the starting point, and finally create and checkout the new branch using Magit."
  (define-key
   global-map (kbd "C-c g b") #'my/git-branch-naming-generate)
 
- (defconst my/gptel-coding-base-system-prompt
-   (concat
-    my/gptel-base-system-prompt
-    (concat
-     " You are a proficient coder. "
-     "Separate title from body. "
-     "Only include arguments as continuous text.")
-    "System prompt for AI interactions related to coding tasks."))
-
 
  (defvar my/gptel-proof-base-prompt
    (concat
