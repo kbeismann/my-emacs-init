@@ -12,8 +12,7 @@
   "My Org templates.")
 (defvar my-roam-notes (concat my-gitdir "my-roam-notes/nodes/")
   "My Roam notes.")
-(defvar my-notes
-  (concat my-roam-notes "20250603194556-my_personal_notes.org")
+(defvar my-notes (concat my-roam-notes "20250603194556-my_personal_notes.org")
   "My notes.")
 
 (use-package
@@ -46,8 +45,7 @@
  (setq org-default-notes-file my-notes)
  (setq org-todo-file my-notes)
  (setq org-agenda-files (list org-directory my-roam-notes))
- (let ((work-notes
-        (expand-file-name "notes.el" user-emacs-directory)))
+ (let ((work-notes (expand-file-name "notes.el" user-emacs-directory)))
    (if (file-exists-p work-notes)
        (let ()
          (message "%s" "Found work-related notes...")
@@ -141,11 +139,10 @@
      (goto-char (point-min))
      (let ((case-fold-search nil)
            (count 0))
-       (while
-           (re-search-forward
-            "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
-            nil
-            :noerror)
+       (while (re-search-forward
+               "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"
+               nil
+               :noerror)
          (setq count (1+ count))
          (replace-match (downcase (match-string-no-properties 1))
                         :fixedcase
@@ -209,8 +206,7 @@ With prefix argument REVERSE order."
                ((tag-str (string-trim tags ":"))
                 (sorted
                  (sort (split-string tag-str ":" t " ") #'string<)) ; Sort ascending
-                (new-tag-str
-                 (concat ":" (string-join sorted ":") ":")))
+                (new-tag-str (concat ":" (string-join sorted ":") ":")))
              (org-set-tags new-tag-str)))))))
 
  (defun my/sort-org-tags-in-directory (dir)
@@ -238,14 +234,12 @@ With prefix argument REVERSE order."
    (interactive)
    (let ((element (org-element-context)))
      (when (eq (org-element-type element) 'link)
-       (let* ((desc-begin
-               (org-element-property :contents-begin element))
+       (let* ((desc-begin (org-element-property :contents-begin element))
               (desc-end (org-element-property :contents-end element))
               (desc
                (and desc-begin
                     desc-end
-                    (buffer-substring-no-properties
-                     desc-begin desc-end)))
+                    (buffer-substring-no-properties desc-begin desc-end)))
               (begin (org-element-property :begin element))
               (end (org-element-property :end element))
               (before
@@ -263,22 +257,17 @@ With prefix argument REVERSE order."
          (when desc
            (delete-region begin end)
            ;; Insert space before if needed
-           (when (and before
-                      (not
-                       (member (char-syntax before) '(?\  ?\( ?\"))))
+           (when (and before (not (member (char-syntax before) '(?\  ?\( ?\"))))
              (insert " "))
            (insert desc)
            ;; Insert space after if needed
            (when (and after
                       (not
-                       (member
-                        (char-syntax after)
-                        '(?\  ?\) ?\" ?. ?, ?! ??))))
+                       (member (char-syntax after) '(?\  ?\) ?\" ?. ?, ?! ??))))
              (insert " ")))))))
 
  ;; Always insert blank line before headings.
- (setq org-blank-before-new-entry
-       '((heading . auto) (plain-list-item . auto)))
+ (setq org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
 
  ;; Configure Org refiling.
  (setq org-refile-use-outline-path 'full-file-path)
@@ -288,16 +277,14 @@ With prefix argument REVERSE order."
        '((nil :maxlevel . 9) (org-agenda-files :maxlevel . 9)))
 
  (setq org-todo-keywords
-       '((sequence
-          "TODO(t)" "INPROGRESS(i)" "|" "DONE(d)" "CANCELLED(c)")))
+       '((sequence "TODO(t)" "INPROGRESS(i)" "|" "DONE(d)" "CANCELLED(c)")))
  (setq org-todo-keyword-faces
        '(("TODO" . org-warning)
          ("DONE" . org-done)
          ("CANCELLED" . org-done)
          ("INPROGRESS" . org-link)))
 
- (let ((templates
-        (expand-file-name "templates.el" user-emacs-directory)))
+ (let ((templates (expand-file-name "templates.el" user-emacs-directory)))
    (if (and (file-exists-p templates) (boundp 'org-capture-templates))
        (let ()
          (message "%s" "Adding templates for work...")
@@ -371,12 +358,7 @@ With prefix argument REVERSE order."
  ;; Available languages: https://orgmode.org/org.html#Languages
  (org-babel-do-load-languages
   'org-babel-load-languages
-  '((shell . t)
-    (emacs-lisp . t)
-    (org . t)
-    (python . t)
-    (R . t)
-    (latex . t)))
+  '((shell . t) (emacs-lisp . t) (org . t) (python . t) (R . t) (latex . t)))
  (setq org-babel-python-command "python3")
  ;; Better source block behavior.
  (setq
@@ -388,8 +370,7 @@ With prefix argument REVERSE order."
   org-src-fontify-natively t
   org-src-tab-acts-natively t)
  ;; Change font size for LaTeX previews.
- (setq org-format-latex-options
-       (plist-put org-format-latex-options :scale 1.5))
+ (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
  (setq org-format-latex-options
        (plist-put org-format-latex-options :html-scale 1.5))
  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
@@ -416,8 +397,7 @@ With prefix argument REVERSE order."
            line-text) ; Timestamps with keywords
           ;; Org keywords like #+TITLE: (requires colon)
           (let ((match-pos
-                 (string-match
-                  "^[ \t]*#\\+\\([A-Z_]+\\):" line-text)))
+                 (string-match "^[ \t]*#\\+\\([A-Z_]+\\):" line-text)))
             (and match-pos)))
          :metadata)
         ;; Explicitly check for common body elements with regex before org-element-context
@@ -468,13 +448,11 @@ With prefix argument REVERSE order."
      (cond
       ((and (eq prev-cat :body)
             (eq current-cat :body)
-            (string-match-p
-             "^[ \t]*#\\+begin_[A-Z_]+" prev-line-text))
+            (string-match-p "^[ \t]*#\\+begin_[A-Z_]+" prev-line-text))
        0) ; No blank after any block start (e.g., #+begin_src)
       ((and (eq prev-cat :body)
             (eq current-cat :body)
-            (string-match-p
-             "^[ \t]*#\\+end_[A-Z_]+" current-line-text))
+            (string-match-p "^[ \t]*#\\+end_[A-Z_]+" current-line-text))
        0) ; No blank before any block end (e.g., #+end_src)
       ((and (eq prev-cat :heading) (eq current-cat :heading))
        0)
@@ -499,8 +477,7 @@ With prefix argument REVERSE order."
             (eq current-cat :body)
             (let ((case-fold-search t))
               (and (string-match-p "^[ \t]*#\\+name:" prev-line-text)
-                   (string-match-p
-                    "^[ \t]*#\\+begin_src" current-line-text))))
+                   (string-match-p "^[ \t]*#\\+begin_src" current-line-text))))
        0)
       ((or (and (eq prev-cat :heading) (eq current-cat :body))
            (and (eq prev-cat :metadata) (eq current-cat :heading))
@@ -544,23 +521,19 @@ With prefix argument REVERSE order."
                (goto-char (point-min))
 
                (while (not (eobp))
-                 (let*
-                     ((current-line-start (point))
-                      (current-line-end (line-end-position))
-                      (line-text
-                       (buffer-substring
-                        current-line-start current-line-end))
-                      (current-line-category
-                       (my/org-get-line-category-at-point-optimized)))
+                 (let* ((current-line-start (point))
+                        (current-line-end (line-end-position))
+                        (line-text
+                         (buffer-substring current-line-start current-line-end))
+                        (current-line-category
+                         (my/org-get-line-category-at-point-optimized)))
 
                    (cond
                     ((eq current-line-category :blank)
-                     (setq consecutive-blanks
-                           (1+ consecutive-blanks)))
+                     (setq consecutive-blanks (1+ consecutive-blanks)))
                     (t
                      ;; This is a content line
-                     (let* ((is-first-content-line
-                             (null new-content-lines))
+                     (let* ((is-first-content-line (null new-content-lines))
                             (required-blanks
                              (my/org-determine-required-blanks
                               prev-line-category
@@ -592,16 +565,14 @@ With prefix argument REVERSE order."
 
                ;; Reverse the list to get correct order and join
                (let ((final-content
-                      (string-join (nreverse new-content-lines)
-                                   "\n")))
+                      (string-join (nreverse new-content-lines) "\n")))
                  ;; Replace buffer content
                  (delete-region (point-min) (point-max))
                  (insert final-content)
                  ;; Ensure the buffer ends with a newline (standard for files)
                  (goto-char (point-max))
                  (when (not
-                        (and (> (point) (point-min))
-                             (eq (char-before) ?\n)))
+                        (and (> (point) (point-min)) (eq (char-before) ?\n)))
                    (insert "\n"))))))
        ;; Ensure redisplay is re-enabled and point/window are restored
        (setq inhibit-redisplay nil)
@@ -614,8 +585,7 @@ With prefix argument REVERSE order."
    "Apply `my/org-normalize-header-spacing` to all Org files in DIRECTORY.
    Processes files recursively in subdirectories."
    (interactive "DSelect directory: ")
-   (let ((org-files
-          (directory-files-recursively directory "\\.org$")))
+   (let ((org-files (directory-files-recursively directory "\\.org$")))
      (if (not org-files)
          (message "No Org files found in %s" directory)
        (dolist (file org-files)
@@ -672,22 +642,16 @@ Returns a list of plists, each with keys :language, :body-start, :body-end."
      (org-element-map
       (org-element-parse-buffer) 'src-block
       (lambda (blk)
-        (let* ((lang
-                (downcase
-                 (or (org-element-property :language blk) "")))
+        (let* ((lang (downcase (or (org-element-property :language blk) "")))
                (blk-beg (org-element-property :begin blk))
                (blk-end (org-element-property :end blk)))
           (when lang ; Only include blocks with a language
             (save-excursion
               (goto-char blk-beg)
-              (when (re-search-forward "^[ \t]*#\\+begin_src\\b.*$"
-                                       blk-end
-                                       t)
+              (when (re-search-forward "^[ \t]*#\\+begin_src\\b.*$" blk-end t)
                 (forward-line)
                 (let ((body-beg (point)))
-                  (when (re-search-forward "^[ \t]*#\\+end_src\\b"
-                                           blk-end
-                                           t)
+                  (when (re-search-forward "^[ \t]*#\\+end_src\\b" blk-end t)
                     (let ((body-end (match-beginning 0)))
                       (when (< body-beg body-end)
                         (push (list
@@ -707,7 +671,9 @@ Assumes shfmt is installed. Signals an error on failure."
            (insert body-text)
            (let ((exit-code
                   (call-process-region (point-min) (point-max) "shfmt"
-                                       t t nil)))
+                                       t
+                                       t
+                                       nil)))
              (unless (zerop exit-code)
                (error "shfmt failed with exit code %d" exit-code)))
            (buffer-string))
@@ -726,8 +692,7 @@ Assumes elisp-autofmt is loaded. Signals an error on failure."
                (progn
                  (with-timeout
                      (10
-                      (error
-                       "elisp-autofmt-region timed out after 10 seconds"))
+                      (error "elisp-autofmt-region timed out after 10 seconds"))
                    (elisp-autofmt-region (point-min) (point-max)))
                  (buffer-string))
              (error
@@ -759,8 +724,7 @@ Ignores blocks without a configured formatter."
                     (rb (plist-get block :body-start))
                     (re (plist-get block :body-end))
                     (formatter
-                     (cdr
-                      (assoc lang my/org-source-block-formatters))))
+                     (cdr (assoc lang my/org-source-block-formatters))))
                (message
                 "[org-format] Processing block with language %s, formatter %s"
                 lang
@@ -774,30 +738,24 @@ Ignores blocks without a configured formatter."
                        (let* ((orig
                                (buffer-substring-no-properties
                                 (point-min) (point-max)))
-                              (orig-ends-nl
-                               (string-suffix-p "\n" orig))
+                              (orig-ends-nl (string-suffix-p "\n" orig))
                               (lines (split-string orig "\n" nil))
                               ;; Calculate common indent width
                               (min-indent
                                (let (m)
                                  (dolist (ln lines m)
-                                   (unless (string-match-p
-                                            "\\`[ \t]*\\'" ln)
+                                   (unless (string-match-p "\\`[ \t]*\\'" ln)
                                      (string-match "\\`[ \t]*" ln)
-                                     (let ((w
-                                            (length
-                                             (match-string 0 ln))))
+                                     (let ((w (length (match-string 0 ln))))
                                        (setq m
                                              (if (null m)
                                                  w
                                                (min m w))))))))
                               (indent-width (or min-indent 0))
-                              (indent-prefix
-                               (make-string indent-width ?\s))
+                              (indent-prefix (make-string indent-width ?\s))
                               ;; Deindent
                               (rx-deindent
-                               (format "\\`[ \t]\\{0,%d\\}"
-                                       indent-width))
+                               (format "\\`[ \t]\\{0,%d\\}" indent-width))
                               (deindented
                                (mapconcat (lambda (ln)
                                             (replace-regexp-in-string
@@ -810,15 +768,11 @@ Ignores blocks without a configured formatter."
                                    deindented
                                  (concat deindented "\n")))
                               ;; Apply formatter
-                              (formatted-body
-                               (funcall formatter input))
+                              (formatted-body (funcall formatter input))
                               ;; Restore newline state
                               (formatted-body*
-                               (if (and (string-suffix-p
-                                         "\n" formatted-body)
-                                        (not
-                                         (string-suffix-p
-                                          "\n" deindented)))
+                               (if (and (string-suffix-p "\n" formatted-body)
+                                        (not (string-suffix-p "\n" deindented)))
                                    (string-trim-right formatted-body)
                                  formatted-body))
                               ;; Reindent
@@ -829,34 +783,27 @@ Ignores blocks without a configured formatter."
                                               (if (string-match-p
                                                    "\\`[ \t]*\\'" ln)
                                                   ln
-                                                (concat
-                                                 indent-prefix ln)))
-                                            (split-string
-                                             formatted-body*
-                                             "\n" nil)
+                                                (concat indent-prefix ln)))
+                                            (split-string formatted-body*
+                                                          "\n"
+                                                          nil)
                                             "\n"))))
                          (delete-region (point-min) (point-max))
                          (insert reindented)
                          (cl-incf formatted)
-                         (message "[org-format] Formatted block %s"
-                                  lang)))
+                         (message "[org-format] Formatted block %s" lang)))
                    (error
                     (let ((line (line-number-at-pos rb))
                           (first-line
                            (save-excursion
                              (goto-char rb)
-                             (buffer-substring
-                              (point) (line-end-position)))))
+                             (buffer-substring (point) (line-end-position)))))
                       (goto-char rb)
                       (error
                        "Formatting failed for %s block at line %d: %s\nFirst line: %s"
-                       lang
-                       line
-                       (error-message-string err)
-                       first-line)))))))
+                       lang line (error-message-string err) first-line)))))))
            (when my/org-format-verbose
-             (message "[org-format] formatted %d block(s)."
-                      formatted))))))))
+             (message "[org-format] formatted %d block(s)." formatted))))))))
 
 (defun my/org-format-source-blocks-directory (directory)
   "Run my/org-format-source-blocks-buffer on all Org files in DIRECTORY and its subdirectories."
@@ -888,8 +835,7 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
   (interactive "DSelect directory: ")
   (let ((original-threshold gc-cons-threshold))
     (setq gc-cons-threshold (* 500 1024 1024))
-    (let ((org-files
-           (directory-files-recursively directory "\\.org$"))
+    (let ((org-files (directory-files-recursively directory "\\.org$"))
           (total-files 0)
           (stop nil))
       (if (not org-files)
@@ -897,8 +843,7 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
         (dolist (file org-files)
           (when (not stop)
             (cl-incf total-files)
-            (message "Linting %s..."
-                     (file-relative-name file directory))
+            (message "Linting %s..." (file-relative-name file directory))
             (let ((buf (find-file-noselect file)))
               (with-current-buffer buf
                 (when (derived-mode-p 'org-mode)
@@ -923,8 +868,7 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
  (setq org-agenda-compact-blocks nil)
  (org-super-agenda-mode t)
 
- (let ((work-agenda
-        (expand-file-name "agenda.el" user-emacs-directory)))
+ (let ((work-agenda (expand-file-name "agenda.el" user-emacs-directory)))
    (message "Work agenda: %s" work-agenda)
    (if (file-exists-p work-agenda)
        (prog1 "Load work-related agenda settings."
@@ -970,8 +914,7 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
  :bind
  (:map
   org-mode-map
-  (("C-c i s" . org-download-screenshot)
-   ("C-c i y" . org-download-yank))))
+  (("C-c i s" . org-download-screenshot) ("C-c i y" . org-download-yank))))
 
 (use-package
  org-roam
@@ -991,18 +934,18 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
  (setq org-roam-db-gc-threshold most-positive-fixnum)
  (setq org-roam-completion-everywhere t)
  (setq org-roam-capture-templates
-       '(("d" "default" plain "%?"
-          :if-new
-          (file+head
-           "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+       '(("d"
+          "default"
+          plain
+          "%?"
+          :if-new (file+head "${slug}.org" "#+title: ${title}\n")
           :unnarrowed t)))
- (setq
-  org-roam-dailies-capture-templates
-  '(("d"
-     "default"
-     entry
-     "* %?"
-     :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+ (setq org-roam-dailies-capture-templates
+       '(("d"
+          "default"
+          entry
+          "* %?"
+          :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
  (setq org-roam-mode-section-functions
        (list
         #'org-roam-backlinks-section
@@ -1010,8 +953,7 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
         #'org-roam-unlinked-references-section))
  (org-roam-db-autosync-mode)
 
- (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise
-     ()
+ (defun my/org-roam-delete-node-and-replace-links-with-title-stepwise ()
    "Delete an Org-roam node and interactively replace each link to it with plain text."
    (interactive)
    (require 'org-roam)
@@ -1046,7 +988,8 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
 
                (if (yes-or-no-p
                     (format "Replace link '%s' with '%s'? "
-                            match-str replacement))
+                            match-str
+                            replacement))
                    (progn
                      (delete-region match-start match-end)
                      (goto-char match-start)
@@ -1078,8 +1021,7 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
  :after org
  :config
  (add-to-list
-  'org-file-apps
-  '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
+  'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
 
 (setq safe-local-variable-values
       (append
@@ -1087,17 +1029,16 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
        '((eval .
                (progn
                  (my/org-auto-sort-tags-mode 1)
-                 (add-hook 'before-save-hook
-                           #'my/org-format-source-blocks-buffer
-                           nil
-                           t)
-                 (add-hook 'before-save-hook
-                           (lambda ()
-                             (save-excursion (org-align-tags t)))
-                           nil 'local)
                  (add-hook
-                  'before-save-hook #'my/org-normalize-header-spacing
-                  nil 'local)))
+                  'before-save-hook #'my/org-format-source-blocks-buffer
+                  nil t)
+                 (add-hook 'before-save-hook
+                           (lambda () (save-excursion (org-align-tags t)))
+                           nil
+                           'local)
+                 (add-hook 'before-save-hook #'my/org-normalize-header-spacing
+                           nil
+                           'local)))
          (org-after-todo-statistics-hook . my/org-summary-todo))))
 
 (provide 'org-configuration)
