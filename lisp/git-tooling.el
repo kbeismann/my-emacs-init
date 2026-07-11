@@ -45,6 +45,31 @@
  (require 'helm)
  (require 'smartparens)
  :config
+ ;; Magit 4.5.0 uses the removed `thread$` macro in this function.  Override
+ ;; it until Magit replaces that macro, otherwise Emacs 31 signals
+ ;; "Symbol's value as variable is void: $" while refreshing status buffers.
+ (defun magit-config-get-from-cached-list (key)
+   (gethash
+    (replace-regexp-in-string "[^.]+\\'" #'downcase
+                              (replace-regexp-in-string
+                               "\\`[^.]+" #'downcase key
+                               t t)
+                              t t)
+    (magit--with-refresh-cache
+     (cons (magit-toplevel) 'config)
+     (let ((configs (make-hash-table :test #'equal)))
+       (dolist (conf (magit-git-items "config" "--list" "-z"))
+         (let* ((nl-pos (cl-position ?\n conf))
+                (config-key (substring conf 0 nl-pos))
+                (value
+                 (if nl-pos
+                     (substring conf (1+ nl-pos))
+                   "")))
+           (puthash
+            config-key
+            (nconc (gethash config-key configs) (list value))
+            configs)))
+       configs))))
  (magit-auto-revert-mode t)
  (remove-hook 'git-commit-setup-hook #'git-commit-collapse-diff)
  (setq magit-diff-refine-hunk 'all)
