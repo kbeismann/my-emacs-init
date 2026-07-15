@@ -8,49 +8,74 @@
 (add-to-list
  'exec-path "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/")
 
+(defun my/wsl-copy-to-clipboard (text)
+  "Copy TEXT to the clipboard.
+Prefer `wl-copy' via WSLg.  Fall back to `clip.exe'."
+  (when (stringp text)
+    (let ((wl-copy (executable-find "wl-copy"))
+          (clip (executable-find "clip.exe")))
+      (cond
+       (wl-copy
+        (with-temp-buffer
+          (insert text)
+          (call-process-region
+           (point-min) (point-max) wl-copy nil 0 nil)))
+       (clip
+        (with-temp-buffer
+          (insert text)
+          (call-process-region
+           (point-min) (point-max) clip nil 0 nil)))
+       (t
+        (message
+         "No clipboard helper found (wl-copy or clip.exe)"))))))
+
+(defun my/wsl-paste-from-clipboard ()
+  "Paste text from the clipboard.
+Prefer `wl-paste' via WSLg.  Fall back to PowerShell."
+  (let ((wl-paste (executable-find "wl-paste"))
+        (powershell (executable-find "powershell.exe")))
+    (cond
+     (wl-paste
+      (let ((text (shell-command-to-string wl-paste)))
+        (string-trim (replace-regexp-in-string "\r" "" text))))
+     (powershell
+      (let ((text (shell-command-to-string
+                   (format "%s -command Get-Clipboard" powershell))))
+        (string-trim (replace-regexp-in-string "\r" "" text))))
+     (t
+      (message
+       "No clipboard helper found (wl-paste or powershell.exe)")
+      ""))))
+
+;; Only override clipboard for terminal Emacs.  Under WSLg GUI Emacs
+;; connects to Wayland natively (DISPLAY=:0, WAYLAND_DISPLAY=wayland-0)
+;; and its built-in clipboard code already bridges to Windows.
+;; Terminal Emacs needs an external helper because it has no display.
+(defun my/wsl-setup-clipboard (&optional frame)
+  "Configure clipboard for FRAME based on whether it is graphical.
+GUI frames use native Wayland clipboard.  Terminal frames use
+`wl-clipboard' or Windows executables."
+  (let ((graphic (display-graphic-p (or frame (selected-frame)))))
+    (cond
+     (graphic
+      (setq x-select-enable-clipboard t)
+      (setq x-select-enable-primary t)
+      (setq interprogram-cut-function nil)
+      (setq interprogram-paste-function nil))
+     (t
+      (setq x-select-enable-clipboard nil)
+      (setq x-select-enable-primary nil)
+      (setq interprogram-cut-function 'my/wsl-copy-to-clipboard)
+      (setq interprogram-paste-function
+            'my/wsl-paste-from-clipboard)))))
+
+(my/wsl-setup-clipboard)
+(add-hook 'after-make-frame-functions #'my/wsl-setup-clipboard)
+
 (defun my/wsl-open-downloads-folder ()
   "Open the Windows Downloads folder in dired."
   (interactive)
   (dired "/mnt/c/Users/kbeismann/Downloads/"))
-
-(defun my/wsl-copy-to-clipboard (text)
-  "Copy TEXT to the Windows clipboard via clip.exe in WSL.
-This function is intended for `interprogram-cut-function`."
-  (when (stringp text)
-    (let ((clip-path (executable-find "clip.exe")))
-      (if clip-path
-          (with-temp-buffer
-            (insert text)
-            ;; Ensure clip.exe is called correctly with its full path.
-            (call-process-region (point-min) (point-max) clip-path
-                                 nil
-                                 0
-                                 nil))
-        (message
-         "Error: clip.exe not found. Cannot copy to Windows clipboard.")))))
-
-(setq interprogram-cut-function 'my/wsl-copy-to-clipboard)
-
-(defun my/wsl-paste-from-clipboard ()
-  "Paste text from the Windows clipboard via powershell.exe in WSL.
-This function is intended for `interprogram-paste-function`."
-  (let ((powershell-path (executable-find "powershell.exe")))
-    (if powershell-path
-        (let ((text
-               (shell-command-to-string
-                (format "%s -command Get-Clipboard"
-                        powershell-path))))
-          (string-trim (replace-regexp-in-string "\r" "" text)))
-      (message
-       "Error: powershell.exe not found. Cannot paste from Windows clipboard.")
-      "")))
-
-(setq interprogram-paste-function 'my/wsl-paste-from-clipboard)
-
-;; When running in a terminal, disable X clipboard behavior to ensure
-;; `interprogram-cut-function` and `interprogram-paste-function` are used.
-(setq x-select-enable-clipboard nil)
-(setq x-select-enable-primary nil)
 
 (defun my/adjust-font-size-for-monitor (&optional frame)
   "Adjust font size based on the current monitor resolution."
