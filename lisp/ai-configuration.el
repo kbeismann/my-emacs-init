@@ -89,11 +89,13 @@ Error information is gathered in the following order of precedence:
    "Path to the shared Python branch-name helper.")
 
  (defun my/git-commit-message--get-repo-root ()
-   "Return the repository root for the current git-commit buffer."
-   (let* ((start-directory
-           (or (and buffer-file-name (file-name-directory buffer-file-name))
-               default-directory))
-          (repository-root (locate-dominating-file start-directory ".git")))
+   "Return the active worktree root for the current git-commit buffer.
+Resolve through Magit because a linked worktree's `buffer-file-name' points
+into the common Git directory instead of the worktree being committed."
+   (let* ((start-directory default-directory)
+          (repository-root
+           (or (and (fboundp 'magit-toplevel) (magit-toplevel start-directory))
+               (locate-dominating-file start-directory ".git"))))
      (unless repository-root
        (user-error "Could not determine repository root from %s"
                    start-directory))
