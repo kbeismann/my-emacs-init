@@ -267,6 +267,25 @@ REPO-ROOT, when non-nil, is used as `default-directory' for the process."
    (my/git-branch-naming--run
     (list "unique" "--branch-name" branch-name) repo-root))
 
+ (defun my/git-commit-message--collect-current-diff ()
+   "Collect the visible diff from the current commit buffer.
+Use the buffer as the authoritative context so every commit-edit operation,
+including amendments and rewords, supplies the same change to the helper."
+   (save-excursion
+     (goto-char (point-min))
+     (let ((start-marker
+            (or (search-forward
+                 "# ------------------------ >8 ------------------------"
+                 nil t)
+                (search-forward "diff --git " nil t))))
+       (if start-marker
+           (progn
+             (goto-char start-marker)
+             (when (looking-at ".*>8.*\n")
+               (forward-line 1))
+             (buffer-substring-no-properties (point) (point-max)))
+         ""))))
+
  (defun my/git-commit-message--replace-editable-message (commit-message)
    "Replace the editable commit text with finalized COMMIT-MESSAGE."
    (save-excursion
@@ -314,22 +333,36 @@ With PROMPT-FOR-CONTEXT, prompt for optional purpose or motivation."
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
    (let* ((repository-root (my/git-commit-message--get-repo-root))
+          (current-diff (my/git-commit-message--collect-current-diff))
+          (difference-file
+           (make-temp-file "git-commit-message-diff-" nil ".txt"))
           (additional-context
            (when prompt-for-context
              (string-trim (read-string "Purpose or motivation (optional): "))))
           (report-file
            (make-temp-file "git-commit-message-report-" nil ".json"))
-          (arguments (list "generate" "--report-file" report-file))
+          (arguments
+           (list
+            "generate"
+            "--diff-file"
+            difference-file
+            "--report-file"
+            report-file))
           (generated-message nil))
      (unless (string-empty-p (or additional-context ""))
        (setq arguments
              (append arguments (list "--context" additional-context))))
      (unwind-protect
          (progn
+           (when (string-empty-p current-diff)
+             (user-error "No diff found in the commit buffer"))
+           (write-region current-diff nil difference-file nil 'silent)
            (setq generated-message
                  (my/git-commit-message--run arguments nil repository-root))
            (my/git-commit-message--replace-editable-message generated-message)
            (my/git-commit-message--display-report report-file))
+       (when (file-exists-p difference-file)
+         (delete-file difference-file))
        (when (file-exists-p report-file)
          (delete-file report-file)))))
 
@@ -339,13 +372,11 @@ With PROMPT-FOR-CONTEXT, prompt for optional purpose or motivation."
    (unless (bound-and-true-p git-commit-mode)
      (user-error "This command must be run in a git-commit buffer"))
    (let* ((repository-root (my/git-commit-message--get-repo-root))
-          (current-message (or (git-commit-buffer-message) ""))
+          (buffer-contents (buffer-string))
           (report-file
            (make-temp-file "git-commit-message-report-" nil ".json"))
           (rewrite-instruction (read-string "Rewrite instructions: "))
           (rewritten-message nil))
-     (when (string-empty-p (string-trim current-message))
-       (user-error "There is no commit message to rewrite"))
      (unwind-protect
          (progn
            (setq rewritten-message
@@ -356,7 +387,7 @@ With PROMPT-FOR-CONTEXT, prompt for optional purpose or motivation."
                    rewrite-instruction
                    "--report-file"
                    report-file)
-                  current-message repository-root))
+                  buffer-contents repository-root))
            (my/git-commit-message--replace-editable-message rewritten-message)
            (my/git-commit-message--display-report report-file))
        (when (file-exists-p report-file)
