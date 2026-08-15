@@ -80,7 +80,7 @@ Error information is gathered in the following order of precedence:
    "Project root used by uv for git commit message dependencies.")
 
  (defconst my/git-commit-message-command
-   (expand-file-name "~/.local/bin/git_commit_message")
+   (expand-file-name "~/.local/bin/git-commit-message")
    "Path to the shared commit-message executable.")
 
  (defconst my/git-branch-naming-script
