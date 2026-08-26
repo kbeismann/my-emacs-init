@@ -23,8 +23,7 @@
 (defun my/scale-ui (factor)
   "Scale entire UI by FACTOR."
   (interactive "nScale factor (e.g. 1.2): ")
-  (let ((new-height
-         (truncate (* factor (face-attribute 'default :height)))))
+  (let ((new-height (truncate (* factor (face-attribute 'default :height)))))
     (set-face-attribute 'default nil :height new-height)
     (set-face-attribute 'mode-line nil :height new-height)
     (set-face-attribute 'mode-line-inactive nil :height new-height)
@@ -44,9 +43,7 @@
 (defun my/copy-git-current-sha ()
   "Copy the current Git commit SHA to the clipboard."
   (interactive)
-  (let ((sha
-         (string-trim
-          (shell-command-to-string "git rev-parse HEAD"))))
+  (let ((sha (string-trim (shell-command-to-string "git rev-parse HEAD"))))
     (when (string-match-p "^[0-9a-f]\\{40\\}$" sha)
       (kill-new sha)
       (message "Copied SHA: %s" sha))))
@@ -114,8 +111,7 @@
     (dolist (file files)
       (condition-case err
           (progn
-            (message "  Processing %s..."
-                     (file-relative-name file directory))
+            (message "  Processing %s..." (file-relative-name file directory))
             (let ((buffer (find-file-noselect file)))
               (with-current-buffer buffer
                 (let ((original-modified-p (buffer-modified-p)))
@@ -130,19 +126,18 @@
                   (file-relative-name file directory)
                   (error-message-string err))))
       (sit-for 0))
-    (message
-     "Finished processing files recursively in %s. %d files modified."
-     directory processed-count)))
+    (message "Finished processing files recursively in %s. %d files modified."
+             directory
+             processed-count)))
 
-(defun my/update-pr ()
-  "Run the update_pr command in a shell that sources ~/.bashrc."
+(defun my/pull-request-update ()
+  "Run the pull_request_update command in a shell that sources ~/.bashrc."
   (interactive)
-  (let ((exit-code (shell-command "bash -i -c 'update_pr'")))
+  (let ((exit-code (shell-command "bash -i -c 'pull_request_update'")))
     (if (= exit-code 0)
         (message "Pull request updated successfully.")
-      (message "Failed to update pull request. Exit code: %d"
-               exit-code))))
-(define-key global-map (kbd "C-c u p") 'my/update-pr)
+      (message "Failed to update pull request. Exit code: %d" exit-code))))
+(define-key global-map (kbd "C-c u p") 'my/pull-request-update)
 
 (provide 'generic-functions)
 ;;; generic-functions.el ends here
