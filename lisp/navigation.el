@@ -38,9 +38,7 @@
 ;; Basic bindings for multiple-cursors.
 (use-package
  multiple-cursors
- :init
- (setq warning-suppress-types '((files)))
- (setq mc/always-run-for-all t)
+ :init (setq warning-suppress-types '((files))) (setq mc/always-run-for-all t)
  :bind*
  (("C-S-c C-S-c" . mc/edit-lines)
   ("C->" . mc/mark-next-like-this)
@@ -59,7 +57,6 @@
 
 (use-package
  avy
- :after base16-theme
  :bind*
  (("M-S-SPC" . avy-goto-char)
   ("<XF86Launch5>" . avy-goto-char)) ; For WSL, after binding M-S-SPC to F14.
@@ -69,37 +66,8 @@
  ;; avy-lead-face-0 is only used for the first non-terminating decision chars.
  (setq avy-highlight-first t)
 
- ;; Using any command makes the face attributes accessible.
- (avy-setup-default)
-
- ;; Face used for first non-terminating leading chars.
- (set-face-attribute 'avy-lead-face-0 nil
-                     :foreground base0A-prop
-                     :background base00-prop
-                     :weight 'bold)
-
- ;; Face used for matched leading chars. Not sure what this does.
- (set-face-attribute 'avy-lead-face-1 nil
-                     :foreground base09-prop
-                     :background base00-prop
-                     :weight 'bold)
-
- ;; Face used for leading chars.
- (set-face-attribute 'avy-lead-face-2 nil
-                     :foreground base0C-prop
-                     :background base00-prop
-                     :weight 'bold)
-
- ;; Face used for the leading chars.
- (set-face-attribute 'avy-lead-face nil
-                     :foreground base00-prop
-                     :background base0E-prop
-                     :weight 'bold)
-
- ;; Face for foreground/font during selection: base03.
- (set-face-attribute 'avy-background-face nil
-                     :foreground base03-prop
-                     :background base00-prop))
+ ;; Initialize Avy's own faces without replacing its default colors.
+ (avy-setup-default))
 
 (use-package
  which-key

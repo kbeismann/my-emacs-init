@@ -2,8 +2,9 @@
 
 ;;; Commentary:
 
-;; Configuration settings for Emacs's visual appearance, themes, fonts, and
-;; display enhancements.
+;; Configuration settings for Emacs's visual appearance, fonts, and display
+;; enhancements. Colors intentionally follow Emacs and package defaults rather
+;; than a configured theme.
 
 ;;; Code:
 
@@ -42,60 +43,9 @@
 (set-face-attribute 'default nil :font my-font)
 (add-to-list 'default-frame-alist `(font . ,my-font))
 
-(use-package
- base16-theme
- :defer nil
- :config (load-theme 'base16-zenburn t)
-
- (setq base16-theme-256-color-source "colors")
-
- (defvar base00-prop (nth 01 base16-zenburn-theme-colors))
- (defvar base01-prop (nth 03 base16-zenburn-theme-colors))
- (defvar base02-prop (nth 05 base16-zenburn-theme-colors))
- (defvar base03-prop (nth 07 base16-zenburn-theme-colors))
- (defvar base04-prop (nth 09 base16-zenburn-theme-colors))
- (defvar base05-prop (nth 11 base16-zenburn-theme-colors))
- (defvar base06-prop (nth 13 base16-zenburn-theme-colors))
- (defvar base07-prop (nth 15 base16-zenburn-theme-colors)) ; White.
- (defvar base08-prop (nth 17 base16-zenburn-theme-colors)) ; Pink.
- (defvar base09-prop (nth 19 base16-zenburn-theme-colors)) ; Orange.
- (defvar base0A-prop (nth 21 base16-zenburn-theme-colors)) ; Yellow.
- (defvar base0B-prop (nth 23 base16-zenburn-theme-colors)) ; Green.
- (defvar base0C-prop (nth 25 base16-zenburn-theme-colors)) ; Light blue.
- (defvar base0D-prop (nth 27 base16-zenburn-theme-colors)) ; Light blue.
- (defvar base0E-prop (nth 29 base16-zenburn-theme-colors)) ; Pink.
- (defvar base0F-prop (nth 31 base16-zenburn-theme-colors)) ; Black.
-
- ;; Remove the vertical line between windows.
- (set-face-background 'vertical-border base00-prop)
- (set-face-foreground
-  'vertical-border (face-background 'vertical-border))
-
- ;; Adjust mode line colors.
- (set-face-background 'mode-line base02-prop)
- (set-face-foreground 'mode-line base04-prop)
- (set-face-background 'mode-line-inactive base01-prop)
- (set-face-foreground 'mode-line-inactive base04-prop)
-
- ;; Hide the fringe but show linebreak arrows.
- (set-face-attribute 'fringe nil
-                     :background base00-prop
-                     :foreground base02-prop)
-
- ;; Look of the current line number. Here, the background is the color
- ;; of the number.
- (set-face-attribute 'line-number-current-line nil
-                     :foreground base08-prop
-                     :background base01-prop)
-
- ;; Look and color of the line numbers.
- (set-face-attribute 'line-number nil
-                     :background base00-prop
-                     :foreground base02-prop)
-
- (custom-set-faces
-  '(font-lock-keyword-face ((t (:weight bold))))
-  '(font-lock-builtin-face ((t (:weight bold))))))
+(custom-set-faces
+ '(font-lock-keyword-face ((t (:weight bold))))
+ '(font-lock-builtin-face ((t (:weight bold)))))
 
 (provide 'appearance)
 ;;; appearance.el ends here
