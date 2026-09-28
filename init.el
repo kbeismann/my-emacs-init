@@ -398,13 +398,6 @@ Your current Emacs version is %s."
 
 (use-package hl-todo :config (global-hl-todo-mode t))
 
-;; Emacs Refactor (EMR) is a framework for providing language-specific
-;; refactoring in Emacs.
-(use-package
- emr
- :disabled t
- :config (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
-
 (use-package
  eglot
  :disabled t
