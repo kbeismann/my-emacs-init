@@ -248,16 +248,6 @@ Your current Emacs version is %s."
  (global-treesit-auto-mode t))
 
 (use-package
- undo-tree
- :disabled t
- :after no-littering
- :diminish undo-tree-mode
- :bind (("C-c u t" . undo-tree-visualize))
- :config
- (setq undo-tree-visualizer-diff t)
- (global-undo-tree-mode t))
-
-(use-package
  yasnippet
  :diminish yas-minor-mode
  :bind
