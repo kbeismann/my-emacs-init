@@ -374,16 +374,6 @@ Your current Emacs version is %s."
   (setq-local indent-tabs-mode nil))
 (add-hook 'python-ts-mode-hook 'my/python-mode-settings)
 
-(use-package
- sphinx-doc
- :disabled t
- :load-path "~/gitdir/my-git/sphinx-doc.el/"
- :diminish sphinx-doc-mode
- :hook (python-base-mode . sphinx-doc-mode)
- :config
- ;; Show all arguments (except "self").
- (setq sphinx-doc-all-arguments t) (setq sphinx-doc-exclude-rtype t))
-
 (use-package python-docstring :hook (python-base-mode . python-docstring-mode))
 
 (use-package
