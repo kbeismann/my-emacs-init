@@ -40,8 +40,7 @@ Your current Emacs version is %s."
 (require 'package-management)
 
 ;; Load work-related settings.
-(let ((work-projects
-       (expand-file-name "projects.el" user-emacs-directory)))
+(let ((work-projects (expand-file-name "projects.el" user-emacs-directory)))
   (cond
    ((file-exists-p work-projects)
     (message "Found project-related settings...")
@@ -50,8 +49,7 @@ Your current Emacs version is %s."
     (message "No project-related settings found."))))
 
 (let ((wsl-functions
-       (expand-file-name "wsl.el"
-                         (concat user-emacs-directory "lisp/"))))
+       (expand-file-name "wsl.el" (concat user-emacs-directory "lisp/"))))
   (cond
    ((file-exists-p wsl-functions)
     (message "Found WSL-related settings...")
@@ -79,8 +77,7 @@ Your current Emacs version is %s."
   "My Emacs initialization file repository.")
 (defvar my-default-line-width 80
   "My predefined characters per line (CPL) limit.")
-(defvar path-to-my-snippets
-  (concat my-gitdir "my-emacs-init/snippets/")
+(defvar path-to-my-snippets (concat my-gitdir "my-emacs-init/snippets/")
   "Path to custom snippets.")
 (defvar path-to-snippets (concat user-emacs-directory "snippets/")
   "Path to snippets.")
@@ -173,8 +170,7 @@ Your current Emacs version is %s."
  (setq recentf-exclude '(no-littering-var-directory))
  (setq recentf-exclude '(no-littering-etc-directory))
 
- (message "%s"
-          (concat "Looking for a customization file: " custom-file))
+ (message "%s" (concat "Looking for a customization file: " custom-file))
  (when (not (file-exists-p custom-file))
    ;; Create an empty customization file.
    (message "%s" "No customization file found, creating empty file.")
@@ -265,16 +261,15 @@ Your current Emacs version is %s."
  yasnippet
  :diminish yas-minor-mode
  :bind
- (("C-c y i" . yas-insert-snippet)
-  ("C-c y v" . yas-visit-snippet-file))
+ (("C-c y i" . yas-insert-snippet) ("C-c y v" . yas-visit-snippet-file))
  :config
  (add-hook
-  'python-base-mode-hook
-  #'(lambda () (yas-activate-extra-mode 'python-mode)))
- (use-package yasnippet-snippets) (setq yas-indent-line 'fixed)
- (setq yas-snippet-dirs
-       (append yas-snippet-dirs (list path-to-my-snippets)))
- (yas-reload-all) (yas-global-mode))
+  'python-base-mode-hook #'(lambda () (yas-activate-extra-mode 'python-mode)))
+ (use-package yasnippet-snippets)
+ (setq yas-indent-line 'fixed)
+ (setq yas-snippet-dirs (append yas-snippet-dirs (list path-to-my-snippets)))
+ (yas-reload-all)
+ (yas-global-mode))
 
 ;; Configure Tramp settings and load tramp-term.
 (setq tramp-debug-buffer t)
@@ -380,8 +375,7 @@ Your current Emacs version is %s."
 (use-package
  flycheck
  :diminish (global-flycheck-mode flycheck-mode)
- :bind
- (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
+ :bind (("M-n" . flycheck-next-error) ("M-p" . flycheck-previous-error))
  :hook (after-init . global-flycheck-mode))
 
 (defun my/python-mode-settings ()
@@ -400,17 +394,12 @@ Your current Emacs version is %s."
  ;; Show all arguments (except "self").
  (setq sphinx-doc-all-arguments t) (setq sphinx-doc-exclude-rtype t))
 
-(use-package
- python-docstring
- :hook (python-base-mode . python-docstring-mode))
-
-(use-package ruff-format)
+(use-package python-docstring :hook (python-base-mode . python-docstring-mode))
 
 (use-package
  rust-mode
  :config
- (add-hook
-  'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
+ (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
  (setq rust-format-on-save t)
  (add-hook 'rust-mode-hook (lambda () (prettify-symbols-mode))))
 
@@ -421,8 +410,7 @@ Your current Emacs version is %s."
  :config
  (use-package
   pdf-tools
-  :bind
-  (:map pdf-view-mode-map ("C-s" . isearch-forward))
+  :bind (:map pdf-view-mode-map ("C-s" . isearch-forward))
   :init (pdf-loader-install)
   :config
   (setq pdf-view-display-size 'fit-page)
@@ -435,8 +423,7 @@ Your current Emacs version is %s."
 (use-package
  emr
  :disabled t
- :config
- (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
+ :config (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
 
 (use-package
  eglot
@@ -457,11 +444,7 @@ Your current Emacs version is %s."
   (rust-ts-mode . lsp-deferred)
   (typescript-base-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration))
- :bind
- (:map
-  lsp-mode-map
-  ("M-?" . lsp-find-references)
-  ("M-." . lsp-find-definition))
+ :bind (:map lsp-mode-map ("M-?" . lsp-find-references) ("M-." . lsp-find-definition))
  :init
  (setq lsp-keymap-prefix "C-c l")
  (setq lsp-diagnostics-provider :none)
@@ -515,13 +498,11 @@ Your current Emacs version is %s."
  yaml-ts-mode
  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
  :hook (yaml-ts-mode . display-line-numbers-mode)
- :config
- (define-key yaml-ts-mode-map (kbd "C-m") 'newline-and-indent))
+ :config (define-key yaml-ts-mode-map (kbd "C-m") 'newline-and-indent))
 
 (use-package
  csv-mode
- :config
- (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+ :config (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
  (autoload 'csv-mode "csv-mode"
    "Major mode for editing comma-separated value files."
    t))
@@ -532,9 +513,7 @@ Your current Emacs version is %s."
  ;; https://github.com/cjohansson/emacs-ssh-deploy
  :disabled t
  :bind (("C-c z d" . ssh-deploy-prefix-map))
- :hook
- ((after-save-hook . ssh-deploy-after-save)
-  (find-file . ssh-deploy-find-file))
+ :hook ((after-save-hook . ssh-deploy-after-save) (find-file . ssh-deploy-find-file))
  :config
  (setq ange-ftp-netrc-filename "~/.authinfo.gpg")
  (ssh-deploy-line-mode)
@@ -542,8 +521,7 @@ Your current Emacs version is %s."
 
 (use-package
  json-mode
- :config
- (add-to-list 'major-mode-remap-alist '(json-mode . json-ts-mode)))
+ :config (add-to-list 'major-mode-remap-alist '(json-mode . json-ts-mode)))
 
 (use-package
  dockerfile-mode
@@ -586,10 +564,7 @@ Your current Emacs version is %s."
 (use-package
  devcontainer
  :straight
- (devcontainer
-  :type git
-  :host github
-  :repo "johannes-mueller/devcontainer.el"))
+ (devcontainer :type git :host github :repo "johannes-mueller/devcontainer.el"))
 
 (use-package
  typescript-mode
