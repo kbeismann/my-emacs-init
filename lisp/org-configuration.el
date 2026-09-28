@@ -908,15 +908,6 @@ Stops at the first file with issues, opens it, and runs org-lint interactively."
  :config (setq org-hide-emphasis-markers t))
 
 (use-package
- org-download
- :disabled t
- :after org
- :bind
- (:map
-  org-mode-map
-  (("C-c i s" . org-download-screenshot) ("C-c i y" . org-download-yank))))
-
-(use-package
  org-roam
  :bind*
  (("C-c n f" . org-roam-node-find)
