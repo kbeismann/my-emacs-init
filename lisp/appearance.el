@@ -3,10 +3,11 @@
 ;;; Commentary:
 
 ;; Configuration settings for Emacs's visual appearance, fonts, and display
-;; enhancements. Colors intentionally follow Emacs and package defaults rather
-;; than a configured theme.
+;; enhancements, with the built-in Modus Vivendi Tinted color palette.
 
 ;;; Code:
+
+(load-theme 'modus-vivendi-tinted t)
 
 (setq line-spacing nil)
 (setq truncate-lines t)
