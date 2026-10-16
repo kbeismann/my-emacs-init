@@ -305,7 +305,7 @@ With prefix argument REVERSE order."
          (file+headline org-default-notes-file "Uncategorized")
          "* UNCATEGORIZED [\#A] %^{Title} %^g\n\n\n%i\n\n"
          :empty-lines 1)
-        ("pu"
+        ("pl"
          "Store URL"
          entry
          (file+headline org-default-notes-file "Uncategorized")
